@@ -1,0 +1,8 @@
+profiles:
+  - profiles::network::base
+  - profiles::ntp::server
+  - profiles::postfix::client
+  - profiles::dns::server
+  - profiles::dns::client
+
+network::gw_connect: 'clusterloc'
