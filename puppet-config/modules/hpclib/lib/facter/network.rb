@@ -37,6 +37,8 @@ mymasternet = Array.new
 hostfile = Hash.new 
 netconfig = Hash.new
 dhcpconfig = Hash.new
+ifaces_target = Hash.new
+ifaces_target = { 'eth0' => {'target' => 'eth0'}}
 options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
 
@@ -71,6 +73,7 @@ if !masternetwork.nil? and masternetwork.length > 0
     end
   end
 ### End parsing ###
+<<<<<<< HEAD
   i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
@@ -85,12 +88,31 @@ if !masternetwork.nil? and masternetwork.length > 0
     netconfig[ifaces[itf]] = tmp
   end 
 end
+=======
+
+
+i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
+i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
+i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
+i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
+### Set netconfig used to generate local network config ###
+### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
+netcfg.each do | triplet| 
+  index = Array.new; index = triplet.split("@") 
+  itf = index[0].to_i; add = index[1].to_i ; ntm = index[2].to_i
+  tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
+  tmp.push(addresses[add]+"/"+netmasks[ntm])
+  netconfig[ifaces[itf]] = tmp
+  ifaces_target[ifaces[itf]]= {'target' => ifaces[itf]} if os == 'Redhat'
+end 
+
+>>>>>>> 7595cd3dad0532002ee6751ad43f61655865765f
 ### Add facters ###
-#Facter.add(:netconfig) do
-#  setcode do
-#    netconfig
-#  end
-#end
+Facter.add(:netconfig) do
+  setcode do
+    netconfig
+  end
+end
 
 Facter.add(:dhcpconfig) do
   setcode do
@@ -104,3 +126,8 @@ Facter.add(:hostfile) do
   end
 end
 
+Facter.add('ifaces_target') do
+  setcode do
+    $ifaces_target
+  end
+end
