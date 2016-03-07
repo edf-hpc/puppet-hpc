@@ -37,6 +37,8 @@ mymasternet = Array.new
 hostfile = Hash.new 
 netconfig = Hash.new
 dhcpconfig = Hash.new
+ifaces_target = Hash.new
+ifaces_target = { 'eth0' => {'target' => 'eth0'}}
 options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
 
@@ -86,14 +88,15 @@ netcfg.each do | triplet|
   tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
   tmp.push(addresses[add]+"/"+netmasks[ntm])
   netconfig[ifaces[itf]] = tmp
+  ifaces_target[ifaces[itf]]= {'target' => ifaces[itf]} if os == 'Redhat'
 end 
 
 ### Add facters ###
-#Facter.add(:netconfig) do
-#  setcode do
-#    netconfig
-#  end
-#end
+Facter.add(:netconfig) do
+  setcode do
+    netconfig
+  end
+end
 
 Facter.add(:dhcpconfig) do
   setcode do
@@ -107,3 +110,8 @@ Facter.add(:hostfile) do
   end
 end
 
+Facter.add('ifaces_target') do
+  setcode do
+    $ifaces_target
+  end
+end
