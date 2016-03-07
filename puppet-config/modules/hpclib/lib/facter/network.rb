@@ -41,7 +41,7 @@ options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
 
 ### Begin parsing ###
-if masternetwork.length > 0 
+if !masternetwork.nil? and masternetwork.length > 0 
   masternetwork.each do | line|
     ### Set mymasternet used to generate local network config ###
     if (eth_hwaddr.length > 0 and line.scan(/\b#{eth_hwaddr}\b/i)) or (h_name.length > 0 and line.scan(/\b#{h_name}\b/i))
@@ -70,24 +70,21 @@ if masternetwork.length > 0
       hostfile[hnames[hnm]] = addresses[add]
     end
   end
-end
 ### End parsing ###
-
-
-i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
-i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
-i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
-i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
-### Set netconfig used to generate local network config ###
-### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
-netcfg.each do | triplet| 
-  index = Array.new; index = triplet.split("@") 
-  itf = index[0].to_i; add = index[1].to_i ; ntm = index[2].to_i
-  tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
-  tmp.push(addresses[add]+"/"+netmasks[ntm])
-  netconfig[ifaces[itf]] = tmp
-end 
-
+  i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  ### Set netconfig used to generate local network config ###
+  ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
+  netcfg.each do | triplet| 
+    index = Array.new; index = triplet.split("@") 
+    itf = index[0].to_i; add = index[1].to_i ; ntm = index[2].to_i
+    tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
+    tmp.push(addresses[add]+"/"+netmasks[ntm])
+    netconfig[ifaces[itf]] = tmp
+  end 
+end
 ### Add facters ###
 #Facter.add(:netconfig) do
 #  setcode do
