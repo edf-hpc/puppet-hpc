@@ -11,7 +11,7 @@ class profiles::network::base {
   else { $defaultgw = ''}
   $routednet = []
 
-  class { '::network::commons':
+  class { '::network':
     defaultgw                   => $defaultgw,
     routednet                   => $routednet,
     mlx4load                    => $mlx4load,

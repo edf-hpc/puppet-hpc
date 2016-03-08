@@ -1,4 +1,4 @@
-class network::commons (
+class network (
   $defaultgw,
   $routednet,
   $aug_hname                   = $network::params::aug_hname,
