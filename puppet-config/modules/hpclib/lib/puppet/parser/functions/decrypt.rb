@@ -69,18 +69,10 @@ Puppet::Parser::Functions::newfunction(:decrypt, :type => :rvalue, :arity => -3,
   passwd = args[1] 
 
   debug "Retrieving crypted content in #{target}"
-  
-  if File.exist?(target) 
-     result = decryptor(target, passwd) 
-#    encrypted_data = nil
-#    rver = RUBY_VERSION.split('.')[0]+RUBY_VERSION.split('.')[1]
-#    if rver.to_i > 18
-#      encrypted_data = IO.binread(target)
-#    else
-#      encrypted_data = IO.read(target)
-#    end
-#    if !encrypted_data.nil? or encrypted_data.length > 16 or encrypted_data[0, 8] == 'Salted__'
-#      result = %x[openssl aes-256-cbc -d -in #{target} -k #{passwd}]
+  found = Puppet::Parser::Files.find_file(target, compiler.environment)
+  if found && Puppet::FileSystem.exist?(found)
+    path = found   
+    result = decryptor(found, passwd) 
   else
     raise ArgumentError,("Crypted file not found:\n  Filepath: #{target}\n")
   end
