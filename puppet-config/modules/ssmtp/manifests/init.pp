@@ -14,15 +14,18 @@
 ##########################################################################
 
 class ssmtp (
-  $pkgs        = $ssmtp::params::pkgs,
-  $pkgs_ensure = $ssmtp::params::pkgs_ensure,    
-  $cfg         = $ssmtp::params::cfg,
-  $cfg_opts    = $ssmtp::params::cfg_opts,
+  $pkgs         = $ssmtp::params::pkgs,
+  $pkgs_ensure  = $ssmtp::params::pkgs_ensure,    
+  $cfg          = $ssmtp::params::cfg,
+  $ext_cfg_opts = $ssmtp::params::ext_cfg_opts
 ) inherits ssmtp::params {
+
+  $def_cfg_opts = $ssmtp::params::def_cfg_opts
 
   validate_array($pkgs)
   validate_string($pkgs_ensure)
   validate_absolute_path($cfg)
-  validate_hash($cfg_opts)
+  validate_hash($def_cfg_opts)
+  validate_hash($ext_cfg_opts)
 
 }

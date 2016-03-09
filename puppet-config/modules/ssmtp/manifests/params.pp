@@ -22,7 +22,7 @@ class ssmtp::params {
   $cfg         = '/etc/ssmtp/ssmtp.conf'
 
 #### Default variables
-  $cfg_opts = {
+  $def_cfg_opts = {
     'mailhub'       => '',
     'rewritedomain' => '',
   }
