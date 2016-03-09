@@ -1,12 +1,13 @@
 ###### Initialize Hiera backend #######
 require 'hiera'
 require 'facter/application'
+require 'facter/osfamily'
 require 'facter/util/ip'
 require 'facter/util/macaddress'
 
 options = {
   :default => nil,
-  :config  => File.join(Hiera::Util.config_dir, 'hiera.yaml'),
+  :config  => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
   :scope   => {},
   :key     => nil,
   :verbose => false,
@@ -41,6 +42,7 @@ ifaces_target = Hash.new
 ifaces_target = { 'eth0' => {'target' => 'eth0'}}
 options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
+os = Facter.value(:osfamily)
 
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0 
