@@ -71,25 +71,8 @@ if !masternetwork.nil? and masternetwork.length > 0
       hnm = index[0].to_i; add = index[1].to_i;
       hostfile[hnames[hnm]] = addresses[add]
     end
-  end
-### End parsing ###
-<<<<<<< HEAD
-  i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  ### Set netconfig used to generate local network config ###
-  ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
-  netcfg.each do | triplet| 
-    index = Array.new; index = triplet.split("@") 
-    itf = index[0].to_i; add = index[1].to_i ; ntm = index[2].to_i
-    tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
-    tmp.push(addresses[add]+"/"+netmasks[ntm])
-    netconfig[ifaces[itf]] = tmp
-  end 
 end
-=======
-
+### End parsing ###
 
 i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
 i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
@@ -106,7 +89,6 @@ netcfg.each do | triplet|
   ifaces_target[ifaces[itf]]= {'target' => ifaces[itf]} if os == 'Redhat'
 end 
 
->>>>>>> 7595cd3dad0532002ee6751ad43f61655865765f
 ### Add facters ###
 Facter.add(:netconfig) do
   setcode do
@@ -128,6 +110,6 @@ end
 
 Facter.add('ifaces_target') do
   setcode do
-    $ifaces_target
+    ifaces_target
   end
 end
