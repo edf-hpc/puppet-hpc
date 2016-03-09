@@ -16,7 +16,7 @@
 define tools::print_config(
   $style,
   $params,
-  $target     = title,
+  $target     = $title,
   $separator  = '=',
   $comments   = '#',
   $mode       = '0644'
