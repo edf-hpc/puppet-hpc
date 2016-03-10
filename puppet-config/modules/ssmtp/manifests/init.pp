@@ -28,4 +28,8 @@ class ssmtp (
   validate_hash($def_cfg_opts)
   validate_hash($ext_cfg_opts)
 
+  anchor { 'ssmtp::begin': } ->
+  class { '::ssmtp::install': } ->
+  class { '::ssmtp::config': } ->
+  anchor { 'ssmtp::end': }
 }
