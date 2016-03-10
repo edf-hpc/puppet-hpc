@@ -7,9 +7,9 @@ class munge::service {
     }
 
     service { $munge::service_name :
-      ensure     => $ntp::service_ensure,
-      enable     => $ntp::service_enable,
-      name       => $ntp::service_name,
+      ensure => $ntp::service_ensure,
+      enable => $ntp::service_enable,
+      name   => $ntp::service_name,
     }
   }
 }

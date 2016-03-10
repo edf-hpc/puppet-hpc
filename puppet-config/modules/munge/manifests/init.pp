@@ -19,15 +19,15 @@ class munge (
   validate_bool($service_enable)
   validate_string($service_ensure)
   validate_bool($service_manage)
-  validate_numeric($auth_key_mode) 
+  validate_numeric($auth_key_mode)
   validate_absolute_path($auth_key_path)
   validate_absolute_path($auth_key_name)
   validate_string($auth_key_source)
   validate_string($auth_key_source)
   validate_string($package_ensure)
   validate_bool($package_manage)
-  if $package_manage { validate_array($package_name)} 
-  
+  if $package_manage { validate_array($package_name)}
+
   anchor { 'munge::begin': } ->
   class { '::munge::install': } ->
   class { '::munge::config': } ->
