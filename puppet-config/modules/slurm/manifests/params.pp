@@ -31,12 +31,9 @@ class slurm::params {
   }
 
   ### Configuration ###
-  $bin_dir_path          = '/tmp/slurm'
-#  $bin_dir_path          = '/usr/lib/slurm'
-  $conf_dir_path         = '/tmp/slurm-llnl'
-#  $conf_dir_path         = '/etc/slurm-llnl'
-  $logs_dir_path         = '/tmp/slurm-log'
-#  $logs_dir_path         = '/var/log/slurm-llnl'
+  $bin_dir_path          = '/usr/lib/slurm'
+  $conf_dir_path         = '/etc/slurm-llnl'
+  $logs_dir_path         = '/var/log/slurm-llnl'
   $script_dir_path       = "${bin_dir_path}/generic-scripts"
   $main_conf_file        = "${conf_dir_path}/slurm.conf"
   $part_conf_file        = "${conf_dir_path}/partitions.conf"
