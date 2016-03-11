@@ -20,7 +20,7 @@ class tftp::params {
   $pkgs        = ['tftpd-hpa']
   $pkgs_ensure = 'present'
   $cfg         = '/etc/default/tftpd-hpa'
-  $serv        = '/etc/default/tftpd-hpa'
+  $serv        = 'tftpd-hpa'
 
 #### Default variables
   $def_cfg_opts = {
