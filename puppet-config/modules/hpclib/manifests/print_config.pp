@@ -1,36 +1,30 @@
-##########################################################################
-#  Puppet configuration file                                             #
-#                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
-#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
-#                                                                        #
-#  This program is free software; you can redistribute in and/or         #
-#  modify it under the terms of the GNU General Public License,          #
-#  version 2, as published by the Free Software Foundation.              #
-#  This program is distributed in the hope that it will be useful,       #
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
-#  GNU General Public License for more details.                          #
-##########################################################################
-
-define tools::print_config(
+define hpclib::print_config(
   $style,
-  $params,
-  $target     = title,
+  $data,
+  $target     = $title,
   $separator  = '=',
   $comments   = '#',
   $mode       = '0644'
 ) {
 
+  validate_string($style) 
+
   case $style {
     ini : {
-      $conf_template = 'tools/conf_ini.erb'
+      validate_hash($data)
+      $conf_template = 'hpclib/conf_ini.erb'
     }
     ini_flat : { # No sections.
-      $conf_template = 'tools/conf_ini_flat.erb'
+      validate_hash($data)
+      $conf_template = 'hpclib/conf_ini_flat.erb'
     }
     keyval : {
-      $conf_template = 'tools/conf_keyval.erb'
+      validate_hash($data)
+      $conf_template = 'hpclib/conf_keyval.erb'
+    }
+    linebyline : {
+      validate_array($data)
+      $conf_template = 'hpclib/conf_line_by_line.erb'
     }
     default : {
       $conf_template = ''

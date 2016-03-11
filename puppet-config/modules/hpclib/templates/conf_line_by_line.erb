@@ -7,9 +7,6 @@
 <%= comm %>####################################################################
 <%= comm %> TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 <%= comm %>####################################################################
-<% config.sort.map do | key, kcont | -%>
-
-	<%- unless kcont.empty? then -%>
-<%= key+sep+kcont %>
-	<%- end -%>
-<% end %>
+<% config.each do | element | -%>
+<%= element %>
+<% end -%>
