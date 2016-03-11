@@ -9,7 +9,7 @@ class ntp::commons (
   $service_opts      = $ntp::params::service_opts,
 ) inherits ntp::params {
 
-  tools::print_config { $default_config :
+  hpclib::print_config { $default_config :
     style   => 'keyval',
     params  => $service_opts,
     require => Package[$package_list]

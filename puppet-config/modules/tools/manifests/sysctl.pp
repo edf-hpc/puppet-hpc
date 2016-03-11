@@ -23,7 +23,7 @@ define tools::sysctl($config, $sysctlfile) {
     ensure     => 'directory',
   }
 
-  tools::print_config { $sysctlfile :
+  hpclib::print_config { $sysctlfile :
     style   => 'keyval',
     target  => "${rootdir}/${sysctlfile}",
     params  => $config,

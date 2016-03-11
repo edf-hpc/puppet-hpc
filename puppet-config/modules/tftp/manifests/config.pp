@@ -17,7 +17,7 @@ class tftp::config inherits tftp {
 
   $cfg_opts = merge($def_cfg_opts,$ext_cfg_opts)
 
-  tools::print_config { $cfg :
+  hpclib::print_config { $cfg :
     style   => 'keyval',
     params  => $cfg_opts,
     require => Package[$pkgs],
