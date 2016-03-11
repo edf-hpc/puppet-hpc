@@ -19,7 +19,7 @@ class ssmtp::config inherits ssmtp {
 
   hpclib::print_config { $cfg :
     style   => 'keyval',
-    params  => $cfg_opts,
+    data    => $cfg_opts,
     require => Package[$pkgs]
   }
 

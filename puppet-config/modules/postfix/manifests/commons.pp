@@ -18,7 +18,7 @@ class postfix::commons (
 
   hpclib::print_config { $cfg :
     style   => 'keyval',
-    params  => $main_config,
+    data    => $main_config,
     require => Package[$pkgs]
   }
 

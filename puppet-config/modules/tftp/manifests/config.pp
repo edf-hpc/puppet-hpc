@@ -19,7 +19,7 @@ class tftp::config inherits tftp {
 
   hpclib::print_config { $cfg :
     style   => 'keyval',
-    params  => $cfg_opts,
+    data    => $cfg_opts,
     require => Package[$pkgs],
     notify  => Service[$serv],
   }

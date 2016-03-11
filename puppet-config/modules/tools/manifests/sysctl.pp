@@ -26,7 +26,7 @@ define tools::sysctl($config, $sysctlfile) {
   hpclib::print_config { $sysctlfile :
     style   => 'keyval',
     target  => "${rootdir}/${sysctlfile}",
-    params  => $config,
+    data    => $config,
     require => File[$rootdir],
   }
 
