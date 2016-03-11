@@ -1,3 +1,4 @@
+#
 class network (
   $defaultgw,
   $routednet,
@@ -22,65 +23,36 @@ class network (
   $pkgs                        = $network::params::pkgs,
 ) inherits network::params {
 
-  # Install systemd services on supported OS.
-  if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease == '8' {
-    tools::systemd_service { $ifup_hotplug_service_file :
-      target => $ifup_hotplug_service_file,
-      config => $ifup_hotplug_service_params,
-    }
+  validate_string($defaultgw)
+  validate_array($routednet)
+  validate_string($aug_hname)
+  validate_string($aug_changes)
+  validate_absolute_path($cfg)
+  validate_absolute_path($systemd_tmpfile)
+  validate_array($systemd_tmpfile_conf)
+  validate_string($ifup_hotplug_service)
+  validate_absolute_path($ifup_hotplug_service_file)
+  validate_absolute_path($ifup_hotplug_service_link)
+  validate_string($ifup_hotplug_service_exec)
+  validate_hash($ifup_hotplug_service_params)
+  validate_hash($ifup_hotplug_services)
+  validate_hash($ifup_hotplug_files)
+  validate_absolute_path($ib_udevrl)
+  validate_absolute_path($ib_cfg)
+  validate_hash($ib_rules)
+  validate_array($ib_pkgs)
+  validate_string($mlx4load)
+  validate_hash($openib_cfg0)
+  validate_hash($pkgs)
 
-    tools::systemd_tmpfile { $systemd_tmpfile :
-      target => $systemd_tmpfile,
-      config => $systemd_tmpfile_conf,
-    }
 
-    # Enable systemd service ifup-hotplug to ensure it is run at server boot.
-    # If service provider is systemd (calibre9 running production),
-    # use Puppet service type.
-    # If service provider is debian (calibre9 during the late_command
-    # of debian installer), use Puppet file type since systemd/systemctl is not
-    # running at this stage.
-    case $::puppet_context {
-      'ondisk', 'diskless-postinit': {
-        create_resources(service, $ifup_hotplug_services)
-      }
-      'installer', 'diskless-preinit': {
-        create_resources(file, $ifup_hotplug_files)
-      }
-      default : {}
-    }
-  }
-  else {
-    notice("unsupported service provider for class ${class}")
-  }
+  # Anchor this as per #8040 - this ensures that classes won't float off and
+  # mess everything up.  You can read about this at:
+  # http://docs.puppetlabs.com/puppet/2.7/reference/lang_containment.html#known-issues
+  anchor { 'network::begin': } ->
+  class { '::network::install': } ->
+  class { '::network::config': } ~>
+  class { '::network::service': } ->
+  anchor { 'network::end': }
 
-  # Set hostname
-  augeas { $aug_hname :
-    context => $aug_hname,
-    changes => $aug_changes,
-  }
-
-  $mlx_cfg = {
-    'mlx4_load'    => $mlx4load,
-    'mlx4_en_load' => $mlx4load,
-  }
-  $openib_cfg = merge($openib_cfg0, $mlx_cfg)
-
-  # Install packages and create configuration files
-  $ib_file = {
-    "${ib_cfg}"    => {
-      'content'            => template('network/openib_conf.erb'),
-      'require'            => Package[$ib_pkgs],
-    }
-  }
-  create_resources(file, $ib_file)
-
-  # $net_ifaces hash is used by create_resources to generate main network
-  # configuration file. On debian systems there is a single file.
-  # On RHEL systems there is a file for each interface. For this reason
-  # the hash is modified with the names of all interfaces in the case of RHEL.
-  $net_ifaces = $::ifaces_target
-  create_resources(network::printconfig, $net_ifaces)
-
-  create_resources(package, $pkgs)
 }

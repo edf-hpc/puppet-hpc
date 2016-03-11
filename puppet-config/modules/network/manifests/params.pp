@@ -1,3 +1,4 @@
+#
 class network::params {
 
   $ib_udevrl       = '/etc/udev/rules.d/50-infiniband-permissions.rules'
