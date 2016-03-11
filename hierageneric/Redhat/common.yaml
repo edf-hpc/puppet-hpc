@@ -1,0 +1,1 @@
+profiles::ntp::srv_def_cfg: '/etc/sysconfig/ntpd'

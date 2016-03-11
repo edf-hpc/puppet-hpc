@@ -4,15 +4,20 @@ class profiles::ntp::server {
   $preferred_servers = hiera_array('profiles::ntp::server::site_preferred_servers')
   $servers           = hiera_array('profiles::ntp::server::site_servers')
 
-  $net_topology      = hiera_hash('net_topology')
-  $ip		     = $net_topology['allloc']['ipnetwork']
-  $netmask	     = $net_topology['allloc']['netmask']
-  $restrict          = ["-4 $ip mask $netmask notrap nomodify"]
- 
   # Pass server name as a class parameter
-  class { '::ntp::commons':
+  class { '::ntp':
     preferred_servers           => $preferred_servers,
     servers                     => $servers,
-    restrict			=> $restrict,
   }
+
+  # Modify default options of ntp service
+  $srv_name = $ntp::params::service_name
+  $srv_def_cfg = hiera('profiles::ntp::srv_def_cfg')
+  $srv_opts = hiera('profiles::ntp::srv_opts')
+  hpclib::print_config { $srv_def_cfg :
+    style   => 'keyval',
+    data    => $srv_opts,
+    notify  => Service[$srv_name],
+  }
+
 }
