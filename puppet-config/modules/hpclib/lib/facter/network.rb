@@ -1,12 +1,13 @@
 ###### Initialize Hiera backend #######
 require 'hiera'
 require 'facter/application'
+require 'facter/osfamily'
 require 'facter/util/ip'
 require 'facter/util/macaddress'
 
 options = {
   :default => nil,
-  :config  => File.join(Hiera::Util.config_dir, 'hiera.yaml'),
+  :config  => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
   :scope   => {},
   :key     => nil,
   :verbose => false,
@@ -41,13 +42,14 @@ ifaces_target = Hash.new
 ifaces_target = { 'eth0' => {'target' => 'eth0'}}
 options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
+os = Facter.value(:osfamily)
 
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0 
   masternetwork.each do | line|
     ### Set mymasternet used to generate local network config ###
-    if (eth_hwaddr.length > 0 and line.scan(/\b#{eth_hwaddr}\b/i)) or (h_name.length > 0 and line.scan(/\b#{h_name}\b/i))
-      mymasternet = line.split(";") if mymasternet.length == 0
+    if ( eth_hwaddr.length > 0 and line.match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and line.match(/#{h_name}/) )
+        mymasternet = line.chomp.split(';')
     end
     element = Array.new; element = line.split(";") 
     i = 0; macadds = Array.new; macadds = element[i].split(",") unless element[i].empty?
@@ -109,8 +111,14 @@ Facter.add(:hostfile) do
   end
 end
 
-Facter.add('ifaces_target') do
+Facter.add(:ifaces_target) do
   setcode do
     ifaces_target
+  end
+end
+
+Facter.add(:mymasternet) do
+  setcode do
+    mymasternet
   end
 end

@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2015 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,18 +13,25 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ssmtp::params {
+class tftp (
+  $pkgs         = $tftp::params::pkgs,
+  $pkgs_ensure  = $tftp::params::pkgs_ensure,
+  $cfg          = $tftp::params::cfg,
+  $ext_cfg_opts = $tftp::params::ext_cfg_opts
+) inherits tftp::params {
 
-#### Module variables
+  $def_cfg_opts = $tftp::params::def_cfg_opts
 
-  $pkgs        = ['ssmtp', 'mailutils']
-  $pkgs_ensure = 'present'
-  $cfg         = '/etc/ssmtp/ssmtp.conf'
+  validate_array($pkgs)
+  validate_string($pkgs_ensure)
+  validate_absolute_path($cfg)
+  validate_hash($def_cfg_opts)
+  validate_hash($ext_cfg_opts)
 
-#### Default variables
-  $def_cfg_opts = {
-    'mailhub'       => '',
-    'rewritedomain' => '',
-  }
+  anchor { 'tftp::begin': } ->
+  class { '::tftp::install': } ->
+  class { '::tftp::config': } ->
+  class { '::tftp::service': } ->
+  anchor { 'tftp::end': }
 
 }

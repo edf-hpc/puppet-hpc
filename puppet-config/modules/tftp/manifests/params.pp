@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2015 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,18 +13,21 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ssmtp::params {
+class tftp::params {
 
 #### Module variables
 
-  $pkgs        = ['ssmtp', 'mailutils']
+  $pkgs        = ['tftpd-hpa']
   $pkgs_ensure = 'present'
-  $cfg         = '/etc/ssmtp/ssmtp.conf'
+  $cfg         = '/etc/default/tftpd-hpa'
+  $serv        = '/etc/default/tftpd-hpa'
 
 #### Default variables
   $def_cfg_opts = {
-    'mailhub'       => '',
-    'rewritedomain' => '',
+    'TFTP_USERNAME' => '"tftp"',
+    'TFTP_DIRECTORY'=> '"/srv/tftp"',
+    'TFTP_ADDRESS'  => '"0.0.0.0:69"',
+    'TFTP_OPTIONS'  => '"--secure --verbose --create"',
   }
 
 }

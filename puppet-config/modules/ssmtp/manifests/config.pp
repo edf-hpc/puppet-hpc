@@ -13,18 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ssmtp::params {
+class ssmtp::config inherits ssmtp {
 
-#### Module variables
+  $cfg_opts = merge($def_cfg_opts,$ext_cfg_opts)
 
-  $pkgs        = ['ssmtp', 'mailutils']
-  $pkgs_ensure = 'present'
-  $cfg         = '/etc/ssmtp/ssmtp.conf'
-
-#### Default variables
-  $def_cfg_opts = {
-    'mailhub'       => '',
-    'rewritedomain' => '',
+  tools::print_config { $cfg :
+    style   => 'keyval',
+    params  => $cfg_opts,
+    require => Package[$pkgs]
   }
 
 }
