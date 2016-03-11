@@ -13,22 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class postfix ( 
-  $pkgs         = $postfix::params::pkgs,
-  $pkgs_ensure  = $postfix::params::pkgs_ensure,
-  $cfg          = $postfix::params::cfg,
-  $cfg_opts     = $postfix::params::cfg_opts
-) inherits postfix::params {
+class postfix::install inherits postfix {
 
+  package { $pkgs:
+    ensure => $pkgs_ensure,
+  }
 
-  validate_array($pkgs)
-  validate_string($pkgs_ensure)
-  validate_absolute_path($cfg)
-  validate_hash($cfg_opts)
-
-  anchor { 'postfix::begin': } ->
-  class { '::postfix::install': } ->
-  class { '::postfix::config': } ->
-  class { '::postfix::service': } ->
-  anchor { 'postfix::end': }
 }

@@ -2,18 +2,18 @@ class profiles::postfix::relay {
 
   ## Hiera lookups
 
-  $cfg_opts     = hiera_hash('profiles::postfix::relay::pos_opts')
+  $pos_opts     = hiera_hash('profiles::postfix::relay::pos_opts')
   $net_topology = hiera_hash('net_topology')
   $network      = "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['cidr']}"
   $net_opts     = {
     mynetworks    => "$network 127.0.0.0/8",
   }
 
-  $profile_opts = merge($cfg_opts,$net_opts)
+  $cfg_opts = merge($pos_opts,$net_opts)
 
 
   # Pass config options as a class parameter
-  class { '::postfix::commons':
-    profile_opts    => $profile_opts,
+  class { '::postfix':
+    cfg_opts    => $cfg_opts,
   }
 }
