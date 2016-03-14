@@ -18,6 +18,7 @@ class slurm::config {
     hpclib::print_config { $slurm::main_conf_file :
       style        => 'ini_flat',
       data         => $slurm::slurm_conf_options,
+      exceptions   => ['Include'],
       require      => File["$slurm::conf_dir_path"],
     }
 

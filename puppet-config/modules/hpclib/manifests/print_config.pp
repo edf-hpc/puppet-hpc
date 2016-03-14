@@ -1,33 +1,37 @@
 define hpclib::print_config(
   $style,
   $data,
-  $target     = $title,
-  $separator  = '=',
-  $comments   = '#',
-  $mode       = '0644'
+  $target          = $title,
+  $separator       = '=',
+  $comments        = '#',
+  $mode            = '0644',
+  $exceptions      = [],
+  $excep_separator = ' '
 ) {
 
   validate_string($style) 
+  validate_string($separator) 
+  validate_string($comments) 
+  validate_numeric($mode) 
+  validate_array($exceptions) 
+  validate_string($excep_separator) 
+  $conf_template = 'hpclib/conf_template.erb'
 
   case $style {
     ini : {
       validate_hash($data)
-      $conf_template = 'hpclib/conf_ini.erb'
     }
     ini_flat : { # No sections.
       validate_hash($data)
-      $conf_template = 'hpclib/conf_ini_flat.erb'
     }
     keyval : {
       validate_hash($data)
-      $conf_template = 'hpclib/conf_keyval.erb'
     }
     linebyline : {
       validate_array($data)
-      $conf_template = 'hpclib/conf_line_by_line.erb'
     }
     default : {
-      $conf_template = ''
+      fail("The ${style} style is not supported.")
     }
   }
 
