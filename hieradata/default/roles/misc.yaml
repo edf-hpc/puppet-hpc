@@ -1,7 +1,20 @@
 profiles:
   - profiles::network::base
   - profiles::ntp::client
-  - profiles::postfix::relay
   - profiles::dns::client
+  - profiles::nfs::mounts
+  - profiles::postfix::relay
 
 network::gw_connect: 'clusterloc'
+
+nfs::to_mount:
+  admin_public:
+    server: '10.100.0.1'
+    exportdir: '/home/gen-cluster/puppet-config'
+    mountpoint: '/admin/test/public'
+    opts: 'rw,proto=tcp,hard,intr,timeo=30,retrans=4,x-systemd.automount,x-systemd.device-timeout=10'
+  admin_restrict:
+    server: '10.100.0.1'
+    exportdir: '/home/gen-cluster/hieradata'
+    mountpoint: '/admin/test/restrict'
+    opts: 'rw,proto=tcp,hard,intr,timeo=30,retrans=4,x-systemd.automount,x-systemd.device-timeout=10'
