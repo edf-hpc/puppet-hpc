@@ -13,23 +13,28 @@
 <% case style -%>
   <%- when 'ini' -%>
   <%- conf.each do | section, content | -%>
+  <% p content %>
 <%= '['+section+']' %>
     <%- content.each do | key, kcont | -%>
-      <%- unless kcont['comment'].empty? then -%>
-<%= comm+' '+kcont['comment'] %>
-      <%- end -%>
       <%- if excep.include? key -%>
-        <%- sep = esep -%> 
+        <%- sep = esep -%>
       <%- else -%>
         <%- sep = nsep -%>
       <%- end -%>
+      <%- if kcont.is_a? String -%>
+<%= key+sep+kcont %>
+      <%- else -%>
+        <%- if kcont.key?('comment') and !kcont['comment'].empty? then -%>
+<%= comm+' '+kcont['comment'] %>
+        <%- end -%>
 <%= key+sep+kcont['value'] %>
+      <%- end -%>
     <%- end -%>
 
   <%- end -%>
   <%- when 'ini_flat' -%>
   <%- conf.map do | key, kcont | -%>
-    <%- unless kcont["comment"].empty? then -%>
+    <%- if kcont.key?('comment') and !kcont['comment'].empty? then -%>
 <%=comm+' '+kcont["comment"] %>
     <%- end -%>
     <%- unless kcont["value"].empty? then -%>
