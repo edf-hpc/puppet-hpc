@@ -79,15 +79,15 @@ class slurmdbd::params {
   $package_ensure    = 'present'
   case $::osfamily {
     'RedHat': {
-      $package_manage =  true
+      $package_manage = true
       $package_name   = ['slurm-slurmdbd']
     }
     'Debian': {
-      $package_manage =  true
+      $package_manage = true
       $package_name   = ['slurmdbd','slurm-llnl-setup-mysql']
     }
     default: {
-      $package_manage    =  false
+      $package_manage = false
     }
   }
 }

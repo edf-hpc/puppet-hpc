@@ -13,7 +13,6 @@
 <% case style -%>
   <%- when 'ini' -%>
   <%- conf.each do | section, content | -%>
-  <% p content %>
 <%= '['+section+']' %>
     <%- content.each do | key, kcont | -%>
       <%- if excep.include? key -%>
@@ -45,6 +44,7 @@
       <%- end -%>
 <%= key+sep+kcont["value"] %>
     <%- end -%>
+
   <%- end %>
   <%- when 'keyval' -%>
   <%- conf.sort.map do | key, kcont | -%>

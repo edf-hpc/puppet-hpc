@@ -2,7 +2,7 @@ primary_server: 'batch1'
 secondary_server: 'batch2'
 slurm_user: 'slurm'
 slurmd_user: 'root'
-slurm::slurm_conf_options:
+slurmcommons::slurm_conf_options:
     ClusterName: 
       value:   "%{hiera('cluster_name')}"
       comment: "The name by which this SLURM managed cluster is known in the accounting database"
