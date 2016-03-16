@@ -4,5 +4,6 @@ profiles:
   - profiles::dns::client
   - profiles::nfs::mounts
   - profiles::postfix::relay
+  - profiles::opensshserver
 
 network::gw_connect: 'clusterloc'
