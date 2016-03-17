@@ -1,33 +1,39 @@
-##########################################################################
-#  Puppet configuration file                                             #
-#                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
-#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
-#                                                                        #
-#  This program is free software; you can redistribute in and/or         #
-#  modify it under the terms of the GNU General Public License,          #
-#  version 2, as published by the Free Software Foundation.              #
-#  This program is distributed in the hope that it will be useful,       #
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
-#  GNU General Public License for more details.                          #
-##########################################################################
-
 class tftp::params {
 
-#### Module variables
+  ### Module variables ###
+  $enable_ipxe       = true
+  $package_ensure    = 'present'
+  $service_ensure    = 'running'
+  $service_enable    = true
+  $root_dir_path     = '/admin/public/tftp'
+  $ipxe_efi_image    = "${root_dir_path}/ipxe.efi" 
+  $ipxe_efi_src      = 'puppet:///modules/tftp/ipxe.efi'
+  $ipxe_legacy_image = "${root_dir_path}/ipxe.legacy"
+  $ipxe_legacy_src   = 'puppet:///modules/tftp/ipxe.legacy' 
 
-  $pkgs        = ['tftpd-hpa']
-  $pkgs_ensure = 'present'
-  $cfg         = '/etc/default/tftpd-hpa'
-  $serv        = 'tftpd-hpa'
-
-#### Default variables
-  $def_cfg_opts = {
-    'TFTP_USERNAME' => '"tftp"',
-    'TFTP_DIRECTORY'=> '"/srv/tftp"',
-    'TFTP_ADDRESS'  => '"0.0.0.0:69"',
-    'TFTP_OPTIONS'  => '"--secure --verbose --create"',
+  case $::osfamily {
+    'RedHat': {
+      $package_manage    =  true
+      $package_name      = ['tftp-server']
+      $service_manage    = true
+      $service_name      = 'tftp'
+    }
+    'Debian': {
+      $package_manage    =  true
+      $package_name      = ['tftpd-hpa']
+      $service_manage    = true
+      $service_name      = 'tftpd-hpa'
+      $main_conf_file    = '/etc/default/tftpd-hpa'
+      $tftp_conf_options = {
+        'TFTP_USERNAME'    => '"tftp"',
+        'TFTP_DIRECTORY'   => '"/srv/tftp"',
+        'TFTP_ADDRESS'     => '"0.0.0.0:69"',
+        'TFTP_OPTIONS'     => '"--secure --verbose --create"',
+      }
+    }
+    default: {
+      $package_manage  = false
+      $service_manage  = false
+    }
   }
-
 }

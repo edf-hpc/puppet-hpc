@@ -1,27 +1,23 @@
-##########################################################################
-#  Puppet configuration file                                             #
-#                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
-#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
-#                                                                        #
-#  This program is free software; you can redistribute in and/or         #
-#  modify it under the terms of the GNU General Public License,          #
-#  version 2, as published by the Free Software Foundation.              #
-#  This program is distributed in the hope that it will be useful,       #
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
-#  GNU General Public License for more details.                          #
-##########################################################################
+class tftp::config {
 
-class tftp::config inherits tftp {
+  if $tftp::config_manage {
 
-  $cfg_opts = merge($def_cfg_opts,$ext_cfg_opts)
+    hpclib::print_config { $tftp::main_conf_file :
+      style   => 'keyval',
+      data    => $tftp::tftp_conf_options,
+      notify  => Service[$tftp::service_name],
+    }
 
-  hpclib::print_config { $cfg :
-    style   => 'keyval',
-    data    => $cfg_opts,
-    require => Package[$pkgs],
-    notify  => Service[$serv],
+    if $tftp::enable_ipxe {
+      file { $tftp::ipxe_efi_image :  
+        source       => $tftp::ipxe_efi_src,
+        validate_cmd => "test -d ${tftp::root_dir_path}",
+      }
+
+      file { $tftp::ipxe_legacy_image :
+        source       => $tftp::ipxe_legacy_src,
+        validate_cmd => "test -d ${tftp::root_dir_path}",
+      }
+    }
   }
-
 }

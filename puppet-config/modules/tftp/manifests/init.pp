@@ -1,32 +1,37 @@
-##########################################################################
-#  Puppet configuration file                                             #
-#                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
-#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
-#                                                                        #
-#  This program is free software; you can redistribute in and/or         #
-#  modify it under the terms of the GNU General Public License,          #
-#  version 2, as published by the Free Software Foundation.              #
-#  This program is distributed in the hope that it will be useful,       #
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
-#  GNU General Public License for more details.                          #
-##########################################################################
-
 class tftp (
-  $pkgs         = $tftp::params::pkgs,
-  $pkgs_ensure  = $tftp::params::pkgs_ensure,
-  $cfg          = $tftp::params::cfg,
-  $ext_cfg_opts = $tftp::params::ext_cfg_opts
+  $enable_ipxe       = $tftp::params::enable_ipxe,
+  $package_manage    = $tftp::params::package_manage,
+  $package_ensure    = $tftp::params::package_ensure,
+  $package_name      = $tftp::params::package_name,
+  $service_manage    = $tftp::params::service_manage,
+  $service_ensure    = $tftp::params::service_ensure,
+  $service_name      = $tftp::params::service_name,
+  $main_conf_file    = $tftp::params::main_conf_file,
+  $tftp_conf_options = $tftp::params::tftp_conf_options,  
+  $root_dir_path     = '/admin/public/tftp',
+  $ipxe_efi_image    = "${root_dir_path}/ipxe.efi",
+  $ipxe_efi_src      = 'puppet:///modules/tftp/ipxe.efi',
+  $ipxe_legacy_image = "${root_dir_path}/ipxe.legacy",
+  $ipxe_legacy_src   = 'puppet:///modules/tftp/ipxe.legacy',
+
 ) inherits tftp::params {
 
-  $def_cfg_opts = $tftp::params::def_cfg_opts
-
-  validate_array($pkgs)
-  validate_string($pkgs_ensure)
-  validate_absolute_path($cfg)
-  validate_hash($def_cfg_opts)
-  validate_hash($ext_cfg_opts)
+  validate_boolean($enable_ipxe)
+  validate_boolean($package_manage)
+  validate_string($package_ensure)
+  validate_array($package_name)
+  validate_boolean($service_manage)
+  validate_string($service_name)
+  validate_string($service_ensure)
+  validate_absolute_path($main_conf_file)
+  validate_hash($tftp_conf_options)
+  if $enable_ipxe {
+    validate_absolute_path($root_dir_path)
+    validate_absolute_path($pxe_efi_image)
+    validate_absolute_path($ipxe_legacy_image)
+    validate_string($ipxe_efi_src)
+    validate_string($ipxe_legacy_src)
+  }
 
   anchor { 'tftp::begin': } ->
   class { '::tftp::install': } ->
