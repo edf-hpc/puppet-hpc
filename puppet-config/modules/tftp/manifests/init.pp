@@ -8,11 +8,11 @@ class tftp (
   $service_name      = $tftp::params::service_name,
   $main_conf_file    = $tftp::params::main_conf_file,
   $tftp_conf_options = $tftp::params::tftp_conf_options,  
-  $root_dir_path     = '/admin/public/tftp',
-  $ipxe_efi_image    = "${root_dir_path}/ipxe.efi",
-  $ipxe_efi_src      = 'puppet:///modules/tftp/ipxe.efi',
-  $ipxe_legacy_image = "${root_dir_path}/ipxe.legacy",
-  $ipxe_legacy_src   = 'puppet:///modules/tftp/ipxe.legacy',
+  $root_dir_path     = $tftp::params::root_dir_path,
+  $ipxe_efi_image    = $tftp::params::ipxe_efi_image,
+  $ipxe_efi_src      = $tftp::params::ipxe_efi_src,
+  $ipxe_legacy_image = $tftp::params::ipxe_legacy_image,
+  $ipxe_legacy_src   = $tftp::params::ipxe_legacy_src,
 
 ) inherits tftp::params {
 
