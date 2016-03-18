@@ -33,6 +33,7 @@ define nfs_client::mount (
     pass          => $pass,
     remounts      => $remounts,
     dump          => $dump,
+    require       => Exec["creating_${mountpoint}"],
   }
 
 } 
