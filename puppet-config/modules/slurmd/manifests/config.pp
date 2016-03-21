@@ -5,6 +5,10 @@ class slurmd::config {
     require slurmcommons
 
     if $slurmd::enable_cgroup {
+      hpclib::print_config { $slurmd::cgroup_conf_file:
+        style        => 'ini_flat',
+        data         => $::slurmd::cgroup_options,
+      }
 
       ensure_resource('file', "${slurmd::cgroup_rel_path}",{'ensure' => 'directory' })
 
@@ -29,6 +33,4 @@ class slurmd::config {
       create_resources(file,$cgroup_links,$cgroup_ln_default)
     }
   }
-#  $cgroup_conf_file      = $slurm::params::cgroup_conf_file
-#  $cgroup_conf_tmpl      = $slurm::params::cgroup_conf_tmpl
 }

@@ -21,23 +21,45 @@ class slurmd::params {
 
   ### Configuration ###
   $config_manage         = true
+  $bin_dir_path          = '/usr/lib/slurm'
+  $conf_dir_path         = '/etc/slurm-llnl'
+  $script_dir_path       = "${bin_dir_path}/generic-scripts"
+
 
   ### Cgroups ###
   $enable_cgroup         = true
-  $cgroup_rel_path       = "${slurmcommons::conf_dir_path}/cgroup"
-  $cgroup_conf_file      = "${slurmcommons::conf_dir_path}/cgroup.conf"
-  $cgroup_conf_tmpl      = 'slurm/cgroup_conf.erb'
-  $cgroup_relscript_file = "${slurmcommons::cgroup_rel_path}/release_common"
+  $cgroup_rel_path       = "${conf_dir_path}/cgroup"
+  $cgroup_conf_file      = "${conf_dir_path}/cgroup.conf"
+  $cgroup_relscript_file = "${cgroup_rel_path}/release_common"
   $cgroup_relscript_src  = '/usr/share/doc/slurmd/examples/cgroup.release_common'
-  $cgroup_rscpuset_file  = "${slurmcommons::cgroup_rel_path}/release_cpuset"
-  $cgroup_rs_freez_file  = "${slurmcommons::cgroup_rel_path}/release_freezer"
-  $cgroup_rs_mem_file    = "${slurmcommons::cgroup_rel_path}/release_memory"
+  $cgroup_rscpuset_file  = "${cgroup_rel_path}/release_cpuset"
+  $cgroup_rs_freez_file  = "${cgroup_rel_path}/release_freezer"
+  $cgroup_rs_mem_file    = "${cgroup_rel_path}/release_memory"
+  $cgroup_options        = {
+    'CgroupAutomount' => {
+       value   => 'yes',
+       comment => 'Auto Mount',
+     },
+     'CgroupReleaseAgentDir' => {
+       value   => $cgroup_rel_path,
+       comment => 'Path of scripts to release cgroups',
+     },
+     'ConstrainCores' => {
+       value   => 'no',
+       comment => 'Core affinity',
+     },
+     'ConstrainRAMspace' => {
+       value   => 'no',
+       comment => 'Memory Usage',
+     },
+  }
+
 
   ### Custom scripts ###
-  $tmp_create_file       = "${slurmcommons::script_dir_path}/TaskProlog.d/tmp_create.sh"
-  $tmp_create_src        = 'puppet:///modules/slurm/tmp_create.sh'
-  $tmp_remove_file       = "${slurmcommons::script_dir_path}/TaskEpilog.d/tmp_remove.sh"
-  $tmp_remove_src        = 'puppet:///modules/slurm/tmp_remove.sh'
+  $tmp_create_file       = "${script_dir_path}/TaskProlog.d/tmp_create.sh"
+  $tmp_create_src        = 'puppet:///modules/slurmd/tmp_create.sh'
+  $tmp_remove_file       = "${script_dir_path}/TaskEpilog.d/tmp_remove.sh"
+  $tmp_remove_src        = 'puppet:///modules/slurmd/tmp_remove.sh'
 
 
   ### Package ###
