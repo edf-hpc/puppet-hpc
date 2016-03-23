@@ -1,12 +1,16 @@
 #
 class gpfs::params {
 
+  ##
+  # Parameters for GPFS client -----------------------------------------------
+  ##
+
   # File and directory modes
-  $dir_mode            = '755' 
-  $file_mode           = '640'
+  $cl_dir_mode            = '755' 
+  $cl_file_mode           = '640'
 
   # Password to decrypt encrypted files
-  $decrypt_passwd      = 'password'
+  $cl_decrypt_passwd      = 'password'
   
   # Packages to install
   # It is assumed that license files are managed with a
@@ -67,4 +71,5 @@ class gpfs::params {
     $cl_perf           = '/usr/lpp/mmfs/samples/perf'
     $cl_perf_src       = ''
   }
+
 }
