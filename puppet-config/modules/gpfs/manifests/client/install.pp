@@ -1,8 +1,8 @@
 #
 class gpfs::client::install inherits gpfs::client {
 
-  package { $gpfs::client::packages :
-    ensure  => $gpfs::client::packages_ensure,
+  package { $gpfs::client::cl_packages :
+    ensure  => $gpfs::client::cl_packages_ensure,
   }
 
 }
