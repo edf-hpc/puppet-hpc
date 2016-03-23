@@ -1,10 +1,6 @@
 #
 class gpfs::params {
 
-  ##
-  # Parameters for GPFS client -----------------------------------------------
-  ##
-
   # File and directory modes
   $cl_dir_mode            = '755' 
   $cl_file_mode           = '640'
@@ -17,23 +13,25 @@ class gpfs::params {
   # special package : gpfs.lum for both Debian and Red Hat
   case $::osfamily {
     'Debian': {
-      $cl_base         = [
+      $cl_base               = [
         'gpfs.base',
         'gpfs.msg.en-us',
         'gpfs.lum',
       ]
       case $::operatingsystemmajrelease {
         '8': {
-          $cl_kernel   = ['gpfs.gpl-3.16.0-4-amd64']
+          $cl_kernel         = ['gpfs.gpl-3.16.0-4-amd64']
         }
         '7': {
-          $cl_kernel   = ['gpfs.gpl-3.2.0-4-amd64']
+          $cl_kernel         = ['gpfs.gpl-3.2.0-4-amd64']
         }
         default: {}
       }
+      $sr_packages           = []
+      $sr_packages_ensure    = ''
     }
     'Redhat': {
-      $cl_base         = [
+      $cl_base               = [
         'gpfs.base',
         'gpfs.msg.en_US',
         'gpfs.ext',
@@ -42,13 +40,15 @@ class gpfs::params {
       ]
       case $::operatingsystemmajrelease {
         '7': {
-          $cl_kernel   = ['gpfs.gplbin-3.10.0-123.el7.x86_64']
+          $cl_kernel         = ['gpfs.gplbin-3.10.0-123.el7.x86_64']
         }
         '6': {
-          $cl_kernel   = ['gpfs.gplbin-2.6.32-431.el6.x86_64']
+          $cl_kernel         = ['gpfs.gplbin-2.6.32-431.el6.x86_64']
         }
         default: {}
       }
+      $sr_packages           = ['gpfs.docs','set_dma_latency']
+      $sr_packages_ensure    = 'present'
     }
     default: {}
     $cl_packages       = [$cl_base, $cl_kernel]
