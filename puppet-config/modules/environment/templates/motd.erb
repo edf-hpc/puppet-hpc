@@ -1,0 +1,28 @@
+<% ########################################################################## -%>
+<% #  Puppet configuration file                                             # -%>
+<% #                                                                        # -%>
+<% #  Copyright (C) 2014-2016 EDF S.A.                                      # -%>
+<% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
+<% #                                                                        # -%>
+<% #  This program is free software; you can redistribute in and/or         # -%>
+<% #  modify it under the terms of the GNU General Public License,          # -%>
+<% #  version 2, as published by the Free Software Foundation.              # -%>
+<% #  This program is distributed in the hope that it will be useful,       # -%>
+<% #  but WITHOUT ANY WARRANTY; without even the implied warranty of        # -%>
+<% #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         # -%>
+<% #  GNU General Public License for more details.                          # -%>
+<% ########################################################################## -%>
+
+<%- motd_info  = @motd_content['info'] -%>
+<%- motd_legal = @motd_content['legal'] -%>
+<%- info_separator  = "*".center(80, '*') -%>
+<%- legal_separator = "=".center(80, '=') -%>
+<%= info_separator %>
+    <%- motd_info.each do | line | -%>
+<%= '**'+line.center(76)+'**' %>
+    <%- end -%>
+<%= info_separator %>
+    <%- motd_legal.each do | line | -%>
+<%= line %>
+    <%- end -%>
+<%= legal_separator %>
