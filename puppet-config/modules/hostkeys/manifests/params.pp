@@ -19,8 +19,8 @@ class hostkeys::params {
 
   $files_defaults      = {
     'ensure' => 'present',
-    'owner'  =>  'root',
-    'group'  =>  'root',
+    'owner'  => 'root',
+    'group'  => 'root',
   }
   $hostkeys_directory  = '/etc/ssh'
   $private_key_rsa     = 'ssh_host_rsa_key'
