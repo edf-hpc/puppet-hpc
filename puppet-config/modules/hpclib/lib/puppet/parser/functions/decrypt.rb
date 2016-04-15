@@ -69,13 +69,7 @@ Puppet::Parser::Functions::newfunction(:decrypt, :type => :rvalue, :arity => -3,
   passwd = args[1] 
 
   debug "Retrieving crypted content in #{target}"
-  found = Puppet::Parser::Files.find_file(target, compiler.environment)
-  if found && Puppet::FileSystem.exist?(found)
-    path = found   
-    result = decryptor(found, passwd) 
-  else
-    raise ArgumentError,("Crypted file not found:\n  Filepath: #{target}\n")
-  end
+    result = decryptor(target, passwd) 
 
   begin
     result
