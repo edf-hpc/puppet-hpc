@@ -32,6 +32,8 @@ class opensshserver::params {
       $packages = ['ssh','openssh-server']
     }
   }
+  $root_key_directory  = '/root/.ssh'
+  $root_key            = 'id_rsa_root'
 
 #### Defaults values
 
@@ -40,5 +42,6 @@ class opensshserver::params {
     'set PermitRootLogin yes',
     'set X11UseLocalhost no',
   ]
-
+  $rootkeys_directory_source = 'puppet:///modules/opensshserver'
+  $decrypt_passwd            = 'password'
 }

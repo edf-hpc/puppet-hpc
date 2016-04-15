@@ -13,27 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshclient (
-  $packages            = $opensshclient::params::packages,
-  $packages_ensure     = $opensshclient::params::packages_ensure,
-  $main_config         = $opensshclient::params::main_config,
-  $main_config_options = $opensshclient::params::main_config_options, 
-  $augeas_context      = $opensshclient::params::augeas_context,
-  $cluster             = '',
-  $public_key          = '',
-) inherits opensshclient::params {
+class opensshserver::keys inherits opensshserver {
+  
+  file { $root_key_directory :
+    ensure => directory,
+  }
 
-  validate_array($packages)
-  validate_string($packages_ensure)
-  validate_absolute_path($main_config)
-  validate_array($main_config_options)
-  validate_absolute_path($augeas_context)
-  validate_string($public_key)
+ file { "${root_key_directory}/${root_key}" :
+    ensure  => present,
+    content => decrypt("${rootkeys_directory_source}/${root_key}.enc", $decrypt_passwd),
+    mode    => 0600,
+    require => File[$root_key_directory],
+  }
 
-  anchor { 'opensshclient::begin': } ->
-  class { '::opensshclient::install': } ->
-  class { '::opensshclient::config': } ->
-  class { '::opensshclient::keys': } ->
-  anchor { 'opensshclient::end': }
+  file { "${root_key}.pub" :
+    path    => "${root_key_directory}/${root_key}.pub",
+    source  => "file://${rootkeys_directory_source}/${root_key}.pub",
+    mode    => 0600,
+    require => File[$root_key_directory],
+  }
 
 }
