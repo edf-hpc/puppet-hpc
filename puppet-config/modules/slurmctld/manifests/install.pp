@@ -1,7 +1,7 @@
 class slurmctld::install {
 
   if $slurmctld::package_manage {
-    package { $slurmctld::package__name :
+    package { $slurmctld::package_name :
       ensure => $slurmctld::package_ensure,
     }
   }

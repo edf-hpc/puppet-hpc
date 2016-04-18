@@ -47,8 +47,8 @@ class slurmctld (
   }
 
   anchor { 'slurmctld::begin': } ->
-#  class { '::slurmctld::install': } ->
+  class { '::slurmctld::install': } ->
   class { '::slurmctld::config': } ->
-#  class { '::slurmctld::service': } ->
+  class { '::slurmctld::service': } ->
   anchor { 'slurmctld::end': }
 }
