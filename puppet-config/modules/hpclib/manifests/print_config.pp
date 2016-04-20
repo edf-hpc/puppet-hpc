@@ -5,6 +5,7 @@ define hpclib::print_config(
   $separator       = '=',
   $comments        = '#',
   $mode            = '0644',
+  $owner           = 'root',
   $exceptions      = [],
   $excep_separator = ' '
 ) {
@@ -14,7 +15,8 @@ define hpclib::print_config(
   validate_string($comments) 
   validate_numeric($mode) 
   validate_array($exceptions) 
-  validate_string($excep_separator) 
+  validate_string($excep_separator)
+  validate_string($owner)
   $conf_template = 'hpclib/conf_template.erb'
 
   case $style {
@@ -38,6 +40,7 @@ define hpclib::print_config(
   file { $target :
     content => template($conf_template),
     mode    => $mode,
+    owner   => $owner,
   }
 
 }
