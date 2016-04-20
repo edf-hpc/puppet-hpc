@@ -34,15 +34,26 @@ end
 ### Define variables ###
 eth_hwaddr = Facter.value(:macaddress)
 h_name = Facter.value(:hostname)
-mymasternet = Array.new 
+os = Facter.value(:osfamily)
+mymasternet = Array.new
 hostfile = Hash.new 
 netconfig = Hash.new
 dhcpconfig = Hash.new
 ifaces_target = Hash.new
 ifaces_target = { 'eth0' => {'target' => 'eth0'}}
+mynet_topology = Hash.new
 options[:key] = "master_network"
 masternetwork = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
-os = Facter.value(:osfamily)
+
+options[:key] = 'net_topology'
+net_topology = hiera.lookup(
+  options[:key],
+  options[:default],
+  options[:scope],
+  nil,
+  options[:resolution_type]
+)
+
 
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0 
@@ -80,16 +91,44 @@ if !masternetwork.nil? and masternetwork.length > 0
   i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  ### Set netconfig used to generate local network config ###
-  ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
+  ### Set netconfig used to generate local network config and mynet_toplogy ###
   netcfg.each do | triplet| 
     index = Array.new; index = triplet.split("@") 
     itf = index[0].to_i; add = index[1].to_i ; ntm = index[2].to_i
+
+    ### Build netconfig (iface -> Address)                   ###
+    ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
     tmp = if netconfig.has_key?(ifaces[itf]) then netconfig[ifaces[itf]] else Array.new end
     tmp.push(addresses[add]+"/"+netmasks[ntm])
     netconfig[ifaces[itf]] = tmp
     ifaces_target[ifaces[itf]]= {'target' => ifaces[itf]} if os == 'Redhat'
-  end 
+
+    ### Build mynet_topology (net name -> iface association)   ###
+    ### Structure: {"net_id"=>["interface","interface"]}       ###
+    ### multiple interfaces on the same net_id should be rare  ###
+    found_net = nil
+    # Search the network where the address is in
+    net_topology.each do |net_id, net|
+      if not net.has_key?('cidr')
+        next
+      end
+      ip_net = IPAddr.new(net['ipnetwork'] + net['cidr'])
+      if ip_net === addresses[add]
+        found_net = net_id
+        break
+      end
+    end
+    if found_net != nil
+      # Add this interface for the network found above
+      if mynet_topology.has_key?(found_net)
+        tmp = mynet_topology[found_net]
+      else
+        tmp =Array.new
+      end
+      tmp.push(ifaces[itf])
+      mynet_topology[found_net] = tmp
+    end
+  end
 end
 
 ### Add facters ###
@@ -120,5 +159,11 @@ end
 Facter.add(:mymasternet) do
   setcode do
     mymasternet
+  end
+end
+
+Facter.add(:mynet_topology) do
+  setcode do
+    mynet_topology
   end
 end
