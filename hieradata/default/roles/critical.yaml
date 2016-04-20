@@ -5,4 +5,5 @@ profiles:
   - profiles::ntp::server
   - profiles::ssmtp::client
 
-network::gw_connect: 'clusterloc'
+network::gw_connect:  'clusterloc'
+sssd::case_sensitive: 'true'

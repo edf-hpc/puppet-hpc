@@ -1,9 +1,19 @@
 profiles:
-  - profiles::network::base
-  - profiles::ntp::client
+#  - profiles::network::base
+#  - profiles::ntp::client
   - profiles::dns::client
-  - profiles::nfs::mounts
-  - profiles::postfix::relay
-  - profiles::opensshserver
+#  - profiles::nfs::mounts
+#  - profiles::postfix::relay
+#  - profiles::dns::server
+#  - profiles::dns::client
+#  - profiles::opensshserver::server
+#  - profiles::opensshclient::client
+  - profiles::environment::base
+#  - profiles::hostkeys::base
+#  - profiles::jobsched::base
+#  - profiles::http::mirror
+#  - profiles::http::slurmweb
+  - profiles::auth::client
 
-network::gw_connect: 'clusterloc'
+network::gw_connect:  'clusterloc'
+sssd::case_sensitive: 'true'

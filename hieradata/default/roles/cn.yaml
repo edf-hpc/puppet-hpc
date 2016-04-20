@@ -6,3 +6,4 @@ profiles:
 
 network::mlx4load: 'no'
 network::gw_connect: 'clusterloc'
+sssd::case_sensitive: 'false'
