@@ -1,7 +1,7 @@
 require 'yaml'
 require 'hiera'
 
-tracked_profiles=['server','relay']
+tracked_profiles=['server','relay','mirror']
 
 hiera_cfg_file = File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml')
 hiera_cfg = YAML.load_file(hiera_cfg_file)

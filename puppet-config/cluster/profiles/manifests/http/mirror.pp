@@ -1,16 +1,24 @@
 class profiles::http::mirror {
 
   ## Hiera lookups
+  
+  $port           = hiera('profiles::http::port')
+  $docroot        = hiera('profiles::http::mirror::docroot')
+  $serveradmin    = hiera('profiles::http::serveradmin')
+  $error_log_file = hiera('profiles::http::error_log_file')
+  $log_level      = hiera('profiles::http::log_level')
+  $website_dir    = hiera('website_dir')
+  $cluster_prefix = hiera('cluster_prefix')
 
-  $net_opts     = {
-    mynetworks    => "127.0.0.0/8",
+  include apache
+
+  file { "$website_dir" :
+    ensure => directory,
   }
-  $cl_opts      = hiera_hash('profiles::postfix::client::cfg_opts')
 
-  $profile_opts = merge($cl_opts,$net_opts)
- 
   # Pass config options as a class parameter
-  apache::vhost { '*:80' :
+
+  apache::vhost { "${cluster_prefix}${my_http_mirror}" :
     port           => $port,
     docroot        => $docroot,
     serveradmin    => $serveradmin,
