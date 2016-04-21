@@ -103,9 +103,14 @@ if !masternetwork.nil? and masternetwork.length > 0
     netconfig[ifaces[itf]] = tmp
     ifaces_target[ifaces[itf]]= {'target' => ifaces[itf]} if os == 'Redhat'
 
-    ### Build mynet_topology (net name -> iface association)   ###
-    ### Structure: {"net_id"=>["interface","interface"]}       ###
-    ### multiple interfaces on the same net_id should be rare  ###
+    ### Build mynet_topology (net name -> iface association)     ###
+    ### Structure: {                                             ###
+    ###               "net_id"=> {                               ###
+    ###                 interfaces => ["interface","interface"], ###
+    ###                 name       => "name"                     ###
+    ###               }                                          ###
+    ###            }                                             ###
+    ### multiple interfaces on the same net_id should be rare    ###
     found_net = nil
     # Search the network where the address is in
     net_topology.each do |net_id, net|
@@ -123,9 +128,11 @@ if !masternetwork.nil? and masternetwork.length > 0
       if mynet_topology.has_key?(found_net)
         tmp = mynet_topology[found_net]
       else
-        tmp =Array.new
+        tmp = Hash.new
+        tmp['interfaces'] = Array.new
+        tmp['name'] = net_topology[found_net]['name']
       end
-      tmp.push(ifaces[itf])
+      tmp['interfaces'].push(ifaces[itf])
       mynet_topology[found_net] = tmp
     end
   end
