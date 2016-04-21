@@ -17,14 +17,20 @@ class environment (
   $service_user_session         = $environment::params::service_user_session,
   $service_user_session_options = $environment::params::service_user_session_options,
   $motd_content                 = $environment::params::motd_content,
+  $authorized_users_group       = $environment::params::authorized_users_group,
+  $autogen_key_type             = $environment::params::autogen_key_type,
+  $autogen_key_length           = $environment::params::autogen_key_length,
+  $cluster,
 ) inherits environment::params {
 
   validate_string($service_user_session)
   validate_hash($service_user_session_options)
-#  validate_hash($motd_content)
+  validate_hash($motd_content)
+  validate_string($authorized_users_group)
+  validate_string($autogen_key_type)
+  validate_string($autogen_key_length)
 
   anchor { 'environment::begin': } ->
-#  class { '::environment::install': } ->
   class { '::environment::config': } ->
   class { '::environment::service': } ->
   anchor { 'environment::end': }

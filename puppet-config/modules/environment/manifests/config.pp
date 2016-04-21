@@ -20,5 +20,10 @@ class environment::config inherits environment {
     content => template('environment/motd.erb'),
   }
 
+  file { "${ssh_autogenkeys_script}" :
+    path    => "${profiles_directory}/${ssh_autogenkeys_script}",
+    content => template($ssh_autogenkeys_script_tpl),
+  }
+
  create_resources(file,$files,$files_defaults)
 }

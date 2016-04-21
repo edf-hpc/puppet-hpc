@@ -33,33 +33,35 @@ class environment::params {
   $promptcommand_profile_script_src = 'puppet:///modules/environment/001_prompt_command.sh'
   $ps1_profilescript                = '001_PS1.sh'
   $ps1_profilescript_src            = 'puppet:///modules/environment/001_PS1.sh'
+  $ssh_autogenkeys_script           = 'ssh_keys_autogen.sh'
+  $ssh_autogenkeys_script_tpl       = 'environment/ssh_keys_autogen.sh.erb'
   $files_defaults                   = {
     'ensure' => 'present',
-    'owner' =>  'root',
-    'group' =>  'root',
+    'owner'  => 'root',
+    'group'  => 'root',
+    'mode'   => '0644',
   }
 
   $files = {
-    "$bashrc_config"                => {
-      source => $bashrc_config_src,
+    "${bashrc_config}"                => {
+      source  => $bashrc_config_src,
     },
-    "$profile_config"               => {
-      source => $profile_config_src,
+    "${profile_config}"               => {
+      source  => $profile_config_src,
     },
-    "$tty_profile_script"           => {
-      path   => "${profiles_directory}/${tty_profile_script}",
-      source => $tty_profile_script_src,
+    "${tty_profile_script}"           => {
+      path    => "${profiles_directory}/${tty_profile_script}",
+      source  => $tty_profile_script_src,
     },
-    "$promptcommand_profile_script" => {
-      path   => "${profiles_directory}/${promptcommand_profile_script}",
-      source => $promptcommand_profile_script_src,
+    "${promptcommand_profile_script}" => {
+      path    => "${profiles_directory}/${promptcommand_profile_script}",
+      source  => $promptcommand_profile_script_src,
     },
-    "$ps1_profilescript"            => {
-      path   => "${profiles_directory}/${ps1_profilescript}",
-      source => $ps1_profilescript_src,
+    "${ps1_profilescript}"            => {
+      path    => "${profiles_directory}/${ps1_profilescript}",
+      source  => $ps1_profilescript_src,
     },
   }
-
 
 #### Defaults values
 
@@ -71,7 +73,7 @@ class environment::params {
                          '',
             ],
     'legal' => [ '' ],
-    }
+  }
 
   $service_user_session_options = {
     'Unit'    => {
@@ -87,4 +89,7 @@ class environment::params {
     },
   }
 
+  $autogen_key_type       = 'rsa'
+  $autogen_key_length     = '1024'
+  $authorized_users_group = 'users'
 }
