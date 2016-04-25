@@ -15,10 +15,22 @@
 
 class hpc_ha::install inherits hpc_ha {
 
-  $sysd_ifup_drop_dir = '/etc/systemd/system/ifup-hotplug.service.d'
+  # When a vip resource is instanciated, notify scripts dir
+  # will be created in there
+  file { '/etc/hpc_ha':
+    ensure => directory,
+  }
+
+  # Create default notify script for virtual IP addresses
+  file { $::hpc_ha::default_notify_script:
+    ensure => present,
+    source => 'puppet:///modules/hpc_ha/hpc_ha_notify_script.sh',
+    mode   => '0755',
+  }
 
   # Adding a dependency between ifup-hotplug and 
   # keepalived
+  $sysd_ifup_drop_dir = '/etc/systemd/system/ifup-hotplug.service.d'
   file { $sysd_ifup_drop_dir:
     ensure => directory,
   }

@@ -13,7 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_ha inherits hpc_ha::params {
+class hpc_ha (
+  $default_notify_script = $::hpc_ha::params::default_notify_script
+) inherits hpc_ha::params {
   include keepalived
 
   anchor { 'hpc_ha::begin': } ->

@@ -13,7 +13,35 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_ha::params {
-  $default_notify_script = '/usr/local/bin/hpc_ha_notify.sh'
-}
+define hpc_ha::rserv (
+  $virtual_server,
+  $port,
+  $options    = undef,
+  $real_hosts = {},
+  $real_host  = undef,
+) {
 
+  $_name = regsubst($name, '[:\/\n]', '')
+  
+  validate_integer($port)
+
+  if $host {
+    $host = $real_host
+  } else {
+    $host = $real_hosts[$_name]
+  }
+
+  $real_server_ip_address = $hostfile[$host]
+  if $real_server_ip_address == '' {
+    fail("Could not find an IP address in hostfile for host '${host}'")
+  }
+  validate_ip_address($real_server_ip_address)
+  
+  ::keepalived::lvs::real_server { $_name:
+    virtual_server => $virtual_server,
+    ip_address     => $real_server_ip_address,
+    port           => $port,
+    options        => $options,
+  }
+
+}
