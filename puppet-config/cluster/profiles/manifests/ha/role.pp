@@ -23,5 +23,8 @@ class profiles::ha::role_vips {
 
   $vips = hiera_hash("profiles::ha::role_vips", {})
   create_resources(hpc_ha::vip, $vips)
+
+  $vservs = hiera_hash("profiles::ha::role_vservs", {})
+  create_resources(hpc_ha::vserv, $vservs)
 }
 
