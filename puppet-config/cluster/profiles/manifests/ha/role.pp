@@ -18,7 +18,7 @@
 # Virtual IP Addresses should be defined in hiera by following the hpc_ha
 # module vip resource syntax.
 
-class profiles::ha::role_vips {
+class profiles::ha::role {
   include ::hpc_ha
 
   $vips = hiera_hash("profiles::ha::role_vips", {})
