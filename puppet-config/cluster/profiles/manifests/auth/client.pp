@@ -6,6 +6,9 @@ class profiles::auth::client {
   $cluster        = hiera('cluster')
 
   # Pass config options as a class parameter
+
+  include certificates
+
   class { '::sssd':
     config_options => $config_options,
     cluster        => $cluster,

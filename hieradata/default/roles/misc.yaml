@@ -14,6 +14,8 @@ profiles:
 #  - profiles::http::mirror
 #  - profiles::http::slurmweb
   - profiles::auth::client
+  - profiles::auth::replica
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
+certificates::certificates_owner: 'openldap'

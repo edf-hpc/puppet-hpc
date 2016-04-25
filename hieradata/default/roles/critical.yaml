@@ -7,3 +7,4 @@ profiles:
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
+certificates_owner: 'openldap'

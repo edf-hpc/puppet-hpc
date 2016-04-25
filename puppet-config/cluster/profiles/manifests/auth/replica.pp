@@ -8,6 +8,8 @@ class profiles::auth::replica {
   $cluster               = hiera('cluster')
 
   # Pass config options as a class parameter
+  include certificates 
+
   class { '::openldap':
   } ->
 
