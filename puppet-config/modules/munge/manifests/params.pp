@@ -11,6 +11,7 @@ class munge::params {
   $auth_key_path     = '/etc/munge'
   $auth_key_name     = "${auth_key_path}/munge.key"
   $auth_key_source   = 'munge/munge.key.enc'
+  $auth_key_owner    = 'munge'
   $decrypt_passwd    = 'password'
   $auth_key_mode     = '0400'
 

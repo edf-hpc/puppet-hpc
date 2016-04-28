@@ -6,6 +6,7 @@ class munge (
   $auth_key_path     = $munge::params::auth_key_path,
   $auth_key_mode     = $munge::params::auth_key_mode,
   $auth_key_name     = $munge::params::auth_key_name,
+  $auth_key_owner    = $munge::params::auth_key_owner,
   $auth_key_source   = $munge::params::auth_key_source,
   $decrypt_passwd    = $munge::params::decrypt_passwd,
   $package_ensure    = $munge::params::package_ensure,
@@ -22,7 +23,7 @@ class munge (
   validate_numeric($auth_key_mode)
   validate_absolute_path($auth_key_path)
   validate_absolute_path($auth_key_name)
-  validate_string($auth_key_source)
+  validate_string($auth_key_owner)
   validate_string($auth_key_source)
   validate_string($package_ensure)
   validate_bool($package_manage)
