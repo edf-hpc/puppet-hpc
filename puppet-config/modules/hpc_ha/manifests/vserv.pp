@@ -60,15 +60,10 @@ define hpc_ha::vserv (
   # to the notify script from the virtual IP address
   if $lb_kind == 'DR' {
     if $vip_name {
-      $prefix = getparam(Hpc_ha::Vip[$vip_name], 'prefix')
-      $up_name = upcase($vip_name)
-      $up_prefix = upcase($prefix)
-      $vrrp_instance_id = "VI_${up_prefix}${up_name}"
-      file { "/etc/hpc_ha/${vrrp_instance_id}/notify/vserv_${_name}_notify":
-        ensure  => present,
-        content => template('hpc_ha/vserv_notify_script.erb'),
-        mode    => '0755',
-        require => Hpc_ha::Vip[$vip_name],
+      ::hpc_ha::vip_notify_script { $_name:
+        ensure   => present,
+        vip_name => $vip_name,
+        content  => template('hpc_ha/vserv_notify_script.erb'),
       }
     } else {
       fail("When defining a virtual server with direct routing, specifying vip name (hpc_ha::vip) is mandatory.")
