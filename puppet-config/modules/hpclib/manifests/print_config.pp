@@ -5,6 +5,7 @@ define hpclib::print_config(
   $separator       = '=',
   $comments        = '#',
   $mode            = '0644',
+  $backup          = true,
   $exceptions      = [],
   $excep_separator = ' '
 ) {
@@ -38,6 +39,7 @@ define hpclib::print_config(
   file { $target :
     content => template($conf_template),
     mode    => $mode,
+    backup  => $backup,
   }
 
 }
