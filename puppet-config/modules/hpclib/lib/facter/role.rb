@@ -1,4 +1,5 @@
 require 'hiera'
+require_relative 'network'
 
 options = {
   :default => nil,
@@ -8,6 +9,15 @@ options = {
   :verbose => false,
   :resolution_type => :priority
 }
+
+def get_role_for_name(hostname, prefix)
+  #(prefix)(role)XYZ 
+  if hostname =~ /^#{prefix}([a-z]+)[0-9]+$/
+    return $1
+  else
+    return 'default'
+  end
+end
 
 begin
   hiera = Hiera.new(:config => options[:config])
@@ -29,26 +39,31 @@ end
 options[:key] = "cluster_prefix"
 prefix = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
 
-if Facter.value(:hostname) =~ /^#{prefix}([a-z]+)[0-9]*$/
-  Facter.add('puppet_role') do
-    setcode do
-      $1
-    end
-  end
+hostlist = Facter.value('hostfile')
 
-# ([a-z]+), i.e. www or logger have a puppet_role of www or logger
-elsif Facter.value(:hostname) =~ /^#{prefix}([a-z]+)$/
-  Facter.add('puppet_role') do
-    setcode do
-      $1
-    end
+hosts_by_role = Hash.new
+hostlist.each do |name, ip_addr|
+  role = get_role_for_name(name, prefix)
+  if role == 'default'
+    next
   end
+  if hosts_by_role.has_key?(role)
+    hosts = hosts_by_role[role]
+  else
+    hosts = Array.new
+  end
+  hosts.push(name)
+  hosts_by_role[role] = hosts
+end
 
-# Set to hostname if no patterns match
-else
-  Facter.add('puppet_role') do
-    setcode do
-      'default'
-    end
+Facter.add('puppet_role') do
+  setcode do
+    get_role_for_name(Facter.value(:hostname), prefix)
+  end
+end
+
+Facter.add('hosts_by_role') do
+  setcode do
+    hosts_by_role
   end
 end
