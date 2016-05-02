@@ -14,9 +14,11 @@
 ##########################################################################
 
 class hpc_conmanserver (
-  $vip_name   = $::hpc_conmanserver::params::vip_name,
-  $roles      = $::hpc_conmanserver::params::roles,
-  $bmc_prefix = $::hpc_conmanserver::params::bmc_prefix,
+  $vip_name      = $::hpc_conmanserver::params::vip_name,
+  $roles         = $::hpc_conmanserver::params::roles,
+  $device_type   = $::hpc_conmanserver::params::device_type,
+  $prefix        = undef,
+  $port          = undef
 ) inherits hpc_conmanserver::params {
   class { 'conman':
     serv_ensure => stopped,
@@ -29,7 +31,21 @@ class hpc_conmanserver (
     source   => 'puppet:///modules/hpc_conmanserver/conman_ha_notify.sh'
   }
 
+  if $prefix {
+    $_prefix = $prefix
+  } else {
+    $_prefix = $::hpc_conmanserver::params::prefix_default[$device_type]
+  }
+
+  if $port {
+    $_port = $port
+  } else {
+    $_port = $::hpc_conmanserver::params::port_default[$device_type]
+  }
+
   hpc_conmanserver::role_consoles{ $roles:
-    bmc_prefix => $bmc_prefix,
+    type   => $device_type, 
+    console_prefix => $_prefix,
+    console_port   => $_port
   }
 }

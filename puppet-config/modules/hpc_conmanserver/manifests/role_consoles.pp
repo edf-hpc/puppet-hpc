@@ -14,16 +14,24 @@
 ##########################################################################
 
 define hpc_conmanserver::role_consoles (
-  $bmc_prefix
-){
-  validate_string($bmc_prefix)
+  $type,
+  $console_prefix,
+  $console_port   = undef,
+) {
+  validate_string($type)
+  validate_string($prefix)
+
+  if $console_port {
+    validate_integer($console_port)
+  }
 
   $hosts = $hosts_by_role[$name]
 
   if $hosts {
     ::hpc_conmanserver::host_console { $hosts:
-      bmc_prefix => $bmc_prefix,
+      type           => $type,
+      console_prefix => $console_prefix,
+      console_port   => $console_port,
     }
-  }
-  
+  } 
 }

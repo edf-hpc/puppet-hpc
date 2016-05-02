@@ -24,6 +24,14 @@ class hpc_conmanserver::params {
     'cg',
     'bm'
   ]
-  $bmc_prefix = 'bmc'
+  $device_type = 'ipmi'
+  $port_default = {
+    'ipmi'   =>  undef,
+    'telnet' =>  21,
+  }
+  $prefix_default = {
+    'ipmi'   =>  'bmc',
+    'telnet' =>  'con',
+  }
 }
 

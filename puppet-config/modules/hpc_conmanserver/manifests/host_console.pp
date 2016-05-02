@@ -14,10 +14,27 @@
 ##########################################################################
 
 define hpc_conmanserver::host_console (
-  $bmc_prefix
+  $type,
+  $console_prefix,
+  $console_port   = undef,
 ){
-  validate_string($bmc_prefix)
-  ::conman::console_ipmi { $name:
-    bmc_host => "${bmc_prefix}${name}"  
+  validate_string($console_prefix)
+
+  case $type {
+    'ipmi': { 
+      ::conman::console_ipmi { $name:
+        host => "${console_prefix}${name}"  
+      }
+    }
+    'telnet': {
+      validate_integer($console_port)
+      ::conman::console_telnet { $name:
+        host => "${console_prefix}${name}",
+        port => $console_port,
+      }
+    }
+    default: {
+      fail("Unknown host console type: ${type}")
+    }
   }
 }
