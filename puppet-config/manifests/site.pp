@@ -1,3 +1,5 @@
 node default {
-  include debug
+  class {'mariadb': 
+    mysql_root_pwd => 'password'
+  }
 }
