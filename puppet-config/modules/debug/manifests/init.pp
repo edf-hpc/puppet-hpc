@@ -1,11 +1,14 @@
 class debug {
 
   file { '/tmp/test' :
-    content => decrypt('/tmp/toto','Lolito'),
+    ensure  => 'directory',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
   }
+
+  ensure_resource('file', '/tmp/test', {'ensure' => 'directory' })
+
 
 }
 
