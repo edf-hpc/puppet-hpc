@@ -13,46 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class conman::config inherits conman {
-  # Config file
-  concat { '/etc/conman.conf':
-    ensure  => present,
-    mode    => '0400',
-    notify  => Class['conman::service'],
-  }
-
-  concat::fragment { 'conman_config_header':
+define conman::console_telnet (
+  $host,
+  $port
+) {
+  validate_string($host)
+  validate_integer($port)
+  
+  concat::fragment { "conman_config_console_telnet_${name}":
     target  => '/etc/conman.conf',
-    order   => '01',
-    content => template('conman/conman.conf.header.erb'),
+    content => "console name=\"${name}\" dev=\"${host}:${port}\"\n",
+    order   => '11',
   }
-
-  # Logfile
-  file { $::conman::_server_opts['logdir']:
-    ensure => directory,
-  }
-
-  # Configure logrotate if not disabled
-  if $::conman::logrotate {
-    include ::logrotate
-
-    logrotate::rule { 'conman':
-      path          => "${::conman::_server_opts['logdir']}/*/console.log",
-      compress      => true,
-      missingok     => true,
-      copytruncate  => false,
-      create        => false,
-      delaycompress => false,
-      mail          => false,
-      rotate        => '4',
-      sharedscripts => true,
-      size          => '5M',
-      rotate_every  => week,
-      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${::conman::serv}",
-      firstaction   => "/usr/bin/systemctl is-active -q ${::conman::serv}",
-    }
-  }
-
-
 }
-

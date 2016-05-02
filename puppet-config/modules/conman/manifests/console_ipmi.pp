@@ -14,13 +14,13 @@
 ##########################################################################
 
 define conman::console_ipmi (
-  $bmc_host
+  $host
 ) {
-  validate_string($bmc_host)
+  validate_string($host)
   
   concat::fragment { "conman_config_console_ipmi_${name}":
     target  => '/etc/conman.conf',
-    content => "console name=\"${name}\" dev=\"ipmi:${bmc_host}\"\n",
+    content => "console name=\"${name}\" dev=\"ipmi:${host}\"\n",
     order   => '11',
   }
 }
