@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_ha {
+class hpc_conman {
   class { 'conman':
     serv_ensure => stopped,
     serv_enable => false,
