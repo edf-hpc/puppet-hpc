@@ -15,21 +15,23 @@ profiles::ntp::srv_opts:
     NTPD_OPTS: "'-4 -g'"
 
 # SLURM
-primary_server:      'batch1'
-secondary_server:    'batch2'
-slurm_user:          'slurm'
-slurmd_user:         'root'
+slurm_primary_server:      'batch1'
+slurm_secondary_server:    'batch2'
+slurm_user:                'slurm'
+slurm_cluster_name:        "%{hiera('cluster_name')}"
+slurmd_user:               'root'
 
 slurmd::enable_cgroup: true
+
 slurmcommons::slurm_conf_options:
     ClusterName: 
-      value:   "%{hiera('cluster_name')}"
+      value:   "%{hiera('slurm_cluster_name')}"
       comment: "The name by which this SLURM managed cluster is known in the accounting database"
     ControlMachine:
-      value:   "%{hiera('primary_server')}"
+      value:   "%{hiera('slurm_primary_server')}"
       comment: "Hostname of the machine where SLURM control functions are executed"
     BackupController:
-      value:   "%{hiera('secondary_server')}"
+      value:   "%{hiera('slurm_secondary_server')}"
       comment: "Machine where SLURM control functions are to be executed if ControlMachine fails"
     SlurmUser:
       value:   "%{hiera('slurm_user')}"
@@ -239,8 +241,12 @@ slurmcommons::slurm_conf_options:
       value:   "priority/basic"
       comment: "This specifies the plugin to be used in establishing a jobs scheduling priority. Supported values are 'priority/basic' and 'priority/multifactor'"
     AccountingStorageType:
-      value:   "accounting_storage/none"
+      value:   "accounting_storage/slurmdbd"
       comment: "'accounting_storage/filetxt' 'accounting_storage/mysql' 'accounting_storage/none' 'accounting_storage/pgsql' and 'accounting_storage/slurmdbd'"
+    AccountingStorageHost:
+      value:   "%{hiera('slurm_primary_server')}"
+    AccountingStorageBackupHost:
+      value:   "%{hiera('slurm_secondary_server')}"
     TrackWCKey:
       value:   "yes"
       comment: "If you want to track wckeys (Workload Characterization Key) of users."
@@ -266,7 +272,7 @@ slurmcommons::slurm_conf_options:
       value:   "/var/log/slurm-llnl/slurmd.log"
       comment: "Log file for slurmd daemon"
     ReturnToService:
-      value:   "1"
+      value:   "2"
       comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
     SuspendTime:
       value:   "-1"
