@@ -18,6 +18,11 @@ class slurmdbd::config {
       require      => File[$slurmdbd::conf_dir_path],
     }
 
+    exec { '/usr/sbin/slurm-mysql-setup create':
+      unless  => '/usr/sbin/slurm-mysql-setup check',
+      require => Hpclib::Print_Config[ $slurmdbd::dbd_conf_file ], 
+    }
+
     if $slurmdbd::dbbackup_enable {
       file { $slurmdbd::dbd_backup_script :
         source     => $slurmdbd::dbd_backup_src,

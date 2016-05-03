@@ -84,7 +84,10 @@ class slurmdbd::params {
     }
     'Debian': {
       $package_manage = true
-      $package_name   = ['slurmdbd','slurm-llnl-setup-mysql']
+      $package_name   = [
+        'slurmdbd',
+        'slurm-llnl-setup-mysql'
+      ]
     }
     default: {
       $package_manage = false
