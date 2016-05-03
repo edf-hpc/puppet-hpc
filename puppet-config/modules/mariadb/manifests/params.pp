@@ -50,7 +50,7 @@ class mariadb::params {
           'query_cache_type'         => '0',
           'bind-address'             => '0.0.0.0',
           'wsrep_provider'           => '/usr/lib/galera/libgalera_smm.so',
-          'wsrep_cluster_name'       => '"slurmdbd_cluster"',
+          'wsrep_cluster_name'       => '"galera_cluster"',
           'wsrep_cluster_address'    => '"gcomm://server_primary,server_secondary"',
           'wsrep_sst_method'         => 'rsync',
         }

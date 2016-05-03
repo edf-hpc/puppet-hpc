@@ -46,8 +46,8 @@ class mariadb (
   }
 
   anchor { 'mariadb::begin': } ->
-#  class { '::mariadb::install': } ->
+  class { '::mariadb::install': } ->
   class { '::mariadb::config': } ->
-#  class { '::mariadb::service': } ->
+  class { '::mariadb::service': } ->
   anchor { 'mariadb::end': }
 }
