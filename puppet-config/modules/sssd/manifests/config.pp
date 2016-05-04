@@ -21,7 +21,7 @@ class sssd::config inherits sssd {
 
   hpclib::print_config { $config_file :
     style   => 'ini',
-    data    => $config_options,
+    data    => $sssd_options,
     mode    => 0600,
     require => [Package[$packages],File[$config_dir]],
     notify  => Service[$service],

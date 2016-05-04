@@ -18,7 +18,7 @@ class opensshserver::config inherits opensshserver {
   augeas { $opensshserver::main_config :
     context => $opensshserver::augeas_context,
     require => Package[$packages],
-    changes => $main_config_options,
+    changes => $sshd_config_options,
   }
 
 }

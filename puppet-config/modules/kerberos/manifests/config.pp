@@ -13,31 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class sssd::params {
+class kerberos::config inherits kerberos {
 
-#### Module variables
-
-  $packages_ensure = 'latest'
-  $config_dir      = '/etc/sssd'
-  $config_file     = "${config_dir}/sssd.conf"
-  case $::osfamily {
-    'Debian' : {
-      $packages = ['sssd', 'libnss-sss']
-    }
-    'RedHat' : {
-      $packages = ['sssd', 'sssd-client']
-    }
-    default : {
-      $packages = ['sssd', 'libnss-sss']
-    }
+  file { $config_dir :
+    ensure => directory,
   }
-  $default_file    = '/etc/default/sssd'
-  $service         = 'sssd' 
-#### Defaults values
-  $enable_kerberos = false
-  $default_options = {
-    'DAEMON_OPTS'  => '" -D -f" ',
-    'VERBOSE'      => '1',
+
+  hpclib::print_config { "${config_dir}/${config_file}" :
+    style   => 'ini',
+    data    => $config_options,
+    mode    => 0600,
+    require => [Package[$packages],File[$config_dir]],
+  }
+
+  file { "${config_dir}/${keytab_file}" :
+    ensure  => present,
+    content => decrypt("${keytab_directory_source}/${hostname}.${keytab_file}.enc", $decrypt_passwd),
+    mode    => '0600',
+    require => [Package[$packages],File[$config_dir]],
   }
 
 }

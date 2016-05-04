@@ -14,23 +14,24 @@
 ##########################################################################
 
 class sssd (
-  $packages            = $sssd::params::packages,
-  $packages_ensure     = $sssd::params::packages_ensure,
-  $config_dir          = $sssd::params::config_dir,
-  $config_file         = $sssd::params::config_file,
-  $config_options      = {},
-  $default_file        = $sssd::params::default_file,
-  $default_options     = $sssd::params::default_options,
-  $cluster             = '',
+  $packages                       = $sssd::params::packages,
+  $packages_ensure                = $sssd::params::packages_ensure,
+  $config_dir                     = $sssd::params::config_dir,
+  $config_file                    = $sssd::params::config_file,
+  $default_file                   = $sssd::params::default_file,
+  $default_options                = $sssd::params::default_options,
+  $cluster                        = '',
+  $sssd_options                   = {},
 ) inherits sssd::params {
 
   validate_array($packages)
   validate_string($packages_ensure)
   validate_absolute_path($config_dir)
   validate_absolute_path($config_file)
-  validate_hash($config_options)
+  validate_hash($sssd_options)
   validate_absolute_path($default_file)
   validate_hash($default_options)
+  validate_string($cluster)
 
   anchor { 'sssd::begin': } ->
   class { '::sssd::install': } ->

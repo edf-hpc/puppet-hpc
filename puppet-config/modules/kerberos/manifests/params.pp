@@ -13,31 +13,27 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class sssd::params {
+class kerberos::params {
 
 #### Module variables
 
   $packages_ensure = 'latest'
-  $config_dir      = '/etc/sssd'
-  $config_file     = "${config_dir}/sssd.conf"
+  $config_dir      = '/etc'
+  $config_file     = 'krb5.conf'
+  $keytab_file     = 'krb5.keytab'
   case $::osfamily {
     'Debian' : {
-      $packages = ['sssd', 'libnss-sss']
+      $packages = ['krb5-user','krb5-config']
     }
     'RedHat' : {
-      $packages = ['sssd', 'sssd-client']
+      $packages = ['kerberos', 'kerberos-client']
     }
     default : {
-      $packages = ['sssd', 'libnss-sss']
+      $packages = ['krb5-user','krb5-config']
     }
   }
-  $default_file    = '/etc/default/sssd'
-  $service         = 'sssd' 
 #### Defaults values
-  $enable_kerberos = false
-  $default_options = {
-    'DAEMON_OPTS'  => '" -D -f" ',
-    'VERBOSE'      => '1',
-  }
 
+  $keytab_source  = "puppet://modules/kerberos/"
+  $decrypt_passwd = 'password'
 }

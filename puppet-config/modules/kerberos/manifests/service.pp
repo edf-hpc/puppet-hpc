@@ -13,31 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class sssd::params {
+class kerberos::service inherits kerberos {
 
-#### Module variables
-
-  $packages_ensure = 'latest'
-  $config_dir      = '/etc/sssd'
-  $config_file     = "${config_dir}/sssd.conf"
-  case $::osfamily {
-    'Debian' : {
-      $packages = ['sssd', 'libnss-sss']
-    }
-    'RedHat' : {
-      $packages = ['sssd', 'sssd-client']
-    }
-    default : {
-      $packages = ['sssd', 'libnss-sss']
-    }
+  service { $service :
+    ensure  => running,
+    require => [Package[$packages],File[$config_file]],
   }
-  $default_file    = '/etc/default/sssd'
-  $service         = 'sssd' 
-#### Defaults values
-  $enable_kerberos = false
-  $default_options = {
-    'DAEMON_OPTS'  => '" -D -f" ',
-    'VERBOSE'      => '1',
-  }
-
 }

@@ -13,31 +13,28 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class sssd::params {
+class kerberos (
+  $packages                = $kerberos::params::packages,
+  $packages_ensure         = $kerberos::params::packages_ensure,
+  $config_dir              = $kerberos::params::config_dir,
+  $config_file             = $kerberos::params::config_file,
+  $keytab_file             = $kerberos::params::keytab_file,
+  $keytab_directory_source = $kerberos::params::keytab_source,
+  $decrypt_passwd          = $kerberos::params::decrypt_passwd,
+  $config_options,
+) inherits kerberos::params {
 
-#### Module variables
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_absolute_path($config_dir)
+  validate_string($config_file)
+  validate_hash($config_options)
+  validate_string($keytab_file)
+  validate_string($keytab_directory_source)
 
-  $packages_ensure = 'latest'
-  $config_dir      = '/etc/sssd'
-  $config_file     = "${config_dir}/sssd.conf"
-  case $::osfamily {
-    'Debian' : {
-      $packages = ['sssd', 'libnss-sss']
-    }
-    'RedHat' : {
-      $packages = ['sssd', 'sssd-client']
-    }
-    default : {
-      $packages = ['sssd', 'libnss-sss']
-    }
-  }
-  $default_file    = '/etc/default/sssd'
-  $service         = 'sssd' 
-#### Defaults values
-  $enable_kerberos = false
-  $default_options = {
-    'DAEMON_OPTS'  => '" -D -f" ',
-    'VERBOSE'      => '1',
-  }
+  anchor { 'kerberos::begin': } ->
+  class { '::kerberos::install': } ->
+  class { '::kerberos::config': } ->
+  anchor { 'kerberos::end': }
 
 }
