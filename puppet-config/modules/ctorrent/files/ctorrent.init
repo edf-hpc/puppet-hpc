@@ -1,0 +1,99 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:          ctorrent
+# Required-Start:    $network $remote_fs $mldonkey-server
+# Required-Stop:     $network $remote_fs $mldonkey-server
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Server for the ctorrent peer-to-peer downloader.
+# Description:       Server for the ctorrent peer-to-peer downloader.
+### END INIT INFO
+
+NAME=ctorrent
+EXEC=/usr/bin/$NAME
+CONFIG=/etc/default/ctorrent
+PIDFILE=/var/run/$NAME
+
+test -e $CONFIG || exit 0
+
+set -e
+
+Warn ()
+{
+    echo "$*" >&2
+}
+
+Error ()
+{
+    code=$1
+    shift
+
+    echo "."
+    Warn "$NAME: [ERROR] $@"
+    exit $code
+}
+
+. $CONFIG
+
+WRAPPER_OPTIONS="--iosched idle"
+
+case "$1" in
+  start|force-start)
+    echo -n "Starting $NAME"
+
+    for key in ${CL_LIST}
+    do
+
+	if [ ! -f ${TORRFILE["$key"]} ]; then
+	    Error 1 "${TORRFILE["$key"]} is missing."
+	fi
+
+        start-stop-daemon --start --background $WRAPPER_OPTIONS \
+        --make-pidfile --pidfile $PIDFILE-${key}.pid --exec $EXEC \
+        -- -e $DELAY -s ${SEEDFILE["$key"]} $MISC_OPTIONS ${TORRFILE["$key"]} 2>&1
+
+    done
+    echo "."
+  ;;
+
+  stop)
+    echo -n "Stopping $NAME"
+    for key in ${CL_LIST}
+    do
+        start-stop-daemon --stop --oknodo --pidfile $PIDFILE-${key}.pid --retry=TERM/30/KILL/5
+    done
+    echo "."
+  ;;
+
+  force-reload|restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+
+  status)
+    for key in ${CL_LIST}
+    do
+        if [ ! -f $PIDFILE-${key}.pid ]; then
+	    echo "$NAME ($key) is not running."
+        else
+	    PID=$(cat "$PIDFILE-${key}.pid")
+	    if [ "$PID" != "" ] && ps -p "$PID" >/dev/null; then
+	        echo "$NAME ($key) is running."
+	    else
+	        echo "$NAME ($key) is not running."
+	    fi
+        fi
+    done
+  ;;
+
+  *)
+    Error 1 "Usage: $0 {start|stop|restart|force-reload|force-start|status}"
+  ;;
+esac
+
+exit 0
+
