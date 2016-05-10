@@ -1,4 +1,5 @@
 profiles:
+  - profiles::cluster::common
   - profiles::network::base
   - profiles::dns::client
   - profiles::ntp::client

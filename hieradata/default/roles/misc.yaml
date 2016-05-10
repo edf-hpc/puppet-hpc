@@ -1,4 +1,6 @@
 profiles:
+  - profiles::cluster::common
+  - profiles::firewall::base
 #  - profiles::network::base
 #  - profiles::ntp::client
   - profiles::dns::client
