@@ -131,6 +131,7 @@ if !masternetwork.nil? and masternetwork.length > 0
         tmp = Hash.new
         tmp['interfaces'] = Array.new
         tmp['name'] = net_topology[found_net]['name']
+        tmp['firewall_zone'] = net_topology[found_net]['firewall_zone']
       end
       tmp['interfaces'].push(ifaces[itf])
       mynet_topology[found_net] = tmp
