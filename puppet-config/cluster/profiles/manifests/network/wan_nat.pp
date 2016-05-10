@@ -1,7 +1,5 @@
 class profiles::network::wan_nat {
-  class { '::shorewall':
-    ip_forwarding => true
-  }
+  include ::shorewall
 
   if ! has_key($mynet_topology, 'wan') {
     fail("Network 'wan' must be configured on this host  to activate profiles::network::wan_nat")
