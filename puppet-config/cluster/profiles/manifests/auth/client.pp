@@ -32,7 +32,6 @@ class profiles::auth::client {
     "domain/${cluster}" => merge($sssd_options_domain,$sssd_options_domain_kerberos_opts),
   }
 
-  notice "sssd_options : ${sssd_options}"
   include certificates
 
   class { '::sssd':
