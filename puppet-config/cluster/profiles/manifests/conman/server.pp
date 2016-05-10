@@ -14,5 +14,5 @@
 ##########################################################################
 
 class profiles::conman::server {
-  include ::hpc_conmanserver
+  include ::hpc_conman::server
 }

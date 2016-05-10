@@ -14,5 +14,5 @@
 ##########################################################################
 
 class profiles::conman::client {
-  include ::hpc_conman
+  include ::hpc_conman::client
 }
