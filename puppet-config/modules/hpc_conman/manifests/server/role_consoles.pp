@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define hpc_conmanserver::role_consoles (
+define hpc_conman::server::role_consoles (
   $type,
   $console_prefix,
   $console_port   = undef,
@@ -28,7 +28,7 @@ define hpc_conmanserver::role_consoles (
   $hosts = $hosts_by_role[$name]
 
   if $hosts {
-    ::hpc_conmanserver::host_console { $hosts:
+    ::hpc_conman::server::host_console { $hosts:
       type           => $type,
       console_prefix => $console_prefix,
       console_port   => $console_port,

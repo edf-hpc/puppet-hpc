@@ -13,25 +13,41 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_conmanserver::params {
-  $vip_name = "clusterloc_${puppet_role}"
-  $roles = [
-    'admin',
-    'misc',
-    'critical',
-    'batch',
-    'cn',
-    'cg',
-    'bm'
-  ]
-  $device_type = 'ipmi'
-  $port_default = {
-    'ipmi'   =>  undef,
-    'telnet' =>  21,
+class hpc_conman::server (
+  $vip_name      = $::hpc_conman::server::params::vip_name,
+  $roles         = $::hpc_conman::server::params::roles,
+  $device_type   = $::hpc_conman::server::params::device_type,
+  $prefix        = undef,
+  $port          = undef
+) inherits hpc_conman::server::params {
+
+  #Service start is controlled by the HA script to follow
+  #the VIP
+  class { 'conman':
+    serv_ensure => undef,
+    serv_enable => false,
   }
-  $prefix_default = {
-    'ipmi'   =>  'bmc',
-    'telnet' =>  'con',
+  hpc_ha::vip_notify_script { 'conman':
+    ensure   => present,
+    vip_name => $vip_name,
+    source   => 'puppet:///modules/hpc_conman/conman_ha_notify.sh'
+  }
+
+  if $prefix {
+    $_prefix = $prefix
+  } else {
+    $_prefix = $::hpc_conman::server::params::prefix_default[$device_type]
+  }
+
+  if $port {
+    $_port = $port
+  } else {
+    $_port = $::hpc_conman::server::params::port_default[$device_type]
+  }
+
+  hpc_conman::server::role_consoles{ $roles:
+    type   => $device_type, 
+    console_prefix => $_prefix,
+    console_port   => $_port
   }
 }
-

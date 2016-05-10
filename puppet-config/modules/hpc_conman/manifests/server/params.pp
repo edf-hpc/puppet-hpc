@@ -13,28 +13,25 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define hpc_conmanserver::host_console (
-  $type,
-  $console_prefix,
-  $console_port   = undef,
-){
-  validate_string($console_prefix)
-
-  case $type {
-    'ipmi': { 
-      ::conman::console_ipmi { $name:
-        host => "${console_prefix}${name}"  
-      }
-    }
-    'telnet': {
-      validate_integer($console_port)
-      ::conman::console_telnet { $name:
-        host => "${console_prefix}${name}",
-        port => $console_port,
-      }
-    }
-    default: {
-      fail("Unknown host console type: ${type}")
-    }
+class hpc_conman::server::params {
+  $vip_name = "clusterloc_${puppet_role}"
+  $roles = [
+    'admin',
+    'misc',
+    'critical',
+    'batch',
+    'cn',
+    'cg',
+    'bm'
+  ]
+  $device_type = 'ipmi'
+  $port_default = {
+    'ipmi'   =>  undef,
+    'telnet' =>  21,
+  }
+  $prefix_default = {
+    'ipmi'   =>  'bmc',
+    'telnet' =>  'con',
   }
 }
+

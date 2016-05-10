@@ -13,39 +13,28 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_conmanserver (
-  $vip_name      = $::hpc_conmanserver::params::vip_name,
-  $roles         = $::hpc_conmanserver::params::roles,
-  $device_type   = $::hpc_conmanserver::params::device_type,
-  $prefix        = undef,
-  $port          = undef
-) inherits hpc_conmanserver::params {
-  class { 'conman':
-    serv_ensure => stopped,
-    serv_enable => false,
-  }
+define hpc_conman::server::host_console (
+  $type,
+  $console_prefix,
+  $console_port   = undef,
+){
+  validate_string($console_prefix)
 
-  hpc_ha::vip_notify_script { 'conman':
-    ensure   => present,
-    vip_name => $vip_name,
-    source   => 'puppet:///modules/hpc_conmanserver/conman_ha_notify.sh'
-  }
-
-  if $prefix {
-    $_prefix = $prefix
-  } else {
-    $_prefix = $::hpc_conmanserver::params::prefix_default[$device_type]
-  }
-
-  if $port {
-    $_port = $port
-  } else {
-    $_port = $::hpc_conmanserver::params::port_default[$device_type]
-  }
-
-  hpc_conmanserver::role_consoles{ $roles:
-    type   => $device_type, 
-    console_prefix => $_prefix,
-    console_port   => $_port
+  case $type {
+    'ipmi': { 
+      ::conman::console_ipmi { $name:
+        host => "${console_prefix}${name}"  
+      }
+    }
+    'telnet': {
+      validate_integer($console_port)
+      ::conman::console_telnet { $name:
+        host => "${console_prefix}${name}",
+        port => $console_port,
+      }
+    }
+    default: {
+      fail("Unknown host console type: ${type}")
+    }
   }
 }
