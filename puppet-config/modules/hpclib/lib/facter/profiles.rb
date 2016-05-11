@@ -1,9 +1,12 @@
 require 'yaml'
 require 'hiera'
 
-tracked_profiles=['server','relay','mirror','replica']
+tracked_profiles=['server','relay','mirror','replica','tracker']
 
 hiera_cfg_file = File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml')
+hiera_cfg = YAML.load_file(hiera_cfg_file)
+profdir = "#{hiera_cfg[:yaml][:datadir]}/default/roles"
+
 myprofiles = Array.new
 profiles = Hash.new
 roles = Facter.value(:hosts_by_role).keys()
