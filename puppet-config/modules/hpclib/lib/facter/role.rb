@@ -1,5 +1,5 @@
 require 'hiera'
-require_relative 'network'
+require 'facter/network'
 
 options = {
   :default => nil,
