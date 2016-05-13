@@ -8,4 +8,9 @@ class profiles::jobsched::exec {
   package{ [
     'slurm-llnl-generic-scripts-plugin',
   ]: }
+
+  # Restrict access to execution nodes
+  include ::pam
+  include ::pam::slurm
+
 }

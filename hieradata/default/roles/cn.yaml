@@ -3,7 +3,9 @@ profiles:
   - profiles::network::base
   - profiles::dns::client
   - profiles::ntp::client
-  - profiles::postfix::client
+  - profiles::ssmtp::client
+  - profiles::access::base
+  - profiles::jobsched::exec
 
 network::mlx4load: 'no'
 network::gw_connect: 'clusterloc'
