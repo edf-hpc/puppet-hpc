@@ -33,6 +33,9 @@ define hpclib::print_config(
     linebyline : {
       validate_array($data)
     }
+    yaml : {
+      validate_hash($data)
+    }
     default : {
       fail("The ${style} style is not supported.")
     }

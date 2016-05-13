@@ -1,5 +1,5 @@
 <% conf  = @data -%>
-<% nsep   = @separator -%>
+<% nsep  = @separator -%>
 <% comm  = @comments -%>
 <% excep = @exceptions -%>
 <% esep  = @excep_separator -%>
@@ -61,4 +61,6 @@
   <%- conf.each do | element | -%>
 <%= element %>
   <%- end -%>
+  <%- when 'yaml' -%>
+<%= conf.to_yaml() %>
 <% end -%>
