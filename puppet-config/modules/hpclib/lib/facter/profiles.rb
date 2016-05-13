@@ -1,5 +1,6 @@
 require 'yaml'
 require 'hiera'
+require_relative 'role'
 
 tracked_profiles=['server','relay','mirror','replica','tracker']
 
