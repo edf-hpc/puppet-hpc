@@ -4,8 +4,10 @@ profiles:
   - profiles::network::base
   - profiles::dns::server
   - profiles::dns::client
+  - profiles::nfs::exports
   - profiles::ntp::server
   - profiles::ssmtp::client
+  - profiles::access::base
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
