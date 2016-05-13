@@ -4,6 +4,7 @@ require 'facter/application'
 require 'facter/osfamily'
 require 'facter/util/ip'
 require 'facter/util/macaddress'
+require 'ipaddr'
 
 options = {
   :default => nil,
