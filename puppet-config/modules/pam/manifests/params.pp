@@ -16,6 +16,7 @@ class pam::params {
       $pam_slurm_package  = ['libpam-slurm']
       $pam_slurm_exec     = "/bin/sed -i 's/account.*\\[.*\\].*pam_slurm.so/account\\trequired\\tpam_slurm.so/g' ${pam_slurm_config}" 
       $pam_slurm_condition= "/bin/grep -q 'account.*\\[.*\\].*pam_slurm' ${pam_slurm_config}"
+      $pam_sss_package    = ['libpam-sss']
     }
     'RedHat' : {
       $packages           = ['pam']

@@ -2,6 +2,7 @@ profiles:
   - profiles::cluster::common
   - profiles::network::base
   - profiles::dns::client
+  - profiles::auth::client
   - profiles::ntp::client
   - profiles::ssmtp::client
   - profiles::access::base

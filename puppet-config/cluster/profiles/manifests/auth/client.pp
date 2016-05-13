@@ -42,4 +42,7 @@ class profiles::auth::client {
     config_options          => $krb5_options, 
     keytab_directory_source => $keytab_directory_source,
   }
+
+  include ::pam
+  include ::pam::sss
 }
