@@ -6,7 +6,7 @@ class slurmcommons::config {
   ensure_resource('file', "${slurmcommons::script_dir_path}",{'ensure' => 'directory' })
 
   hpclib::print_config { $slurmcommons::main_conf_file :
-    style        => 'ini_flat',
+    style        => 'keyval',
     data         => $slurmcommons::slurm_conf_options,
     exceptions   => ['Include'],
     require      => File["$slurmcommons::conf_dir_path"],

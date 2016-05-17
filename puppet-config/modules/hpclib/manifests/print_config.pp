@@ -24,9 +24,6 @@ define hpclib::print_config(
     ini : {
       validate_hash($data)
     }
-    ini_flat : { # No sections.
-      validate_hash($data)
-    }
     keyval : {
       validate_hash($data)
     }

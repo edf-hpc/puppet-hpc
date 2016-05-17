@@ -6,7 +6,7 @@ class slurmd::config {
 
     if $slurmd::enable_cgroup {
       hpclib::print_config { $slurmd::cgroup_conf_file:
-        style        => 'ini_flat',
+        style        => 'keyval',
         data         => $::slurmd::cgroup_options,
       }
 
