@@ -8,6 +8,7 @@ profiles:
   - profiles::ntp::server
   - profiles::ssmtp::client
   - profiles::access::base
+  - profiles::sudo::base
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'

@@ -6,6 +6,7 @@ profiles:
   - profiles::ntp::client
   - profiles::ssmtp::client
   - profiles::access::base
+  - profiles::sudo::base
   - profiles::jobsched::exec
 
 network::mlx4load: 'no'
