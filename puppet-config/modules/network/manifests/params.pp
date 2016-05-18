@@ -75,7 +75,7 @@ class network::params {
     'ifup-hotplug' => {
       ensure  => 'running',
       enable  => true,
-      require => Tools::Systemd_service[$ifup_hotplug_service_file],
+      require => Hpclib::Systemd_service[$ifup_hotplug_service_file],
     },
   }
 
@@ -83,7 +83,7 @@ class network::params {
     "${ifup_hotplug_service_link}" => {
       ensure  => link,
       target  => $ifup_hotplug_service_file,
-      require => Tools::Systemd_service[$ifup_hotplug_service_file],
+      require => Hpclib::Systemd_service[$ifup_hotplug_service_file],
     },
   }
 

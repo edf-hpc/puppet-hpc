@@ -23,10 +23,9 @@ define hpclib::systemd_service($target,$config) {
 
   ### Systemctl execution on supported environments ###
 
-  if $service_provider == 'systemd' {
-    exec { $target :
-        command    => "systemctl daemon-reload && systemctl enable ${service_name}",
-        require    => File[$target],
-    }
+  exec { $target :
+    command    => "/bin/systemctl daemon-reload && /bin/systemctl enable ${service_name}",
+    require    => File[$target],
   }
+
 }
