@@ -13,27 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define tools::sysctl($config, $sysctlfile) {
-
-  $rootdir = '/etc/sysctl.d'
-  $tpl = 'tools/sysctl.erb'
-  $sysctlcmd = 'sysctl'
-
-  file { $rootdir :
-    ensure     => 'directory',
-  }
-
-  hpclib::print_config { $sysctlfile :
-    style   => 'keyval',
-    target  => "${rootdir}/${sysctlfile}",
-    data    => $config,
-    require => File[$rootdir],
-  }
-
-  exec { "${sysctlcmd}_${sysctlfile}" :
-    command   => "${sysctlcmd} -p ${rootdir}/${sysctlfile}",
-    subscribe => File["${rootdir}/${sysctlfile}"],
-    path      => ['/bin','/sbin'],
+define hpclib::systemd_tmpfile($target,$config) {
+  file { $target :
+    content    => template('hpclib/systemd_tmpfile.erb'),
   }
 }
 
