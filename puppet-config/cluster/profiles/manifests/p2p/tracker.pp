@@ -1,6 +1,6 @@
 class profiles::p2p::tracker {
 
-  $admin_node    = $hosts_by_role['admin']
+  $admin_node    = $hosts_by_role['admin'][0]
   $tracker_nodes = $hosts_by_role["$my_p2p_tracker"]
 
   class { '::opentracker':
