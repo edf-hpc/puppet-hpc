@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Description : Fichier de conf wrapper slurm
+
+# [Config Cluster]
+namecmde=$(basename $0 .sh)
+pathbatch="<%= @default_options["pathbatch"] %>"
+clustername="$(${pathbatch}/sacctmgr list cluster format=Cluster --noheader --parsable2 2>/dev/null | tr a-z A-Z)"
+batchname="$(${pathbatch}/sinfo -V | awk '{print$1}')"
+versionbatch="$(${pathbatch}/sinfo -V | awk '{print$2}')"
+
+typenni="<%= @default_options["typenni"] %>"			# typenni = tolower / toupper - /!\ Not empty
+qoshidden="<%= @default_options["qoshidden"] %>"			# qoshidden/parthidden = 'qos1|qos2|....' / 'part1|part2|....' - /!\ Not empty 
+parthidden="<%= @default_options["parthidden"] %>"
+typecluster="<%= @default_options["typecluster"] %>"			# Cluster Type = normal / bluegen Not empty ( default = normal )
+
+case ${namecmde} in
+        cce_mpp)
+                actif="<%= @default_options["cce_mpp_mod"] %>"
+        ;;
+
+        cce_mpinfo)
+                actif="<%= @default_options["cce_mpinfo_mod"] %>"
+        ;;
+
+        cce_mqinfo)
+                actif="<%= @default_options["cce_mqinfo_mod"] %>"
+        ;;
+
+        cce_myaccount)
+                actif="<%= @default_options["cce_myaccount_mod"] %>"
+        ;;
+
+        cce_quota)
+                actif="<%= @default_options["cce_quota_mod"] %>"
+		# Define quota def  nomfs:type:typequota:visiblename
+		# nomfs       => Name of file system
+		# type        => nfs / lustre / gpfs 
+		# typequota   => uquota ( quota users ) / prjquota ( quota projects ) / volquota ( only nfs quota volume ) / filesetuquota ( gpfs athos ) / notsetquota
+		# visiblename => Name of Volume print 
+		listofvolume="<%= @default_options["cce_quota_listvol"] %>"
+
+		# info 	      => Print information message 
+                info="<%= @default_options["cce_quota_info"] %>"
+        ;;
+        cce_user)
+                actif="<%= @default_options["cce_user_mod"] %>"
+        ;;
+
+        *)
+                echo -e "\n /!\ Error no set found for this command ! \n"
+                exit 1
+        ;;
+esac
+
+if [ ${actif} != "on" ];then
+        echo -e "\n /!\ Error no configuration found ! \n"
+        exit 1
+fi
+
