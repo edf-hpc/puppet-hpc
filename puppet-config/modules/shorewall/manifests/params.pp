@@ -14,11 +14,22 @@
 ##########################################################################
 
 class shorewall::params {
-  $serv = 'shorewall'
-  $serv_ensure = running
-  $serv_enable = true
-  $pkgs = [ 'shorewall' ]
-  $pkgs_ensure = 'installed'
+  $service = 'shorewall'
+  $service_ensure = running
+  $service_enable = true
+  $packages = [ 'shorewall' ]
+  $packages_ensure = 'installed'
   $ip_forwarding = false
+
+  $config_dir      = '/etc/shorewall'
+  $config_file     = "${config_dir}/shorewall.conf"
+  $interfaces_file = "${config_dir}/interfaces"
+  $zones_file      = "${config_dir}/zones"
+  $masq_file       = "${config_dir}/masq"
+  $policy_file     = "${config_dir}/policy"
+  $rules_file      = "${config_dir}/rules"
+
+  $default_file = '/etc/default/shorewall'
+  
 }
 

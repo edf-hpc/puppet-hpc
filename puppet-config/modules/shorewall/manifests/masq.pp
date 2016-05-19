@@ -21,7 +21,7 @@ define shorewall::masq (
 ) {
 
   concat::fragment { "shorewall_masqs_masq_${name}":
-    target  => '/etc/shorewall/masq',
+    target  => $::shorewall::masq_file,
     order   => '11',
     content => "#${name}: ${comment}\n${interface}:${dest} ${source}\n"
   }

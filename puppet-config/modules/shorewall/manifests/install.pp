@@ -14,8 +14,8 @@
 ##########################################################################
 
 class shorewall::install inherits shorewall {
-  package { $::shorewall::pkgs:
-    ensure => $shorewall::pkgs_ensure
+  package { $::shorewall::packages:
+    ensure => $shorewall::packages_ensure
   }
 }
 

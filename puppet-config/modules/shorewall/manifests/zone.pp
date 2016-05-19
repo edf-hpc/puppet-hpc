@@ -22,7 +22,7 @@ define shorewall::zone (
   $options_str = join($options, ',')
 
   concat::fragment { "shorewall_zones_zone_${name}":
-    target  => '/etc/shorewall/zones',
+    target  => $::shorewall::zones_file,
     order   => '11',
     content => "#${name}: ${comment}\n${name} ${type} ${options}\n"
   }

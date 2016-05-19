@@ -21,7 +21,7 @@ define shorewall::interface (
   $options_string = join($options, ',')
 
   concat::fragment { "shorewall_interfaces_interface_${name}":
-    target  => '/etc/shorewall/interfaces',
+    target  => $::shorewall::interfaces_file,
     order   => '11',
     content => "${zone} ${name} ${options_string}\n"
   }

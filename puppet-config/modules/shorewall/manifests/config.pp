@@ -16,7 +16,7 @@
 class shorewall::config inherits shorewall {
   augeas { 'shorewall_default_startup':
     changes => [
-      "set /files/etc/default/shorewall/startup 1",
+      "set /files/${::shorewall::default_file}/startup 1",
     ],
     notify  => Class['::shorewall::service'],
   }
@@ -30,60 +30,60 @@ class shorewall::config inherits shorewall {
 
   augeas { 'shorewall_conf_ip_forwarding':
     lens    => 'Shellvars.lns',
-    incl    => '/etc/shorewall/shorewall.conf',
+    incl    => $::shorewall::config_file,
     changes => [
       "set IP_FORWARDING ${ip_forwarding_str}",
     ],
   }
 
-  concat { '/etc/shorewall/zones':
+  concat { $::shorewall::zones_file:
     ensure => present,
   }
   concat::fragment { 'shorewall_zones_header':
-    target  => '/etc/shorewall/zones',
+    target  => $::shorewall::zones_file,
     order   => '01',
     content => template('shorewall/zones.header.erb')
   }
-  Concat::Fragment <| target == '/etc/shorewall/zones' |>
+  Concat::Fragment <| target == $::shorewall::zones_file |>
 
-  concat { '/etc/shorewall/interfaces':
+  concat { $::shorewall::interfaces_file:
     ensure => present,
   }
   concat::fragment { 'shorewall_interfaces_header':
-    target  => '/etc/shorewall/interfaces',
+    target  => $::shorewall::interfaces_file,
     order   => '01',
     content => template('shorewall/interfaces.header.erb')
   }
-  Concat::Fragment <| target == '/etc/shorewall/interfaces' |>
+  Concat::Fragment <| target == $::shorewall::interfaces_file |>
 
-  concat { '/etc/shorewall/policy':
+  concat { $::shorewall::policy_file:
     ensure => present,
   }
   concat::fragment { 'shorewall_policies_header':
-    target  => '/etc/shorewall/policy',
+    target  => $::shorewall::policy_file,
     order   => '01',
     content => template('shorewall/policy.header.erb')
   }
-  Concat::Fragment <| target == '/etc/shorewall/policy' |>
+  Concat::Fragment <| target == $::shorewall::policy_file |>
 
-  concat { '/etc/shorewall/masq':
+  concat { $::shorewall::masq_file:
     ensure => present,
   }
   concat::fragment { 'shorewall_masq_header':
-    target  => '/etc/shorewall/masq',
+    target  => $::shorewall::masq_file,
     order   => '01',
     content => template('shorewall/masq.header.erb')
   }
-  Concat::Fragment <| target == '/etc/shorewall/masq' |>
+  Concat::Fragment <| target == $::shorewall::masq_file |>
 
-  concat { '/etc/shorewall/rules':
+  concat { $::shorewall::rules_file:
     ensure => present,
   }
   concat::fragment { 'shorewall_rules_header':
-    target  => '/etc/shorewall/rules',
+    target  => $::shorewall::rules_file,
     order   => '01',
     content => template('shorewall/rules.header.erb')
   }
-  Concat::Fragment <| target == '/etc/shorewall/rules' |>
+  Concat::Fragment <| target == $::shorewall::rules_file |>
 }
 
