@@ -14,13 +14,34 @@
 ##########################################################################
 
 class shorewall (
-  $serv          = $::shorewall::params::serv,
-  $serv_ensure   = $::shorewall::params::serv_ensure,
-  $serv_enable   = $::shorewall::params::serv_enable,
-  $pkgs          = $::shorewall::params::pkgs,
-  $pkgs_ensure   = $::shorewall::params::pkgs_ensure,
-  $ip_forwarding = $::shorewall::params::ip_forwarding,
+  $service          = $::shorewall::params::service,
+  $service_ensure   = $::shorewall::params::service_ensure,
+  $service_enable   = $::shorewall::params::service_enable,
+  $packages         = $::shorewall::params::packages,
+  $packages_ensure  = $::shorewall::params::packages_ensure,
+  $ip_forwarding    = $::shorewall::params::ip_forwarding,
+  $config_dir       = $::shorewall::params::config_dir,
+  $config_file      = $::shorewall::params::config_file,
+  $interfaces_file  = $::shorewall::params::interfaces_file,
+  $zones_file       = $::shorewall::params::zones_file,
+  $masq_file        = $::shorewall::params::masq_file,
+  $policy_file      = $::shorewall::params::policy_file,
+  $rules_file       = $::shorewall::params::rules_file,
+  $default_file     = $::shorewall::params::default_file,
 ) inherits shorewall::params {
+  validate_string($service)
+  validate_string($service_ensure)
+  validate_bool($service_enable)
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_absolute_path($config_dir)
+  validate_absolute_path($config_file)
+  validate_absolute_path($interfaces_file)
+  validate_absolute_path($zones_file)
+  validate_absolute_path($masq_file)
+  validate_absolute_path($policy_file)
+  validate_absolute_path($rules_file)
+  validate_absolute_path($default_file)
 
   anchor { 'shorewall::begin': } ->
   class { '::shorewall::install': } ->

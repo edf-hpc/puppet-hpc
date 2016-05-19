@@ -14,9 +14,9 @@
 ##########################################################################
 
 class shorewall::service inherits shorewall {
-  service { $::shorewall::serv:
-    ensure    => $::shorewall::serv_ensure,
-    enable    => $::shorewall::serv_enable,
+  service { $::shorewall::service:
+    ensure    => $::shorewall::service_ensure,
+    enable    => $::shorewall::service_enable,
     subscribe => Class[ '::shorewall::config' ],
   }
 

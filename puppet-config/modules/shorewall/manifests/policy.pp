@@ -24,7 +24,7 @@ define shorewall::policy (
   $final_order = $order + 11
 
   concat::fragment { "shorewall_policies_policy_${name}":
-    target  => '/etc/shorewall/policy',
+    target  => $::shorewall::policy_file,
     order   => $final_order,
     content => "#${name}\n${source} ${dest} ${policy} ${log_level}\n"
   }

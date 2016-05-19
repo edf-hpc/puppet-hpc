@@ -35,7 +35,7 @@ define shorewall::rule (
   }
 
   concat::fragment { "shorewall_rules_rule_${name}":
-    target  => '/etc/shorewall/rules',
+    target  => $::shorewall::rules_file,
     order   => $final_order,
     content => "#${name}: ${comment}\n${_rule}\n",
   }
