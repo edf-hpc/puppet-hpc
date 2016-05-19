@@ -39,7 +39,7 @@ class profiles::clush::client {
 
   class { '::clustershell':
     groups => $groups,
-    groups_opts => {
+    groups_options => {
       'Main' => {
         'default' => $default_source,
       },
