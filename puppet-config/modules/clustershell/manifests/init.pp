@@ -14,19 +14,19 @@
 ##########################################################################
 
 class clustershell (
-  $pkgs             = $::clustershell::params::pkgs,
-  $pkgs_ensure      = $::clustershell::params::pkgs_ensure,
-  $groups_conf      = $::clustershell::params::groups_conf,
+  $packages         = $::clustershell::params::packages,
+  $packages_ensure  = $::clustershell::params::packages_ensure,
+  $groups_file      = $::clustershell::params::groups_file,
   $groups_yaml_file = $::clustershell::params::groups_yaml_file,
   $groups           = $::clustershell::params::groups,
-  $groups_opts      = {},
+  $groups_options   = {},
 ) inherits clustershell::params {
   validate_hash($groups)
-  validate_hash($groups_opts)
-  validate_absolute_path($groups_conf)
+  validate_hash($groups_options)
+  validate_absolute_path($groups_file)
   validate_absolute_path($groups_yaml_file)
 
-  $_groups_opts = deep_merge($::clustershell::params::groups_opts_default, $groups_opts)
+  $_groups_options = deep_merge($::clustershell::params::groups_options_default, $groups_options)
 
   anchor { 'clustershell::begin': } ->
   class { '::clustershell::install': } ->

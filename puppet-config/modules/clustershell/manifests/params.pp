@@ -14,13 +14,13 @@
 ##########################################################################
 
 class clustershell::params {
-  $pkgs_ensure = 'installed'
-  $pkgs = [ 
+  $packages_ensure = 'installed'
+  $packages = [ 
     'clustershell',
     'python-yaml',
   ]
-  $groups_conf = '/etc/clustershell/groups.conf'
-  $groups_opts_default = {
+  $groups_file = '/etc/clustershell/groups.conf'
+  $groups_options_default = {
     'Main' => {
       'default' => 'local',
       'confdir' => '/etc/clustershell/groups.conf.d $CFGDIR/groups.conf.d',
