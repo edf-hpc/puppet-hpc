@@ -14,9 +14,9 @@
 ##########################################################################
 
 class clustershell::config inherits clustershell {
-  hpclib::print_config{ $::clustershell::groups_conf:
+  hpclib::print_config{ $::clustershell::groups_file:
     style     => 'ini',
-    data      => $::clustershell::_groups_opts,
+    data      => $::clustershell::_groups_options,
     separator => ': ',
   }
 
