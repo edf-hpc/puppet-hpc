@@ -14,6 +14,14 @@
 ##########################################################################
 
 class profiles::cluster::common {
+  # Set the root password
+  $root_password = hiera('profiles::cluster::root_password_hash')
+  user { 'root':
+    ensure   => present,
+    password => $root_password,
+  }  
+
+  # Create /var/lib/calibre or equivalent
   $libcalibre_path = hiera('libcalibre')
   file { $libcalibre_path:
     ensure => directory
