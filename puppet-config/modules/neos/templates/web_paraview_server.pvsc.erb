@@ -1,0 +1,56 @@
+<% ########################################################################## -%>
+<% #  Puppet configuration file                                             # -%>
+<% #                                                                        # -%>
+<% #  Copyright (C) 2014-2016 EDF S.A.                                      # -%>
+<% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
+<% #                                                                        # -%>
+<% #  This program is free software; you can redistribute in and/or         # -%>
+<% #  modify it under the terms of the GNU General Public License,          # -%>
+<% #  version 2, as published by the Free Software Foundation.              # -%>
+<% #  This program is distributed in the hope that it will be useful,       # -%>
+<% #  but WITHOUT ANY WARRANTY; without even the implied warranty of        # -%>
+<% #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         # -%>
+<% #  GNU General Public License for more details.                          # -%>
+<% ########################################################################## -%>
+<Servers>
+  <Server name="<%= @cluster_name %>" resource="csrc://<%= @cluster_name %>">
+    <CommandStartup>
+      <Options>
+        <Option name="PARAVERSION" label="Paraview root path" save="true">
+          <String default="<%= @paraview_path %>" />
+        </Option>
+        <Option name="PARAUSER" label="User name" save="true">
+          <String default="jsmith"/>  
+        </Option>
+        <Option name="PARAKEY" label="Accounting project key" save="true">
+          <String default="some:key"/>
+        </Option>
+        <Option name="PARATIME" label="Maximum time" save="true">
+          <String default="12:00:00"/>
+        </Option>
+        <Option name="PARANODES" label="Node quantity" save="true">
+          <Range type="int" min="1" max="999" step="1" default="1"/>
+        </Option>
+      </Options>
+
+      <Command exec="ssh" timeout="0" delay="3">
+        <Arguments>
+          <Argument value="$PARAUSER$@<%= @cluster_name %>"/>
+          <Argument value="srun"/>
+          <Argument value="--wckey=$PARAKEY$"/>
+          <Argument value="--exclusive"/>
+          <Argument value="-N"/>
+          <Argument value="$PARANODES$"/>
+          <Argument value="--ntasks-per-node=1"/>
+          <Argument value="-t"/>
+          <Argument value="$PARATIME$"/>
+          <Argument value="--partition=<%= @partitions %>"/>
+          <Argument value="neos"/>
+          <Argument value="--scenario=paraview"/>
+          <Argument value="--param1=$PARAVERSION$"/>
+        </Arguments>
+      </Command>
+    </CommandStartup>
+  </Server>
+</Servers>
+
