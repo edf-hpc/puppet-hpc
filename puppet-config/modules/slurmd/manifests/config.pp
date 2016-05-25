@@ -6,8 +6,9 @@ class slurmd::config {
 
     if $slurmd::enable_cgroup {
       hpclib::print_config { $slurmd::cgroup_conf_file:
-        style        => 'keyval',
-        data         => $::slurmd::cgroup_options,
+        style  => 'keyval',
+        data   => $::slurmd::_cgroup_options,
+        notify => Class['::slurmd::service'],
       }
 
       ensure_resource('file', "${slurmd::cgroup_rel_path}",{'ensure' => 'directory' })

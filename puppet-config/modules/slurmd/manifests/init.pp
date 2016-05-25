@@ -9,6 +9,7 @@ class slurmd (
   $cgroup_rscpuset_file  = $slurmd::params::cgroup_rscpuset_file,
   $cgroup_rs_freez_file  = $slurmd::params::cgroup_rs_freez_file,
   $cgroup_rs_mem_file    = $slurmd::params::cgroup_rs_mem_file,
+  $cgroup_options        = {},
   $package_manage        = $slurmd::params::package_manage,
   $package_ensure        = $slurmd::params::package_ensure,
   $package_name          = $slurmd::params::package_name,
@@ -46,6 +47,9 @@ class slurmd (
     validate_absolute_path($cgroup_rscpuset_file)
     validate_absolute_path($cgroup_rs_freez_file)
     validate_absolute_path($cgroup_rs_mem_file)
+    validate_hash($cgroup_options)
+
+    $_cgroup_options = deep_merge($::slurmd::params::cgroup_options_default, $cgroup_options)
   }
 
   anchor { 'slurmd::begin': } ->
