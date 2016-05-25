@@ -1,0 +1,16 @@
+# DHCP Failover
+failover peer <%= @failover['name'] %> {
+  <%= @failover['role'] %>;
+  address <%= @my_address %>;
+  peer address <%= @peer_address %>;
+  port <%= @failover['port'] %>;
+  peer port <%= @failover['peer_port'] %>;
+  max-response-delay <%= @failover['max_response_delay'] %>;
+  max-unacked-updates <%= @failover['max_unacked_updates'] %>;
+  load balance max seconds <%= @failover['load_balance'] %>;
+  mclt <%= @failover['mclt'] %>;
+<% if @failover['role'] == "primary" -%>
+  split <%= @failover['load_split'] %>;
+<% end -%>
+}
+

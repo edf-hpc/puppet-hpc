@@ -17,6 +17,7 @@ profiles:
 #  - profiles::http::slurmweb
   - profiles::auth::client
   - profiles::auth::replica
+  - profiles::dhcp::server
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
