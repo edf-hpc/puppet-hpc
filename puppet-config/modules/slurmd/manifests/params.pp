@@ -27,15 +27,15 @@ class slurmd::params {
 
 
   ### Cgroups ###
-  $enable_cgroup         = true
-  $cgroup_rel_path       = "${conf_dir_path}/cgroup"
-  $cgroup_conf_file      = "${conf_dir_path}/cgroup.conf"
-  $cgroup_relscript_file = "${cgroup_rel_path}/release_common"
-  $cgroup_relscript_src  = '/usr/share/doc/slurmd/examples/cgroup.release_common'
-  $cgroup_rscpuset_file  = "${cgroup_rel_path}/release_cpuset"
-  $cgroup_rs_freez_file  = "${cgroup_rel_path}/release_freezer"
-  $cgroup_rs_mem_file    = "${cgroup_rel_path}/release_memory"
-  $cgroup_options        = {
+  $enable_cgroup          = true
+  $cgroup_rel_path        = "${conf_dir_path}/cgroup"
+  $cgroup_conf_file       = "${conf_dir_path}/cgroup.conf"
+  $cgroup_relscript_file  = "${cgroup_rel_path}/release_common"
+  $cgroup_relscript_src   = '/usr/share/doc/slurmd/examples/cgroup.release_common'
+  $cgroup_rscpuset_file   = "${cgroup_rel_path}/release_cpuset"
+  $cgroup_rs_freez_file   = "${cgroup_rel_path}/release_freezer"
+  $cgroup_rs_mem_file     = "${cgroup_rel_path}/release_memory"
+  $cgroup_options_default = {
     'CgroupAutomount' => {
        value   => 'yes',
        comment => 'Auto Mount',
