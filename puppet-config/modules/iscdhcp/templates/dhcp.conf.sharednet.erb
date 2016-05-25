@@ -1,0 +1,27 @@
+# DHCP Shared Network
+shared-network "<%= @sharednet['name'] %>" {
+<% @sharednet['subnet'].each do |subnet| -%>
+
+  subnet <%= subnet['network'] %> netmask <%= subnet['netmask'] %> {
+
+    option domain-name "<%= subnet['domain-name'] %>";
+    option broadcast-address <%= subnet['broadcast'] %>;
+
+<%   @includes.each do |inc_name, include| -%>
+<%     if include['subnet_name'] == subnet['name'] -%>
+<%       pool = include['pool']  -%>
+    pool { 
+<%       pool.each do |key, kcont|  -%>
+<%         if key == 'include' -%>
+      <%= key+'  "'+kcont -%>";
+<%         else -%>
+      <%= key+'  '+kcont -%>;
+<%         end -%>
+<%       end -%>
+    }
+<%     end -%>
+<%   end -%>
+  }
+<% end -%>
+}
+

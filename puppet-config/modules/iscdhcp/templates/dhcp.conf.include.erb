@@ -1,0 +1,22 @@
+#################################
+<% require 'ipaddr' -%>
+next-server <%= @my_address %>;
+if exists user-class and option user-class = "iPXE" {' 
+  filename "http://<%= @virtual_address %>/<%= @bootmenu_url %>";
+} else {
+  filename <%= @ipxebin %>;
+}
+<% dhcpnodes = Hash.new -%>
+<% range = @pool['range'].split(" ") -%>
+<% iplow = IPAddr.new(range[0]).to_i -%>
+<% iphigh = IPAddr.new(range[1]).to_i -%>
+<%= 'group {' %>
+<% @dhcp_config.each do | key, value| -%>
+  <%- if (iplow..iphigh)===IPAddr.new(value['ipaddress']).to_i -%>
+  <%= 'host '+key+' {' %>
+    <%= 'hardware ethernet '+value['macaddress']+';' %>
+    <%= 'fixed-address '+value['ipaddress']+';' %>
+  <%= '}' %>
+  <%- end -%>
+<% end -%>
+<%= '}' %>

@@ -10,12 +10,12 @@ options = {
   :resolution_type => :priority
 }
 
-def get_role_for_name(hostname, prefix)
+def get_role_index_for_name(hostname, prefix)
   #(prefix)(role)XYZ 
-  if hostname =~ /^#{prefix}([a-z]+)[0-9]+$/
-    return $1
+  if hostname =~ /^#{prefix}([a-z]+)([0-9])+$/
+    return [$1, $2]
   else
-    return 'default'
+    return ['default', '0']
   end
 end
 
@@ -43,7 +43,7 @@ hostlist = Facter.value('hostfile')
 
 hosts_by_role = Hash.new
 hostlist.each do |name, ip_addr|
-  role = get_role_for_name(name, prefix)
+  role, index = get_role_index_for_name(name, prefix)
   if role == 'default'
     next
   end
@@ -56,11 +56,19 @@ hostlist.each do |name, ip_addr|
   hosts_by_role[role] = hosts
 end
 
+
+myrole, myindex = get_role_index_for_name(Facter.value(:hostname), prefix)
 Facter.add('puppet_role') do
   setcode do
-    get_role_for_name(Facter.value(:hostname), prefix)
+    myrole
   end
 end
+Facter.add('puppet_index') do
+  setcode do
+    myindex
+  end
+end
+
 
 Facter.add('hosts_by_role') do
   setcode do
