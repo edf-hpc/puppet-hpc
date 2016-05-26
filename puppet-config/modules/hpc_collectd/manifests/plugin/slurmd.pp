@@ -27,10 +27,11 @@
 # [*ignoreabsentcpuset*] 
 #   When set to false, the plugin returns an error 
 #   if the cpuset Cgroup hierarchy maintained by Slurm is not found.
+#   This puppet module reverse the default to: true
 class hpc_collectd::plugin::slurmd (
   $ensure             = present,
   $cgroupmountpoint   = "/cgroup",
-  $ignoreabsentcpuset = false,
+  $ignoreabsentcpuset = true,
 ) {
   validate_absolute_path($cgroupmountpoint)
   validate_bool($ignoreabsentcpuset)
