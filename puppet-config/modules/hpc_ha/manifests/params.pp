@@ -15,5 +15,12 @@
 
 class hpc_ha::params {
   $default_notify_script = '/usr/local/bin/hpc_ha_notify.sh'
-}
+  $sysctl_file           = 'hatuning.conf'
 
+  # disable martian logging since normal with VLAN with multiple IP networks
+  $sysctl_options = {
+    'net.ipv4.conf.all.log_martians' => '0',
+    "net.ipv4.conf.${mynet_topology[wan][interfaces]}.arp_ignore" => '1',  
+    "net.ipv4.conf.${mynet_topology[wan][interfaces]}.arp_announce" => '2',
+  }
+}

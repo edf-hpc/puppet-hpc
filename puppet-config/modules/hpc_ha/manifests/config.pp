@@ -14,5 +14,10 @@
 ##########################################################################
 
 class hpc_ha::config inherits hpc_ha {
-}
 
+  hpclib::sysctl { $sysctl_file :
+    config      => $sysctl_options,
+    sysctl_file => $sysctl_file,
+  }
+
+}
