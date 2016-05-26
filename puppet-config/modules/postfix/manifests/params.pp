@@ -9,7 +9,7 @@ class postfix::params {
 
 #### Default values
 
-  $def_cfg_opts = {
+  $cfg_opts = {
     alias_database                      => 'hash:/etc/aliases',
     alias_maps                          => 'hash:/etc/aliases',
     append_dot_mydomain                 => 'yes',
