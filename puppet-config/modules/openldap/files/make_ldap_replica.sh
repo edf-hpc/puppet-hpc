@@ -2,7 +2,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -22,84 +22,60 @@ CFGDIR=${CFGROOT}/slapd.d
 CALDIR=/var/lib/calibre/slapdcfg
 FLOCK=${CALDIR}/replica.run
 DBDIR=/var/lib/ldap
-LDIFAURES=${CALDIR}/config_replica_aures.ldif
-LDIFPEIC=${CALDIR}/config_replica_peic.ldif
+LDIF_FILE=${CALDIR}/config_replica.ldif
 CONFIRM=""
 
 ###################################################################
 print_error () {
-	case ${1} in
-	1)
-		echo -e "\e[00;31m Cannot find any ldif file in ${CALDIR}. \e[00m"
-	;;
-
-	2)
-		echo -e "\e[00;33m WARNING: replication is yet configured. To recreate the configuration remove this file: ${FLOCK}. \e[00m"
-	;;
-
+  case ${1} in
+    1)
+		  echo -e "\e[00;31m Cannot find any ldif file in ${CALDIR}. \e[00m"
+	    ;;
+	  2)
+		  echo -e "\e[00;33m WARNING: replication is yet configured. To recreate the configuration remove this file: ${FLOCK}. \e[00m"
+	    ;;
 	esac
 	
 	exit ${1}
 }
 
 check_files () {
-  if [ -e ${LDIFAURES}.enc ]
+  if [ -r "${LDIF_FILE}" ]
   then
-	  echo "You are about to configure a new replica for AURES ldap directory. Old Configuration will be wipped."
-	  LDIF=${LDIFAURES}
-          if [ -e ${LDIFPEIC} ]
-          then
-            rm -f ${LDIFPEIC}
-          fi
-  else if [ -e ${LDIFPEIC}.enc ]
-    then
-  	    echo "You are about to configure a new replica for National Calibre ldap directory. Old Configuration will be wipped."
-	    LDIF=${LDIFPEIC}
-          if [ -e ${LDIFAURES} ]
-          then
-            rm -f ${LDIFAURES}
-          fi
-    else
+	  echo "You are about to configure a new replica for ldap directory. Old Configuration will be wipped."
+  else
 	  print_error 1
-    fi
   fi
   echo "Please type YES followed by [ENTER] to confirm you want to erase current configuration."
   read CONFIRM
 }
 
 set_certs_owner () {
-
 	for file in `ls ${CERTDIR}`
 	do
 		chown openldap:openldap ${CERTDIR}/${file}
 	done
-
 }
 
 cleaning () {
-
-        service slapd stop
-        sleep 5
-
-        for directory in ${CFGDIR} ${DBDIR}
-        do
-                if [ -d `echo ${directory}` ]
-                then
-                        rm -rf ${directory}
+  systemctl stop slapd
+  for directory in ${CFGDIR} ${DBDIR}
+  do
+    if [ -d `echo ${directory}` ]
+    then
+      rm -rf ${directory}
 			mkdir ${directory}
-                fi
-        done
+    fi
+  done
 	sleep 1
 }
 
 set_config () {
-
-	${SA} -b cn=config -F ${CFGDIR} -l ${LDIF}
+	${SA} -b cn=config -F ${CFGDIR} -l "${LDIF_FILE}"
 	chown -R openldap:openldap ${DBDIR}
-        chown -R openldap:openldap ${CFGDIR}
+  chown -R openldap:openldap ${CFGDIR}
 	touch ${FLOCK}
-	service slapd start
-	
+	systemctl start slapd	
 }
 
 if [ -e ${FLOCK} ]
@@ -109,8 +85,8 @@ else
 	check_files
 	if [ ${CONFIRM} == "YES" ]
 	then
-	        cleaning
+	  cleaning
 		set_certs_owner
-	        set_config
+	  set_config
 	fi
 fi
