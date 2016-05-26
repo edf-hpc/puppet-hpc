@@ -26,7 +26,7 @@ def decryptor(file, password, scheme='AES-256-CBC')
     encrypted_data = IO.read(file)
   end
   rescue
-    return nil
+    raise "Failed to read encrypted file: #{file}"
   end
 
   
@@ -51,7 +51,7 @@ def decryptor(file, password, scheme='AES-256-CBC')
     result = decipher.update(encrypted_data) + decipher.final
     return result
   else
-    return nil 
+    raise "Invalid encrypted data read from file: #{file}"
   end
 end
 
