@@ -17,6 +17,7 @@ class certificates::config inherits certificates {
 
   file { $certificates_directory :
     ensure => 'directory',
+    owner  => $certificates_owner,
   }
 
   file { "${certificates_directory}/${certificate_file}" :
