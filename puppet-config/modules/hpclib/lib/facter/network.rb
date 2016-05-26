@@ -114,28 +114,30 @@ if !masternetwork.nil? and masternetwork.length > 0
     ### multiple interfaces on the same net_id should be rare    ###
     found_net = nil
     # Search the network where the address is in
-    net_topology.each do |net_id, net|
-      if not net.has_key?('cidr')
-        next
+    if !net_topology.nil? and masternetwork.length > 0
+      net_topology.each do |net_id, net|
+        if not net.has_key?('cidr')
+          next
+        end
+        ip_net = IPAddr.new(net['ipnetwork'] + net['cidr'])
+        if ip_net === addresses[add]
+          found_net = net_id
+          break
+        end
       end
-      ip_net = IPAddr.new(net['ipnetwork'] + net['cidr'])
-      if ip_net === addresses[add]
-        found_net = net_id
-        break
+      if found_net != nil
+        # Add this interface for the network found above
+        if mynet_topology.has_key?(found_net)
+          tmp = mynet_topology[found_net]
+        else
+          tmp = Hash.new
+          tmp['interfaces'] = Array.new
+          tmp['name'] = net_topology[found_net]['name']
+          tmp['firewall_zone'] = net_topology[found_net]['firewall_zone']
+        end
+        tmp['interfaces'].push(ifaces[itf])
+        mynet_topology[found_net] = tmp
       end
-    end
-    if found_net != nil
-      # Add this interface for the network found above
-      if mynet_topology.has_key?(found_net)
-        tmp = mynet_topology[found_net]
-      else
-        tmp = Hash.new
-        tmp['interfaces'] = Array.new
-        tmp['name'] = net_topology[found_net]['name']
-        tmp['firewall_zone'] = net_topology[found_net]['firewall_zone']
-      end
-      tmp['interfaces'].push(ifaces[itf])
-      mynet_topology[found_net] = tmp
     end
   end
 end
