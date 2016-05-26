@@ -1,10 +1,7 @@
-class tftp::install {
+class tftp::install inherits tftp {
 
-   if $tftp::package_manage {
-
-    package { $tftp::package_name:
-      ensure => $tftp::package_ensure,
-    }
+  package { $tftp::package_name:
+    ensure => $tftp::package_ensure,
   }
 
 }
