@@ -13,14 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define hpclib::sysctl($config, $sysctl_file) {
+define hpclib::sysctl(
+  $config,
+  $sysctl_file,
+) {
 
   $rootdir        = '/etc/sysctl.d'
   $sysctl_command = 'sysctl'
 
-  file { $rootdir :
-    ensure     => 'directory',
-  }
+  ensure_resource('file', $rootdir, {'ensure' => 'directory'})
 
   hpclib::print_config { $sysctl_file :
     style   => 'keyval',
