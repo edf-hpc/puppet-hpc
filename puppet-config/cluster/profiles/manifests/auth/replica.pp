@@ -10,8 +10,7 @@ class profiles::auth::replica {
   # Pass config options as a class parameter
   include certificates 
 
-  class { '::openldap':
-  } ->
+  include ::openldap
 
   class { '::openldap::replica' :
     ldif_directory_source => $ldif_directory_source,
