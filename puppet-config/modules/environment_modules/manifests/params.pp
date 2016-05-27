@@ -19,10 +19,19 @@ class environment_modules::params {
 
   $packages_ensure = 'latest'
   $packages        = ['environment-modules']
-  $config_file     = '/etc/environment-modules/modulespath'
 
 #### Defaults values
-  $rootdirmodules = '/etc/modules'
+ case $::osfamily {
+    'RedHat': {
+      $rootdirmodules = '/usr/share/Modules/modulefiles'
+      $config_file    = '/usr/share/Modules/init/.modulespath'
+    }
+    'Debian': {
+      $rootdirmodules = '/etc/modules'
+      $config_file    = '/etc/environment-modules/modulespath'
+    }
+  }
+
   $config_options = [
     "${rootdirmodules}/base",
     "${rootdirmodules}/compiler",
