@@ -15,13 +15,8 @@
 
 class hpc_ha (
   $default_notify_script = $::hpc_ha::params::default_notify_script,
-  $sysctl_file           = $::hpc_ha::params::sysctl_file,
-  $sysctl_options        = $::hpc_ha::params::sysctl_options,
 ) inherits hpc_ha::params {
   include keepalived
-
-  validate_string($sysctl_file)
-  validate_hash($sysctl_options)
 
   anchor { 'hpc_ha::begin': } ->
   class { '::hpc_ha::install': } ->
