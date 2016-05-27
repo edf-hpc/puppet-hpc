@@ -68,4 +68,17 @@ define hpc_ha::vip (
     virtual_ipaddress => [ $ip_address ],
     notify_script     => $_notify_script, 
   }
+
+  # disable martian logging since normal with VLAN with multiple IP networks
+  $sysctl_file    = "hatuning_${name}.conf"
+  $sysctl_options = {
+    'net.ipv4.conf.all.log_martians'                                       => '0',
+    "net.ipv4.conf.${mynet_topology[$net_id][interfaces][0]}.arp_ignore"   => '1', 
+    "net.ipv4.conf.${mynet_topology[$net_id][interfaces][0]}.arp_announce" => '2',
+  }
+  hpclib::sysctl { $sysctl_file :
+    config      => $sysctl_options,
+    sysctl_file => $sysctl_file,
+  }
+
 }
