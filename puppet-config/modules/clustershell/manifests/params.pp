@@ -15,10 +15,21 @@
 
 class clustershell::params {
   $packages_ensure = 'installed'
-  $packages = [ 
-    'clustershell',
-    'python-yaml',
-  ]
+  case $::osfamily {
+    'RedHat': {
+      $packages = [
+        'clustershell',
+        'PyYAML',
+      ]
+    }
+    'Debian': {
+      $packages = [
+        'clustershell',
+        'python-yaml',
+      ]
+    }
+  }
+
   $groups_file = '/etc/clustershell/groups.conf'
   $groups_options_default = {
     'Main' => {
