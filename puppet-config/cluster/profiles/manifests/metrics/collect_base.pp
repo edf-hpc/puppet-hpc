@@ -70,6 +70,9 @@ class profiles::metrics::collect_base {
               'Plugin' => 'aggregation',
             },
           },
+          {
+            'type' => "stop",
+          },
         ],
       },
     ],
