@@ -18,6 +18,10 @@ class profiles::auth::client {
       krb5_store_password_if_offline => hiera('profiles::auth::client::krb5_store_password_if_offline'),
       auth_provider                  => 'krb5',
     }
+    class { '::kerberos':
+      config_options          => $krb5_options,
+      keytab_directory_source => $keytab_directory_source,
+    }
   }
   else {
     $sssd_options_domain_kerberos_opts = {
@@ -37,10 +41,6 @@ class profiles::auth::client {
   class { '::sssd':
     sssd_options    => $sssd_options,
     cluster         => $cluster,
-  }
-  class { '::kerberos':
-    config_options          => $krb5_options, 
-    keytab_directory_source => $keytab_directory_source,
   }
 
   include ::pam
