@@ -1,6 +1,6 @@
 class tftp::install inherits tftp {
 
-  package { $tftp::package_name:
+  package { $tftp::packages :
     ensure => $tftp::package_ensure,
   }
 
