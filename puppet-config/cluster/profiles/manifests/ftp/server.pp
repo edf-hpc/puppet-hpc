@@ -15,7 +15,7 @@
 
 class profiles::ftp::server {
   class { '::proftpd':
-    service_ensure => undef,
+    service_ensure => stopped,
     service_enable => false,
     auto_stop      => true,
   } 
