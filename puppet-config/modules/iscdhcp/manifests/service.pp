@@ -6,7 +6,7 @@ class iscdhcp::service inherits iscdhcp {
     config => $iscdhcp::systemd_config_options,
   }
 
-  service { $dhcp_sr_serv :
+  service { $iscdhcp::service :
     require   => Package[$iscdhcp::packages],
     subscribe => File[$iscdhcp::default_file],
   }
