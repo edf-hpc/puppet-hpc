@@ -14,36 +14,36 @@
 ##########################################################################
 
 class proftpd::config inherits proftpd {
-  file { $::proftpd::config_file:
+  file { $config_file:
     ensure  => present,
     content => template('proftpd/proftpd.conf.erb'),
   }
 
-  file { "${::proftpd::user_home}":
+  file { $user_home:
     ensure => directory,
     group  => 'root',
     owner  => 'root',
     mode   => '0555',
    }
 
-  file { "${::proftpd::user_home}/incoming":
+  file { "${user_home}/incoming":
     ensure => directory,
-    owner  => $::proftpd::user_name,
+    owner  => $user_name,
     group  => 'root',
     mode   => '0755',
   }
 
-  if $::proftpd::auto_stop {
+  if $auto_stop {
     $cron_ensure = 'present'
   } else {
     $cron_ensure = 'absent'
   } 
   cron { 'proftpd_autostop': 
     ensure  => $cron_ensure,
-    command => "/bin/systemctl stop ${::proftpd::service} 1>/dev/null 2>&1",
+    command => "/bin/systemctl stop ${service}.service 1>/dev/null 2>&1",
     user    => 'root',
-    hour    => $::proftpd::auto_stop_hour,  
-    minute  => $::proftpd::auto_stop_min,  
+    hour    => $auto_stop_hour,  
+    minute  => $auto_stop_min,  
   }
 }
 
