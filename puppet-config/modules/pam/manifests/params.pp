@@ -1,4 +1,18 @@
-#
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class pam::params {
 
   $pam_modules_config_dir = '/usr/share/pam-configs'                
@@ -20,6 +34,13 @@ class pam::params {
       $pam_sss_package         = ['libpam-sss']
       $pam_pwquality_package   = ['libpam-pwquality']
       $pam_pwquality_exec      = 'pam-auth-update --package --force'
+
+      $limits_pam_service      = 'common-session'
+      $limits_module           = 'pam_limits.so'
+      $limits_type             = 'session'
+      $limits_control          = 'required'
+      $limits_position         = 'after #comment[ . = "end of pam-auth-update config"]'
+      $limits_rules_file       = '/etc/security/limits.d/puppet.conf'
     }
     'RedHat' : {
       $packages           = ['pam']
