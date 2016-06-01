@@ -28,16 +28,16 @@ class conman::config inherits conman {
   }
 
   # Logfile
-  file { $::conman::_server_opts['logdir']:
+  file { $_server_options['logdir']:
     ensure => directory,
   }
 
   # Configure logrotate if not disabled
-  if $::conman::logrotate {
+  if $logrotate {
     include ::logrotate
 
     logrotate::rule { 'conman':
-      path          => "${::conman::_server_opts['logdir']}/*/console.log",
+      path          => "${_server_options['logdir']}/*/console.log",
       compress      => true,
       missingok     => true,
       copytruncate  => false,
@@ -48,8 +48,8 @@ class conman::config inherits conman {
       sharedscripts => true,
       size          => '5M',
       rotate_every  => week,
-      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${::conman::serv}",
-      firstaction   => "/usr/bin/systemctl is-active -q ${::conman::serv}",
+      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${service}",
+      firstaction   => "/usr/bin/systemctl is-active -q ${service}",
     }
   }
 

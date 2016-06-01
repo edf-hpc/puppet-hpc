@@ -14,33 +14,33 @@
 ##########################################################################
 
 class conman (
-  $pkgs        = $::conman::params::pkgs,
-  $pkgs_ensure = $::conman::params::pkgs_ensure,
-  $serv        = $::conman::params::serv,
-  $serv_ensure = $::conman::params::serv_ensure,
-  $serv_enable = $::conman::params::serv_enable,
-  $logrotate   = $::conman::params::logrotate,
-  $server_opts = {},
-  $global_opts = {},
+  $packages        = $::conman::params::packages,
+  $packages_ensure = $::conman::params::packages_ensure,
+  $service         = $::conman::params::service,
+  $service_ensure  = $::conman::params::service_ensure,
+  $service_enable  = $::conman::params::service_enable,
+  $logrotate       = $::conman::params::logrotate,
+  $server_options  = {},
+  $global_options  = {},
 ) inherits conman::params {
-  validate_array($pkgs)
-  validate_bool($pkgs_ensure)
-  validate_string($serv)
-  validate_string($serv_ensure)
-  validate_bool($serv_enable)
+  validate_array($packages)
+  validate_bool($packages_ensure)
+  validate_string($service)
+  validate_string($service_ensure)
+  validate_bool($service_enable)
   validate_bool($logrotate)
 
-  validate_hash($server_opts)
-  if $server_opts['logdir'] {
-    validate_absolute_path($server_opts['logdir'])
+  validate_hash($server_options)
+  if $server_options['logdir'] {
+    validate_absolute_path($server_options['logdir'])
   }
-  if $server_opts['pidfile'] {
-    validate_absolute_path($server_opts['pidfile'])
+  if $server_options['pidfile'] {
+    validate_absolute_path($server_options['pidfile'])
   }
-  $_server_opts = merge($server_opts, $::conman::params::server_opts_defaults)
+  $_server_options = merge($::conman::params::server_options_default, $server_options)
 
-  validate_hash($global_opts)
-  $_global_opts = merge($global_opts, $::conman::params::global_opts_defaults)
+  validate_hash($global_options)
+  $_global_options = merge($::conman::params::global_options_default, $global_options)
 
   anchor { 'conman::begin': } ->
   class { '::conman::install': } ->
