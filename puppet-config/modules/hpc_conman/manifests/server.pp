@@ -24,8 +24,8 @@ class hpc_conman::server (
   #Service start is controlled by the HA script to follow
   #the VIP
   class { 'conman':
-    serv_ensure => undef,
-    serv_enable => false,
+    service_ensure => undef,
+    service_enable => false,
   }
   hpc_ha::vip_notify_script { 'conman':
     ensure   => present,

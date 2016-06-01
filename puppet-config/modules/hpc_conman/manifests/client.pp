@@ -15,8 +15,8 @@
 
 class hpc_conman::client {
   class { 'conman':
-    serv_ensure => stopped,
-    serv_enable => false,
+    service_ensure => stopped,
+    service_enable => false,
   }
 
 }
