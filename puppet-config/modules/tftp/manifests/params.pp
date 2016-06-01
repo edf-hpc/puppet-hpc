@@ -7,11 +7,11 @@ class tftp::params {
   case $::osfamily {
     'RedHat': {
       $packages          = ['tftp-server']
-      $service_name      = 'tftp'
+      $service           = 'tftp'
     }
     'Debian': {
       $packages          = ['tftpd-hpa']
-      $service_name      = 'tftpd-hpa'
+      $service           = 'tftpd-hpa'
       $config_file       = '/etc/default/tftpd-hpa'
       $config_options = {
         'TFTP_USERNAME'    => '"tftp"',
