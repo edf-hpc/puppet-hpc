@@ -18,6 +18,8 @@ profiles:
   - profiles::auth::client
   - profiles::auth::replica
   - profiles::dhcp::server
+  - profiles::http::mirror
+  - profiles::bootsystem::server
 
 network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
