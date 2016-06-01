@@ -1,0 +1,189 @@
+#########  Kickstart file for RHEL Servers of the cluster ############
+
+### The default installation mode. You must specify the type of installation ###
+### from cdrom, harddrive, nfs, liveimg, or url (for FTP, HTTP, or HTTPS installations). ###
+### The install command and the installation method command must be on separate lines. ###
+install
+url --url http://<%= @virtual_address %>/mirror/rhel6/rhel
+
+### Configures additional yum repositories that may be used as sources for package installation ### 
+repo --name=rhel-cluster --baseurl=http://<%= @virtual_address %>/mirror/rhel6/rhel-cluster
+
+### Perform the Kickstart installation in text mode ###
+text
+
+### Reboot after the installation is successfully completed ###
+reboot
+
+### Sets the language to use during installation and the default language on the installed system. ###
+lang fr_FR.UTF-8
+
+### Sets one or more available keyboard layouts for the system. ###
+keyboard fr
+
+### Sets the system time zone to timezone. ###
+timezone Europe/Paris
+
+### Configures network information for the target system and activates network devices in the installation environment. ###
+network --onboot yes --device eth0 --bootproto dhcp --noipv6
+network --onboot no --device usb0 --bootproto dhcp --noipv6
+
+### Tells the installation program to suppress the Unsupported Hardware Detected alert. ### 
+### If this command is not included and unsupported hardware is detected, the installation will stall at this alert. ###
+unsupported_hardware
+
+### If zerombr is specified, any invalid partition tables found on disks are initialized. ###
+#zerombr
+
+### Removes partitions from the system, prior to creation of new partitions. ###
+clearpart --drives=sda --all
+
+### Causes the installation program to ignore the specified disks. ###
+ignoredisk --only-use=sda 
+
+### Creates a partition on the system. ###
+part /boot/efi --fstype=efi --grow --maxsize=200 --size=20
+part /boot --asprimary --ondrive=sda --fstype=ext3 --size=250
+part swap --recommended --ondrive=sda
+part pv.01 --asprimary --size 1 --grow --ondrive=sda
+
+### Creates a Logical Volume Management (LVM) group. ###
+volgroup sysvg pv.01
+
+### Create a logical volume for Logical Volume Management ###
+logvol / --fstype=ext4 --vgname=sysvg --size=10000 --name=root
+logvol /var --fstype=ext4 --vgname=sysvg --size=15000 --name=var
+logvol /tmp --fstype=ext4 --vgname=sysvg --size=10000 --name=tmp
+
+### Specifies how the boot loader should be installed. ###
+bootloader --location=mbr --driveorder=sda --append="console=ttyS0,115200n8r crashkernel=auto"
+
+### If present, X is not configured on the installed system. ###
+skipx
+
+### During the installation, you can interact with the installation program and monitor its progress over an SSH connection. ###
+sshpw --username=installer installer --plaintext
+
+### Sets the system's root password ###
+rootpw --plaintext <%= %>
+
+### Sets up the authentication options for the system ###
+authconfig --enableshadow --passalgo=sha512
+
+### Specify the firewall configuration for the installed system. ###
+firewall --disabled
+
+### Sets the state of SELinux on the installed system. ###
+selinux --disabled
+
+### Reboot after the installation is successfully completed. ###
+reboot
+
+%packages --nobase 
+anacron
+at
+bc
+coreutils
+#cpuspeed
+cryptsetup-luks
+dhclient
+dmraid
+dos2unix
+dosfstools
+e2fsprogs
+expect
+git
+gnupg
+grub
+kernel-firmware
+kernel-headers
+lftp
+libselinux-ruby
+lm_sensors
+logwatch
+lsof
+lvm2
+mailx
+make
+man
+mcelog
+mdadm
+mgetty
+mlocate
+nano
+nc
+net-snmp
+net-tools
+nfs-utils
+ntp
+numactl
+OpenIPMI-tools
+openssh-clients
+openssh-server
+parted
+patch
+portmap
+puppet
+quota
+redhat-lsb
+rsync
+ruby
+sysstat
+sudo
+sg3_utils.x86_64
+tcpdump
+telnet
+tftp
+traceroute
+tree
+vim-enhanced
+wget
+yum
+#yum-security
+yum-utils
+
+# Paquet LSI
+#Lib_Utils
+#MegaCli
+
+#Paquets DDN
+#ddn-ibsrp.noarch
+
+-dhcpv6-client
+-iptables-ipv6
+-system-config-securitylevel-tui
+-wireless-tools
+-rhpl
+#-openib
+%end
+
+%pre 
+#!/bin/sh
+# This will remove the loaded HBA modules from the kernel
+
+remove_modules(){
+MODULES="qla mpp lpfc mpt2sas"
+for module in ${MODULES};do
+for i in $(lsmod | awk '{print $1}'| grep ${module}); do
+echo Will remove: $i >> /dev/tty1
+rmmod $i
+sleep 2
+done
+sleep 5
+done
+}
+
+remove_modules
+echo "All qla* modules removed"
+%end
+
+%post --log=/mnt/sysimage/root/ks-post.log
+dhclient eth0
+wget http://<%= @virtual_address %>/disk/rhel6/postinstall.sh -O /bin/postinstall.sh
+chmod 755 /bin/postinstall.sh
+/bin/postinstall.sh
+rm /bin/postinstall.sh
+# Remove the anaconda blacklist because it is not used anymore in
+#  the running machine.
+rm /etc/modprobe.d/anaconda.conf
+%end
