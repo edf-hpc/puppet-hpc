@@ -14,21 +14,21 @@
 ##########################################################################
 
 class conman::params {
-  $pkgs        = [ 'conman' ]
-  $pkgs_ensure = true
-  $serv        = 'conman'
-  $serv_ensure = running
-  $serv_enable = true
-  $logrotate   = true
+  $packages        = [ 'conman' ]
+  $packages_ensure = true
+  $service         = 'conman'
+  $service_ensure  = running
+  $service_enable  = true
+  $logrotate       = true
 
-  $server_opts_defaults = {
+  $server_options_default = {
     'logdir'    => '/var/log/conman',
     'pidfile'   => '/var/run/conmand.pid',
     'syslog'    => 'local1',
     'timestamp' => '5m',
   }
 
-  $global_opts_defaults = {
+  $global_options_default = {
     'logopts'  => 'lock,sanitize,timestamp',
     'log'      => '%n/console.log',
     'seropts'  => '115200,8n1',

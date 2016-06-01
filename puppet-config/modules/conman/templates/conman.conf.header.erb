@@ -20,9 +20,9 @@
 #####################################################################
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 #####################################################################
-<%- @_server_opts.each do |opt, value|  -%>
+<%- @_server_options.each do |opt, value|  -%>
 server <%= opt %>="<%= value %>"
 <%- end -%>
-<%- @_global_opts.each do |opt, value|  -%>
+<%- @_global_options.each do |opt, value|  -%>
 global <%= opt %>="<%= value %>"
 <%- end -%>
