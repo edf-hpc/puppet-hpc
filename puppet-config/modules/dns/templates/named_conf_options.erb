@@ -1,7 +1,7 @@
 <% ########################################################################## -%>
 <% #  Puppet configuration file                                             # -%>
 <% #                                                                        # -%>
-<% #  Copyright (C) 2014-2015 EDF S.A.                                      # -%>
+<% #  Copyright (C) 2014-2016 EDF S.A.                                      # -%>
 <% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
 <% #                                                                        # -%>
 <% #  This program is free software; you can redistribute in and/or         # -%>
@@ -12,7 +12,6 @@
 <% #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         # -%>
 <% #  GNU General Public License for more details.                          # -%>
 <% ########################################################################## -%>
-
 #####################################################################
 # Bind DNS server configuration 
 #####################################################################
@@ -22,13 +21,13 @@
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 #####################################################################
 <% # Import Hash Table  -%>
-<% dns_options = @main_config -%>
+<% dns_options = @_config_options -%>
 options {
-        directory "<%= dns_options['directory'] -%>";
-        forwarders { <%= dns_options['forwarders'].join('; ')-%>; };
-        dnssec-validation <%= dns_options['dnssec-validation'] -%>;
+  directory "<%= dns_options['directory'] -%>";
+  forwarders { <%= dns_options['forwarders'].join('; ')-%>; };
+  dnssec-validation <%= dns_options['dnssec-validation'] -%>;
 
-        auth-nxdomain <%= dns_options['auth-nxdomain'] -%>;    # conform to RFC1035
-        listen-on-v6 { <%= dns_options['listen-on-v6'] -%>; };
-        listen-on { <%= dns_options['listen-on'].join('; ') -%>; };
+  auth-nxdomain <%= dns_options['auth-nxdomain'] -%>;    # conform to RFC1035
+  listen-on-v6 { <%= dns_options['listen-on-v6'] -%>; };
+  listen-on { <%= dns_options['listen-on'].join('; ') -%>; };
 };
