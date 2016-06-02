@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,36 +15,38 @@
 
 class dns::params {
 
-# Module variables
-  $sr_pkgs        = ['bind9']
-  $sr_serv        = 'bind9'
-  $sr_cfg_options = '/etc/bind/named.conf.options'
-  $sr_cfg_local   = '/etc/bind/named.conf.local'
-  $sr_cfg_zone    = '/etc/bind/db.cluster'
-  $cl_header      = ''
-  $cl_domain      = ''
-  $cl_search      = ''
-  $cl_options     = []
-  $cl_nameservers = []
-  $cl_cfg         = '/etc/resolv.conf'
+  # Module variables
+  $server_packages    = ['bind9']
+  $server_service     = 'bind9'
+  $server_config_file = '/etc/bind/named.conf.options'
+  $server_local_file  = '/etc/bind/named.conf.local'
+  $server_zone_file   = '/etc/bind/db.cluster'
+  $client_header      = ''
+  $client_domain      = ''
+  $client_search      = ''
+  $client_options     = []
+  $client_nameservers = []
+  $client_config_file = '/etc/resolv.conf'
 
-# Default values
-  $profile_opts = {
-    'directory'          => '/var/cache/bind',
-    'auth-nxdomain'      => 'no',
-    'listen-on-v6'       => 'none',
-    'dnssec-validation'  => 'auto',
+  # Default values
+  $config_options_default = {
+    'directory'         => '/var/cache/bind',
+    'auth-nxdomain'     => 'no',
+    'listen-on-v6'      => 'none',
+    'dnssec-validation' => 'auto',
   }
-  $profile_local = {
-    'type'               => 'master',
-    'file'               => $sr_cfg_zone,
+
+  $zone_options = {
+    'type' => 'master',
+    'file' => $server_zone_file,
   }
-  $cluster_zone_defaults = {
+
+  $zone_defaults = {
     'TTL'                => '604800',
-    'Serial'             =>  '2',
-    'Refresh'            =>  '604800',
-    'Retry'              =>  '86400',
-    'Expire'             =>  '2419200',
-    'Negative cache TTL' =>  '604800',
+    'Serial'             => '2',
+    'Refresh'            => '604800',
+    'Retry'              => '86400',
+    'Expire'             => '2419200',
+    'Negative cache TTL' => '604800',
   }
 }

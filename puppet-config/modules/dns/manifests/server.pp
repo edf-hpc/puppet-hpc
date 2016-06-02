@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2015 EDF S.A.                                      #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,41 +14,51 @@
 ##########################################################################
 
 class dns::server (
-  $pkgs                  = $dns::params::sr_pkgs,
-  $serv                  = $dns::params::sr_serv,
-  $domain                = $dns::params::sr_domain,
-  $cfg_options           = $dns::params::sr_cfg_options,
-  $cfg_local             = $dns::params::sr_cfg_local,
-  $cfg_zone              = $dns::params::sr_cfg_zone,
-  $site_opts             = $dns::params::site_opts,
-  $profile_opts          = $dns::params::profile_opts,
-  $profile_local         = $dns::params::profile_local,
-  $cluster_zone_defaults = $dns::params::cluster_zone_defaults,
+  $packages        = $::dns::params::server_packages,
+  $service         = $::dns::params::server_service,
+  $domain          = $::dns::params::server_domain,
+  $config_file     = $::dns::params::server_config_file,
+  $config_options  = {},
+  $local_file      = $::dns::params::server_local_file,
+  $zone_file       = $::dns::params::server_zone_file,
+  $zone_options    = $::dns::params::zone_options,
+  $zone_defaults   = $::dns::params::zone_defaults,
 ) inherits dns::params {
 
-  $main_config = merge($profile_opts,$site_opts)
+  validate_array($packages)
+  validate_string($service)
+  validate_string($domain)
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
+  validate_absolute_path($local_file)
+  validate_absolute_path($zone_file)
+  validate_hash($zone_options)
+  validate_hash($zone_defaults)
 
-  package { $pkgs :}
+  $_config_options = merge($::dns::params::config_options_default, $config_options)
 
-  service { $serv :
+  package { $packages: }
+
+  service { $service:
     ensure    => running,
-    require   => Package[$pkgs],
-    subscribe => File[$cfg_options,$cfg_local,$cfg_zone],
+    require   => Package[$packages],
+    subscribe => [
+      File[$config_file],
+      File[$local_file],
+      File[$zone_file],
+    ],
   }
 
-  file { $cfg_options :
+  file { $config_file:
     content => template('dns/named_conf_options.erb'),
-    require => Package[$pkgs],
   }
 
-  file { $cfg_local :
+  file { $local_file:
     content => template('dns/named_conf_local.erb'),
-    require => Package[$pkgs],
   }
 
-  file { $cfg_zone :
+  file { $zone_file:
     content => template('dns/db_cluster.erb'),
-    require => Package[$pkgs],
   }
 
 }
