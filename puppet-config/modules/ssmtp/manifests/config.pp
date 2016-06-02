@@ -14,13 +14,8 @@
 ##########################################################################
 
 class ssmtp::config inherits ssmtp {
-
-  $cfg_opts = merge($def_cfg_opts,$ext_cfg_opts)
-
-  hpclib::print_config { $cfg :
+  hpclib::print_config { $config_file:
     style   => 'keyval',
-    data    => $cfg_opts,
-    require => Package[$pkgs]
+    data    => $_config_options,
   }
-
 }
