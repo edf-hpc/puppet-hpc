@@ -14,15 +14,16 @@
 ##########################################################################
 
 class ssmtp::params {
+  #### Module variables
+  $packages        = [
+    'ssmtp', 
+    'mailutils',
+  ]
+  $packages_ensure = 'present'
+  $config_file     = '/etc/ssmtp/ssmtp.conf'
 
-#### Module variables
-
-  $pkgs        = ['ssmtp', 'mailutils']
-  $pkgs_ensure = 'present'
-  $cfg         = '/etc/ssmtp/ssmtp.conf'
-
-#### Default variables
-  $def_cfg_opts = {
+  #### Default variables
+  $config_options_default = {
     'mailhub'       => '',
     'rewritedomain' => '',
   }

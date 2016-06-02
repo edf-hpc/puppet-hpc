@@ -14,19 +14,18 @@
 ##########################################################################
 
 class ssmtp (
-  $pkgs         = $ssmtp::params::pkgs,
-  $pkgs_ensure  = $ssmtp::params::pkgs_ensure,
-  $cfg          = $ssmtp::params::cfg,
-  $ext_cfg_opts = $ssmtp::params::ext_cfg_opts
+  $packages         = $::ssmtp::params::packages,
+  $packages_ensure  = $::ssmtp::params::packages_ensure,
+  $config_file      = $::ssmtp::params::config_file,
+  $config_options   = {},
 ) inherits ssmtp::params {
 
-  $def_cfg_opts = $ssmtp::params::def_cfg_opts
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
 
-  validate_array($pkgs)
-  validate_string($pkgs_ensure)
-  validate_absolute_path($cfg)
-  validate_hash($def_cfg_opts)
-  validate_hash($ext_cfg_opts)
+  $_config_options = merge($::ssmtp::params::config_options_default, $config_options)
 
   anchor { 'ssmtp::begin': } ->
   class { '::ssmtp::install': } ->
