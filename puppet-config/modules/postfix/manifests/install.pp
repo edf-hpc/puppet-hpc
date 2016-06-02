@@ -15,8 +15,8 @@
 
 class postfix::install inherits postfix {
 
-  package { $pkgs:
-    ensure => $pkgs_ensure,
+  package { $packages:
+    ensure => $packages_ensure,
   }
 
 }
