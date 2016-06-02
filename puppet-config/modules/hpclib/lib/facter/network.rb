@@ -36,7 +36,7 @@ end
 eth_hwaddr = Facter.value(:macaddress)
 h_name = Facter.value(:hostname)
 os = Facter.value(:osfamily)
-mymasternet = Array.new
+mymasternet = nil
 hostfile = Hash.new 
 netconfig = Hash.new
 dhcpconfig = Hash.new
@@ -63,12 +63,12 @@ if !masternetwork.nil? and masternetwork.length > 0
     if ( eth_hwaddr.length > 0 and line.match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and line.match(/#{h_name}/) )
         mymasternet = line.chomp.split(';')
     end
-    element = Array.new; element = line.split(";") 
-    i = 0; macadds = Array.new; macadds = element[i].split(",") unless element[i].empty?
-    i = 2; hnames = Array.new; hnames = element[i].split(",") unless element[i].empty?
+    element = line.split(";") 
+    i = 0; macadds   = Array.new; macadds   = element[i].split(",") unless element[i].empty?
+    i = 2; hnames    = Array.new; hnames    = element[i].split(",") unless element[i].empty?
     i = 3; addresses = Array.new; addresses = element[i].split(",") unless element[i].empty?
-    i = 5; dhcpd = Array.new; dhcpd = element[i].split(",") unless element[i].empty?
-    i = 7; hosts = Array.new; hosts = element[i].split(",") unless element[i].empty?
+    i = 5; dhcpd     = Array.new; dhcpd     = element[i].split(",") unless element[i].empty?
+    i = 7; hosts     = Array.new; hosts     = element[i].split(",") unless element[i].empty?
     #### Set dhcpconfig used to generate dhcpd config files and /etc/hosts ###
     #### Structure: {"hostname"=>{"macaddress"=>"00:00:00:00:00:AA", "ipaddress"=>"10.0.0.1"}} ###
     dhcpd.each do | triplet|
@@ -86,12 +86,15 @@ if !masternetwork.nil? and masternetwork.length > 0
       hostfile[hnames[hnm]] = addresses[add]
     end
   end 
-### End parsing ###
+  ### End parsing ###
 
-  i = 1; ifaces = Array.new; ifaces = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  if not mymasternet
+    raise "Could not find an entry for this node in master_network hiera array (no matching name or MAC address)"
+  end
+  i = 1; ifaces    = Array.new; ifaces    = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 4; netmasks = Array.new; netmasks = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 6; netcfg = Array.new; netcfg = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  i = 4; netmasks  = Array.new; netmasks  = mymasternet[i].split(",") unless mymasternet[i].empty? 
+  i = 6; netcfg    = Array.new; netcfg    = mymasternet[i].split(",") unless mymasternet[i].empty? 
   ### Set netconfig used to generate local network config and mynet_toplogy ###
   netcfg.each do | triplet| 
     index = Array.new; index = triplet.split("@") 
