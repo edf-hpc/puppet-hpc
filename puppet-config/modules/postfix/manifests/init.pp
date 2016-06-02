@@ -14,17 +14,24 @@
 ##########################################################################
 
 class postfix ( 
-  $pkgs         = $postfix::params::pkgs,
-  $pkgs_ensure  = $postfix::params::pkgs_ensure,
-  $cfg          = $postfix::params::cfg,
-  $cfg_opts     = $postfix::params::cfg_opts
+  $packages        = $::postfix::params::packages,
+  $packages_ensure = $::postfix::params::packages_ensure,
+  $service         = $::postfix::params::service,
+  $service_ensure  = $::postfix::params::service_ensure,
+  $service_enable  = $::postfix::params::service_enable,
+  $config_file     = $::postfix::params::config_file,
+  $config_options  = {},
 ) inherits postfix::params {
 
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_string($service)
+  validate_string($service_ensure)
+  validate_bool($service_enable)
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
 
-  validate_array($pkgs)
-  validate_string($pkgs_ensure)
-  validate_absolute_path($cfg)
-  validate_hash($cfg_opts)
+  $_config_options = merge ($::postfix::params::config_options_default, $config_options)
 
   anchor { 'postfix::begin': } ->
   class { '::postfix::install': } ->

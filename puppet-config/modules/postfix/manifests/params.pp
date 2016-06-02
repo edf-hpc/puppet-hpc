@@ -1,15 +1,14 @@
 class postfix::params {
+  #### Module variables
+  $packages        = ['postfix']
+  $packages_ensure = installed
+  $service         = 'postfix'
+  $service_ensure  = running
+  $service_enable  = true
+  $config_file     = '/etc/postfix/main.cf'
 
-
-#### Module variables
-
-  $pkgs = ['postfix']
-  $serv = 'postfix'
-  $cfg  = '/etc/postfix/main.cf'
-
-#### Default values
-
-  $cfg_opts = {
+  #### Default values
+  $config_options_default = {
     alias_database                      => 'hash:/etc/aliases',
     alias_maps                          => 'hash:/etc/aliases',
     append_dot_mydomain                 => 'yes',

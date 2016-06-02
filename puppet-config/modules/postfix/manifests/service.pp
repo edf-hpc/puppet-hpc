@@ -14,8 +14,8 @@
 ##########################################################################
 
 class postfix::service inherits postfix {
-
-  service { $serv :
-    require => [Package[$pkgs],File[$cfg]],
+  service { $service :
+    ensure => $service_ensure,
+    enable => $service_enable,
   }
 }
