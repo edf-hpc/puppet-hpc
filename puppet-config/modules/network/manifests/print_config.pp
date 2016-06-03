@@ -13,23 +13,30 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class network::config inherits network {
+define network::print_config ($target = 'eth0') {
 
-  # Set hostname
-  augeas { $hostname_augeas_path:
-    context => $hostname_augeas_path,
-    changes => $hostname_augeas_change,
+  case $::osfamily {
+    'Debian': {
+      $filename = $network::config_file
+      $tplname  = 'network/interfaces.erb'
+      $execmd   = '/bin/systemctl reload networking'
+      $execname = 'reload_net'
+    }
+    'Redhat': {
+      $filename = "${network::config_file}-${target}"
+      $tplname  = 'network/ifcfg.erb'
+      $execmd   = "/bin/systemctl stop ifup@${target}.service && /bin/systemctl start ifup@${target}.service"
+      $execname = "restart_${target}"
+    }
   }
 
-  file { $ib_file:
-    content => template('network/openib_conf.erb'),
+  file { $filename :
+    content => template($tplname),
   }
 
-  # $net_ifaces hash is used by create_resources to generate main network
-  # configuration file. On debian systems there is a single file.
-  # On RHEL systems there is a file for each interface. For this reason
-  # the hash is modified with the names of all interfaces in the case of RHEL.
-  $net_ifaces = $::ifaces_target
-  create_resources(network::print_config, $net_ifaces)
-
+  exec { $execname:
+    command     => $execmd,
+    subscribe   => File[$filename],
+    refreshonly => true,
+  }
 }

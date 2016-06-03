@@ -1,12 +1,26 @@
-#
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class network::service inherits network {
 
   # Install systemd services on supported OS.
-  if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease == '8' {
+  if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
 
-    hpclib::systemd_tmpfile { $network::systemd_tmpfile :
-      target => $network::systemd_tmpfile,
-      config => $network::systemd_tmpfile_conf,
+    hpclib::systemd_tmpfile { $systemd_tmpfile :
+      target => $systemd_tmpfile,
+      config => $systemd_tmpfile_options,
     }
 
     # Enable systemd service ifup-hotplug to ensure it is run at server boot.
@@ -30,7 +44,7 @@ class network::service inherits network {
     }
   }
   else {
-    notice("unsupported service provider for class ${class}")
+    notice("Unsupported service provider for class ${class}")
   }
 
 }
