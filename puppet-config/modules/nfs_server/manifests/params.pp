@@ -1,27 +1,43 @@
-#
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class nfs_server::params {
 
-# Module variables
-  $cfg                = '/etc/exports'
-  $pkgs_ensure        = 'present'
-  $serv_ensure        = 'running'
+  # Module variables
+  $exports_file    = '/etc/exports'
+  $packages_ensure = 'present'
+  $service_ensure  = 'running'
   case $::osfamily {
     'Debian': {
-      $pkgs           = ['nfs-kernel-server']
-      $serv           = 'nfs-kernel-server'
+      $packages = ['nfs-kernel-server']
+      $service   = 'nfs-kernel-server'
     }
     'Redhat': {
-      $pkgs           = ['nfs-utils.x86_64']
+      $packages = ['nfs-utils.x86_64']
       case $::operatingsystemmajrelease {
         '7': { 
-          $serv       = 'nfs-server'
+          $service = 'nfs-server'
         }
         default: {
-          $serv       = 'nfs'
+          $service = 'nfs'
         }
       }
     }
-    default: {}
+    default: {
+      fail ("Unsupported OS Family: ${::osfamily}")
+    }
   }
 
 }
