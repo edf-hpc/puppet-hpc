@@ -34,4 +34,9 @@ class slurmd::config {
       create_resources(file,$cgroup_links,$cgroup_ln_default)
     }
   }
+    rsyslog::imfile { '/var/log/slurm-llnl/slurmd.log':
+      file_name     => '/var/log/slurm-llnl/slurmd.log',
+      file_tag      => 'slurmd:',
+      file_facility => 'info',
+    }
 }
