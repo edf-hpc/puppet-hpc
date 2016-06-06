@@ -119,10 +119,10 @@ if !masternetwork.nil? and masternetwork.length > 0
     # Search the network where the address is in
     if !net_topology.nil? and masternetwork.length > 0
       net_topology.each do |net_id, net|
-        if not net.has_key?('cidr')
+        if not net.has_key?('prefix_length')
           next
         end
-        ip_net = IPAddr.new(net['ipnetwork'] + net['cidr'])
+        ip_net = IPAddr.new(net['ipnetwork'] + net['prefix_length'])
         if ip_net === addresses[add]
           found_net = net_id
           break

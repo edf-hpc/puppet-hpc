@@ -18,7 +18,7 @@ class profiles::postfix::relay {
   ## Hiera lookups
   $options      = hiera_hash('profiles::postfix::relay::config_options')
   $net_topology = hiera_hash('net_topology')
-  $network      = "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['cidr']}"
+  $network      = "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['prefix_length']}"
   $net_options     = {
     mynetworks => "$network 127.0.0.0/8",
   }

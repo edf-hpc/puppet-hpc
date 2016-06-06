@@ -11,7 +11,7 @@ class profiles::network::wan_nat {
 
   shorewall::masq { 'wan_from_clusterloc_nat':
     interface => $wan_interface,
-    source    => "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['cidr']}",
+    source    => "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['prefix_length']}",
   }
 
 }
