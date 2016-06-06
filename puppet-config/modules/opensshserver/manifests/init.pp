@@ -14,15 +14,15 @@
 ##########################################################################
 
 class opensshserver (
-  $packages                  = $opensshserver::params::packages,
-  $packages_ensure           = $opensshserver::params::packages_ensure,
-  $main_config               = $opensshserver::params::main_config,
-  $sshd_config_options       = $opensshserver::params::sshd_config_options,
-  $augeas_context            = $opensshserver::params::augeas_context,
-  $rootkeys_directory_source = $opensshserver::params::rootkeys_directory_source,
-  $root_key_directory        = $opensshserver::params::root_key_directory,
-  $decrypt_passwd            = $opensshserver::params::decrypt_passwd,
-  $cluster                   = '',
+  $packages            = $opensshserver::params::packages,
+  $packages_ensure     = $opensshserver::params::packages_ensure,
+  $main_config         = $opensshserver::params::main_config,
+  $sshd_config_options = $opensshserver::params::sshd_config_options,
+  $augeas_context      = $opensshserver::params::augeas_context,
+  $directory_source    = $opensshserver::params::directory_source,
+  $root_key_directory  = $opensshserver::params::root_key_directory,
+  $decrypt_passwd      = $opensshserver::params::decrypt_passwd,
+  $cluster             = '',
 ) inherits opensshserver::params {
 
   validate_array($packages)

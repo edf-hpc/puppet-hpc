@@ -35,7 +35,7 @@ class openldap::params {
     'SLAPD_SENTINEL_FILE' => '"/etc/ldap/noslapd"',
   }
 
-  $ldif_directory        = '/tmp'
-  $ldif_directory_source = 'puppet:///modules/openldap'
-  $decrypt_passwd        = 'password'
+  $ldif_directory   = '/tmp'
+  $directory_source = 'puppet:///modules/openldap'
+  $decrypt_passwd   = 'password'
 }

@@ -16,7 +16,7 @@
 class openldap::replica (
   $make_replica_script        = $openldap::params::make_replica_script,
   $make_replica_script_source = $openldap::params::make_replica_script_source,
-  $ldif_directory_source      = $openldap::params::ldif_directory_source,
+  $directory_source           = $openldap::params::directory_source,
   $ldif_directory             = $openldap::params::ldif_directory,
   $ldif_file                  = $openldap::params::ldif_file,
   $decrypt_passwd             = $openldap::params::decrypt_passwd,
@@ -38,7 +38,7 @@ class openldap::replica (
   }
 
   file { "${ldif_directory}/${ldif_file}" :
-    content => decrypt("${ldif_directory_source}/${ldif_file}.enc", $decrypt_passwd),
+    content => decrypt("${directory_source}/${ldif_file}.enc", $decrypt_passwd),
     require => File[$ldif_directory],
     mode    => '0600',
     owner   => 'root',

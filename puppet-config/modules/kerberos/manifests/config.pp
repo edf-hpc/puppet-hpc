@@ -28,7 +28,7 @@ class kerberos::config inherits kerberos {
 
   file { "${config_dir}/${keytab_file}" :
     ensure  => present,
-    content => decrypt("${keytab_directory_source}/${hostname}.${keytab_file}.enc", $decrypt_passwd),
+    content => decrypt("${directory_source}/${hostname}.${keytab_file}.enc", $decrypt_passwd),
     mode    => '0600',
     require => [Package[$packages],File[$config_dir]],
   }

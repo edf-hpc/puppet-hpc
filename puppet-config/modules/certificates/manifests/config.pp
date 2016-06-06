@@ -22,7 +22,7 @@ class certificates::config inherits certificates {
 
   file { "${certificates_directory}/${certificate_file}" :
     ensure  => present,
-    content => decrypt("${certificates_directory_source}/${certificate_file}.enc", $decrypt_passwd),
+    content => decrypt("${directory_source}/${certificate_file}.enc", $decrypt_passwd),
     require => File[$certificates_directory],
     mode    => '0600',
     owner   => $certificates_owner,
@@ -30,7 +30,7 @@ class certificates::config inherits certificates {
 
   file { "${certificates_directory}/${key_file}" :
     ensure  => present,
-    content => decrypt("${certificates_directory_source}/${key_file}.enc", $decrypt_passwd),
+    content => decrypt("${directory_source}/${key_file}.enc", $decrypt_passwd),
     require => File[$certificates_directory],
     mode    => '0600',
     owner   => $certificates_owner,

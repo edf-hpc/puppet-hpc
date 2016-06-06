@@ -20,10 +20,10 @@ class certificates::params {
 
 #### Defaults values
 
-  $certificates_directory        = '/etc/certificates'
-  $certificates_directory_source = 'puppet:///modules/certificates'
-  $certificate_file              = 'cluster.crt'
-  $key_file                      = 'cluster.key'
-  $certificates_owner            = 'root'
-  $decrypt_passwd                = 'password'
+  $certificates_directory = '/etc/certificates'
+  $directory_source       = 'puppet:///modules/certificates'
+  $certificate_file       = 'cluster.crt'
+  $key_file               = 'cluster.key'
+  $certificates_owner     = 'root'
+  $decrypt_passwd         = 'password'
 }

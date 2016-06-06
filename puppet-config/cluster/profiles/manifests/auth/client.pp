@@ -2,14 +2,14 @@ class profiles::auth::client {
 
   ## Hiera lookups
 
-  $sssd_options_general           = hiera_hash('profiles::auth::client::sssd_options_general')
-  $sssd_options_nss               = hiera_hash('profiles::auth::client::sssd_options_nss')
-  $sssd_options_pam               = hiera_hash('profiles::auth::client::sssd_options_pam')
-  $sssd_options_domain            = hiera_hash('profiles::auth::client::sssd_options_domain')
-  $krb5_options                   = hiera_hash('profiles::auth::client::krb5_options')
-  $enable_kerberos                = hiera('profiles::auth::client::enable_kerberos')
-  $keytab_directory_source        = hiera('profiles::auth::client::keytab_directory_source')
-  $cluster                        = hiera('cluster')
+  $sssd_options_general = hiera_hash('profiles::auth::client::sssd_options_general')
+  $sssd_options_nss     = hiera_hash('profiles::auth::client::sssd_options_nss')
+  $sssd_options_pam     = hiera_hash('profiles::auth::client::sssd_options_pam')
+  $sssd_options_domain  = hiera_hash('profiles::auth::client::sssd_options_domain')
+  $krb5_options         = hiera_hash('profiles::auth::client::krb5_options')
+  $enable_kerberos      = hiera('profiles::auth::client::enable_kerberos')
+  $directory_source     = hiera('profiles::auth::client::directory_source')
+  $cluster              = hiera('cluster')
 
   if $enable_kerberos {
     $sssd_options_domain_kerberos_opts = {
@@ -20,7 +20,7 @@ class profiles::auth::client {
     }
     class { '::kerberos':
       config_options          => $krb5_options,
-      keytab_directory_source => $keytab_directory_source,
+      directory_source => $directory_source,
     }
   }
   else {
