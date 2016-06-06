@@ -42,6 +42,6 @@ class opensshserver::params {
     'set PermitRootLogin yes',
     'set X11UseLocalhost no',
   ]
-  $rootkeys_directory_source = 'puppet:///modules/opensshserver'
+  $directory_source = 'puppet:///modules/opensshserver'
   $decrypt_passwd            = 'password'
 }

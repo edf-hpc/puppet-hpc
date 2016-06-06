@@ -35,59 +35,59 @@ class hostkeys::params {
     "${private_key_rsa}" => {
       path   => "${hostkeys_directory}/${private_key_rsa}",
       mode   => '0600',
-      source => [ "${hostkeys_directory_source}/${private_key_rsa}.${hostname}",
-                  "${hostkeys_directory_source}/${private_key_rsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${private_key_rsa}.default", ],
+      source => [ "${directory_source}/${private_key_rsa}.${hostname}",
+                  "${directory_source}/${private_key_rsa}.${puppet_role}",
+                  "${directory_source}/${private_key_rsa}.default", ],
     },
     "${public_key_rsa}" => {
       path   => "${hostkeys_directory}/${public_key_rsa}",
-      source => [ "${hostkeys_directory_source}/${public_key_rsa}.${hostname}",
-                  "${hostkeys_directory_source}/${public_key_rsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${public_key_rsa}.default", ],
+      source => [ "${directory_source}/${public_key_rsa}.${hostname}",
+                  "${directory_source}/${public_key_rsa}.${puppet_role}",
+                  "${directory_source}/${public_key_rsa}.default", ],
     },
     "${private_key_dsa}" => {
       path   => "${hostkeys_directory}/${private_key_dsa}",
       mode   => '0600',
-      source => [ "${hostkeys_directory_source}/${private_key_dsa}.${hostname}",
-                  "${hostkeys_directory_source}/${private_key_dsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${private_key_dsa}.default", ],
+      source => [ "${directory_source}/${private_key_dsa}.${hostname}",
+                  "${directory_source}/${private_key_dsa}.${puppet_role}",
+                  "${directory_source}/${private_key_dsa}.default", ],
     },
     "${public_key_dsa}" => {
       path   => "${hostkeys_directory}/${public_key_dsa}",
-      source => [ "${hostkeys_directory_source}/${public_key_dsa}.${hostname}",
-                  "${hostkeys_directory_source}/${public_key_dsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${public_key_dsa}.default", ],
+      source => [ "${directory_source}/${public_key_dsa}.${hostname}",
+                  "${directory_source}/${public_key_dsa}.${puppet_role}",
+                  "${directory_source}/${public_key_dsa}.default", ],
     },
     "${private_key_ecdsa}" => {
       path   => "${hostkeys_directory}/${private_key_ecdsa}",
       mode   => '0600',
-      source => [ "${hostkeys_directory_source}/${private_key_ecdsa}.${hostname}",
-                  "${hostkeys_directory_source}/${private_key_ecdsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${private_key_ecdsa}.default", ],
+      source => [ "${directory_source}/${private_key_ecdsa}.${hostname}",
+                  "${directory_source}/${private_key_ecdsa}.${puppet_role}",
+                  "${directory_source}/${private_key_ecdsa}.default", ],
     },
     "${public_key_ecdsa}" => {
       path   => "${hostkeys_directory}/${public_key_ecdsa}",
-      source => [ "${hostkeys_directory_source}/${public_key_ecdsa}.${hostname}",
-                  "${hostkeys_directory_source}/${public_key_ecdsa}.${puppet_role}",
-                  "${hostkeys_directory_source}/${public_key_ecdsa}.default", ],
+      source => [ "${directory_source}/${public_key_ecdsa}.${hostname}",
+                  "${directory_source}/${public_key_ecdsa}.${puppet_role}",
+                  "${directory_source}/${public_key_ecdsa}.default", ],
     },
     "${private_key_ed25519}" => {
       path   => "${hostkeys_directory}/${private_key_ed25519}",
       mode   => '0600',
-      source => [ "${hostkeys_directory_source}/${private_key_ed25519}.${hostname}",
-                  "${hostkeys_directory_source}/${private_key_ed25519}.${puppet_role}",
-                  "${hostkeys_directory_source}/${private_key_ed25519}.default", ],
+      source => [ "${directory_source}/${private_key_ed25519}.${hostname}",
+                  "${directory_source}/${private_key_ed25519}.${puppet_role}",
+                  "${directory_source}/${private_key_ed25519}.default", ],
     },
     "${public_key_ed25519}" => {
       path   => "${hostkeys_directory}/${public_key_dsa}",
-      source => [ "${hostkeys_directory_source}/${public_key_ed25519}.${hostname}",
-                  "${hostkeys_directory_source}/${public_key_ed25519}.${puppet_role}",
-                  "${hostkeys_directory_source}/${public_key_ed25519}.default", ],
+      source => [ "${directory_source}/${public_key_ed25519}.${hostname}",
+                  "${directory_source}/${public_key_ed25519}.${puppet_role}",
+                  "${directory_source}/${public_key_ed25519}.default", ],
     },
   }
 
 #### Defaults values
 
-  $hostkeys_directory_source = 'puppet:///modules/hostkeys'
+  $directory_source = 'puppet:///modules/hostkeys'
 
 }

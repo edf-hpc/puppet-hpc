@@ -21,14 +21,14 @@ class opensshserver::keys inherits opensshserver {
 
  file { "${root_key_directory}/${root_key}" :
     ensure  => present,
-    content => decrypt("${rootkeys_directory_source}/${root_key}.enc", $decrypt_passwd),
+    content => decrypt("${directory_source}/${root_key}.enc", $decrypt_passwd),
     mode    => 0600,
     require => File[$root_key_directory],
   }
 
   file { "${root_key}.pub" :
     path    => "${root_key_directory}/${root_key}.pub",
-    source  => "file://${rootkeys_directory_source}/${root_key}.pub",
+    source  => "file://${directory_source}/${root_key}.pub",
     mode    => 0600,
     require => File[$root_key_directory],
   }

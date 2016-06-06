@@ -14,12 +14,12 @@
 ##########################################################################
 
 class certificates (
-  $certificates_directory_source = $certificates::params::certificates_directory_source,
-  $certificates_directory        = $certificates::params::certificates_directory,
-  $certificate_file              = $certificates::params::certificate_file,
-  $key_file                      = $certificates::params::key_file,
-  $certificates_owner            = $certificates::params::certificates_owner,
-  $decrypt_passwd                = $certificates::params::decrypt_passwd,
+  $directory_source       = $certificates::params::directory_source,
+  $certificates_directory = $certificates::params::certificates_directory,
+  $certificate_file       = $certificates::params::certificate_file,
+  $key_file               = $certificates::params::key_file,
+  $certificates_owner     = $certificates::params::certificates_owner,
+  $decrypt_passwd         = $certificates::params::decrypt_passwd,
 ) inherits certificates::params {
 
   validate_string($decrypt_passwd)
