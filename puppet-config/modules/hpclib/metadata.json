@@ -1,0 +1,14 @@
+{
+  "name": "edfhpc-hpclib",
+  "version": "0.1.0",
+  "author": "EDF CCN-HPC",
+  "summary": "HPC configuration base resources, facts and functions.",
+  "license": "GPL 2",
+  "source": "https://github.com/edf-hpc/puppet-hpc",
+  "project_page": "https://github.com/edf-hpc/puppet-hpc",
+  "issues_url": "https://github.com/edf-hpc/puppet-hpc/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
