@@ -1,6 +1,6 @@
 class boottftp::install inherits boottftp {
 
-  ensure_resource('file',["${boottftp::config_dir_ftp}"],{'ensure' => 'directory'})
+  ensure_resource('file',[$boottftp::config_dir_ftp],{'ensure' => 'directory'})
 
   $boot_files          = {
     "${boottftp::ipxe_efi_file}"    => {
