@@ -19,9 +19,9 @@ class carboncrelay::config inherits carboncrelay {
     notify => Class['::carboncrelay::service'],
   }
   concat::fragment { 'carboncrelay_config_header':
-    target    => $::carboncrelay::config_file,
-    order     => '01',
-    content   => template('carboncrelay/config.header.erb'),
+    target  => $::carboncrelay::config_file,
+    order   => '01',
+    content => template('carboncrelay/config.header.erb'),
   }
   Concat::Fragment <| target == $::carboncrelay::config_file |>
 

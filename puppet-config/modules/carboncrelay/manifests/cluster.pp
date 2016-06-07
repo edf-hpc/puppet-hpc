@@ -20,16 +20,16 @@ define carboncrelay::cluster (
   validate_string($type)
   validate_hash($destinations)
   validate_string($order)
-  
+
   $supported_types = [ 'forward', 'any_of', 'failover' ]
   if ! member($supported_types, $type) {
     fail("Cluster type (${type}) for cluster ${name} is not supported (${supported_type}).")
-  }  
+  }
 
   concat::fragment {"'carboncrelay_config_cluster_${name}":
-    target    => $::carboncrelay::config_file,
-    order     => $order,
-    content   => template('carboncrelay/config.cluster.erb'),
+    target  => $::carboncrelay::config_file,
+    order   => $order,
+    content => template('carboncrelay/config.cluster.erb'),
   }
 
 }
