@@ -3,7 +3,7 @@ class boothttp::install inherits boothttp {
   $menu_dir                        = "${boothttp::config_dir_http}/cgi-bin"
   $menu_file                       = "${menu_dir}/bootmenu.rb"
   $disk_dir                        = "${boothttp::config_dir_http}/disk"
-  ensure_resource('file',["${boothttp::config_dir_http}",$menu_dir],{'ensure' => 'directory'})
+  ensure_resource('file',[$boothttp::config_dir_http,$menu_dir],{'ensure' => 'directory'})
 
   $boot_files          = {
     "${menu_file}"        => {
