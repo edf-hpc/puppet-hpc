@@ -13,7 +13,7 @@ class boothttp (
   validate_absolute_path($menu_source)
   validate_absolute_path($disk_source)
   validate_hash($supported_os)
-  
+
   anchor { 'boothttp::begin': } ->
   class { '::boothttp::install': } ->
   class { '::boothttp::config': } ->
