@@ -22,11 +22,11 @@ define carboncrelay::match (
   validate_array($destinations)
   validate_string($order)
   validate_bool($stop)
-  
+
   concat::fragment {"'carboncrelay_config_match_${name}":
-    target    => $::carboncrelay::config_file,
-    order     => $order,
-    content   => template('carboncrelay/config.match.erb'),
+    target  => $::carboncrelay::config_file,
+    order   => $order,
+    content => template('carboncrelay/config.match.erb'),
   }
 
 }
