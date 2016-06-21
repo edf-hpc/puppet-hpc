@@ -1,0 +1,189 @@
+Cluster Definition
+******************
+
+This cluster configuration is meant to be use with a standard cluster
+architecture, deviation from this architecture should be minimum. Some
+constraints are planned to be relaxed in future.
+
+Here, we are going to describe this architecture and how it should be
+defined to be used by the configuration.
+
+Architecture
+============
+
+.. figure:: _static/cluster_architecture.png
+   :alt: 
+
+Network definitions
+===================
+
+Topology
+--------
+
+Network topology is defined in the *cluster* level of the Hiera
+hierarchy. This means it is common to all nodes.
+
+.. code:: yaml
+
+    ## Network topology of the cluster
+    net::allloc::ipnetwork: '172.16.0.0'
+    net::allloc::netmask: '255.255.0.0'
+    net::clusterloc::ipnetwork: '172.16.0.0'
+    net::clusterloc::netmask: '255.255.248.0'
+    net::clusterloc::prefix_length: '/21'
+    net::clusterloc::broadcast: '172.16.7.255'
+    net::clusterib::ipnetwork: '172.16.40.0'
+    net::clusterib::prefix_length: '/21'
+    net::clusteradm::ipnetwork: '172.16.80.0'
+    net::clusteradm::netmask: '255.255.240.0'
+    net::clusteradm::broadcast: '172.16.95.255'
+    net_topology:
+        'wan':
+            'name':           'WAN'
+            'prefixes':       'wan'
+            'ipnetwork':      '172.17.0.0.0'
+            'netmask':        '255.255.255.0'
+            'prefix_length':  '/24'
+            'gateway':        '172.17.0.1'
+            'broadcast':      '172.17.0.255'
+            'ip_range_start': '172.17.0.1'
+            'ip_range_end':   '172.17.0.254'
+            'firewall_zone':  'wan'
+        'allloc':
+            'ipnetwork':      '172.16.0.0'
+            'netmask':        '255.255.0.0'
+        'clusterloc':
+            'name':           'CLUSTER'
+            'prefixes':       ''
+            'ipnetwork':      '172.16.0.0'
+            'netmask':        '255.255.248.0'
+            'prefix_length':  '/21'
+            'gateway':        '172.16.0.1'
+            'broadcast':      '172.16.7.255'
+            'ip_range_start': '172.16.0.1'
+            'ip_range_end':   '172.16.7.254'
+            'firewall_zone':  'clstr'
+            'pool0':
+                'ip_range_start':
+                                '172.16.0.1'
+                'ip_range_end':
+                                '172.16.5.254'
+            'pool1':          # IP reserved for the discovery process
+                'ip_range_start':   
+                                '172.16.6.1'
+                'ip_range_end':     
+                                '172.16.7.254'
+        'clusterib':
+            'name':           'IB'
+            'prefixes':       'ib'
+            'ipnetwork':      '172.16.40.0'
+            'netmask':        '255.255.248.0'
+            'prefix_length':  '/21'
+            'gateway':         ''
+            'broadcast':       '172.16.47.255'
+            'ip_range_start':  '172.16.40.1'
+            'ip_range_end':    '172.16.47.254'
+            'firewall_zone':   'clstr'
+        'clusteradm':
+            'name':            'ADMIN'
+            'prefixes':        'adm'
+            'ipnetwork':       '172.16.80.0'
+            'netmask':         '255.255.240.0'
+            'prefix_length':   '/20'
+            'gateway':         ''
+            'broadcast':       '172.16.95.255'
+            'ip_range_start':  '172.16.80.1'
+            'ip_range_end':    '172.16.95.254'
+            'firewall_zone':   'clstr'
+        'mgmt':
+            'name':            'MANAGEMENT'
+            'prefixes':        'mgmt'
+            'ipnetwork':       '172.16.80.0'
+            'netmask':         '255.255.248.0'
+            'prefix_length':   '/21'
+            'gateway':         ''
+            'broadcast':       '172.16.87.255'
+            'ip_range_start':  '172.16.80.1'
+            'ip_range_end':    '172.16.87.254'
+            'firewall_zone':   'clstr'
+
+Bonding
+-------
+
+Some network interfaces are bonded together for load balancing and high
+availability. The bonding definition is done in hiera. If the bonding is
+uniform (same bond interface on same slaves interfaces) between nodes,
+this can be done at the *cluster* level. In case of differences between
+nodes, it must be done higher in the hierarchy (*role* or *node*).
+
+.. code:: yaml
+
+    bondcfg: 
+        'bond0': 
+          'slaves':           
+             - 'eth0'
+             - 'eth1'
+          'options':  'mode=active-backup primary=eth0'
+        'bond1':
+          'slaves': 
+             - 'eth2' 
+             - 'eth3'
+          'options':  'mode=active-backup primary=eth2'
+
+Node definitions
+================
+
+Nodes are defined in a hiera array called ``master_network``. This
+structure is derived from an internal CSV file format. Each array "line"
+defines one node and its network configuration.
+
+Each line consist of five comma separated lists of values, and three
+lists of associations between those values.
+
+The value lists are:
+
+-  MAC addresses
+-  Interface devices
+-  Hostnames
+-  IPv4 Addresses
+-  IPv4 Net Masks
+
+The associations reference each list with an index starting at 0. The
+associations are:
+
+-  DHCP Configuration, "MAC addresses" <-> "Hostnames" <-> "IPv4
+   Addresses"
+-  Node Configuration, "Interfaces devices" <-> "IPv4 Addresses" <->
+   "IPv4 Netmask"
+-  DNS/Hosts Configuration, "Hostnames" <-> "IPv4 Addresses"
+
+Example:
+
+.. code:: yaml
+
+    master_network:
+      #MAC_Addr;Interfaces;Hostnames;Addresses;NetMask;DHCP(Mac_Addr@Hostname@Address);Config(Interface@Address@Netmask);Hosts(Hostname@Address)
+      - 52:54:00:ba:9d:ac,52:54:00:43:d9:45,52:54:00:8a:aa:30,52:54:00:8a:0b:d2;bond0,bond1;genmisc1,wangenmisc1;172.16.2.21,172.17.42.45;255.255.248.0,255.255.255.0;0@0@0;0@0@0,1@1@1;0@0,1@1
+
+This example define one node (``genmisc1``) with the following
+configuration:
+
+-  DHCP
+-  ``52:54:00:ba:9d:ac`` ``genmisc1`` ``172.16.2.21``
+-  Network configuration on the node
+-  ``bond0`` ``172.16.2.21`` ``255.255.248.0``
+-  ``bond1`` ``172.17.42.45`` ``255.255.255.0``
+-  DNS and Hosts
+-  ``genmisc1`` ``172.16.2.21``
+-  ``wangenmisc1`` ``172.17.42.45``
+
+All lists are optional, so it's possible to define element that just
+define a Hosts/DNS configuration (for virtual IP addresses for
+instance):
+
+.. code:: yaml
+
+    master_network:
+      #MAC_Addr;Interfaces;Hostnames;Addresses;NetMask;DHCP(Mac_Addr@Hostname@Address);Config(Interface@Address@Netmask);Hosts(Hostname@Address)
+      - ;;genmisc;172.16.2.20;;;;0@0
+

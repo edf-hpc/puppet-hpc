@@ -1,0 +1,52 @@
+Profiles - Jobsched
+*******************
+
+Hiera Configuration
+===================
+
+A generic configuration is defined in
+\`\`puppet-hpc/hieradata/common.yaml", in your own hiera files you could
+just redefine, the following values:
+
+.. code:: yaml
+
+    slurm_primary_server:         "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
+    slurm_secondary_server:       "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
+
+    slurmcommons::partitions_conf:
+      - "Nodename=%{hiera('cluster_prefix')}cn01 CPUs=4 RealMemory=512 State=UNKNOWN"
+      - "PartitionName=cn Nodes=%{hiera('cluster_prefix')}cn01 Default=YES MaxTime=INFINITE State=UP"
+
+    # FIXME: When we have reverse DNS, it should be
+    # StorageHost:       "%{hiera('galera_base_name')}"
+    slurmdbd_slurm_db_password: 'SLURM_PASSWORD_OVERRIDEME_IN_EYAML'
+    slurmdbd_slurmro_db_password: 'SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML'
+
+    slurmdbd::main_conf_options:
+      DbdHost:           "%{hiera('slurm_primary_server')}"
+      DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
+      DbdPort:           '6819'
+      SlurmUser:         "%{hiera('slurm_user')}"        
+      DebugLevel:        '3'
+      AuthType:          'auth/munge' 
+      AuthInfo:          '/var/run/munge/munge.socket.2' 
+      LogFile:           "/var/log/slurm-llnl/slurmdbd.log"
+      PidFile:           '/var/run/slurm-llnl/slurmdbd.pid'
+      StorageType:       'accounting_storage/mysql'      
+      StorageHost:       'localhost'  
+      StorageUser:       'slurm'
+      StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
+
+    slurmdbd::dbd_conf_options:
+      db:
+        hosts:       'localhost'
+        user:        'debian-sys-maint' 
+        password:    "%{hiera('mariadb::mysql_root_pwd')}"
+      passwords:
+        slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
+        slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}" 
+      hosts:
+        controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
+        admins:      "%{hiera('cluster_prefix')}admin1"
+
+

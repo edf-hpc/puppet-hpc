@@ -1,0 +1,16 @@
+Internals - Roles and Profiles
+******************************
+
+Overview
+========
+
+The Puppet configuration for HPC clusters has been designed following
+the "Roles and Profiles" pattern. The Puppet code is organized in
+different levels of abstraction : \* Roles, which represent the business
+logic. A node includes one role, and one only. Each role lists one or
+more profiles. \* Profiles, which represent the implementation of
+technical functionalities. A profile includes and manages modules to
+define a logical technical stack. \* Modules, which are the elementary
+technical blocks. Modules should only be responsible for managing
+aspects of the component they are written for and should be as generic
+as possible.

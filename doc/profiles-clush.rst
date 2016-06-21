@@ -1,0 +1,27 @@
+Profiles - Clush
+****************
+
+Groups
+======
+
+By default this profile will declare a new group source: ``hpc_roles``.
+This source will give a group for each role in the configuration. This
+source is the default.
+
+To define other groups, it's possible to define custom groups in hiera:
+
+.. code:: yaml
+
+    #### Clustershell
+    profiles::clustershell::groups:
+      'cn':      '@hpc_roles:cn'
+      'bm':      '@hpc_roles:bm'
+      'cg':      '@hpc_roles:cg'
+      'crit':    '@hpc_roles:critical'
+      'misc':    '@hpc_roles:misc'
+      'front':   '@hpc_roles:front'
+      'admin':   '@hpc_roles:admin'
+      'service': '@misc,@crit'
+      'compute': '@cn,@cg,@bm'
+      'all':     '@admin,@service,@compute'
+
