@@ -17,12 +17,13 @@ class hpc_conman::server::params {
   $vip_name = "clusterloc_${puppet_role}"
   $roles = [
     'admin',
-    'misc',
-    'critical',
     'batch',
-    'cn',
+    'bm',
     'cg',
-    'bm'
+    'critical',
+    'cn',
+    'front',
+    'misc',
   ]
   $device_type = 'ipmi'
   $port_default = {
