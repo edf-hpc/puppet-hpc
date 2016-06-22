@@ -1,0 +1,12 @@
+<%#encoding:UTF-8%><%
+if title? %>
+<%= title %><%
+end %>
+\begin{enumerate}<%
+items.each do |item| %>
+  \item <%= manify item.text %><%
+  if item.blocks? %>
+<%= item.content %><%
+  end
+end %>
+\end{enumerate}

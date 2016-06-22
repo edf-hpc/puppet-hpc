@@ -1,0 +1,134 @@
+<%#encoding:UTF-8%><%
+if title? %>
+<%= captioned_title %><%
+end %>
+\noindent % avoid paragraph indentation for table
+{\footnotesize
+  \begin{longtable}<%
+
+colcount = (attr :colcount)
+
+# textwidth is 210-(20+35) = 155mm and default tabcolsep is 2.12mm
+available_textwidth = 155 - (2 * colcount * 2.12)
+
+tabspec = String.new()
+@columns.each do |col|
+  if (col.attr :colpcwidth)
+    computed_width = (col.attr :colpcwidth).fdiv(100) * available_textwidth
+    colwidth = computed_width.round(2).to_s + "mm"
+    tabspec << "|m{"+ colwidth +"}" 
+  else
+    tabspec << "|l"
+  end
+end
+tabspec << "|"
+
+%>{ <%= tabspec %> }
+\hline
+<% unless (attr :rowcount).zero?
+
+  rowspan = Array.new()
+  (1..colcount).each { |i| rowspan[i] = 0 }
+
+  [:head, :foot, :body].select {|tsec| !@rows[tsec].empty? }.each do |tsec|
+    @rows[tsec].each do |row|
+      row_col_id = 0
+      clines = Array.new()
+
+      for col in 1..colcount
+        if rowspan[col] > 0
+          if col < (attr :colcount)
+            %> & <%
+          end
+          rowspan[col] -= 1
+          if rowspan[col] == 0
+            clines << col
+          end
+        else
+          cell = row[row_col_id]
+          row_col_id += 1
+          # store reference of content in advance to resolve attribute assignments in cells
+          if tsec == :head
+            cell_content = manify cell.text
+          else
+            case cell.style
+            when :verse, :literal
+              cell_content = manify cell.text
+            else
+              # type of cell.content is sometimes Array, sometimes String...
+              # check and handle each type
+              content = cell.content
+              if content.instance_of? Array
+                if not content[0].nil?
+                  cell_content = manify(content[0])
+                else
+                  cell_content = ""
+                end
+              elsif content.instance_of? String
+                if cell.style == :asciidoc
+                  cell_content = content
+                else
+                  cell_content = manify(content)
+                end
+              elsif content.nil?
+                cell_content = ""
+              else
+                cell_content = "(unknown)"
+              end
+            end
+          end
+
+          if cell_content == "\n"
+              cell_content = ""
+          end
+
+          if cell.rowspan
+            rowspan[col] = cell.rowspan-1
+            %>\multirow{<%= cell.rowspan %>}{*}{<%= cell_content %>}<%
+          elsif cell.colspan
+            clines << col
+            %>\multicolumn{<%= cell.colspan %>}{*}{<%= cell_content %>}<%
+          else
+            clines << col
+            %><%= cell_content %><%
+          end
+          if col < (attr :colcount)
+            %> & <%
+          end
+        end # if rowspan[] / else
+      end # for col
+
+      %> \\
+<%
+
+      # compute clines
+      col_start = nil
+      col_end = nil
+      clines.each do |col|
+        if col_start.nil?
+          col_start = col
+          col_end = col
+        else
+          if col == col_end+1
+            col_end = col
+          else # jump
+            %>\cline{<%= col_start %>-<%= col_end %>} <%
+            col_start = col
+            col_end = col
+          end
+        end
+      end
+      if col_start and col_end
+        %>\cline{<%= col_start %>-<%= col_end %>}
+<%
+      else
+        %>\hline
+<%
+      end
+    end # @rows.each
+  end # select
+end # unless
+%>
+  \end{longtable}
+}
+

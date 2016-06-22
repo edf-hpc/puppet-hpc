@@ -1,0 +1,28 @@
+# Dependencies
+
+[[debian]]
+Debian
+------
+
+------------------------------------------
+# apt-get install clustershell python-yaml
+------------------------------------------
+
+[[puppet]]
+Puppet
+------
+
+This is a list of current puppet Module dependencies not provided.
+
+* puppetlabs-stdlib (debian: puppet-module-puppetlabs-stdlib)
+* puppetlabs-concat (debian: puppet-module-puppetlabs-concat)
+* puppetlabs-apache (debian: puppet-module-puppetlabs-apache)
+
+stdlib is special, because for "historical" reasons, it is in the
+current git archive.
+
+Installing and using `hiera-eyaml` is not recomended:
+
+-----------------------------
+# apt-get install hiera-eyaml
+-----------------------------
