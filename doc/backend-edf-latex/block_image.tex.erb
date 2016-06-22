@@ -1,0 +1,20 @@
+<%#encoding:UTF-8%>
+\begin{figure}[H]<%
+
+width = "\\textwidth" # default width
+if (attr? :width)
+  # width given in asciidoc is in pixel
+  # loosely convert it to mm here. Let's say that
+  # 5px = 1mm
+  width = (attr :width).to_i/5
+  width = width.to_s + "mm"
+end
+
+%>
+   \centering
+   \includegraphics[width=<%= width %>]{<%= (attr :target)%>}<%
+if title != ""
+%>
+   \caption{<% if @id %>\label{<%= @id%>} <% end %><%= title %>}<%
+end %>
+\end{figure}

@@ -1,0 +1,9 @@
+<%#encoding:UTF-8%><%
+case @type
+when :xref
+  refid = (attr :refid) || @target
+  %><%= %(\\href{#{@target}}{#{@text || @document.references[:ids].fetch(refid, %[[#{refid}]]).tr_s("\n", ' ')}}) %><%
+when :ref %><%= %(<a id="#{@target}"></a>) %><%
+when :bibref %><%= %(<a id="#{@target}"></a>[#{@target}]) %><%
+else %><%= %(\\href{#{@target}}{#{role? ? %[ class="#{role}"] : nil}#{(attr? :window) ? %[ target="#{attr :window}"] : nil}#{@text}}) %><%
+end %>

@@ -1,0 +1,12 @@
+<%#encoding:UTF-8%><%
+if title? %>
+<%= captioned_title %><%
+end
+
+if @style == 'source' and (attr :language) %>
+\lstset{language=<%= (attr :language) %>}<%
+end %>
+\begin{lstlisting}
+<%= unsub_special_chars content %>
+
+\end{lstlisting}
