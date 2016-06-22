@@ -1,0 +1,16 @@
+<%#encoding:UTF-8%>
+\begin{description}<%
+items.each do |terms, dd|
+  terms.each do |dt| %>
+  \item[<%= dt.text %>] \hfill \\<%
+  end
+  unless dd.nil?
+    if dd.text? %>
+  <%= dd.text %><%
+    end
+    if dd.blocks? %>
+  <%= dd.content %><%
+    end
+  end
+end %>
+\end{description}

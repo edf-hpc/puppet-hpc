@@ -1,0 +1,109 @@
+# Operations - Clara
+
+[[init]]
+Init
+----
+
+[[cluster-decrypt-password]]
+Cluster Decrypt Password
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A decrypt password is used by clara to decrypt files. Once you have
+generated this password, it should be in your hiera under this
+structure:
+
+-----------------------------------------------------
+clara::password_options:      
+  ASUPASSWD:   "%{hiera('cluster_decrypt_password')}"
+-----------------------------------------------------
+
+This password is used elsewhere in the hiera, generally under the name
+`decrypt_password` (for example: `opensshserver::decrypt_passwd`). So we
+define a top level variable (`cluster_decrypt_password`) to reuse it
+more easily.
+
+[[cluster-keyring]]
+Cluster keyring
+~~~~~~~~~~~~~~~
+
+The cluster must use a private cluster keyring. This keyring is used to
+sign packages generated locally and the local repositories.
+
+You should generate it in your privatedata. You will be asked for a
+passphrase, this passphrase must be provided interactively when you call
+`clara repo add|del`. The following command can be pretty long to
+execute if you don't use a hardware Random Number Generator (RNG).
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ # LANG=C gpg --no-default-keyring --keyring files/repo/cluster_keyring.gpg --secret-keyring files/repo/cluster_keyring.secret.gpg --gen-key                       gpg (GnuPG) 1.4.18; Copyright (C) 2014 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+gpg: keyring `files/repo/cluster_keyring.secret.gpg' created
+gpg: keyring `files/repo/cluster_keyring.gpg' created
+Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+Your selection? 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0)
+Key does not expire at all
+Is this correct? (y/N) y
+
+You need a user ID to identify your key; the software constructs the user ID
+from the Real Name, Comment and Email Address in this form:
+    "Heinrich Heine (Der Dichter) <heinrichh@duesseldorf.de>"
+
+Real name: HPC Team Example cluster
+Email address: hpc@example.com
+Comment:
+You selected this USER-ID:
+    "HPC Team Example cluster <hpc@example.com>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+You need a Passphrase to protect your secret key.
+
+passphrase not correctly repeated; try again.
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+..+++++
+...........+++++
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
++++++
+.+++++
+gpg: key 241FB865 marked as ultimately trusted
+public and secret key created and signed.
+
+gpg: checking the trustdb
+gpg: public key of ultimately trusted key 1F2607DD not found
+gpg: public key of ultimately trusted key 94DEFA86 not found
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   3  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 3u
+pub   4096R/241FB865 2016-05-19
+      Key fingerprint = D192 11C0 2EB6 BE80 A3BC  7928 1CB4 3266 241F B865
+uid                  HPC Team Example cluster <hpc@example.com>
+sub   4096R/C7027D3A 2016-05-19
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Clara will use this key in its encrypted form, if you have a working
+`clara enc`, you can use `clara enc encode` directly. Otherwise you can
+use the following command:
+
+----------------------------------------------------------------------------------------------------------------------
+$ openssl aes-256-cbc -in cluster_keyring.secret.gpg -out cluster_keyring.secret.gpg.enc -k <cluster decrypt password>
+----------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,27 @@
+<%#encoding:UTF-8%><%
+slevel = @level.zero? && @special ? 1 : @level
+anchor = link_start = link_end = nil
+if @id
+  if @document.attr? :sectanchors
+    anchor = %(<a class="anchor" href="##{@id}"></a>)
+  elsif @document.attr? :sectlinks
+    link_start = %(<a class="link" href="##{@id}">)
+    link_end = '</a>'
+  end
+end
+
+if slevel.zero? %>
+\chapter{<%= %(#{anchor}#{manify title}) %>}<%
+elsif slevel == 1 %>
+\section{<%= %(#{anchor}#{manify title}) %>}<%
+elsif slevel == 2 %>
+\subsection{<%= %(#{anchor}#{manify title}) %>}<%
+elsif slevel == 3 %>
+\subsubsection{<%= %(#{anchor}#{manify title}) %>}<%
+elsif slevel == 4 %>
+\paragraph{<%= %(#{anchor}#{manify title}) %>}<%
+elsif slevel == 5 %>
+\subparagraph{<%= %(#{anchor}#{manify title}) %>}<%
+end %>
+
+<%= content %>
