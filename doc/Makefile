@@ -1,4 +1,4 @@
-MAIN=PuppetHPCConfiguration.txt
+MAIN=PuppetHPCConfiguration.asc
 
 DOT=$(shell find . -name '*.dot')
 GRAPH_PUPPET=$(patsubst %.dot,%.png,$(DOT))
@@ -17,16 +17,16 @@ html: PuppetHPCConfiguration.html
 
 .PHONY: PuppetHPCConfiguration.html
 PuppetHPCConfiguration.html: $(PICS) $(GRAPH_PUPPET)
-	asciidoctor -a data-uri -d book -b html5 -o $@ $(@:.html=.txt)
+	asciidoctor -a data-uri -d book -b html5 -o $@ $(@:.html=.asc)
 
 pdf: PuppetHPCConfiguration.pdf
 
 .PHONY: PuppetHPCConfiguration.pdf
 PuppetHPCConfiguration.pdf: $(PICS) $(GRAPH_PUPPET)
-	asciidoctor -d book -T backend-edf-latex -o $(@:.pdf=.tex) $(@:.pdf=.txt)
+	asciidoctor -d book -T backend-edf-latex -o $(@:.pdf=.tex) $(@:.pdf=.asc)
 	rubber --pdf $(@:.pdf=.tex)
 
 clean:
-	-rubber --clean $(MAIN:.txt=.tex)
+	-rubber --clean $(MAIN:.asc=.tex)
 	-rm -f *.html *.tex *.pdf $(wildcard $(GRAPH_PUPPET) $(PICS))
 
