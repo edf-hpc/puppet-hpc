@@ -65,7 +65,11 @@ ctrl_manif () {
 				else
 					sed -i 's/[ \t]*$//' ${MODDIR}/${dir}/manifests/${manif} 
 					sed -i --posix -e 's/\t/  /g' ${MODDIR}/${dir}/manifests/${manif} 			
-					/usr/bin/puppet-lint --no-variable_scope-check --no-inherits_across_namespaces-check --no-80chars-check --log-format '%{filename}" "%{KIND}": "%{message}" on line "%{line}' ${MODDIR}/${dir}/manifests/${manif}	
+					/usr/bin/puppet-lint \
+            --no-80chars-check \
+            --no-class_inherits_from_params_class-check \
+            --log-format '%{filename}" "%{KIND}": "%{message}" on line "%{line}' \
+            ${MODDIR}/${dir}/manifests/${manif}	
 				fi
 			done
 		fi
