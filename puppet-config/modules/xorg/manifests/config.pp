@@ -38,12 +38,15 @@ class xorg::config inherits xorg {
         $file_content = $::xorg::config_content
       }
     }
+    default: {
+      fail("Unsupported xorg driver '${::xorg::driver}', should be: 'auto', 'custom' or 'nvidia'.")
+    }
   }
 
   # usually /etc/X11/xorg.conf
   file { $::xorg::config_file:
-    ensure  => $file_ensure,
-    content => $file_content,
+    ensure  => $::xorg::file_ensure,
+    content => $::xorg::file_content,
     source  => $::xorg::config_source,
   }
 

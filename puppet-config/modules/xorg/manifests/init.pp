@@ -37,13 +37,13 @@ class xorg (
   validate_absolute_path($config_file)
   validate_string($bus_id)
   validate_string($driver)
-  
-  $_service_options = deep_merge($::xorg::params::service_options_default, $service_options)
 
-  if $driver == 'custom' and 
+  $_service_options = deep_merge($::xorg::params::service_options_defaults, $service_options)
+
+  if $driver == 'custom' and
       $config_content == undef and
       $config_source == undef {
-    fail("For driver custom, you should provide a config_content or a config_source") 
+    fail('For driver custom, you should provide a config_content or a config_source')
   }
 
   anchor { 'xorg::begin': } ->
