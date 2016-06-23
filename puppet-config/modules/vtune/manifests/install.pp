@@ -15,8 +15,8 @@
 
 class vtune::install inherits vtune {
 
-  package { $packages :
-    ensure => $packages_ensure,
+  package { $::vtune::packages :
+    ensure => $::vtune::packages_ensure,
   }
 
 }

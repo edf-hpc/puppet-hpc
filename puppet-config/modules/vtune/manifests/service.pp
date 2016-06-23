@@ -14,9 +14,9 @@
 ##########################################################################
 
 class vtune::service inherits vtune {
-  service { $service:
-    ensure    => $service_ensure,
-    enable    => $service_enable,
+  service { $::vtune::service:
+    ensure    => $::vtune::service_ensure,
+    enable    => $::vtune::service_enable,
     subscribe => Class[ '::vtune::config' ],
   }
 

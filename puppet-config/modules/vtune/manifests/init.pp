@@ -14,10 +14,10 @@
 ##########################################################################
 
 class vtune (
-  $packages         = $vtune::params::packages,
-  $packages_ensure  = $vtune::params::packages_ensure,
-  $default_file     = $vtune::params::default_file,
-  $default_options  = $vtune::params::default_options,
+  $packages         = $::vtune::params::packages,
+  $packages_ensure  = $::vtune::params::packages_ensure,
+  $default_file     = $::vtune::params::default_file,
+  $default_options  = $::vtune::params::default_options,
 ) inherits vtune::params {
 
   validate_array($packages)
