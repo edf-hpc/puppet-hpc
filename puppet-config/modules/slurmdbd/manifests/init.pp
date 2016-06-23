@@ -1,3 +1,18 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class slurmdbd (
   $config_manage          = $slurmdbd::params::config_manage,
   $dbbackup_enable        = $slurmdbd::params::dbbackup_enable,
@@ -25,7 +40,7 @@ class slurmdbd (
   ### Validate params ###
   validate_bool($config_manage)
   validate_bool($package_manage)
-  validate_bool($service_manage) 
+  validate_bool($service_manage)
 
   if $config_manage {
     validate_absolute_path($bin_dir_path)
@@ -44,7 +59,7 @@ class slurmdbd (
       validate_hash($backup_include_options)
     }
   }
-  
+
 
   if $package_manage {
     validate_array($package_name)

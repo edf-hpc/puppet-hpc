@@ -1,3 +1,18 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class slurmdbd::params {
 
   $jobsc_dbd_cfg_tpl = 'jobsched/slurmdbd_conf.erb'
@@ -8,7 +23,7 @@ class slurmdbd::params {
   $service_ensure   = 'running'
   $service_manage   = true
   $service_name     = 'slurmdbd'
-  
+
   ### Configuration ###
   $config_manage         = true
   $bin_dir_path          = '/usr/lib/slurm'
@@ -25,10 +40,10 @@ class slurmdbd::params {
     'DbdBackupHost'        => '',
     'DbdPort'              => '6819',
     'SlurmUser'            => 'slurm',
-    'DebugLevel'           => '3', 
+    'DebugLevel'           => '3',
     'AuthType'             => 'auth/munge',
     'AuthInfo'             => '/var/run/munge/munge.socket.2',
-    'LogFile'              => "${logs_dir_path}/slurmdbd.log", 
+    'LogFile'              => "${logs_dir_path}/slurmdbd.log",
     'PidFile'              => '/var/run/slurm-llnl/slurmdbd.pid',
     'StorageType'          => 'accounting_storage/mysql',
     'StorageHost'          => 'localhost',
@@ -66,7 +81,7 @@ class slurmdbd::params {
       $dbbackup_enable = false
     }
   }
- 
+
 
   $backup_include_options = {
     'BKDIR'                => '/admin/restricted/backups/slurmdbd',
