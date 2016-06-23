@@ -16,7 +16,7 @@
 class ssmtp::params {
   #### Module variables
   $packages        = [
-    'ssmtp', 
+    'ssmtp',
     'mailutils',
   ]
   $packages_ensure = 'present'

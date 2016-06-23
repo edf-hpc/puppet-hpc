@@ -14,8 +14,8 @@
 ##########################################################################
 
 class ssmtp::config inherits ssmtp {
-  hpclib::print_config { $config_file:
-    style   => 'keyval',
-    data    => $_config_options,
+  hpclib::print_config { $::ssmtp::config_file:
+    style => 'keyval',
+    data  => $::ssmtp::_config_options,
   }
 }
