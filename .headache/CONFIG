@@ -1,0 +1,3 @@
+  ".*\\.pp"  -> frame open:"#" line:"#" close:"#"
+| ".*\\.erb" -> frame open:"<% #" line:"#" close: "# -%>"
+
