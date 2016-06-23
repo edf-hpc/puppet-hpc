@@ -15,23 +15,26 @@
 
 class sssd::config inherits sssd {
 
-  file { $config_dir :
+  file { $::sssd::config_dir :
     ensure => directory,
   }
 
-  hpclib::print_config { $config_file :
+  hpclib::print_config { $::sssd::config_file :
     style   => 'ini',
-    data    => $sssd_options,
-    mode    => 0600,
-    require => [Package[$packages],File[$config_dir]],
-    notify  => Service[$service],
+    data    => $::sssd::sssd_options,
+    mode    => '0600',
+    require => [
+      Package[$::sssd::packages],
+      File[$::sssd::config_dir]
+    ],
+    notify  => Service[$::sssd::service],
   }
 
-  hpclib::print_config { $default_file :
+  hpclib::print_config { $::sssd::default_file :
     style   => 'keyval',
-    data    => $default_options,
-    require => Package[$packages],
-    notify  => Service[$service],
+    data    => $::sssd::default_options,
+    require => Package[$::sssd::packages],
+    notify  => Service[$::sssd::service],
   }
 
 }

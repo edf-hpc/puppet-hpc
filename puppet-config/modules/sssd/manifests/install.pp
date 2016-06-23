@@ -15,8 +15,8 @@
 
 class sssd::install inherits sssd {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::sssd::packages:
+    ensure => $::sssd::packages_ensure,
   }
 
 }

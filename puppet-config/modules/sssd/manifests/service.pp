@@ -15,8 +15,11 @@
 
 class sssd::service inherits sssd {
 
-  service { $service :
+  service { $::sssd::service :
     ensure  => running,
-    require => [Package[$packages],File[$config_file]],
+    require => [
+      Package[$::sssd::packages],
+      File[$::sssd::config_file]
+    ],
   }
 }
