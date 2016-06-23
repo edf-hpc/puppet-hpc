@@ -15,16 +15,16 @@
 
 class vtune::config inherits vtune {
 
-  hpclib::print_config { $default_file :
+  hpclib::print_config { $::vtune::default_file :
     style   => 'keyval',
-    data    => $default_options,
-    require => Package[$packages],
+    data    => $::vtune::default_options,
+    require => Package[$::vtune::packages],
   }
 
   exec { 'vtune_load' :
     command => '/usr/sbin/vtune-modules load',
     unless  => "lsmod | cut -d ' ' -f 1 | grep -q -E 'pax|sep|vtsspp'",
     path    => ['/usr/bin','/sbin','/bin','/usr/sbin','/usr/local/sbin'],
-    require => Hpclib::Print_config[$default_file],
+    require => Hpclib::Print_config[$::vtune::default_file],
   }
 }
