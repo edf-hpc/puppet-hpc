@@ -14,7 +14,7 @@
 ##########################################################################
 
 class ssmtp::install inherits ssmtp {
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::ssmtp::packages:
+    ensure => $::ssmtp::packages_ensure,
   }
 }
