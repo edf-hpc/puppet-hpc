@@ -17,8 +17,14 @@ Changing log level
 ~~~~~~~~~~~~~~~~~~
 
 To change the log level on a running server you must define a logging
-modification ldif file: ~~~ dn: cn=config changetype: modify replace:
-olcLogLevel olcLogLevel: stats ~~~
+modification ldif file: 
+
+----
+dn: cn=config 
+changetype: modify 
+replace: olcLogLevel
+olcLogLevel: stats 
+----
 
 The new level is applied with this command:
 

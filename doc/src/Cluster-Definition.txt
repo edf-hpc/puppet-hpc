@@ -11,7 +11,7 @@ defined to be used by the configuration.
 Architecture
 ------------
 
-image:https://github.com/edf-hpc/puppet-hpc/wiki/imgs/cluster_architecture.png[image]
+image::src/img/cluster_architecture.png[image]
 
 [[network-definitions]]
 Network definitions
@@ -154,11 +154,11 @@ The value lists are:
 The associations reference each list with an index starting at 0. The
 associations are:
 
-* DHCP Configuration, "MAC addresses" <-> "Hostnames" <-> "IPv4
+* DHCP Configuration, "MAC addresses" <--> "Hostnames" <--> "IPv4
 Addresses"
-* Node Configuration, "Interfaces devices" <-> "IPv4 Addresses" <->
+* Node Configuration, "Interfaces devices" <--> "IPv4 Addresses" <-->
 "IPv4 Netmask"
-* DNS/Hosts Configuration, "Hostnames" <-> "IPv4 Addresses"
+* DNS/Hosts Configuration, "Hostnames" <--> "IPv4 Addresses"
 
 Example:
 
