@@ -32,7 +32,7 @@ class sssd::params {
     }
   }
   $default_file    = '/etc/default/sssd'
-  $service         = 'sssd' 
+  $service         = 'sssd'
 #### Defaults values
   $enable_kerberos = false
   $default_options = {
