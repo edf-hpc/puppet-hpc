@@ -12,6 +12,8 @@ def manify(str, append_newline = false)
   str.gsub!('&#8217;', '’')
   str.gsub!('&#8230;', '…')
   str.gsub!('&#174;', '\textregistered')
+  str.gsub!(/&#8592;/, '\textleftarrow')
+  str.gsub!(/&#8594;/, '\textrightarrow')
   str.gsub!(/_/, '\_')
   str.gsub!('$', '\$') # escape dollar sign using negative look-behind to check if not already escaped 
   #str.gsub!(/(?<!\\)\$/, '\$') # escape dollar sign using negative look-behind to check if not already escaped 

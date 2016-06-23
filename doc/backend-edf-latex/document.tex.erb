@@ -11,7 +11,7 @@
 \usepackage{multirow} % col/row span in tables
 \usepackage{listings} % source code with syntax high lighting
 \usepackage{color} % to define own set of colours
-
+\usepackage{textcomp} % More symbols
 
 \usepackage{url} % url proper formatting
 \usepackage{lastpage} % count total number of pages
@@ -47,7 +47,7 @@
 \setlength{\cftbeforesecskip}{0.5ex}                  % reduce spaces between section lines
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % add dots even for section lines
 \lstset{  
-  basicstyle=\small,
+  basicstyle=\small\ttfamily,
   columns=fullflexible,
   keepspaces=true,
   backgroundcolor=\color{white},   % choose the background color
@@ -57,6 +57,7 @@
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   keywordstyle=\color{blue},       % keyword style
   stringstyle=\color{mymauve},       % string literal style
+  mathescape=false,                 % Don't treat $ as special characters
 }
 \usepackage{fancyhdr}
 \pagestyle{fancy}
