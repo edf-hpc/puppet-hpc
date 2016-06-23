@@ -1,29 +1,44 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class slurmd::params {
 
   ### Service ###
-  $service_enable   = true
-  $service_ensure   = 'running'
-  $service_manage   = true
+  $service_enable = true
+  $service_ensure = 'running'
+  $service_manage = true
 
   case $::operatingsystem {
     'RedHat', 'CentOS': {
       if $::operatingsystemmajrelease < 7 {
-        $service_name  = 'slurm'
+        $service_name = 'slurm'
       }
       else {
-        $service_name  = 'slurmd'
+        $service_name = 'slurmd'
       }
     }
     default: {
-      $service_name  = 'slurmd'
+      $service_name = 'slurmd'
     }
   }
 
   ### Configuration ###
-  $config_manage         = true
-  $bin_dir_path          = '/usr/lib/slurm'
-  $conf_dir_path         = '/etc/slurm-llnl'
-  $script_dir_path       = "${bin_dir_path}/generic-scripts"
+  $config_manage   = true
+  $bin_dir_path    = '/usr/lib/slurm'
+  $conf_dir_path   = '/etc/slurm-llnl'
+  $script_dir_path = "${bin_dir_path}/generic-scripts"
 
 
   ### Cgroups ###
@@ -37,44 +52,44 @@ class slurmd::params {
   $cgroup_rs_mem_file     = "${cgroup_rel_path}/release_memory"
   $cgroup_options_default = {
     'CgroupAutomount' => {
-       value   => 'yes',
-       comment => 'Auto Mount',
-     },
-     'CgroupReleaseAgentDir' => {
-       value   => $cgroup_rel_path,
-       comment => 'Path of scripts to release cgroups',
-     },
-     'ConstrainCores' => {
-       value   => 'no',
-       comment => 'Core affinity',
-     },
-     'ConstrainRAMspace' => {
-       value   => 'no',
-       comment => 'Memory Usage',
-     },
+      value   => 'yes',
+      comment => 'Auto Mount',
+    },
+    'CgroupReleaseAgentDir' => {
+      value   => $cgroup_rel_path,
+      comment => 'Path of scripts to release cgroups',
+    },
+    'ConstrainCores' => {
+      value   => 'no',
+      comment => 'Core affinity',
+    },
+    'ConstrainRAMspace' => {
+      value   => 'no',
+      comment => 'Memory Usage',
+    },
   }
 
 
   ### Custom scripts ###
-  $tmp_create_file       = "${script_dir_path}/TaskProlog.d/tmp_create.sh"
-  $tmp_create_src        = 'puppet:///modules/slurmd/tmp_create.sh'
-  $tmp_remove_file       = "${script_dir_path}/TaskEpilog.d/tmp_remove.sh"
-  $tmp_remove_src        = 'puppet:///modules/slurmd/tmp_remove.sh'
+  $tmp_create_file = "${script_dir_path}/TaskProlog.d/tmp_create.sh"
+  $tmp_create_src  = 'puppet:///modules/slurmd/tmp_create.sh'
+  $tmp_remove_file = "${script_dir_path}/TaskEpilog.d/tmp_remove.sh"
+  $tmp_remove_src  = 'puppet:///modules/slurmd/tmp_remove.sh'
 
 
   ### Package ###
-  $package_ensure    = 'present'
+  $package_ensure = 'present'
   case $::osfamily {
     'RedHat': {
-      $package_manage  =  true
-      $package_name    = ['slurm', 'slurm-plugins']
+      $package_manage =  true
+      $package_name   = ['slurm', 'slurm-plugins']
     }
     'Debian': {
-      $package_manage  =  true
-      $package_name    = ['slurmd', 'slurm-wlm-basic-plugins']
+      $package_manage =  true
+      $package_name   = ['slurmd', 'slurm-wlm-basic-plugins']
     }
     default: {
-      $package_manage  =  false
+      $package_manage =  false
     }
   }
 }

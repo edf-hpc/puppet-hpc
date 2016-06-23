@@ -1,3 +1,18 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class slurmd (
   $config_manage         = $slurmd::params::config_manage,
   $enable_cgroup         = $slurmd::params::enable_cgroup,
@@ -22,21 +37,6 @@ class slurmd (
   ### Validate params ###
   validate_bool($config_manage)
   validate_bool($enable_cgroup)
-  if $enable_conf {
-    validate_bool($enable_topology)
-    validate_absolute_path($bin_dir_path)
-    validate_absolute_path($conf_dir_path)
-    validate_absolute_path($logs_dir_path)
-    validate_absolute_path($script_dir_path)
-    validate_absolute_path($main_conf_file)
-    validate_absolute_path($part_conf_file)
-    validate_string($part_conf_tmpl)
-    validate_absolute_path($topo_conf_file)
-    validate_absolute_path($jobsc_ctl_lua)
-    validate_hash($slurm_conf_options)
-    validate_array($partitions_conf)
-    if $enable_topology { validate_array($topology_conf) }
-  }
 
   if $enable_cgroup {
     validate_absolute_path($cgroup_rel_path)
