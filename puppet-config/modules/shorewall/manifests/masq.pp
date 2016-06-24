@@ -15,8 +15,8 @@
 
 define shorewall::masq (
   $interface,
-  $dest      = '',
   $source,
+  $dest      = '',
   $comment   = '',
 ) {
 

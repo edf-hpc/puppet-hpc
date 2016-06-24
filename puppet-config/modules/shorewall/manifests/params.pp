@@ -30,6 +30,6 @@ class shorewall::params {
   $rules_file      = "${config_dir}/rules"
 
   $default_file = '/etc/default/shorewall'
-  
+
 }
 
