@@ -14,18 +14,18 @@
 ##########################################################################
 
 class proftpd::install inherits proftpd {
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::proftpd::packages:
+    ensure => $::proftpd::packages_ensure,
   }
 
-  user { $user_name:
+  user { $::proftpd::user_name:
     ensure     => present,
-    home       => $user_home,
+    home       => $::proftpd::user_home,
     managehome => false,
     password   => '*',
     shell      => '/bin/false',
     system     => false,
-    comment    => $user_comment,
+    comment    => $::proftpd::user_comment,
   }
 }
 
