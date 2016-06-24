@@ -14,9 +14,9 @@
 ##########################################################################
 
 class proftpd::service inherits proftpd {
-  service { $service:
-    ensure => $service_ensure,
-    enable => $service_enable,
+  service { $::proftpd::service:
+    ensure => $::proftpd::service_ensure,
+    enable => $::proftpd::service_enable,
   }
 }
 

@@ -22,8 +22,8 @@ class proftpd::params {
   # used to allow the service to be started manually and stop it
   # even if the operator forget to do it
   $auto_stop      = false
-  $auto_stop_hour = "21"
-  $auto_stop_min  = "05"
+  $auto_stop_hour = '21'
+  $auto_stop_min  = '05'
 
   $packages = [
     'proftpd-basic'
