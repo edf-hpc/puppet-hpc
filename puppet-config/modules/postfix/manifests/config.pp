@@ -15,10 +15,10 @@
 
 class postfix::config inherits postfix {
 
-  hpclib::print_config { $config_file :
-    style   => 'keyval',
-    data    => $_config_options,
-    notify  => Class['::postfix::service'],
+  hpclib::print_config { $::postfix::config_file :
+    style  => 'keyval',
+    data   => $::postfix::_config_options,
+    notify => Class['::postfix::service'],
   }
 
 }
