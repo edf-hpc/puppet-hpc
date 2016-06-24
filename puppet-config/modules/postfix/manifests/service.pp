@@ -14,8 +14,8 @@
 ##########################################################################
 
 class postfix::service inherits postfix {
-  service { $service :
-    ensure => $service_ensure,
-    enable => $service_enable,
+  service { $::postfix::service :
+    ensure => $::postfix::service_ensure,
+    enable => $::postfix::service_enable,
   }
 }

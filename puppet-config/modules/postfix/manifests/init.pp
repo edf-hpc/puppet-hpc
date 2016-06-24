@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class postfix ( 
+class postfix (
   $packages        = $::postfix::params::packages,
   $packages_ensure = $::postfix::params::packages_ensure,
   $service         = $::postfix::params::service,
