@@ -15,26 +15,29 @@
 
 class opentracker::config inherits opentracker {
 
-  hpclib::print_config { $default_file :
+  hpclib::print_config { $::opentracker::default_file :
     style  => 'keyval',
-    target => $default_file,
-    data   => $opentracker_default_options,
+    target => $::opentracker::default_file,
+    data   => $::opentracker::opentracker_default_options,
   }
 
-  file { $config_dir :
+  file { $::opentracker::config_dir :
     ensure => directory,
   }
 
-  file { $config_file :
+  file { $::opentracker::config_file :
     ensure  => present,
     content => template('opentracker/opentracker_conf.erb'),
-    path    => "${config_dir}/${config_file}",
-    require => [Package[$packages], File[$config_dir]],
+    path    => "${::opentracker::config_dir}/${::opentracker::config_file}",
+    require => [
+      Package[$::opentracker::packages],
+      File[$::opentracker::config_dir]
+    ],
   }
 
-  hpclib::systemd_service { $systemd_service_file :
-    target => $systemd_service_file,
-    config => $systemd_service_file_options,
+  hpclib::systemd_service { $::opentracker::systemd_service_file :
+    target => $::opentracker::systemd_service_file,
+    config => $::opentracker::systemd_service_file_options,
   }
 
 }

@@ -15,10 +15,13 @@
 
 class opentracker::service inherits opentracker {
 
-  service { $service :
+  service { $::opentracker::service :
     ensure  => running,
     enable  => true,
-    require => [Package[$packages],File[$default_file,$config_file]],
+    require => [
+      Package[$::opentracker::packages],
+      File[$::opentracker::default_file,$::opentracker::config_file]
+    ],
   }
- 
+
 }

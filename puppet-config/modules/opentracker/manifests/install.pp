@@ -15,8 +15,8 @@
 
 class opentracker::install inherits opentracker {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::opentracker::packages:
+    ensure => $::opentracker::packages_ensure,
   }
 
 }
