@@ -15,6 +15,6 @@
 
 class hostkeys::config inherits hostkeys {
 
-  create_resources(file,$hostkeys,$files_defaults)
+  create_resources(file, $::hostkeys::hostkeys, $::hostkeys::files_defaults)
 
 }
