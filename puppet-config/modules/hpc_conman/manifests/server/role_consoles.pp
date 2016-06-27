@@ -19,13 +19,13 @@ define hpc_conman::server::role_consoles (
   $console_port   = undef,
 ) {
   validate_string($type)
-  validate_string($prefix)
+  validate_string($console_prefix)
 
   if $console_port {
     validate_integer($console_port)
   }
 
-  $hosts = $hosts_by_role[$name]
+  $hosts = $::hosts_by_role[$name]
 
   if $hosts {
     ::hpc_conman::server::host_console { $hosts:
@@ -33,5 +33,5 @@ define hpc_conman::server::role_consoles (
       console_prefix => $console_prefix,
       console_port   => $console_port,
     }
-  } 
+  }
 }

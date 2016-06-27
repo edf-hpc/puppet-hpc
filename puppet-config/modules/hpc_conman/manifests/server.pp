@@ -46,7 +46,7 @@ class hpc_conman::server (
   }
 
   hpc_conman::server::role_consoles{ $roles:
-    type   => $device_type, 
+    type           => $device_type,
     console_prefix => $_prefix,
     console_port   => $_port
   }

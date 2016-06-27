@@ -21,9 +21,9 @@ define hpc_conman::server::host_console (
   validate_string($console_prefix)
 
   case $type {
-    'ipmi': { 
+    'ipmi': {
       ::conman::console_ipmi { $name:
-        host => "${console_prefix}${name}"  
+        host => "${console_prefix}${name}"
       }
     }
     'telnet': {
