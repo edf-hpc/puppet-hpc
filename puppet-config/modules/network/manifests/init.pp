@@ -59,7 +59,7 @@ class network (
   validate_hash($ib_rules)
   validate_string($mlx4load)
   validate_hash($ib_options)
-  
+
   # Bring all the package sources together
   validate_array($ib_packages)
   validate_array($bonding_packages)
@@ -67,7 +67,7 @@ class network (
   # can be done in one call with later stdlib versions
   $ibbonding_packages = concat($ib_packages, $bonding_packages)
   $_packages = concat($ibbonding_packages, $packages)
-  
+
   # OpenIB options
   $mlx_options = {
     'mlx4_load'    => $mlx4load,
