@@ -20,7 +20,7 @@ class pam::slurm (
   $pam_slurm_exec            = $pam::params::pam_slurm_exec,
   $pam_slurm_condition       = $pam::params::pam_slurm_condition,
 ) inherits pam::params {
-   
+
   validate_string($packages_ensure)
   validate_array($pam_slurm_package)
   validate_absolute_path($pam_slurm_config)
@@ -28,7 +28,7 @@ class pam::slurm (
   validate_string($pam_slurm_condition)
 
   anchor { 'pam::slurm::begin': } ->
-  class { '::pam::slurm::install': } -> 
+  class { '::pam::slurm::install': } ->
   class { '::pam::slurm::config': } ->
   anchor { 'pam::slurm::end': }
 
