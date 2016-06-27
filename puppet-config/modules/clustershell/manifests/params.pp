@@ -28,6 +28,9 @@ class clustershell::params {
         'python-yaml',
       ]
     }
+    default: {
+      fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
+    }
   }
 
   $groups_file = '/etc/clustershell/groups.conf'
