@@ -17,8 +17,8 @@ class opensshclient::config inherits opensshclient {
 
   augeas { $opensshclient::main_config :
     context => $opensshclient::augeas_context,
-    require => Package[$packages],
-    changes => $main_config_options,
+    require => Package[$opensshclient::packages],
+    changes => $opensshclient::main_config_options,
   }
 
 }

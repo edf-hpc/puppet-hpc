@@ -15,10 +15,10 @@
 
 class opensshclient::keys inherits opensshclient {
 
-  ssh_authorized_key { "root_${cluster}" :
-    ensure     => 'present',
-    key        => $public_key,
-    type       => 'ssh-rsa',
-    user       => 'root',
+  ssh_authorized_key { "root_${opensshclient::cluster}" :
+    ensure => 'present',
+    key    => $opensshclient::public_key,
+    type   => 'ssh-rsa',
+    user   => 'root',
   }
 }
