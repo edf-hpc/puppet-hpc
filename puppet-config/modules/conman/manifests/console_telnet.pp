@@ -19,7 +19,7 @@ define conman::console_telnet (
 ) {
   validate_string($host)
   validate_integer($port)
-  
+
   concat::fragment { "conman_config_console_telnet_${name}":
     target  => '/etc/conman.conf',
     content => "console name=\"${name}\" dev=\"${host}:${port}\"\n",

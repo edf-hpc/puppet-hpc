@@ -14,8 +14,8 @@
 ##########################################################################
 
 class conman::install inherits conman {
-  if $packages_ensure {
-    package { $packages: }
+  if $::conman::packages_ensure {
+    package { $::conman::packages: }
   }
 }
 

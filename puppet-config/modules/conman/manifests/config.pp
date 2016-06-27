@@ -16,9 +16,9 @@
 class conman::config inherits conman {
   # Config file
   concat { '/etc/conman.conf':
-    ensure  => present,
-    mode    => '0400',
-    notify  => Class['conman::service'],
+    ensure => present,
+    mode   => '0400',
+    notify => Class['conman::service'],
   }
 
   concat::fragment { 'conman_config_header':
@@ -28,16 +28,16 @@ class conman::config inherits conman {
   }
 
   # Logfile
-  file { $_server_options['logdir']:
+  file { $::conman::_server_options['logdir']:
     ensure => directory,
   }
 
   # Configure logrotate if not disabled
-  if $logrotate {
+  if $::conman::logrotate {
     include ::logrotate
 
     logrotate::rule { 'conman':
-      path          => "${_server_options['logdir']}/*/console.log",
+      path          => "${::conman::_server_options['logdir']}/*/console.log",
       compress      => true,
       missingok     => true,
       copytruncate  => false,
@@ -48,8 +48,8 @@ class conman::config inherits conman {
       sharedscripts => true,
       size          => '5M',
       rotate_every  => week,
-      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${service}",
-      firstaction   => "/usr/bin/systemctl is-active -q ${service}",
+      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${::conman::service}",
+      firstaction   => "/usr/bin/systemctl is-active -q ${::conman::service}",
     }
   }
 

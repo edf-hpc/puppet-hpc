@@ -14,9 +14,9 @@
 ##########################################################################
 
 class conman::service inherits conman {
-  service { $service:
-    ensure => $service_ensure,
-    enable => $service_enable,
+  service { $::conman::service:
+    ensure => $::conman::service_ensure,
+    enable => $::conman::service_enable,
   }
 }
 
