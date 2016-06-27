@@ -15,10 +15,10 @@
 
 class environment_modules::config inherits environment_modules {
 
-  hpclib::print_config { $config_file :
+  hpclib::print_config { $::environment_modules::config_file :
     style   => 'linebyline',
-    data    => $config_options,
-    require => Package[$packages],
+    data    => $::environment_modules::config_options,
+    require => Package[$::environment_modules::packages],
   }
 
 }
