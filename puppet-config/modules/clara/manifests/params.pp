@@ -32,7 +32,7 @@ class clara::params {
     'IMMUSER'     => 'USERID',
     'IMMPASSWORD' => 'password',
   }
-  
+
   $common_options_default = {
     'master_passwd_file'    => {
       comment => 'File: Contains the usernames and passwords needed by the scripts',
@@ -75,7 +75,7 @@ class clara::params {
     },
     'mirror_root'    => {
       comment => 'Path: Directory containing the local copy of the remote mirror',
-      value   => "/var/www/html",
+      value   => '/var/www/html',
     },
     'method'         => {
       comment => 'String: Specify the method that debmirror should use to download files: ftp, http, https, or rsync',
@@ -116,11 +116,11 @@ class clara::params {
   $p2p_options_default = {
     'seeders'          => {
       comment => 'Nodeset: list of host seeding',
-      value   => $p2p_seeders,
+      value   => '',
     },
     'trackers'         => {
       comment => 'Nodeset: list of hosts tracking',
-      value   => $p2p_trackers,
+      value   => '',
     },
     'trackers_port'    => {
       comment => 'String: port used to check the trackers',
