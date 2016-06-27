@@ -42,7 +42,7 @@ define flexlm::service (
     config  => $systemd_config,
     require => [User[$user],File[$logfile]]
   }
-  
+
   user { $user :
     ensure => present,
     home   => $user_home,
@@ -55,9 +55,9 @@ define flexlm::service (
   }
 
   service { "flexlm_${vendor_name}" :
-    ensure     => $service_ensure,
-    enable     => $service_enable,
-    require    => [
+    ensure  => $service_ensure,
+    enable  => $service_enable,
+    require => [
       Hpclib::Systemd_service[$systemd_service],
       File[$logfile],
     ],
