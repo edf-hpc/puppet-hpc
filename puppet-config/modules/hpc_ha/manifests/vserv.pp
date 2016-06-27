@@ -20,7 +20,7 @@ define hpc_ha::vserv (
   $lb_algo             = 'rr',
   $lb_kind             = 'DR',
   $delay_loop          = undef,
-  $persistence_timeout = undef, 
+  $persistence_timeout = undef,
   $protocol            = 'TCP',
   $vip_name            = undef,
 ) {
@@ -34,11 +34,11 @@ define hpc_ha::vserv (
   ::keepalived::lvs::virtual_server { $_name:
     ip_address          => $ip_address,
     port                => $port,
-    real_servers        => $real_servers,
+    real_servers        => $real_server_hosts,
     lb_kind             => $lb_kind,
     lb_algo             => $lb_algo,
     delay_loop          => $delay_loop,
-    persistence_timeout => $persitence_timeout,
+    persistence_timeout => $persistence_timeout,
     protocol            => $protocol,
     collect_exported    => false,
   }
@@ -66,7 +66,7 @@ define hpc_ha::vserv (
         content  => template('hpc_ha/vserv_notify_script.erb'),
       }
     } else {
-      fail("When defining a virtual server with direct routing, specifying vip name (hpc_ha::vip) is mandatory.")
+      fail('When defining a virtual server with direct routing, specifying vip name (hpc_ha::vip) is mandatory.')
     }
   }
 }

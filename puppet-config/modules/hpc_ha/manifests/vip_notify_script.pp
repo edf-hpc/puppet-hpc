@@ -34,5 +34,5 @@ define hpc_ha::vip_notify_script (
     mode    => '0700',
     require => Hpc_ha::Vip[$vip_name],
   }
-  
+
 }
