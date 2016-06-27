@@ -22,7 +22,7 @@ define hpc_ha::rserv (
 ) {
 
   $_name = regsubst($name, '[:\/\n]', '')
-  
+
   validate_integer($port)
 
   if $host {
@@ -31,12 +31,12 @@ define hpc_ha::rserv (
     $host = $real_hosts[$_name]
   }
 
-  $real_server_ip_address = $hostfile[$host]
+  $real_server_ip_address = $::hostfile[$host]
   if $real_server_ip_address == '' {
     fail("Could not find an IP address in hostfile for host '${host}'")
   }
   validate_ip_address($real_server_ip_address)
-  
+
   ::keepalived::lvs::real_server { $_name:
     virtual_server => $virtual_server,
     ip_address     => $real_server_ip_address,

@@ -28,7 +28,7 @@ class hpc_ha::install inherits hpc_ha {
     mode   => '0755',
   }
 
-  # Adding a dependency between ifup-hotplug and 
+  # Adding a dependency between ifup-hotplug and
   # keepalived
   $sysd_ifup_drop_dir = '/etc/systemd/system/ifup-hotplug.service.d'
   file { $sysd_ifup_drop_dir:
@@ -36,9 +36,9 @@ class hpc_ha::install inherits hpc_ha {
   }
 
   file { "${sysd_ifup_drop_dir}/before_keepalived.conf":
-    ensure  => present,
-    source  => 'puppet:///modules/hpc_ha/before_keepalived.conf',
-    notify  => Exec['hpc_ha_sysd_daemon_reload'],
+    ensure => present,
+    source => 'puppet:///modules/hpc_ha/before_keepalived.conf',
+    notify => Exec['hpc_ha_sysd_daemon_reload'],
   }
 
   exec { 'hpc_ha_sysd_daemon_reload':
