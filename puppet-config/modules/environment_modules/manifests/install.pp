@@ -15,8 +15,8 @@
 
 class environment_modules::install inherits environment_modules {
 
-  package { $packages :
-    ensure => $packages_ensure,
+  package { $::environment_modules::packages:
+    ensure => $::environment_modules::packages_ensure,
   }
 
 }

@@ -15,13 +15,12 @@
 
 class environment_modules::params {
 
-#### Module variables
-
+  #### Module variables
   $packages_ensure = 'latest'
   $packages        = ['environment-modules']
 
-#### Defaults values
- case $::osfamily {
+  #### Defaults values
+  case $::osfamily {
     'RedHat': {
       $rootdirmodules = '/usr/share/Modules/modulefiles'
       $config_file    = '/usr/share/Modules/init/.modulespath'
@@ -29,6 +28,9 @@ class environment_modules::params {
     'Debian': {
       $rootdirmodules = '/etc/modules'
       $config_file    = '/etc/environment-modules/modulespath'
+    }
+    default: {
+      fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
     }
   }
 
