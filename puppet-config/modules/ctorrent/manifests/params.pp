@@ -15,26 +15,18 @@
 
 class ctorrent::params {
 
-#### Module variables
-
+  #### Module variables
   $packages_ensure = 'latest'
   $packages        = ['ctorrent']
   $default_file    = '/etc/default/ctorrent'
-  $service         = 'ctorrent' 
+  $service         = 'ctorrent'
 
-#### Defaults values
+  #### Defaults values
   $init_file        = '/etc/init.d/ctorrent'
   $ctorrent_options = {
     delay        => '-1',
     misc_options => '-f',
-    clusters     => {
-      "${cluster}" => {
-        "${system}" => {
-          torrent_file => "${tracker_path}/${system}/${system}.squashfs.torrent",
-          seeded_file  => "${tracker_path}/${system}/${system}.squashfs",
-        },
-      }
-    }
+    clusters     => {},
   }
 
 

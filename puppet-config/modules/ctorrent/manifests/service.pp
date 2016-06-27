@@ -15,15 +15,18 @@
 
 class ctorrent::service inherits ctorrent {
 
-  service { $service :
+  service { $::ctorrent::service:
     ensure  => running,
     enable  => true,
-    require => [Package[$packages],File[$default_file,$init_file]],
+    require => [
+      Package[$::ctorrent::packages],
+      File[$::ctorrent::default_file, $::ctorrent::init_file]
+    ],
   }
- 
-  cron { $init_file :
-    command    => "PATH=\$PATH:/sbin; systemctl restart ${service}.service &> /dev/null || exit 0",
-    user       => 'root',
-    require    => File[$init_file],
+
+  cron { $::ctorrent::init_file:
+    command => "PATH=\$PATH:/sbin; systemctl restart ${::ctorrent::service}.service &> /dev/null || exit 0",
+    user    => 'root',
+    require => File[$::ctorrent::init_file],
   }
 }
