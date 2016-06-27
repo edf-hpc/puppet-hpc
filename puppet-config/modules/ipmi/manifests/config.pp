@@ -15,9 +15,9 @@
 
 class ipmi::config inherits ipmi {
 
-  file { $config_file :
+  file { $::ipmi::config_file :
     ensure  => present,
-    content => template($config_file_template),
+    content => template($::ipmi::config_file_template),
   }
 
 }

@@ -31,7 +31,7 @@ class ipmi::params {
       $config_file_mode     = 0750
     }
     default : {
-      fail("${::osfamily} is not supported")  
+      fail("${::osfamily} is not supported")
     }
   }
 }
