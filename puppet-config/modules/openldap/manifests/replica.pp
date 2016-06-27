@@ -32,7 +32,7 @@ class openldap::replica (
 
   file { $make_replica_script :
     source  => $make_replica_script_source,
-    require => Package[$packages],
+    require => Package[$::openldap::packages],
     mode    => '0700',
     owner   => 'root',
   }

@@ -15,15 +15,8 @@
 
 class openldap::install inherits openldap {
 
-#  file { $preseedfile :
-#    ensure  => present,
-#    content => template($preseedfile),
-#  }
-
-  package { $packages :
-    ensure       => $packages_ensure,
-#    responsefile => $preseedfile,
-#    require      => File[$preseedfile],
+  package { $::openldap::packages :
+    ensure => $::openldap::packages_ensure,
   }
 
 }

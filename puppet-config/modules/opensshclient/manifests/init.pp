@@ -17,7 +17,7 @@ class opensshclient (
   $packages            = $opensshclient::params::packages,
   $packages_ensure     = $opensshclient::params::packages_ensure,
   $main_config         = $opensshclient::params::main_config,
-  $main_config_options = $opensshclient::params::main_config_options, 
+  $main_config_options = $opensshclient::params::main_config_options,
   $augeas_context      = $opensshclient::params::augeas_context,
   $cluster             = '',
   $public_key          = '',

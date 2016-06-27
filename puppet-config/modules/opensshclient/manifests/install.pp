@@ -15,8 +15,8 @@
 
 class opensshclient::install inherits opensshclient {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $opensshclient::packages:
+    ensure => $opensshclient::packages_ensure,
   }
 
 }

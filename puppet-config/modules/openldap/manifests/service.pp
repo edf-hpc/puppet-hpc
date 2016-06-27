@@ -15,8 +15,8 @@
 
 class openldap::service inherits openldap {
 
-  service { $service :
+  service { $::openldap::service :
     ensure  => running,
-    require => Package[$packages],
+    require => Package[$::openldap::packages],
   }
 }

@@ -15,11 +15,11 @@
 
 class openldap::config inherits openldap {
 
-  hpclib::print_config { $default_file :
+  hpclib::print_config { $::openldap::default_file :
     style   => 'keyval',
-    data    => $default_options,
-    require => Package[$packages],
-    notify  => Service[$service],
+    data    => $::openldap::default_options,
+    require => Package[$::openldap::packages],
+    notify  => Service[$::openldap::service],
   }
 
 }
