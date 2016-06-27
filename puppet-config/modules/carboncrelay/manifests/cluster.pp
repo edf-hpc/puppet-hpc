@@ -23,7 +23,7 @@ define carboncrelay::cluster (
 
   $supported_types = [ 'forward', 'any_of', 'failover' ]
   if ! member($supported_types, $type) {
-    fail("Cluster type (${type}) for cluster ${name} is not supported (${supported_type}).")
+    fail("Cluster type (${type}) for cluster ${name} is not supported (${supported_types}).")
   }
 
   concat::fragment {"'carboncrelay_config_cluster_${name}":
