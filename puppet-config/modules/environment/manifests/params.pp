@@ -63,14 +63,13 @@ class environment::params {
     },
   }
 
-#### Defaults values
-
+  #### Defaults values
   $motd_content = {
-    'info'  => [ '',
-                         "${cluster} HPC System",
-                         '',
-                         "${hostname}",
-                         '',
+    'info'  => [  '',
+                  "${::cluster} HPC System",
+                  '',
+                  $::hostname},
+                  '',
             ],
     'legal' => [ '' ],
   }

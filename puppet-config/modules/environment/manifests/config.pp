@@ -15,15 +15,15 @@
 
 class environment::config inherits environment {
 
-  file { $motd_path :
+  file { $::environment::motd_path :
     ensure  => file,
     content => template('environment/motd.erb'),
   }
 
-  file { "${ssh_autogenkeys_script}" :
-    path    => "${profiles_directory}/${ssh_autogenkeys_script}",
-    content => template($ssh_autogenkeys_script_tpl),
+  file { $::environment::ssh_autogenkeys_script:
+    path    => "${::environment::profiles_directory}/${::environment::ssh_autogenkeys_script}",
+    content => template($::environment::ssh_autogenkeys_script_tpl),
   }
 
- create_resources(file,$files,$files_defaults)
+  create_resources(file, $::environment::files, $::environment::files_defaults)
 }
