@@ -15,11 +15,11 @@
 
 #== Class: hpc_collectd::plugin::slurmctld
 #
-# Class to manage slurmctld plugin for collectd 
+# Class to manage slurmctld plugin for collectd
 # === Parameters
 # [*ensure*]
 #   ensure param for collectd::plugin type
-# 
+#
 class hpc_collectd::plugin::slurmctld (
   $ensure             = present,
 ) {
