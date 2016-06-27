@@ -1,6 +1,21 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class mariadb::params {
-  
-  $config_manage     = true  
+
+  $config_manage     = true
   $service_enable    = true
   $service_ensure    = 'running'
 
@@ -15,7 +30,7 @@ class mariadb::params {
     'Debian': {
       $package_manage       = true
       $package_name         = ['mariadb-galera-server']
-      $mariadb_preseed_file = "/var/local/mysql-server.preseed"
+      $mariadb_preseed_file = '/var/local/mysql-server.preseed'
       $mariadb_preseed_tmpl = 'mariadb/mysql-server.preseed.erb'
       $service_manage       = true
       $conf_dir_path        = '/etc/mysql'
