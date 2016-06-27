@@ -40,11 +40,11 @@ define hpclib::print_config(
   $excep_separator = ' '
 ) {
 
-  validate_string($style) 
-  validate_string($separator) 
-  validate_string($comments) 
-  validate_numeric($mode) 
-  validate_array($exceptions) 
+  validate_string($style)
+  validate_string($separator)
+  validate_string($comments)
+  validate_numeric($mode)
+  validate_array($exceptions)
   validate_string($excep_separator)
   validate_string($owner)
   $conf_template = 'hpclib/conf_template.erb'

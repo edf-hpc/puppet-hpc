@@ -31,8 +31,8 @@ define hpclib::sysctl(
   }
 
   exec { "${sysctl_command}_${sysctl_file}" :
-    command     => "${sysctl_command} -p ${rootdir}/${sysctl_file}",
-    subscribe   => File["${rootdir}/${sysctl_file}"],
-    path        => ['/bin','/sbin'],
+    command   => "${sysctl_command} -p ${rootdir}/${sysctl_file}",
+    subscribe => File["${rootdir}/${sysctl_file}"],
+    path      => ['/bin','/sbin'],
   }
 }
