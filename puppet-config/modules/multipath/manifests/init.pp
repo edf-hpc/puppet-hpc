@@ -9,7 +9,7 @@ class multipath (
   validate_absolute_path($config)
   validate_hash($config_opts)
   validate_array($packages)
-  validate_string($packages_ensure)  
+  validate_string($packages_ensure)
 
   anchor { 'multipath::begin': } ->
   class { '::multipath::install': } ->
