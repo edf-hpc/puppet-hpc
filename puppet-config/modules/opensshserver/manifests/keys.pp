@@ -14,23 +14,23 @@
 ##########################################################################
 
 class opensshserver::keys inherits opensshserver {
-  
-  file { $root_key_directory :
+
+  file { $opensshserver::root_key_directory :
     ensure => directory,
   }
 
- file { "${root_key_directory}/${root_key}" :
+  file { "${opensshserver::root_key_directory}/${opensshserver::root_key}" :
     ensure  => present,
-    content => decrypt("${directory_source}/${root_key}.enc", $decrypt_passwd),
-    mode    => 0600,
-    require => File[$root_key_directory],
+    content => decrypt("${opensshserver::directory_source}/${opensshserver::root_key}.enc", $opensshserver::decrypt_passwd),
+    mode    => '0600',
+    require => File[$opensshserver::root_key_directory],
   }
 
-  file { "${root_key}.pub" :
-    path    => "${root_key_directory}/${root_key}.pub",
-    source  => "file://${directory_source}/${root_key}.pub",
-    mode    => 0600,
-    require => File[$root_key_directory],
+  file { "${opensshserver::root_key}.pub" :
+    path    => "${opensshserver::root_key_directory}/${opensshserver::root_key}.pub",
+    source  => "file://${opensshserver::directory_source}/${opensshserver::root_key}.pub",
+    mode    => '0600',
+    require => File[$opensshserver::root_key_directory],
   }
 
 }

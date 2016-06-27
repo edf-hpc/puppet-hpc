@@ -15,7 +15,8 @@
 
 class opensshserver::service inherits opensshserver {
 
-  service { $service :
-    require => Package[$packages],
+  service { $opensshserver::service :
+    require => Package[$opensshserver::packages],
   }
+
 }

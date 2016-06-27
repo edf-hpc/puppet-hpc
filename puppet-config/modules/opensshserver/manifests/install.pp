@@ -15,8 +15,8 @@
 
 class opensshserver::install inherits opensshserver {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $opensshserver::packages:
+    ensure => $opensshserver::packages_ensure,
   }
 
 }
