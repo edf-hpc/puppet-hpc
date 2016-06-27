@@ -68,7 +68,7 @@ class environment::params {
     'info'  => [  '',
                   "${::cluster} HPC System",
                   '',
-                  $::hostname},
+                  $::hostname,
                   '',
             ],
     'legal' => [ '' ],
