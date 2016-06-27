@@ -15,8 +15,8 @@
 
 class cpufreq::install inherits cpufreq {
 
-  package { $packages :
-    ensure => $packages_ensure,
+  package { $::cpufreq::packages :
+    ensure => $::cpufreq::packages_ensure,
   }
 
 }

@@ -22,7 +22,7 @@ class cpufreq::params {
   $default_file    = '/etc/default/cpufrequtils'
   $service         = 'cpufrequtils'
   $service_ensure  = running
-  $service_enable  = true 
+  $service_enable  = true
 
 #### Defaults values
   $default_options = {
