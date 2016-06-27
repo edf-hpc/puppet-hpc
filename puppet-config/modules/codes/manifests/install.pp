@@ -15,8 +15,8 @@
 
 class codes::install inherits codes {
 
-  package { $packages :
-    ensure => $packages_ensure,
+  package { $::codes::packages :
+    ensure => $::codes::packages_ensure,
   }
 
 }
