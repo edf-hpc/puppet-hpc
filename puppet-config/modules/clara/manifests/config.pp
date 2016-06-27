@@ -33,9 +33,9 @@ class clara::config inherits clara {
   }
 
   file { $::clara::keyring_file :
-    source  => $::clara::keyring_source,
-    mode    => '0600',
-    owner   => 'root',
+    source => $::clara::keyring_source,
+    mode   => '0600',
+    owner  => 'root',
   }
 
 }
