@@ -34,7 +34,6 @@ define hpc_ha::vserv (
   ::keepalived::lvs::virtual_server { $_name:
     ip_address          => $ip_address,
     port                => $port,
-    real_servers        => $real_server_hosts,
     lb_kind             => $lb_kind,
     lb_algo             => $lb_algo,
     delay_loop          => $delay_loop,
