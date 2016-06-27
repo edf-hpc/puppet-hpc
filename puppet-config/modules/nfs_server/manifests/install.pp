@@ -15,11 +15,11 @@
 
 class nfs_server::install inherits nfs_server {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::nfs_server::packages:
+    ensure => $::nfs_server::packages_ensure,
   }
-  
-  concat { $exports_file:
+
+  concat { $::nfs_server::exports_file:
     ensure => 'present',
   }
 

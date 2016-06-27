@@ -16,7 +16,7 @@
 class nfs_server (
   $exports_file    = $::nfs_server::params::exports_file,
   $packages        = $::nfs_server::params::packages,
-  $packages_ensure = $::nfs_server::params::packages_ensure, 
+  $packages_ensure = $::nfs_server::params::packages_ensure,
   $service         = $::nfs_server::params::service,
   $service_ensure  = $::nfs_server::params::service_ensure,
 ) inherits nfs_server::params {

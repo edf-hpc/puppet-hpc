@@ -27,7 +27,7 @@ class nfs_server::params {
     'Redhat': {
       $packages = ['nfs-utils.x86_64']
       case $::operatingsystemmajrelease {
-        '7': { 
+        '7': {
           $service = 'nfs-server'
         }
         default: {
