@@ -15,24 +15,24 @@
 
 class certificates::config inherits certificates {
 
-  file { $certificates_directory :
+  file { $::certificates::certificates_directory :
     ensure => 'directory',
-    owner  => $certificates_owner,
+    owner  => $::certificates::certificates_owner,
   }
 
-  file { "${certificates_directory}/${certificate_file}" :
+  file { "${::certificates::certificates_directory}/${::certificates::certificate_file}" :
     ensure  => present,
-    content => decrypt("${directory_source}/${certificate_file}.enc", $decrypt_passwd),
-    require => File[$certificates_directory],
+    content => decrypt("${::certificates::directory_source}/${::certificates::certificate_file}.enc", $::certificates::decrypt_passwd),
+    require => File[$::certificates::certificates_directory],
     mode    => '0600',
-    owner   => $certificates_owner,
+    owner   => $::certificates::certificates_owner,
   }
 
-  file { "${certificates_directory}/${key_file}" :
+  file { "${::certificates::certificates_directory}/${::certificates::key_file}" :
     ensure  => present,
-    content => decrypt("${directory_source}/${key_file}.enc", $decrypt_passwd),
-    require => File[$certificates_directory],
+    content => decrypt("${::certificates::directory_source}/${::certificates::key_file}.enc", $::certificates::decrypt_passwd),
+    require => File[$::certificates::certificates_directory],
     mode    => '0600',
-    owner   => $certificates_owner,
+    owner   => $::certificates::certificates_owner,
   }
 }
