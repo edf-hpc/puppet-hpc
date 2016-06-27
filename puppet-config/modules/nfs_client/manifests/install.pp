@@ -14,9 +14,9 @@
 ##########################################################################
 
 class nfs_client::install inherits nfs_client {
-  
-  package { $packages:
-    ensure => $packages_ensure,
+
+  package { $::nfs_client::packages:
+    ensure => $::nfs_client::packages_ensure,
   }
 
 }

@@ -14,12 +14,12 @@
 ##########################################################################
 
 class nfs_client (
-  $packages        = $::nfs_client::params::packages, 
-  $packages_ensure = $::nfs_client::params::packages_ensure, 
+  $packages        = $::nfs_client::params::packages,
+  $packages_ensure = $::nfs_client::params::packages_ensure,
   $service         = $::nfs_client::params::service,
   $service_ensure  = $::nfs_client::params::service_ensure,
 ) inherits nfs_client::params {
-  
+
   validate_array($packages)
   validate_string($packages_ensure)
   validate_string($service)
@@ -30,4 +30,4 @@ class nfs_client (
   class { 'nfs_client::service': } ->
   anchor { 'nfs_client::end': }
 
-} 
+}

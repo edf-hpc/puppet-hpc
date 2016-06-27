@@ -20,7 +20,7 @@ define nfs_client::mount (
   $options,
   $ensure   = 'mounted',
   $atboot   = true,
-  $remounts = false,  
+  $remounts = false,
   $pass     = 2,
   $dump     = 0,
 ){
@@ -32,7 +32,7 @@ define nfs_client::mount (
       unless  => "test -d ${mountpoint}",
       path    => $::path,
     }
-  
+
     file { $mountpoint:
       ensure  => 'directory',
       require => Exec["creating_${mountpoint}"],
@@ -40,15 +40,15 @@ define nfs_client::mount (
   }
 
   # Mount the device
-  mount {"${mountpoint}":
-    ensure        => $ensure,
-    device        => "${server}:${exportdir}",
-    fstype        => 'nfs',
-    atboot        => $atboot,
-    options       => $options, 
-    pass          => $pass,
-    remounts      => $remounts,
-    dump          => $dump,
+  mount {$mountpoint:
+    ensure   => $ensure,
+    device   => "${server}:${exportdir}",
+    fstype   => 'nfs',
+    atboot   => $atboot,
+    options  => $options,
+    pass     => $pass,
+    remounts => $remounts,
+    dump     => $dump,
   }
 
-} 
+}
