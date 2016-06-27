@@ -15,16 +15,15 @@
 
 class opentracker::params {
 
-#### Module variables
-
+  #### Module variables
   $packages_ensure = 'latest'
   $packages        = ['opentracker']
   $config_dir      = '/etc/opentracker'
   $config_file     = 'opentracker.conf'
   $default_file    = '/etc/default/opentracker'
-  $service         = 'opentracker' 
+  $service         = 'opentracker'
 
-#### Defaults values
+  #### Defaults values
   $opentracker_default_options = {
     'CONF_FILE' => "${config_dir}/${config_file}",
     'PORT' => 6881,
