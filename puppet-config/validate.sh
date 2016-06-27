@@ -42,7 +42,7 @@ ctrl_manif () {
 	do
 		if [ -d ${MODDIR}/${dir}/manifests ]
 		then
-			MANIFESTS=$(ls ${MODDIR}/${dir}/manifests)
+			MANIFESTS=$(find ${MODDIR}/${dir}/manifests -type f -name "*.pp")
 		else
 			MANIFESTS=""
 		fi
@@ -61,15 +61,15 @@ ctrl_manif () {
 			do
 				if [[ ${INV} == "--syntax" ]]
 				then
-					puppet parser validate ${MODDIR}/${dir}/manifests/${manif} && echo "${manif} = Syntax OK"
+					puppet parser validate ${manif} && echo "${manif} = Syntax OK"
 				else
-					sed -i 's/[ \t]*$//' ${MODDIR}/${dir}/manifests/${manif} 
-					sed -i --posix -e 's/\t/  /g' ${MODDIR}/${dir}/manifests/${manif} 			
+					sed -i 's/[ \t]*$//' ${manif}
+					sed -i --posix -e 's/\t/  /g' ${manif}
 					/usr/bin/puppet-lint \
             --no-80chars-check \
             --no-class_inherits_from_params_class-check \
             --log-format '%{filename}" "%{KIND}": "%{message}" on line "%{line}' \
-            ${MODDIR}/${dir}/manifests/${manif}	
+            ${manif}
 				fi
 			done
 		fi
