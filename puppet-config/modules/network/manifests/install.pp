@@ -15,6 +15,6 @@
 
 class network::install inherits network {
 
-  package { $_packages: }
+  package { $::network::_packages: }
 
 }

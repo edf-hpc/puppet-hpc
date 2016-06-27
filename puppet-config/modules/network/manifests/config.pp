@@ -16,12 +16,12 @@
 class network::config inherits network {
 
   # Set hostname
-  augeas { $hostname_augeas_path:
-    context => $hostname_augeas_path,
-    changes => $hostname_augeas_change,
+  augeas { $::network::hostname_augeas_path:
+    context => $::network::hostname_augeas_path,
+    changes => $::network::hostname_augeas_change,
   }
 
-  file { $ib_file:
+  file { $::network::ib_file:
     content => template('network/openib_conf.erb'),
   }
 

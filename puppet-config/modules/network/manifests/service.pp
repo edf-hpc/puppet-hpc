@@ -18,9 +18,9 @@ class network::service inherits network {
   # Install systemd services on supported OS.
   if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
 
-    hpclib::systemd_tmpfile { $systemd_tmpfile :
-      target => $systemd_tmpfile,
-      config => $systemd_tmpfile_options,
+    hpclib::systemd_tmpfile { $::network::systemd_tmpfile :
+      target => $::network::systemd_tmpfile,
+      config => $::network::systemd_tmpfile_options,
     }
 
     # Enable systemd service ifup-hotplug to ensure it is run at server boot.
@@ -31,20 +31,22 @@ class network::service inherits network {
     # running at this stage.
     case $::puppet_context {
       'ondisk', 'diskless-postinit': {
-        hpclib::systemd_service { $network::ifup_hotplug_service_file :
-          target => $network::ifup_hotplug_service_file,
-          config => $network::ifup_hotplug_service_params,
+        hpclib::systemd_service { $::network::ifup_hotplug_service_file :
+          target => $::network::ifup_hotplug_service_file,
+          config => $::network::ifup_hotplug_service_params,
         }
-        create_resources(service, $network::ifup_hotplug_services)
+        create_resources(service, $::network::ifup_hotplug_services)
       }
       'installer', 'diskless-preinit': {
-        create_resources(file, $network::ifup_hotplug_files)
+        create_resources(file, $::network::ifup_hotplug_files)
       }
-      default : {}
+      default : {
+        fail("Unsupported context '${::puppet_context}', should be: 'ondisk', 'diskless-postinit' 'installer', 'diskless-preinit'")
+      }
     }
   }
   else {
-    notice("Unsupported service provider for class ${class}")
+    notice('Unsupported service provider for class network::service.')
   }
 
 }

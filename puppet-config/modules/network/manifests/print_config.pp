@@ -28,6 +28,9 @@ define network::print_config ($target = 'eth0') {
       $execmd   = "/bin/systemctl stop ifup@${target}.service && /bin/systemctl start ifup@${target}.service"
       $execname = "restart_${target}"
     }
+    default: {
+      fail ("Unsupported OS Family '${::osfamily}', should be: 'Redhat', 'Debian'")
+    }
   }
 
   file { $filename :
