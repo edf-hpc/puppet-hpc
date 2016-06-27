@@ -20,11 +20,11 @@ define carboncrelay::rewrite (
   validate_string($expression)
   validate_string($replacement)
   validate_string($order)
-  
+
   concat::fragment {"'carboncrelay_config_rewrite_${name}":
-    target    => $::carboncrelay::config_file,
-    order     => $order,
-    content   => template('carboncrelay/config.rewrite.erb'),
+    target  => $::carboncrelay::config_file,
+    order   => $order,
+    content => template('carboncrelay/config.rewrite.erb'),
   }
 
 }
