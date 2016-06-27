@@ -15,8 +15,9 @@
 
 class environment::service inherits environment {
 
-  hpclib::systemd_service { $service_user_session :
-    target => $service_user_session,
-    config => $service_user_session_options,
+  hpclib::systemd_service { $::environment::service_user_session:
+    target => $::environment::service_user_session,
+    config => $::environment::service_user_session_options,
   }
+
 }
