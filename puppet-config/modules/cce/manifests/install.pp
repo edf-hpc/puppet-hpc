@@ -15,8 +15,8 @@
 
 class cce::install inherits cce {
 
-  package { $packages :
-    ensure => $packages_ensure,
+  package { $::cce::packages:
+    ensure => $::cce::packages_ensure,
   }
 
 }

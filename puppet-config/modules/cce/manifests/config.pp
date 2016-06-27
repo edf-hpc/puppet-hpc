@@ -15,10 +15,10 @@
 
 class cce::config inherits cce {
 
-  file { $default_file :
+  file { $::cce::default_file :
     ensure  => present,
     content => template('cce/cce_conf.erb'),
-    require => Package[$packages],
+    require => Package[$::cce::packages],
   }
 
 }
