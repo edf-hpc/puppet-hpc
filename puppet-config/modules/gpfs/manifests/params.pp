@@ -1,13 +1,28 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 #
 class gpfs::params {
 
   # File and directory modes
-  $cl_dir_mode            = '755' 
+  $cl_dir_mode            = '755'
   $cl_file_mode           = '640'
 
   # Password to decrypt encrypted files
   $cl_decrypt_passwd      = 'password'
-  
+
   # Packages to install
   # It is assumed that license files are managed with a
   # special package : gpfs.lum for both Debian and Red Hat

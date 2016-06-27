@@ -1,3 +1,18 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 #
 class gpfs::client (
   $cl_dir_mode       = $gpfs::params::cl_dir_mode,
@@ -13,7 +28,7 @@ class gpfs::client (
   $cl_perf           = $gpfs::params::cl_perf,
   $cl_perf_src       = $gpfs::params::cl_perf_src,
 ) inherits gpfs::params {
-  
+
   validate_string($cl_dir_mode)
   validate_string($cl_file_mod)
   validate_string($cl_decrypt_passwd)
