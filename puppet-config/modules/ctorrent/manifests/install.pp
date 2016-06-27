@@ -15,8 +15,8 @@
 
 class ctorrent::install inherits ctorrent {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::ctorrent::packages:
+    ensure => $::ctorrent::packages_ensure,
   }
 
 }

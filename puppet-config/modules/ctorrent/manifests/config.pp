@@ -15,17 +15,17 @@
 
 class ctorrent::config inherits ctorrent {
 
-  file { $default_file :
+  file { $::ctorrent::default_file :
     ensure  => present,
     content => template('ctorrent/ctorrent_conf.erb'),
-    require => Package[$packages],
-    notify  => Service[$service],
+    require => Package[$::ctorrent::packages],
+    notify  => Service[$::ctorrent::service],
   }
 
-  file { $init_file :
+  file { $::ctorrent::init_file :
     ensure  => present,
     source  => 'puppet:///modules/ctorrent/ctorrent.init',
-    mode    => 0755,
-    require => Package[$packages],
+    mode    => '0755',
+    require => Package[$::ctorrent::packages],
   }
 }
