@@ -14,7 +14,7 @@
 ##########################################################################
 
 class hpc_conman::server::params {
-  $vip_name = "clusterloc_${puppet_role}"
+  $vip_name = "clusterloc_${::puppet_role}"
   $roles = [
     'admin',
     'batch',
