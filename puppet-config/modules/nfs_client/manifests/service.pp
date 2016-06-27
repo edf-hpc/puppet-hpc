@@ -15,8 +15,8 @@
 
 class nfs_client::service inherits nfs_client {
 
-  service { $service:
-    ensure => $service_ensure,
+  service { $::nfs_client::service:
+    ensure => $::nfs_client::service_ensure,
   }
 
 }

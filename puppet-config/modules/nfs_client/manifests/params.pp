@@ -22,7 +22,7 @@ class nfs_client::params {
     'Debian': {
       $packages = ['nfs-common']
       $service  = 'nfs-common'
-    } 
+    }
     'Redhat': {
       $packages = ['nfs-utils.x86_64']
       $service  = 'nfs'
