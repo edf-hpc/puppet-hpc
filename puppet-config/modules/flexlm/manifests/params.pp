@@ -15,31 +15,31 @@
 
 class flexlm::params {
 
-#### Module variables
-
+  #### Module variables
   $service_ensure = 'running'
-  $service_enable = true 
+  $service_enable = true
 
-#### Defaults values
+  #### Defaults values
   $binary_path     = '/usr/local/bin/lmgrd'
   $vendor_name     = ''
   $user            = 'flexlm'
   $user_home       = "/home/${user}"
   $logfile         = "/var/log/flexlm_${vendor_name}"
   $systemd_service = 'flexlm'
+  $license_path    = '/etc/flexlm.lic'
   $systemd_config  = {
     'Unit'    => {
-      'Description'         => "FlexLM server for ${vendor_name} products",
-      'Documentation'       => "file:/opt/${vendor_name}/flexlm/README",
-      'After'               => 'remote-fs.target network.target home.mount',
+      'Description'   => "FlexLM server for ${vendor_name} products",
+      'Documentation' => "file:/opt/${vendor_name}/flexlm/README",
+      'After'         => 'remote-fs.target network.target home.mount',
     },
     'Service' => {
-      'Type'                => 'forking',
-      'ExecStart'           => "${binary_path} -c ${license_path} -l ${logfile}",
-      'User'                => $user,
+      'Type'      => 'forking',
+      'ExecStart' => "${binary_path} -c ${license_path} -l ${logfile}",
+      'User'      => $user,
     },
     'Install' => {
-      'WantedBy'            => 'multi-user.target',
+      'WantedBy' => 'multi-user.target',
     },
   }
 }
