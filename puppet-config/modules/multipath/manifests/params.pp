@@ -10,7 +10,7 @@ class multipath::params {
   }
   $packages_ensure     = 'present'
   case $::osfamily {
-    'Debian': { 
+    'Debian': {
       $packages        = ['multipath-tools']
     }
     'Redhat': {
