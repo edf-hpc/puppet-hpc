@@ -14,7 +14,7 @@
 ##########################################################################
 
 class pam::pwquality (
-  $pam_pwquality_package        = $pam::params::pam_pwquality_package, 
+  $pam_pwquality_package        = $pam::params::pam_pwquality_package,
   $pam_pwquality_exec           = $pam::params::pam_pwquality_exec,
   $pam_pwquality_config         = $pam::params::pam_pwquality_config,
   $packages_ensure              = $pam::params::packages_ensure,

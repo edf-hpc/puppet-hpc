@@ -22,10 +22,11 @@ class pam::pwquality::config inherits pam::pwquality {
     mode      => '0644',
     subscribe => Package[$pam::pwquality::pam_pwquality_package]
   }
+
   exec { [ 'refresh common-password' ]:
     command     => '/usr/sbin/pam-auth-update --package --force',
-    require     => File["${pam::pwquality::pam_pwquality_config}"],
-    subscribe   => File["${pam::pwquality::pam_pwquality_config}"],
+    require     => File[$pam::pwquality::pam_pwquality_config],
+    subscribe   => File[$pam::pwquality::pam_pwquality_config],
     refreshonly => true
   }
 
