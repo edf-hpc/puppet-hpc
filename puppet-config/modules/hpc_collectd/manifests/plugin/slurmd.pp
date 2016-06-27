@@ -15,22 +15,22 @@
 
 #== Class: hpc_collectd::plugin::slurmd
 #
-# Class to manage slurmd plugin for collectd 
+# Class to manage slurmd plugin for collectd
 # === Parameters
 # [*ensure*]
 #   ensure param for collectd::plugin type
-# 
+#
 # [*cgroupmountpoint*]
 #   path where the cgroup hierarchy is mounted
 #   example: "/cgroup"
 #
-# [*ignoreabsentcpuset*] 
-#   When set to false, the plugin returns an error 
+# [*ignoreabsentcpuset*]
+#   When set to false, the plugin returns an error
 #   if the cpuset Cgroup hierarchy maintained by Slurm is not found.
 #   This puppet module reverse the default to: true
 class hpc_collectd::plugin::slurmd (
   $ensure             = present,
-  $cgroupmountpoint   = "/cgroup",
+  $cgroupmountpoint   = '/cgroup',
   $ignoreabsentcpuset = true,
 ) {
   validate_absolute_path($cgroupmountpoint)
