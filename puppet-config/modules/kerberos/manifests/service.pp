@@ -15,8 +15,9 @@
 
 class kerberos::service inherits kerberos {
 
-  service { $service :
+  service { $::kerberos::service :
     ensure  => running,
-    require => [Package[$packages],File[$config_file]],
+    require => [Package[$::kerberos::packages],File[$::kerberos::config_file]],
   }
+
 }

@@ -15,8 +15,8 @@
 
 class kerberos::install inherits kerberos {
 
-  package { $packages:
-    ensure => $packages_ensure,
+  package { $::kerberos::packages:
+    ensure => $::kerberos::packages_ensure,
   }
 
 }
