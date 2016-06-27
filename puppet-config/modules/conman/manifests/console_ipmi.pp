@@ -17,7 +17,7 @@ define conman::console_ipmi (
   $host
 ) {
   validate_string($host)
-  
+
   concat::fragment { "conman_config_console_ipmi_${name}":
     target  => '/etc/conman.conf',
     content => "console name=\"${name}\" dev=\"ipmi:${host}\"\n",
