@@ -1,3 +1,18 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
 class mariadb (
   $config_manage        = $mariadb::params::config_manage,
   $mariadb_preseed_file = $mariadb::params::mariadb_preseed_file,
@@ -13,7 +28,7 @@ class mariadb (
   $service_ensure       = $mariadb::params::service_ensure,
   $service_enable       = $mariadb::params::service_enable,
   $service_name         = $mariadb::params::service_name,
-  $mysql_root_pwd, 
+  $mysql_root_pwd,
 ) inherits mariadb::params {
 
 
@@ -30,12 +45,11 @@ class mariadb (
   }
 
   if $config_manage {
-    validate_absolute_path($mariadb_preseed_file) 
-    validate_string($mariadb_preseed_tmpl) 
-    validate_absolute_path($main_conf_file)      
-    validate_absolute_path($galera_conf_file)   
-    validate_string($galera_conf_tmpl)  
-    validate_hash($mysql_conf_options)  
+    validate_absolute_path($mariadb_preseed_file)
+    validate_string($mariadb_preseed_tmpl)
+    validate_absolute_path($main_conf_file)
+    validate_absolute_path($galera_conf_file)
+    validate_hash($mysql_conf_options)
     validate_hash($galera_conf_options)
   }
 
