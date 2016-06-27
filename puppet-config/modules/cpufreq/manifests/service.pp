@@ -14,9 +14,10 @@
 ##########################################################################
 
 class cpufreq::service inherits cpufreq {
-  service { $service:
-    ensure    => $service_ensure,
-    enable    => $service_enable,
+
+  service { $::cpufreq::service:
+    ensure    => $::cpufreq::service_ensure,
+    enable    => $::cpufreq::service_enable,
     subscribe => Class[ '::cpufreq::config' ],
   }
 
