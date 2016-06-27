@@ -24,9 +24,9 @@ class neos::web (
   ## construct the server.pvsc (Paraview)
   file { $::neos::params::web_dir:
     ensure => directory,
-    mode    => '0755',
-    owner   => 'root',
-    group   => 'root',
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
   }
 
   # Extract some variables to use them in the template
@@ -52,7 +52,7 @@ class neos::web (
     owner   => 'root',
     group   => 'root',
   }
- 
+
   ## Setup the apache configuration
   include ::apache
   file { $apache_file:
@@ -60,5 +60,5 @@ class neos::web (
     content => template('neos/web_apache.conf.erb'),
     notify  => Class['apache::service'],
   }
- 
+
 }
