@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup SSMTP (lightweight forwarding MTA)
+#
+# ## Hiera
+# * `profiles::ssmtp::client::config_options`
 class profiles::ssmtp::client {
   ## Hiera lookups
   $config_options  = hiera_hash('profiles::ssmtp::client::config_options')

@@ -13,6 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# ClusterShell configuration
+#
+# Base groups are built from the cluster roles.
+#
+# ## Hiera 
+# * `profiles::clustershell::groups` (`hiera_hash`)
 class profiles::clush::client {
 
   $roles_groups = hpc_roles_nodeset()

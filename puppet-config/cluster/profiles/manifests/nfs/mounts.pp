@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure NFS client mount
+#
+# ## Hiera
+# * `profiles::nfs::to_mount` (`hiera_hash`)
 class profiles::nfs::mounts {
 
   # Hiera lookups

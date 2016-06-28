@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# FTP server
+#
+# This server is meant to just be installed and started manually when 
+# necessary.
 class profiles::ftp::server {
   class { '::proftpd':
     service_ensure => stopped,

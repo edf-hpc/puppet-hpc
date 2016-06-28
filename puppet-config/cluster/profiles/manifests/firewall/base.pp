@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a firewall
+#
+# ## Hiera 
+# * `profiles::firewall::rules` (`hiera_hash`)
 class profiles::firewall::base {
   include ::shorewall
 

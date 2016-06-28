@@ -13,6 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Metrics relay between local cluster and external server 
+#
+# ## Hiera
+# * `profiles::metrics::relay_destination_clusters` (`hiera_array`)
+# * `profiles::metrics::relay_match_rules` (`hiera_array`)
+# * `profiles::metrics::relay_rewrite_rules` (`hiera_array`)
 class profiles::metrics::relay {
   include ::carboncrelay
 

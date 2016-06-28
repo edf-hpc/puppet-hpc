@@ -13,6 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a local xorg server with nvidia
 class profiles::xorg::nvidia {
   class { '::nvidia': } ->
   class { '::xorg': 

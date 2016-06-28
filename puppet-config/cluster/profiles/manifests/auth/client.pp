@@ -1,3 +1,32 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
+# Authentication system client
+#
+# ## Hiera 
+# * `cluster`
+# * `profiles::auth::client::enable_kerberos`
+# * `profiles::auth::client::directory_source`
+# * `profiles::auth::client::krb5_server`
+# * `profiles::auth::client::krb5_realm`
+# * `profiles::auth::client::krb5_store_password_if_offline`
+# * `profiles::auth::client::sssd_options_general` (`hiera_hash`)
+# * `profiles::auth::client::sssd_options_nss` (`hiera_hash`)
+# * `profiles::auth::client::sssd_options_pam` (`hiera_hash`)
+# * `profiles::auth::client::sssd_options_domain` (`hiera_hash`)
+# * `profiles::auth::client::krb5_options` (`hiera_hash`)
 class profiles::auth::client {
 
   ## Hiera lookups

@@ -13,11 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# DNS server for the local cluster
+#
+# ## Hiera 
+# * `domain`
+# * `profiles::dns::server::config_options` (`hiera_hash`)
 class profiles::dns::server {
 
   ## Hiera lookups
-
-  $net_topology   = hiera_hash('net_topology')
   $config_options = hiera_hash('profiles::dns::server::config_options')
   $domain         = hiera('domain')
 

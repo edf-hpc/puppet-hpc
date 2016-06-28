@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure NFS server exports
+#
+# ## Hiera
+# * `profiles::nfs::to_export` (`hiera_hash`)
 class profiles::nfs::exports {
 
   # Hiera lookups

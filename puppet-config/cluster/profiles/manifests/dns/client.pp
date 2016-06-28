@@ -13,6 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure the DNS servers for the OS
+#
+# ## Hiera 
+# * `domain`
+# * `profiles::dns::client::nameservers` (`hiera_array`)
+# * `profiles::dns::client::search`
 class profiles::dns::client {
 
   ## Hiera lookups

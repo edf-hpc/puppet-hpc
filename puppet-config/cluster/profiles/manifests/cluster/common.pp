@@ -13,6 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Common profile for all cluster node
+#
+# ## Hiera 
+# * `libcalibre`
+# * `profiles::cluster::root_password_hash`
 class profiles::cluster::common {
   # Set the root password
   $root_password = hiera('profiles::cluster::root_password_hash')

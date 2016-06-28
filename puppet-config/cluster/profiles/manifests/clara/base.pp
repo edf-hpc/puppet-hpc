@@ -13,8 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup clara
+#
+# ## Hiera 
+# * `profiles::clara::repos`
 class profiles::clara::base {
   class { '::clara':
-    repos_options => hiera_hash('profiles::clara::repos')
+    repos_options => hiera_hash('profiles::clara::repos'),
   }
 }
