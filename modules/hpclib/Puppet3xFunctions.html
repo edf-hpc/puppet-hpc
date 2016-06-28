@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Puppetnamespace: Puppet3xFunctions
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!Puppet3xFunctions.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (P)</a> &raquo;
+    
+    
+    <span class="title">Puppet3xFunctions</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="puppet_type_list_link"
+        href="puppet_type_list.html">
+      Puppet Type List
+    </a>
+  
+    <a class="full_list_link" id="puppet_provider_list_link"
+        href="puppet_provider_list.html">
+      Puppet Provider List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div class='module_header'>
+  <h1>
+    Puppet 3 Functions
+  </h1>
+</div>
+<dl class="box">
+  <dt class="r1 last" style="height: 16px;">Defined in:</dt>
+  <dd class="r1 last">
+  
+    <em>decrypt</em>:
+    lib/puppet/parser/functions/decrypt.rb (61)
+    <br/>
+  
+    <em>hpc_nodeset_fold</em>:
+    lib/puppet/parser/functions/hpc_nodeset_fold.rb (3)
+    <br/>
+  
+    <em>hpc_roles_nodeset</em>:
+    lib/puppet/parser/functions/hpc_roles_nodeset.rb (24)
+    <br/>
+  
+    <em>hpc_nodeset_expand</em>:
+    lib/puppet/parser/functions/hpc_nodeset_expand.rb (3)
+    <br/>
+  
+    <em>hpc_roles_single_nodeset</em>:
+    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb (24)
+    <br/>
+  
+    <em>hpc_shorewall_interfaces</em>:
+    lib/puppet/parser/functions/hpc_shorewall_interfaces.rb (24)
+    <br/>
+  
+  </dd>
+</dl>
+<div class ="clear"></div>
+<h2>Available Functions</h2>
+<ul class="summary">
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#decrypt-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>decrypt</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_nodeset_fold-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_nodeset_fold</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Returns a nodeset expression corresponding to nodes in the array.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_roles_nodeset-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_roles_nodeset</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a hash of roles and nodeset for roles passed as argument</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_nodeset_expand-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_nodeset_expand</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Returns an array of node name corresponding to the expanded nodeset expression.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_roles_single_nodeset-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_roles_single_nodeset</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a single nodeset of all the hosts in the roles passed as argument</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_shorewall_interfaces-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_shorewall_interfaces</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Returns an array of shorewall interfaces for this host, based on the current network config.</p>
+      </div>
+    </span>
+  
+</ul>
+<h2>Function Details</h2>
+
+  <h3 class="signature" id = decrypt-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      decrypt
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_nodeset_fold-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_nodeset_fold
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Returns a nodeset expression corresponding to nodes in the array.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_roles_nodeset-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_roles_nodeset
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a hash of roles and nodeset for roles passed as argument</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_nodeset_expand-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_nodeset_expand
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Returns an array of node name corresponding to the expanded nodeset expression.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_roles_single_nodeset-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_roles_single_nodeset
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a single nodeset of all the hosts in the roles passed as argument</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_shorewall_interfaces-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_shorewall_interfaces
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Returns an array of shorewall interfaces for this host, based on the current network config. Interfaces are defined with the attribute firewall_zone in the cluster net_topology hiera.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Tue Jun 28 17:43:11 2016 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>

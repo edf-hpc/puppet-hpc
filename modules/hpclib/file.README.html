@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="puppet_type_list_link"
+        href="puppet_type_list.html">
+      Puppet Type List
+    </a>
+  
+    <a class="full_list_link" id="puppet_provider_list_link"
+        href="puppet_provider_list.html">
+      Puppet Provider List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>hpclib</h1>
+
+<h4>Table of Contents</h4>
+
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#module-description">Module Description</a></li>
+<li><a href="#setup">Setup</a>
+
+<ul>
+<li><a href="#what-hpclib-affects">What hpclib affects</a></li>
+<li><a href="#setup-requirements">Setup requirements</a></li>
+<li><a href="#beginning-with-hpclib">Beginning with hpclib</a></li>
+</ul></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#reference">Reference</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#development">Development</a></li>
+</ol>
+
+<h2>Overview</h2>
+
+<p>Facts, function and resources used to build the HPC configuration.</p>
+
+<h2>Module Description</h2>
+
+<p>This module provides building blocks to:</p>
+
+<ul>
+<li>Extract data from the cluster definition in hiera</li>
+<li>Define functions and resources used by the rest of the configuration</li>
+</ul>
+
+<h2>Setup</h2>
+
+<h3>What hpclib affects</h3>
+
+<ul>
+<li>Define facts</li>
+</ul>
+
+<h3>Setup Requirements</h3>
+
+<p>This module requires pluginsync to make facts work in an agent/master
+configuration. </p>
+
+<p>The module require <code>clustershell</code> to be installed on the master or on all
+nodes if you are masterless. </p>
+
+<h3>Beginning with hpclib</h3>
+
+<p>hpclib facts relies on a cluster definition in hiera:
+<a href="https://github.com/edf-hpc/puppet-hpc/wiki/Cluster%20Definition">https://github.com/edf-hpc/puppet-hpc/wiki/Cluster%20Definition</a></p>
+
+<h2>Usage</h2>
+
+<p>This module is not used directly, but can be used by <em>profiles</em> or non generic
+modules to get the cluster definition from facts and functions.</p>
+
+<p>Resources can be used by generic modules to implement some constructs often
+found like:</p>
+
+<ul>
+<li>Configuration files</li>
+<li>Systemd services</li>
+<li>Systemd tmpfiles</li>
+<li>Sysctl settings</li>
+</ul>
+
+<h2>Reference</h2>
+
+<h3>Defined types</h3>
+
+<h4>Defined type: <code>print_config</code></h4>
+
+<p>{file:hpclib/print_config hpclib::print_config</p>
+
+<h5>Styles</h5>
+
+<h6>entries</h6>
+
+<p>For <code>ini</code> and <code>keyval</code>, an entry is a structure that can have the following forms:</p>
+
+<p><strong>Direct string</strong>:</p>
+
+<pre class="code ruby"><code class="ruby">&quot;key&quot; =&gt; &quot;value&quot;
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_key'>key</span><span class='op'>=</span><span class='id identifier rubyid_value'>value</span>
+</code></pre>
+
+<p><strong>Commented value</strong>:</p>
+
+<pre class="code ruby"><code class="ruby">&quot;somekey&quot; =&gt; { 
+  &quot;comment&quot; =&gt; &quot;Some Comment&quot;,
+  &quot;value&quot;   =&gt; &quot;somevalue&quot;,
+}
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'>#Some Comment
+</span><span class='id identifier rubyid_somekey'>somekey</span><span class='op'>=</span><span class='id identifier rubyid_somevalue'>somevalue</span>
+</code></pre>
+
+<p>Comment can be undefined or ommited.</p>
+
+<h5><code>ini</code>:</h5>
+
+<p><code>data</code> is a hash of sections pointing to an array of entries</p>
+
+<pre class="code ruby"><code class="ruby">&quot;SectionA&quot; =&gt; {
+  &quot;key1&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;a,b,c,d&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered letters&quot;,
+   },
+  &quot;key2&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;1,2,3,4&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered numbers&quot;,
+   }
+},
+&quot;SectionB&quot; =&gt; {
+  &quot;key1&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;a,c,d&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered letters&quot;,
+  },
+  &quot;key3&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;1,2&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered numbers&quot;,
+   },
+}
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ini"><code class="ini">[SectionA]
+#Ordered letters
+key1=a,b,c,d
+#Ordered numbers
+key2=1,2,3,4
+
+[SectionB]
+#Ordered letters
+key1=a,c,d
+#Ordered numbers
+key3=1,2
+
+</code></pre>
+
+<h5><code>keyval</code>:</h5>
+
+<p><code>data</code> is a hash of entries.</p>
+
+<h5><code>linebyline</code>:</h5>
+
+<p><code>data</code> is an array of lines dumped into the file</p>
+
+<h5><code>yaml</code>:</h5>
+
+<p>Dump the content of <code>data</code> as a YAML file.</p>
+
+<h4>Defined type: <code>sysctl</code></h4>
+
+<h4>Defined type: <code>systemd_service</code></h4>
+
+<h4>Defined type: <code>systemd_tmpfiles</code></h4>
+
+<h3>Facts</h3>
+
+<h4>Fact: <code>mycontext</code> (context)</h4>
+
+<p>String giving the current execution context, possible values are:</p>
+
+<ul>
+<li><code>installer</code>, in the OS installer system before the first boot (debian-installer or anaconda)</li>
+<li><code>ondisk</code>, the system has been installed on disk and is running</li>
+<li><code>diskless-preinit</code>, first run on a diskless system before downloading the system image</li>
+<li><code>diskless-postinit</code>, the system has been booted from a diskless image and is running</li>
+</ul>
+
+<h4>Fact: <code>netconfig</code> (network)</h4>
+
+<p>Hash defining for each interface the IP address to configure.</p>
+
+<p>Same on all nodes.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    netconfig: 
+      eth0: 
+        - &quot;10.100.4.1/255.255.248.0&quot;
+      bond1: 
+        - &quot;192.168.42.47/255.255.255.0&quot;
+        - &quot;192.168.42.57/255.255.255.0&quot;
+</code></pre>
+
+<h4>Fact: <code>dhcpconfig</code> (network)</h4>
+
+<p>Hash defining for each node in the HPC cluster a pair macaddress/ipaddress.</p>
+
+<p>Same on all nodes.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    dhcpconfig: 
+      genadmin1: 
+        macaddress: &quot;52:54:00:c1:c4:9c&quot;
+        ipaddress: &quot;10.100.0.1&quot;
+      gencritical1: 
+        macaddress: &quot;52:54:00:65:e5:74&quot;
+        ipaddress: &quot;10.100.2.11&quot;
+      gencritical2: 
+        macaddress: &quot;52:54:00:48:63:38&quot;
+        ipaddress: &quot;10.100.2.12&quot;
+</code></pre>
+
+<h4>Fact: <code>hostfile</code> (network)</h4>
+
+<p>For each node give the hostname/ip address association. </p>
+
+<p>Same on all nodes.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    hostfile: 
+      genadmin1: &quot;10.100.0.1&quot;
+      extgenadmin1: &quot;192.168.42.41&quot;
+      gencritical1: &quot;10.100.2.11&quot;
+      gencritical: &quot;10.100.2.10&quot;
+      extgencritical1: &quot;192.168.42.43&quot;
+      extgencritical: &quot;192.168.42.53&quot;
+      gencritical2: &quot;10.100.2.12&quot;
+      extgencritical2: &quot;192.168.42.44&quot;
+</code></pre>
+
+<h4>Fact: <code>ifaces_target</code> (network)</h4>
+
+<h4>Fact: <code>mymasternet</code> (network)</h4>
+
+<p>Broken down master_network line for the current node.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    mymasternet: 
+      - &quot;52:54:00:07:5b:ac,52:54:00:d8:97:45,52:54:00:88:aa:38,52:54:00:8a:07:d3&quot;
+      - &quot;bond0,bond1,eth0,eth1,eth2,eth3&quot;
+      - &quot;genmisc1,genmisc,extgenmisc1,extgenmisc&quot;
+      - &quot;10.100.2.21,10.100.2.20,192.168.42.45,192.168.42.55&quot;
+      - &quot;255.255.248.0,255.255.255.0&quot;
+      - &quot;0@0@0&quot;
+      - &quot;0@0@0,0@1@0,1@2@1,1@3@1&quot;
+      - &quot;0@0,1@1,2@2,3@3&quot;
+</code></pre>
+
+<h4>Fact: <code>mynet_topology</code> (network)</h4>
+
+<p>Network topology from the perspective of the current node, gives where each network is connected on the current node (<code>interfaces</code>) and the name of the network.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    mynet_topology: 
+      clusterloc: 
+        interfaces: 
+          - eth0
+        name: CLUSTER
+        firewall_zone: clstr
+      wan: 
+        interfaces: 
+          - bond1
+        name: EXT
+        firewall_zone: wan
+
+</code></pre>
+
+<h4>Fact: <code>myprofiles</code> (profiles)</h4>
+
+<p>Array of active profiles on the current node.</p>
+
+<h4>Fact: <code>profiles</code> (profiles)</h4>
+
+<p>Hash with roles as keys and array of active profiles for this node type as value.</p>
+
+<h4>Fact: <code>my_XXXXX_{server,relay,mirror}</code> (profiles)</h4>
+
+<p>Those facts give for each profile <code>profiles::XXXXXX::{server,relay,mirror}</code> which role has the profile defined. This value can then be used elsewhere in the configuration to configure the clients.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby">    my_conman_server: misc
+    my_ntp_server: critical
+    my_dns_server: critical
+    my_postfix_relay: misc
+</code></pre>
+
+<h4>Fact: <code>puppet_role</code> (roles)</h4>
+
+<p>Roles are derived from the name of the node: <code>&lt;cluster_prefix&gt;&lt;role&gt;&lt;numerical_id&gt;</code>. The <code>cluster_prefix</code> is read from hiera. If nothing matches, the role is <code>default</code>. </p>
+
+<h4>Fact: <code>hostsby_role</code> (roles)</h4>
+
+<p>Hash giving a list of hostnames by role, the source is the <code>hostfile</code> fact (see above). All host names matching the rule of <code>puppet_role</code> will be included, <code>default</code> role is not included.</p>
+
+<pre class="code ~"><code class="~">    hosts_by_role: 
+      admin: 
+        - genadmin1
+      critical: 
+        - gencritical1
+        - gencritical2
+      misc: 
+        - genmisc1
+        - genmisc2
+      batch: 
+        - genbatch1
+        - genbatch2
+      front: 
+        - genfront1
+      cn: 
+        - gencn01
+</code></pre>
+
+<h3>Functions</h3>
+
+<h4>Function: <code>decrypt</code></h4>
+
+<h4>Function: <code>hpc_nodeset_expand</code></h4>
+
+<h4>Function: <code>hpc_nodeset_fold</code></h4>
+
+<h4>Function: <code>hpc_roles_nodeset</code></h4>
+
+<h4>Function: <code>hpc_roles_single_nodeset</code></h4>
+
+<h4>Function: <code>hpc_shorewall_interface</code></h4>
+
+<h2>Limitations</h2>
+
+<p>This module is mainly tested on Debian, but is meant to also work with RHEL and
+derivatives.</p>
+
+<h2>Development</h2>
+
+<p>Patches and issues can be submitted on github:
+<a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
+</div></div>
+
+    <div id="footer">
+  Generated on Tue Jun 28 17:43:11 2016 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>
