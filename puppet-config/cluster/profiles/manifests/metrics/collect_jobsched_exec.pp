@@ -13,6 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Metrics collection for job scheduler execution node
+#
+# Collect metrics specific to slurmd.
+#
+# ## Hiera
+# * `profiles::metrics::collect_packages` (`hiera_array`), default: `libslurm29`
 class profiles::metrics::collect_jobsched_exec {
   $packages = hiera_array(profiles::metrics::collect_packages, [
     "libslurm29"

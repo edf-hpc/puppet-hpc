@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Neos web resources
+#
+# This include paraview server configuration (`neos.pvsc`)
+#
 class profiles::neos::web {
   include ::neos::web
 }

@@ -13,6 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a Postfix relay
+#
+# ## Hiera
+# * `profiles::postfix::relay::config_options`
+# * `net_topology`
 class profiles::postfix::relay {
 
   ## Hiera lookups

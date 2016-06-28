@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Neos for submission host
+#
+# ## Hiera
+# * `profiles::neos::config_options` (`hiera_hash`)
 class profiles::neos::submit {
   $config_options = hiera_hash('profiles::neos::config_options')
   class { '::neos':

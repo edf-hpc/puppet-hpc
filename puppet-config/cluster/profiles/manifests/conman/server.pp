@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a conman server
+#
+# Configuration is generated from the `master_network` host list.
+# see `hpc_conman::server`.
 class profiles::conman::server {
   include ::hpc_conman::server
 }

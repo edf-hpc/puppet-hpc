@@ -13,6 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a local Xorg server and let it auto-confgure
 class profiles::xorg::auto {
   class { '::xorg': 
     driver => 'auto'

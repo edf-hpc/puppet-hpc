@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Neos on an exec host
+#
+# ## Hiera
+# * `profiles::neos::config_options` (`hiera_hash`)
 class profiles::neos::exec {
   $packages = [
     'xfce4',

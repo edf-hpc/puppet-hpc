@@ -13,6 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install conman client
+# 
 class profiles::conman::client {
   include ::hpc_conman::client
 }

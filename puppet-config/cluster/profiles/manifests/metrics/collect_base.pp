@@ -13,13 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Local network configuration
+#
+# ## Hiera
+# * `cluster_prefix`
+# * `profiles::metrics::relay_host`
 class profiles::metrics::collect_base {
   include ::collectd
 
   # The default relay is <prefix><role> of the role having the 
   # metrics::relay role
   $cluster_prefix = hiera('cluster_prefix')
-  $relay_host_default = "${cluster_prefix}${my_metrics_relay}"
+  $relay_host_default = "${cluster_prefix}${::my_metrics_relay}"
   $relay_host = hiera( 'profiles::metrics::relay_host', $relay_host_default)
 
   ::collectd::plugin::write_graphite::carbon { 'relay':

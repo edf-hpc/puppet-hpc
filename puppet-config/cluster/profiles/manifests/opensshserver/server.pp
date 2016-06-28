@@ -1,3 +1,29 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
+# Configure the local SSH server 
+#
+# If Kerberos authentication is enabled on this host, it will be enabled
+# in the SSH server configuration.
+#
+# ## Hiera
+# * `cluster`
+# * `profiles::opensshserver::main_config_options`
+# * `profiles::opensshserver::main_config_options_with_kerberos`
+# * `profiles::opensshserver::directory_source`
+# * `profiles::auth::client::enable_kerberos`
 class profiles::opensshserver::server {
 
   ## Hiera lookups

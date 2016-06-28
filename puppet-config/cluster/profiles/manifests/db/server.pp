@@ -13,6 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup a database server (MariaDB/Galera)
+#
 class profiles::db::server {
   include ::mariadb
 }
