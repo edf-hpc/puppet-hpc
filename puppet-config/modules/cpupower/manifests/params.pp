@@ -15,8 +15,7 @@
 
 class cpupower::params {
 
-#### Module variables
-
+  #### Module variables
   $packages_ensure = 'latest'
 
   case $::osfamily {
@@ -34,12 +33,15 @@ class cpupower::params {
       $service_manage  = false
       $packages        = ['linux-cpupower']
     }
+    default: {
+      fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
+    }
   }
 
 
-#### Defaults values
+  #### Defaults values
   $default_options = {
-    'CPUPOWER_START_OPTS' => '"frequency-set -g performance"'
+    'CPUPOWER_START_OPTS' => '"frequency-set -g performance"',
     'CPUPOWER_STOP_OPTS'  => '"frequency-set -g ondemand"'
   }
 
