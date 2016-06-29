@@ -3,3 +3,4 @@
 *.swo
 *~
 *.yardoc
+puppet-config/modules/*/doc
