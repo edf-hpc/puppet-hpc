@@ -14,7 +14,7 @@
 ##########################################################################
 
 class cpupower::service inherits cpupower {
-  
+
   if $cpupower::config_manage {
     service { $service:
       ensure    => $service_ensure,
