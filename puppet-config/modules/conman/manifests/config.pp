@@ -36,8 +36,10 @@ class conman::config inherits conman {
   if $::conman::logrotate {
     include ::logrotate
 
+    $_server_options = $::conman::_server_options
+
     logrotate::rule { 'conman':
-      path          => "${::conman::_server_options['logdir']}/*/console.log",
+      path          => "${_server_options['logdir']}/*/console.log",
       compress      => true,
       missingok     => true,
       copytruncate  => false,
