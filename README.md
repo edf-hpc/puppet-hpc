@@ -20,6 +20,8 @@ The configuration makes use from generic module from the puppet forge when possi
 
 ## Documentation
 
-The main documentation source is the github wiki: https://github.com/edf-hpc/puppet-hpc/wiki
+The main documentation sources are the github pages: https://edf-hpc.github.io//puppet-hpc
+
+Documentation is generated from the `puppet strings` and `asciidoc` in the `/doc` directory of this git repository.
 
 
