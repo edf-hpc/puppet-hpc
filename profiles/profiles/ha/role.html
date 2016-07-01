@@ -105,7 +105,42 @@
 <p>This profile defines Virtual IP addresses associated with the role as a
 whole and not specific to a service.
 Virtual IP Addresses should be defined in hiera by following the hpc_ha
-module vip resource syntax.</p>
+module vip resource syntax.
+This profile describes HA configuration that are applied to all machine
+of the same role. This is done by configuring two hiera hashes:</p>
+
+<ul>
+<li>for the virtual IP addresses (failover):</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby">#### High-Availability Virtual IP addresses ######
+profiles::ha::role_vips:
+  clusterloc_misc:
+    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;    
+    net_id:      &#39;clusterloc&#39;  
+    router_id:   &#39;121&#39;
+    ip_address:  &#39;10.100.2.20&#39; 
+    auth_secret: &#39;SECRET&#39;
+  wan_misc:
+    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;    
+    net_id:      &#39;wan&#39;
+    router_id:   &#39;122&#39;
+    ip_address:  &#39;192.168.42.55&#39;
+    auth_secret: &#39;SECRET&#39; 
+</code></pre>
+
+<ul>
+<li>One for the virtual servers (load balancing):</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby">profiles::ha::role_vservs:
+  wan_front_ssh:
+    ip_address:        &#39;192.168.42.57&#39;
+    port:              &#39;22&#39;
+    vip_name:          &#39;wan_front&#39;  
+    real_server_hosts:
+      - &#39;extgenfront1&#39;
+</code></pre>
 
 <h2>Hiera</h2>
 
@@ -124,7 +159,7 @@ module vip resource syntax.</p>
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 18:00:16 2016 by
+  Generated on Fri Jul  1 17:04:30 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -150,8 +150,6 @@ found like:</p>
 <li>Sysctl settings</li>
 </ul>
 
-<h2>Reference</h2>
-
 <h3>Defined types</h3>
 
 <h4>Defined type: <code>print_config</code></h4>
@@ -243,12 +241,6 @@ key3=1,2
 <h5><code>yaml</code>:</h5>
 
 <p>Dump the content of <code>data</code> as a YAML file.</p>
-
-<h4>Defined type: <code>sysctl</code></h4>
-
-<h4>Defined type: <code>systemd_service</code></h4>
-
-<h4>Defined type: <code>systemd_tmpfiles</code></h4>
 
 <h3>Facts</h3>
 
@@ -365,9 +357,9 @@ key3=1,2
 
 <p>Hash with roles as keys and array of active profiles for this node type as value.</p>
 
-<h4>Fact: <code>my_XXXXX_{server,relay,mirror}</code> (profiles)</h4>
+<h4>Fact: <code>my_XXXXX_{server,relay,mirror,replica,tracker}</code> (profiles)</h4>
 
-<p>Those facts give for each profile <code>profiles::XXXXXX::{server,relay,mirror}</code> which role has the profile defined. This value can then be used elsewhere in the configuration to configure the clients.</p>
+<p>Those facts give for each profile <code>profiles::XXXXXX::{server,relay,mirror,replica,tracker}</code> which role has the profile defined. This value can then be used elsewhere in the configuration to configure the clients.</p>
 
 <p>Example:</p>
 
@@ -403,20 +395,6 @@ key3=1,2
         - gencn01
 </code></pre>
 
-<h3>Functions</h3>
-
-<h4>Function: <code>decrypt</code></h4>
-
-<h4>Function: <code>hpc_nodeset_expand</code></h4>
-
-<h4>Function: <code>hpc_nodeset_fold</code></h4>
-
-<h4>Function: <code>hpc_roles_nodeset</code></h4>
-
-<h4>Function: <code>hpc_roles_single_nodeset</code></h4>
-
-<h4>Function: <code>hpc_shorewall_interface</code></h4>
-
 <h2>Limitations</h2>
 
 <p>This module is mainly tested on Debian, but is meant to also work with RHEL and
@@ -429,7 +407,7 @@ derivatives.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Wed Jun 29 17:59:40 2016 by
+  Generated on Fri Jul  1 17:04:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

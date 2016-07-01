@@ -112,9 +112,11 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p>
+<p>Install the clara cluster administration tool</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +127,16 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::config_file</tt></li><li><span class="name">repos_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::repos_file</tt></li><li><span class="name">repos_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::repos_options</tt></li><li><span class="name">keyring_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::keyring_file</tt></li><li><span class="name">keyring_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::keyring_source</tt></li><li><span class="name">password_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::password_file</tt></li><li><span class="name">password_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">common_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">repo_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">ipmi_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">images_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">p2p_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">build_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">slurm_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::packages</tt> - <div class="inline"><p> packages list </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::packages_ensure</tt> - <div class="inline"><p> packages install mode </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::config_file</tt> - <div class="inline"><p> Main configuration file path (`config.ini`) </p></div></li><li><span class="name">repos_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::repos_file</tt> - <div class="inline"><p> Repository declaration file path (`repos.ini`) </p></div></li><li><span class="name">repos_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::repos_options</tt> - <div class="inline"><p> Content of the `repos_file` in a hash </p></div></li><li><span class="name">keyring_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::keyring_file</tt> - <div class="inline"><p> Encoded keyring secret file
+(`cluster_keyring.secret.gpg.enc`) path </p></div></li><li><span class="name">keyring_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::keyring_source</tt> - <div class="inline"><p> Encoded keyring secret file
+(`cluster_keyring.secret.gpg.enc`) source </p></div></li><li><span class="name">password_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::clara::params::password_file</tt> - <div class="inline"><p> Master password file path </p></div></li><li><span class="name">password_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Master password file content in a hash </p></div></li><li><span class="name">common_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">repo_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">ipmi_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">images_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">p2p_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">build_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the common section of `config.ini` in a hash
+, merged with default values </p></div></li><li><span class="name">slurm_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the whole `config.ini` in a hash, merged with
+previous parameters </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +146,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 17:59:22 2016 by
+  Generated on Fri Jul  1 17:04:36 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

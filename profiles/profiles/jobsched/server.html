@@ -101,6 +101,49 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Job scheduler server</p>
+
+<p>A generic configuration is defined in
+``puppet-hpc/hieradata/common.yaml&quot;, in your own hiera files you could
+just redefine, the following values:</p>
+
+<h2>Common</h2>
+
+<pre class="code ruby"><code class="ruby">slurm_primary_server:         &quot;%{hiera(&#39;cluster_prefix&#39;)}%{::my_jobsched_server}1&quot;
+slurm_secondary_server:       &quot;%{hiera(&#39;cluster_prefix&#39;)}%{::my_jobsched_server}2&quot;
+</code></pre>
+
+<h2>SlurmDBD</h2>
+
+<pre class="code ruby"><code class="ruby">slurmdbd_slurm_db_password: &#39;SLURM_PASSWORD_OVERRIDEME_IN_EYAML&#39;
+slurmdbd_slurmro_db_password: &#39;SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML&#39;
+
+slurmdbd::main_conf_options:
+  DbdHost:           &quot;%{hiera(&#39;slurm_primary_server&#39;)}&quot;
+  DbdBackupHost:     &quot;%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
+  DbdPort:           &#39;6819&#39;
+  SlurmUser:         &quot;%{hiera(&#39;slurm_user&#39;)}&quot;        
+  DebugLevel:        &#39;3&#39;
+  AuthType:          &#39;auth/munge&#39; 
+  AuthInfo:          &#39;/var/run/munge/munge.socket.2&#39; 
+  LogFile:           &quot;/var/log/slurm-llnl/slurmdbd.log&quot;
+  PidFile:           &#39;/var/run/slurm-llnl/slurmdbd.pid&#39;
+  StorageType:       &#39;accounting_storage/mysql&#39;      
+  StorageHost:       &#39;localhost&#39;  
+  StorageUser:       &#39;slurm&#39;
+  StoragePass:       &quot;%{hiera(&#39;slurmdbd_slurm_db_password&#39;)}&quot;
+
+slurmdbd::dbd_conf_options:
+  db:
+    hosts:       &#39;localhost&#39;
+    user:        &#39;debian-sys-maint&#39; 
+    password:    &quot;%{hiera(&#39;mariadb::mysql_root_pwd&#39;)}&quot;
+  passwords:
+    slurm:       &quot;%{hiera(&#39;slurmdbd_slurm_db_password&#39;)}&quot;
+    slurmro:     &quot;%{hiera(&#39;slurmdbd_slurmro_db_password&#39;)}&quot; 
+  hosts:
+    controllers: &quot;%{hiera(&#39;slurm_primary_server&#39;)},%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
+    admins:      &quot;%{hiera(&#39;cluster_prefix&#39;)}admin1&quot;
+</code></pre>
 </p>
   </div>
 </div>
@@ -112,7 +155,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 18:00:16 2016 by
+  Generated on Fri Jul  1 17:04:30 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

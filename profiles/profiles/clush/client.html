@@ -102,12 +102,31 @@
   <div class="discussion">
     <p><p>ClusterShell configuration</p>
 
-<p>Base groups are built from the cluster roles.</p>
+<p>By default this profile will declare a new group source: <code>hpc_roles</code>.
+This source will give a group for each role in the configuration. This
+source is the default.</p>
+
+<p>To define other groups, it&#39;s possible to define custom groups in hiera:</p>
+
+<pre class="code ruby"><code class="ruby">#### Clustershell
+profiles::clustershell::groups:
+ &#39;cn&#39;:      &#39;@hpc_roles:cn&#39;
+ &#39;bm&#39;:      &#39;@hpc_roles:bm&#39;
+ &#39;cg&#39;:      &#39;@hpc_roles:cg&#39;
+ &#39;crit&#39;:    &#39;@hpc_roles:critical&#39;
+ &#39;misc&#39;:    &#39;@hpc_roles:misc&#39;
+ &#39;front&#39;:   &#39;@hpc_roles:front&#39;
+ &#39;admin&#39;:   &#39;@hpc_roles:admin&#39;
+ &#39;service&#39;: &#39;@misc,@crit&#39;
+ &#39;compute&#39;: &#39;@cn,@cg,@bm&#39;
+ &#39;all&#39;:     &#39;@admin,@service,@compute&#39;
+</code></pre>
 
 <h2>Hiera</h2>
 
 <ul>
-<li><code>profiles::clustershell::groups</code> (<code>hiera_hash</code>)</li>
+<li><code>profiles::clustershell::groups</code> (<code>hiera_hash</code>) Custom groups, <code>hpc_roles</code>
+is the default source if empty.</li>
 </ul>
 </p>
   </div>
@@ -120,7 +139,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 18:00:16 2016 by
+  Generated on Fri Jul  1 17:04:30 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -255,7 +255,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>A hash with role names as keys and nodeset expression as value.</p>
+</div></span>
   
 </li>
 
@@ -277,7 +278,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>A nodeset expression with all the hosts having selected roles.</p>
+</div></span>
   
 </li>
 
@@ -299,7 +301,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>A hash with interfaces has key and a hash <code>{ &#39;zone&#39; =&gt; &#39;&lt;firewall_zone&#39;}</code> as value.</p>
+</div></span>
   
 </li>
 
@@ -682,7 +685,9 @@
   <dl>
     <dt class="">Defined in:</dt>
     <dd class="">
-    lib/puppet/parser/functions/hpc_roles_nodeset.rb
+    lib/puppet/parser/functions/hpc_roles_nodeset.rb<span class="defines">,<br />
+      lib/puppet/parser/functions/hpc_roles_nodeset.rb</div>
+    
     </dd>
   </dl>
 </div>
@@ -697,35 +702,83 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns A hash with role names as keys and nodeset expression as value</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>roles</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>Array of roles to return, if nil, all roles are returnes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>A hash with role names as keys and nodeset expression as value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre>
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_roles_nodeset.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_roles_nodeset.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hpc_roles_nodeset'>hpc_roles_nodeset</span><span class='lparen'>(</span><span class='id identifier rubyid_roles'>roles</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='comment'># Retrieve facts 
@@ -758,7 +811,9 @@
   <dl>
     <dt class="">Defined in:</dt>
     <dd class="">
-    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb
+    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb<span class="defines">,<br />
+      lib/puppet/parser/functions/hpc_roles_single_nodeset.rb</div>
+    
     </dd>
   </dl>
 </div>
@@ -773,35 +828,83 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns A nodeset expression with all the hosts having selected roles</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>roles</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>A list of roles to select, if nil, all roles are selected</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>A nodeset expression with all the hosts having selected roles</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre>
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_roles_single_nodeset.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_roles_single_nodeset.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hpc_roles_single_nodeset'>hpc_roles_single_nodeset</span><span class='lparen'>(</span><span class='id identifier rubyid_roles'>roles</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='comment'># Retrieve facts 
@@ -834,7 +937,9 @@
   <dl>
     <dt class="">Defined in:</dt>
     <dd class="">
-    lib/puppet/parser/functions/hpc_shorewall_interfaces.rb
+    lib/puppet/parser/functions/hpc_shorewall_interfaces.rb<span class="defines">,<br />
+      lib/puppet/parser/functions/hpc_shorewall_interfaces.rb</div>
+    
     </dd>
   </dl>
 </div>
@@ -849,37 +954,64 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns A hash with interfaces has key and a hash <code>{ &#39;zone&#39; =&gt; &#39;&lt;firewall_zone&#39;}</code> as value</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>A hash with interfaces has key and a hash <code>{ &#39;zone&#39; =&gt; &#39;&lt;firewall_zone&#39;}</code> as value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre>
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_shorewall_interfaces.rb', line 1</span>
+      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/hpc_shorewall_interfaces.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hpc_shorewall_interfaces'>hpc_shorewall_interfaces</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='comment'># Retrieve facts
@@ -914,7 +1046,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 17:59:40 2016 by
+  Generated on Fri Jul  1 17:04:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

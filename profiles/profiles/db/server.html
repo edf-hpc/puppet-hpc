@@ -101,6 +101,26 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Setup a database server (MariaDB/Galera)</p>
+
+<p>The MariaDB/Galera cluster should be configured in your hiera to have a
+working configuration:</p>
+
+<pre class="code ruby"><code class="ruby">###### Slurm DBD database #### 
+galera_base_name:             &quot;%{hiera(&#39;cluster_prefix&#39;)}%{::my_db_server}&quot;
+mariadb::galera_conf_options:  
+  mysqld:            
+   binlog_format:            &#39;ROW&#39; 
+   default-storage-engine:   &#39;innodb&#39;
+   innodb_autoinc_lock_mode: &#39;2&#39;   
+   query_cache_size:         &#39;0&#39;   
+   query_cache_type:         &#39;0&#39;   
+   bind-address:             &#39;0.0.0.0&#39;
+   wsrep_provider:           &#39;/usr/lib/galera/libgalera_smm.so&#39;
+   wsrep_cluster_name:       &#39;&quot;galera_cluster&quot;&#39;
+   wsrep_cluster_address:    &quot;\&quot;gcomm://%{hiera(&#39;galera_base_name&#39;)}1,%{hiera(&#39;galera_base_name&#39;)}2\&quot;&quot;
+   wsrep_sst_method:         &#39;rsync&#39;
+mariadb::mysql_root_pwd:      &#39;GALERA_ROOT_PASSWORD_OVERRIDEME_IN_EYAML&#39;
+</code></pre>
 </p>
   </div>
 </div>
@@ -112,7 +132,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jun 29 18:00:16 2016 by
+  Generated on Fri Jul  1 17:04:30 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
