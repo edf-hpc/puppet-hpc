@@ -12,7 +12,7 @@ make
 cp PuppetHPCConfiguration.html ${docdir}/gh-pages/PuppetHPCConfiguration.html
 cp PuppetHPCConfiguration.pdf ${docdir}/gh-pages/PuppetHPCConfiguration.pdf
 
-module_list="$(find "${puppet_hpc_dir}/puppet-config/modules" -mindepth 1 -maxdepth 1 -name '[^.]*' -type d -printf '%f\n')"
+module_list="$(find "${puppet_hpc_dir}/puppet-config/modules" -mindepth 1 -maxdepth 1 -name '[^.]*' -type d -printf '%f\n' |sort)"
 
 (
   cd "${puppet_hpc_dir}/puppet-config/cluster/profiles"
