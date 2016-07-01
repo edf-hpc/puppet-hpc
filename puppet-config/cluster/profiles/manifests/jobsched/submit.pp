@@ -15,6 +15,16 @@
 
 # Job scheduler submission host
 #
+# A generic configuration is defined in
+# ``puppet-hpc/hieradata/common.yaml", in your own hiera files you could
+# just redefine, the following values:
+#
+# ## Common
+# ```
+# slurm_primary_server:         "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
+# slurm_secondary_server:       "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
+# ```
+#
 class profiles::jobsched::submit {
   include ::slurmcommons
   include ::munge
