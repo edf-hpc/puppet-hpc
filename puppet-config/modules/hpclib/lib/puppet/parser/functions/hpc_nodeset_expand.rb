@@ -1,5 +1,6 @@
 require 'hpc/nodeset'
 
+# @param nodeset Nodeset expression to expand
 Puppet::Parser::Functions::newfunction(
   :hpc_nodeset_expand, 
   :type  => :rvalue, 

@@ -21,6 +21,8 @@ def hpc_roles_single_nodeset(roles = nil)
   return hpc_nodeset_fold(nodes)
 end
 
+# @return A nodeset expression with all the hosts having selected roles
+# @param roles A list of roles to select, if nil, all roles are selected
 Puppet::Parser::Functions::newfunction(
   :hpc_roles_single_nodeset, 
   :type  => :rvalue, 

@@ -21,6 +21,7 @@ def hpc_shorewall_interfaces()
 
 end
 
+# @return A hash with interfaces has key and a hash `{ 'zone' => '<firewall_zone'}` as value
 Puppet::Parser::Functions::newfunction(
   :hpc_shorewall_interfaces, 
   :type  => :rvalue, 

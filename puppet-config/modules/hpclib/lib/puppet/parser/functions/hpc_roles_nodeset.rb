@@ -21,6 +21,8 @@ def hpc_roles_nodeset(roles = nil)
   return nodesets
 end
 
+# @return A hash with role names as keys and nodeset expression as value
+# @param roles Array of roles to return, if nil, all roles are returnes
 Puppet::Parser::Functions::newfunction(
   :hpc_roles_nodeset, 
   :type  => :rvalue, 

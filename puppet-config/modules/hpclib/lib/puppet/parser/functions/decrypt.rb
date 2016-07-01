@@ -57,7 +57,8 @@ end
 
 #require 'fileutils'
 
-
+# @param target File that should be decrypted
+# @param passwd Password to use for decrypting the file
 Puppet::Parser::Functions::newfunction(:decrypt, :type => :rvalue, :arity => -3, :doc =>
   "Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.") do |args|
   raise ArgumentError, ("decrypt(): wrong number of arguments (#{args.length}; must be 2 or 3") if args.length > 3

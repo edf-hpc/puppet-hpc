@@ -1,5 +1,6 @@
 require 'hpc/nodeset'
 
+# @param nodes_array Array of node names to fold
 Puppet::Parser::Functions::newfunction(
   :hpc_nodeset_fold, 
   :type  => :rvalue, 

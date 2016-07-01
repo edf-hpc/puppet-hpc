@@ -56,8 +56,6 @@ found like:
 * Systemd tmpfiles
 * Sysctl settings
 
-## Reference
-
 ### Defined types
 
 #### Defined type: `print_config`
@@ -153,9 +151,6 @@ key3=1,2
 #####``yaml``:
 Dump the content of ``data`` as a YAML file.
 
-#### Defined type: ``sysctl``
-#### Defined type: ``systemd_service``
-#### Defined type: ``systemd_tmpfiles``
 
 ### Facts
 
@@ -314,16 +309,6 @@ Hash giving a list of hostnames by role, the source is the ``hostfile`` fact (se
       cn: 
         - gencn01
 ```
-
-### Functions
-
-#### Function: ``decrypt``
-#### Function: ``hpc_nodeset_expand``
-#### Function: ``hpc_nodeset_fold``
-#### Function: ``hpc_roles_nodeset``
-#### Function: ``hpc_roles_single_nodeset``
-#### Function: ``hpc_shorewall_interface``
-
 
 ## Limitations
 
