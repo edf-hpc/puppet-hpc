@@ -21,7 +21,7 @@
 # @param repos_file Repository declaration file path (`repos.ini`)
 # @param repos_options Content of the `repos_file` in a hash
 # @param keyring_file Encoded keyring secret file
-#  (`cluster_keyring.secret.gpg.enc`) path 
+#  (`cluster_keyring.secret.gpg.enc`) path
 # @param keyring_source Encoded keyring secret file
 #  (`cluster_keyring.secret.gpg.enc`) source
 # @param password_file Master password file path
