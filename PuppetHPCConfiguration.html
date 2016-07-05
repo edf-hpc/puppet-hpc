@@ -484,6 +484,15 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </li>
 </ul>
 </li>
+<li><a href="#internals-writing-modules">Writing Modules</a></li>
+<li>
+<ul class="sectlevel1">
+<li><a href="#_feature_set">1. Feature set</a></li>
+<li><a href="#_style">2. Style</a></li>
+<li><a href="#_classes">3. Classes</a></li>
+<li><a href="#_variables">4. Variables</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1705,10 +1714,139 @@ directory. This may change in the future.</p>
 </div>
 </div>
 </div>
+<h1 id="internals-writing-modules" class="sect0">Writing Modules</h1>
+<div class="sect1">
+<h2 id="_feature_set">1. Feature set</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Puppet HPC configuration uses the parser from Puppet &lt; 4 (not the future
+parser). Modules must not use constructs that are only available with the
+parser from Puppet 4 (<code>foreach</code>&#8230;). Compatibility with the future parser is
+encouraged though.</p>
+</div>
+<div class="paragraph">
+<p>You must assume that the manifest will be applied with the followin setting in
+<code>puppet.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>stringify_facts=false</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration provides a script <code>validate.sh</code> that checks the syntax with
+<code>puppet-lint</code>. You can use it or run <code>puppet-lint</code> yourself with the followings
+arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>--no-class_inherits_from_params_class-check</code>, the configuration does not
+support puppet &lt; 3.0, this check is ignored</p>
+</li>
+<li>
+<p><code>--no-80chars-check</code>, the limit in the style guide is 140 characters, but
+<code>puppet-lint</code> in Debian Jessie is not up to date</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_style">2. Style</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Puppetlabs provides a style guide that should be respected by all modules:
+<a href="https://docs.puppet.com/guides/style_guide.html">https://docs.puppet.com/guides/style_guide.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_classes">3. Classes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A class with the same name as the service should exist, this class inherits a
+<code>params</code> class that define default values for the software. Defaults should
+change when appropriate (eg. different package names for different OS).</p>
+</div>
+<div class="paragraph">
+<p>Most modules follow a pattern were the following subclasses are defined:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>install</code>, install the packages and other files</p>
+</li>
+<li>
+<p><code>config</code>, setup the software (write configuration files)</p>
+</li>
+<li>
+<p><code>service</code>, configure and launch the service</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Classes <code>install</code>, <code>config</code> and <code>service</code> should inherit the main module class.
+They are included by the main module class with the proper requirements
+(typically <code>install</code> &#8594; <code>config</code> &#8594; <code>service</code>).</p>
+</div>
+<div class="paragraph">
+<p>This pattern is used by the NTP module from the puppetlabs forge:
+<a href="https://github.com/puppetlabs/puppetlabs-ntp">https://github.com/puppetlabs/puppetlabs-ntp</a></p>
+</div>
+<div class="paragraph">
+<p>If a module has multiple subclasses (a client and a server for example). This
+pattern can be replicated in a subdirectory of <code>manifests</code>. The <code>mysql</code> module
+from the puppetlabs forge does this:
+<a href="https://github.com/puppetlabs/puppetlabs-mysql">https://github.com/puppetlabs/puppetlabs-mysql</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_variables">4. Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To maintain consistency between modules, some recuring variables and/or
+parameters should use the following standardised names:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>service</code>, the name of the service for this software (string)</p>
+</li>
+<li>
+<p><code>service_ensure</code>, should the service be <em>running</em> or <em>stopped</em></p>
+</li>
+<li>
+<p><code>service_enable</code>, should the service be started on boot (boolean)</p>
+</li>
+<li>
+<p><code>config_file</code>, absolute file path of the configuration file (string)</p>
+</li>
+<li>
+<p><code>config_options</code>, hash with the values to put in the <code>config_file</code> (hash)</p>
+</li>
+<li>
+<p><code>packages</code>, list of packages (array of strings)</p>
+</li>
+<li>
+<p><code>packages_ensure</code>, state of the packages: <em>latest</em> or <em>installed</em></p>
+</li>
+<li>
+<p><code>default_file</code>, configuration file path for init system (<em>/etc/default/xxx</em> or
+<em>/etc/sysconfig/xxxx</em>)</p>
+</li>
+<li>
+<p><code>default_options</code>, values to put in the <code>default_file</code> (hash)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-04 15:59:10 BST
+Last updated 2016-07-05 09:53:25 BST
 </div>
 </div>
 </body>
