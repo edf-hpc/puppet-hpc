@@ -21,7 +21,6 @@
 # * `profiles::ntp::srv_def_cfg`
 # * `profiles::ntp::srv_opts`
 class profiles::ntp::client {
-
   ## Hiera lookups
   $preferred_servers = hiera_array('profiles::ntp::client::site_preferred_servers')
   $servers           = hiera_array('profiles::ntp::client::site_servers')
@@ -34,7 +33,20 @@ class profiles::ntp::client {
 
   # Modify default options of ntp service
   $srv_name = $ntp::params::service_name
-  $srv_def_cfg = hiera('profiles::ntp::srv_def_cfg')
+
+  case $::osfamily {
+    'RedHat': {
+      $default_file = '/etc/sysconfig/ntpd'
+    }
+    'Debian': {
+      $default_file = '/etc/default/ntp'
+    }
+    default: {
+      $default_file = unset
+    }
+  }
+
+  $srv_def_cfg = hiera('profiles::ntp::srv_def_cfg', $default_file)
   $srv_opts = hiera('profiles::ntp::srv_opts')
   hpclib::print_config { $srv_def_cfg :
     style   => 'keyval',
