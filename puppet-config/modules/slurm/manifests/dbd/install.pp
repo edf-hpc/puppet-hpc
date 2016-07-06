@@ -13,18 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmdbd::service {
+class slurm::dbd::install inherits slurm::dbd {
 
-  if $slurmdbd::service_manage {
+  if $::slurm::dbd::packages_manage {
 
-    if ! ($slurmdbd::service_ensure in [ 'running', 'stopped' ]) {
-      fail('service_ensure parameter must be running or stopped')
+    package { $::slurm::dbd::packages:
+      ensure => $::slurm::dbd::packages_ensure,
     }
 
-    service { $slurmdbd::service_name :
-      ensure => $slurmdbd::service_ensure,
-      enable => $slurmdbd::service_enable,
-      name   => $slurmdbd::service_name,
-    }
   }
 }

@@ -13,45 +13,44 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmd::config {
+class slurm::exec::config inherits slurm::exec {
 
-  if $slurmd::config_manage {
+  if $::slurm::exec::config_manage {
+    if $::slurm::exec::enable_cgroup {
 
-    require slurmcommons
-
-    if $slurmd::enable_cgroup {
-      hpclib::print_config { $slurmd::cgroup_conf_file:
+      hpclib::print_config { $::slurm::exec::cgroup_file:
         style  => 'keyval',
-        data   => $::slurmd::_cgroup_options,
-        notify => Class['::slurmd::service'],
+        data   => $::slurm::exec::_cgroup_options,
+        notify => Class['::slurm::exec::service'],
       }
 
-      ensure_resource('file', $slurmd::cgroup_rel_path, {'ensure' => 'directory' })
+      ensure_resource('file', $::slurm::exec::cgroup_rel_dir, {'ensure' => 'directory' })
 
-      file { $slurmd::cgroup_relscript_file:
-        mode    => '0744', # must be executable only by root
-        owner   => 'root',
-        source  => $slurmd::cgroup_relscript_src,
-        require => File[$slurmd::cgroup_rel_path],
+      file { $::slurm::exec::cgroup_relscript_file:
+        mode   => '0744', # must be executable only by root
+        owner  => 'root',
+        source => $::slurm::exec::cgroup_relscript_source,
       }
 
-      $cgroup_links = {
-        "${slurmd::cgroup_rscpuset_file}" => { },
-        "${slurmd::cgroup_rs_freez_file}" => { },
-        "${slurmd::cgroup_rs_mem_file}" => { },
-      }
+      $cgroup_links = [
+        $::slurm::exec::cgroup_relcpuset_file,
+        $::slurm::exec::cgroup_relfreezer_file,
+        $::slurm::exec::cgroup_relmem_file,
+      ]
 
-      $cgroup_ln_default = {
+      file { $cgroup_links:
         ensure  => link,
-        target  => $slurmd::cgroup_relscript_file,
-        require => File[$slurmd::cgroup_relscript_file],
+        target  => $::slurm::exec::cgroup_relscript_file,
+        require => File[$::slurm::exec::cgroup_relscript_file],
       }
-      create_resources(file,$cgroup_links,$cgroup_ln_default)
     }
+
   }
-    rsyslog::imfile { 'slurmd':
-      file_name     => '/var/log/slurm-llnl/slurmd.log',
-      file_tag      => 'slurmd:',
-      file_facility => 'info',
-    }
+
+  rsyslog::imfile { 'slurmd':
+    file_name     => '/var/log/slurm-llnl/slurmd.log',
+    file_tag      => 'slurmd:',
+    file_facility => 'info',
+  }
+
 }

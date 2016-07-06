@@ -13,15 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmcommons::params {
+class slurm::params {
   ### Configuration ###
-  $bin_dir_path    = '/usr/lib/slurm'
-  $conf_dir_path   = '/etc/slurm-llnl'
-  $logs_dir_path   = '/var/log/slurm-llnl'
-  $script_dir_path = "${bin_dir_path}/generic-scripts"
-  $main_conf_file  = "${conf_dir_path}/slurm.conf"
-  $part_conf_file  = "${conf_dir_path}/partitions.conf"
-  $slurm_conf_options = {
+  $bin_dir         = '/usr/lib/slurm'
+  $config_dir      = '/etc/slurm-llnl'
+  $logs_dir        = '/var/log/slurm-llnl'
+  $scripts_dir     = "${bin_dir}/generic-scripts"
+  $config_file     = "${config_dir}/slurm.conf"
+  $partitions_file = "${config_dir}/partitions.conf"
+
+  $enable_generic_scripts = true
+
+  $config_options_defaults = {
     'ClusterName' => {
       value   => 'mycluster',
       comment => 'The name by which this SLURM managed cluster is known in the accounting database',
@@ -62,9 +65,48 @@ class slurmcommons::params {
       value   => 'crypto/munge',
       comment => 'The cryptographic signature tool to be used in the creation of job step credentials',
     },
-    }
+    'Include' => {
+      'value'   => "${config_dir}/partitions.conf",
+      'comment' => 'If a line begins with the word \'Include\' followed by whitespace and then a file name, that file will be included inline with the current configuration file',
+    },
+  }
 
-  $partitions_conf = [
+  $config_options_generic_scripts = {
+    'Prolog' => {
+      'value'   => "${scripts_dir}/Prolog.sh",
+      'comment' => 'Script executed at job step initiation on that node',
+    },
+    'PrologSlurmctld' => {
+      'value'   => "${scripts_dir}/PrologSlurmctld.sh",
+      'comment' => 'Script executed at job allocation',
+    },
+    'TaskProlog' => {
+      'value'  => "${scripts_dir}/TaskProlog.sh",
+      'comment'=> 'Script executed at job step initiation by user invoking srun command',
+    },
+    'SrunProlog' => {
+      'value'   => "${scripts_dir}/SrunProlog.sh",
+      'comment' => 'Script executed at job step initiation by user invoking sbatch command',
+    },
+    'Epilog' => {
+      'value'   =>"${scripts_dir}/Epilog.sh",
+      'comment' => 'Script executed at job termination',
+    },
+    'EpilogSlurmctld' => {
+      'value'   => "${scripts_dir}/EpilogSlurmctld.sh",
+      'comment' => 'Script executed at job termination by',
+    },
+    'TaskEpilog' => {
+      'value'   => "${scripts_dir}/TaskEpilog.sh",
+      'comment' => 'Script executed at completion job step by user invoking sbatch command',
+    },
+    'SrunEpilog' => {
+      'value'   => "${scripts_dir}/SrunEpilog.sh",
+      'comment' => 'Script executed at completion job step by user invoking srun command',
+    },
+  }
+
+  $partitions_options = [
     'NodeName=localhost CPUs=1 State=UNKNOWN',
     'PartitionName=local Nodes=localhost Default=YES MaxTime=INFINITE State=UP',
   ]

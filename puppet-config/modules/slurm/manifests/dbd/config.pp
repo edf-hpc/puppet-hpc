@@ -13,11 +13,44 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmctld::install {
+class slurm::dbd::config inherits slurm::dbd {
 
-  if $slurmctld::package_manage {
-    package { $slurmctld::package_name :
-      ensure => $slurmctld::package_ensure,
+  if $::slurm::dbd::config_manage {
+
+    hpclib::print_config { $::slurm::dbd::config_file:
+      style => 'keyval',
+      data  => $::slurm::dbd::_config_options,
+    }
+
+    hpclib::print_config { $::slurm::dbd::db_file:
+      style => 'ini',
+      data  => $::slurm::dbd::_db_options,
+    }
+
+    exec { '/usr/sbin/slurm-mysql-setup create':
+      unless  => '/usr/sbin/slurm-mysql-setup check',
+      require => Hpclib::Print_Config[ $::slurm::dbd::db_file ],
+    }
+
+    if $::slurm::dbd::db_backup_enable {
+
+      file { $::slurm::dbd::db_backup_script :
+        source => $::slurm::dbd::db_backup_src,
+        mode   => '0755',
+      }
+
+      hpclib::print_config { $::slurm::dbd::db_backup_file :
+        style => 'keyval',
+        data  => $::slurm::dbd::db_backup_options,
+      }
+
+      cron { 'dbbackup':
+        command => $::slurm::dbd::dbd_backup_script,
+        user    => 'root',
+        hour    => 2,
+        minute  => 0,
+      }
+
     }
   }
 }

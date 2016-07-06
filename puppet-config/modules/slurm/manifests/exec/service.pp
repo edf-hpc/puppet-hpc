@@ -13,9 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmclient::config {
+class slurm::exec::service {
 
-  if $slurmclient::config_manage {
-    require slurmcommons
+  if $slurm::exec::service_manage {
+
+    if ! ($slurm::exec::service_ensure in [ 'running', 'stopped' ]) {
+      fail('service_ensure parameter must be running or stopped')
+    }
+
+    service { $slurm::exec::service:
+      ensure => $slurm::exec::service_ensure,
+      enable => $slurm::exec::service_enable,
+    }
+
   }
 }

@@ -13,25 +13,50 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmcommons (
-  $bin_dir_path          = $slurmcommons::params::bin_dir_path,
-  $conf_dir_path         = $slurmcommons::params::conf_dir_path,
-  $logs_dir_path         = $slurmcommons::params::logs_dir_path,
-  $script_dir_path       = $slurmcommons::params::script_dir_path,
-  $main_conf_file        = $slurmcommons::params::main_conf_file,
-  $part_conf_file        = $slurmcommons::params::part_conf_file,
-  $slurm_conf_options    = $slurmcommons::params::slurm_conf_options,
-  $partitions_conf       = $slurmcommons::params::partitions_conf,
-) inherits slurmcommons::params {
+class slurm::ctld::params {
+  require ::slurm
 
-  ### Validate params ###
-  validate_absolute_path($bin_dir_path)
-  validate_absolute_path($conf_dir_path)
-  validate_absolute_path($logs_dir_path)
-  validate_absolute_path($script_dir_path)
-  validate_absolute_path($main_conf_file)
-  validate_absolute_path($part_conf_file)
-  validate_hash($slurm_conf_options)
-  validate_array($partitions_conf)
-  class { '::slurmcommons::config': }
+  $enable_lua      = true
+  $enable_topology = true
+  $enable_wckeys   = false
+
+  ### Service ###
+  $service_enable = true
+  $service_ensure = 'running'
+  $service_manage = true
+  $service        = 'slurmctld'
+
+
+  ### Configuration ###
+  $config_manage   = true
+  $topology_file   = "${::slurm::config_dir}/topology.conf"
+  $submit_lua_file = "${::slurm::config_dir}/job_submit.lua"
+
+  $topology_options = [
+    'SwitchName=switch1 Nodes=localhost',
+  ]
+
+  ### Package & Configuration ###
+  $packages_ensure    = 'present'
+  case $::osfamily {
+    'RedHat': {
+      $packages_manage =  true
+      $packages = [
+        'slurm',
+        'slurm-devel',
+      ]
+      $submit_lua_source = 'puppet:///modules/slurm/job_submit.lua'
+    }
+    'Debian': {
+      $packages_manage =  true
+      $packages = [
+        'slurmctld',
+        'slurm-llnl-job-submit-plugin',
+      ]
+      $submit_lua_source = '/usr/lib/slurm/job_submit.lua'
+    }
+    default: {
+      $packages_manage =  false
+    }
+  }
 }
