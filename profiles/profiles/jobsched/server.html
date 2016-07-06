@@ -117,22 +117,15 @@ slurm_secondary_server:       &quot;%{hiera(&#39;cluster_prefix&#39;)}%{::my_job
 <pre class="code ruby"><code class="ruby">slurmdbd_slurm_db_password: &#39;SLURM_PASSWORD_OVERRIDEME_IN_EYAML&#39;
 slurmdbd_slurmro_db_password: &#39;SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML&#39;
 
-slurmdbd::main_conf_options:
+slurm::dbd::config_options:
   DbdHost:           &quot;%{hiera(&#39;slurm_primary_server&#39;)}&quot;
   DbdBackupHost:     &quot;%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
-  DbdPort:           &#39;6819&#39;
   SlurmUser:         &quot;%{hiera(&#39;slurm_user&#39;)}&quot;        
-  DebugLevel:        &#39;3&#39;
-  AuthType:          &#39;auth/munge&#39; 
-  AuthInfo:          &#39;/var/run/munge/munge.socket.2&#39; 
-  LogFile:           &quot;/var/log/slurm-llnl/slurmdbd.log&quot;
-  PidFile:           &#39;/var/run/slurm-llnl/slurmdbd.pid&#39;
-  StorageType:       &#39;accounting_storage/mysql&#39;      
   StorageHost:       &#39;localhost&#39;  
   StorageUser:       &#39;slurm&#39;
   StoragePass:       &quot;%{hiera(&#39;slurmdbd_slurm_db_password&#39;)}&quot;
 
-slurmdbd::dbd_conf_options:
+slurm::dbd::db_options:
   db:
     hosts:       &#39;localhost&#39;
     user:        &#39;debian-sys-maint&#39; 
@@ -155,7 +148,7 @@ slurmdbd::dbd_conf_options:
 </div>
 
     <div id="footer">
-  Generated on Tue Jul  5 09:53:32 2016 by
+  Generated on Wed Jul  6 16:07:40 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -100,24 +100,21 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>
-<p>#== Class: hpc_collectd::plugin::slurmd</p>
+    <p><h1>== Class: hpc_collectd::plugin::slurmd</h1>
 
-<p>Class to manage slurmd plugin for collectd</p>
+<p>Class to manage slurmd plugin for collectd
+=== Parameters
+[<em>ensure</em>]
+  ensure param for collectd::plugin type</p>
 
-<h3 id="label-Parameters">Parameters</h3>
-<dl class="rdoc-list label-list"><dt><strong>ensure</strong>
-<dd>
-<p>ensure param for collectd::plugin type</p>
-</dd><dt><strong>cgroupmountpoint</strong>
-<dd>
-<p>path where the cgroup hierarchy is mounted example: “/cgroup”</p>
-</dd><dt><strong>ignoreabsentcpuset</strong>
-<dd>
-<p>When set to false, the plugin returns an error if the cpuset Cgroup
-hierarchy maintained by Slurm is not found. This puppet module reverse the
-default to: true</p>
-</dd></dl>
+<p>[<em>cgroupmountpoint</em>]
+  path where the cgroup hierarchy is mounted
+  example: &quot;/cgroup&quot;</p>
+
+<p>[<em>ignoreabsentcpuset</em>]
+  When set to false, the plugin returns an error
+  if the cpuset Cgroup hierarchy maintained by Slurm is not found.
+  This puppet module reverse the default to: true</p>
 </p>
   </div>
 </div>
@@ -135,7 +132,7 @@ default to: true</p>
 </div>
 
     <div id="footer">
-  Generated on Tue Jul  5 09:53:54 2016 by
+  Generated on Wed Jul  6 16:07:59 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
