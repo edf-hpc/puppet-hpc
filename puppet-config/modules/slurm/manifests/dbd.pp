@@ -1,0 +1,87 @@
+##########################################################################
+#  Puppet configuration file                                             #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+
+# Install slurmdbd and configure the database
+#
+# @param packages_manage   Let this class installs the packages
+# @param packages_ensure   Install mode (`latest` or `present`) for the
+#                          packages (default: `present`)
+# @param packages          Array of packages names
+# @param service_manage    Let this class run and enable disable the
+#                          service (default: true)
+# @param service_ensure    Ensure state of the service: `running` or
+#                          `stopped` (default: running)
+# @param service_enable    Service started at boot (default: true)
+# @param service           Name of the service
+class slurm::dbd (
+  $config_manage          = $::slurm::dbd::params::config_manage,
+  $db_backup_enable       = $::slurm::dbd::params::db_backup_enable,
+  $config_file            = $::slurm::dbd::params::config_file,
+  $config_options         = {},
+  $db_file                = $::slurm::dbd::params::db_file,
+  $db_options             = {},
+  $db_backup_script       = $::slurm::dbd::params::db_backup_script,
+  $db_backup_source       = $::slurm::dbd::params::db_backup_source,
+  $db_backup_file         = $::slurm::dbd::params::db_backup_file,
+  $db_backup_options      = {},
+  $packages_manage        = $::slurm::dbd::params::packages_manage,
+  $packages               = $::slurm::dbd::params::packages,
+  $packages_ensure        = $::slurm::dbd::params::packages_ensure,
+  $service_manage         = $::slurm::dbd::params::service_manage,
+  $service_enable         = $::slurm::dbd::params::service_enable,
+  $service_ensure         = $::slurm::dbd::params::service_ensure,
+  $service                = $::slurm::dbd::params::service,
+
+) inherits slurm::dbd::params {
+
+  ### Validate params ###
+  validate_bool($config_manage)
+  validate_bool($packages_manage)
+  validate_bool($service_manage)
+
+  if $config_manage {
+    validate_absolute_path($config_file)
+    validate_hash($config_options)
+    validate_absolute_path($db_file)
+    validate_hash($db_options)
+    validate_bool($db_backup_enable)
+    $_config_options = deep_merge($::slurm::dbd::params::config_options_defaults, $config_options)
+    $_db_options = deep_merge($::slurm::dbd::params::db_options_defaults, $db_options)
+    if $db_backup_enable {
+      validate_absolute_path($db_backup_script)
+      validate_absolute_path($db_backup_file)
+      validate_string($db_backup_source)
+      validate_hash($db_options)
+      $_db_backup_options = deep_merge($::slurm::dbd::params::db_backup_options_defaults, $db_backup_options)
+    }
+  }
+
+  if $packages_manage {
+    validate_array($packages)
+    validate_string($packages_ensure)
+  }
+
+  if $service_manage {
+    validate_bool($service_enable)
+    validate_string($service_ensure)
+    validate_string($service)
+  }
+
+  anchor { 'slurm::dbd::begin': } ->
+  class { '::slurm::dbd::install': } ->
+  class { '::slurm::dbd::config': } ->
+  class { '::slurm::dbd::service': } ->
+  anchor { 'slurmdbd::end': }
+}

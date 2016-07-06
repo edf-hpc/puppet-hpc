@@ -13,22 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmclient (
-  $config_manage  = $slurmclient::params::config_manage,
-  $package_manage = $slurmclient::params::package_manage,
-  $package_ensure = $slurmclient::params::package_ensure,
-  $package_name   = $slurmclient::params::package_name,
-) inherits slurmclient::params {
+class slurm::exec::install inherits slurm::exec {
 
-  validate_bool($config_manage)
-  validate_bool($package_manage)
-  if $package_manage {
-    validate_string($package_ensure)
-    validate_array($package_name)
+  if $::slurm::exec::packages_manage {
+
+    package { $::slurm::exec::packages:
+      ensure => $::slurm::exec::packages_ensure,
+    }
+
   }
-
-  anchor { 'slurmclient::begin': } ->
-#  class { '::slurmclient::install': } ->
-  class { '::slurmclient::config': } ->
-  anchor { 'slurmclient::end': }
 }

@@ -13,18 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmd::service {
+class slurm::client::install inherits slurm::client {
 
-  if $slurmd::service_manage {
-
-    if ! ($slurmd::service_ensure in [ 'running', 'stopped' ]) {
-      fail('service_ensure parameter must be running or stopped')
-    }
-
-    service { $slurmd::service_name :
-      ensure => $slurmd::service_ensure,
-      enable => $slurmd::service_enable,
-      name   => $slurmd::service_name,
+  if $::slurm::client::packages_manage {
+    package { $::slurm::client::packages:
+      ensure => $::slurm::client::packages_ensure,
     }
   }
 }

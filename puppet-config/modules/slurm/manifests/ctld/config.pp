@@ -13,24 +13,26 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmcommons::config {
+class slurm::ctld::config inherits slurm::ctld {
 
-  ensure_resource('file', $slurmcommons::bin_dir_path,    {'ensure' => 'directory' })
-  ensure_resource('file', $slurmcommons::conf_dir_path,   {'ensure' => 'directory' })
-  ensure_resource('file', $slurmcommons::logs_dir_path,   {'ensure' => 'directory' })
-  ensure_resource('file', $slurmcommons::script_dir_path, {'ensure' => 'directory' })
+  if $::slurm::ctld::config_manage {
 
-  hpclib::print_config { $slurmcommons::main_conf_file :
-    style      => 'keyval',
-    data       => $slurmcommons::slurm_conf_options,
-    exceptions => ['Include'],
-    require    => File[$slurmcommons::conf_dir_path],
+    if $::slurm::ctld::enable_topology {
+      hpclib::print_config { $::slurm::ctld::topology_file:
+        style => 'linebyline',
+        data  => $::slurm::ctld::topology_options,
+      }
+    }
+
+    if $::slurm::ctld::enable_lua {
+      file { $::slurm::ctld::submit_lua_file:
+        source => $::slurm::ctld::submit_lua_source,
+      }
+    }
+
+    if $::slurm::ctld::enable_wckeys {
+      # Work in progress
+    }
+
   }
-
-  hpclib::print_config { $slurmcommons::part_conf_file :
-    style   => 'linebyline',
-    data    => $slurmcommons::partitions_conf,
-    require => File[$slurmcommons::conf_dir_path],
-  }
-
 }

@@ -13,18 +13,26 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmctld::service {
+# Install slurm clients (CLI and sview)
+#
+# @param packages_manage   Let this class installs the packages
+# @param packages_ensure   Install mode (`latest` or `present`) for the
+#                          packages (default: `present`)
+# @param packages          Array of packages names
+class slurm::client (
+  $packages_manage = $::slurm::client::params::packages_manage,
+  $packages_ensure = $::slurm::client::params::packages_ensure,
+  $packages        = $::slurm::client::params::packages,
+) inherits slurm::client::params {
 
-  if $slurmctld::service_manage {
-
-    if ! ($slurmctld::service_ensure in [ 'running', 'stopped' ]) {
-      fail('service_ensure parameter must be running or stopped')
-    }
-
-    service { $slurmctld::service_name :
-      ensure => $slurmctld::service_ensure,
-      enable => $slurmctld::service_enable,
-      name   => $slurmctld::service_name,
-    }
+  validate_bool($packages_manage)
+  if $packages_manage {
+    validate_string($packages_ensure)
+    validate_array($packages)
   }
+
+  anchor { 'slurm::client::begin': } ->
+  class { '::slurm::client::install': } ->
+  class { '::slurm::client::config': } ->
+  anchor { 'slurm::client::end': }
 }

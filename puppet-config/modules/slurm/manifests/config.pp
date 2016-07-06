@@ -13,30 +13,22 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmctld::config {
+class slurm::config {
 
-  if $slurmctld::config_manage {
+  ensure_resource('file', $slurm::bin_dir,     {'ensure' => 'directory' })
+  ensure_resource('file', $slurm::config_dir,  {'ensure' => 'directory' })
+  ensure_resource('file', $slurm::logs_dir,    {'ensure' => 'directory' })
+  ensure_resource('file', $slurm::scripts_dir, {'ensure' => 'directory' })
 
-    require slurmcommons
-
-    if $slurmctld::enable_topology {
-
-      hpclib::print_config { $slurmctld::topo_conf_file :
-        style => 'linebyline',
-        data  => $slurmctld::topology_conf,
-      }
-    }
-    if $slurmctld::enable_lua {
-
-      file { $slurmctld::submit_lua_script :
-        source => $slurmctld::submit_lua_source,
-      }
-    }
-
-    if $slurmctld::enable_wckeys {
-
-    # Work in progress
-
-    }
+  hpclib::print_config { $::slurm::config_file:
+    style      => 'keyval',
+    data       => $::slurm::_config_options,
+    exceptions => ['Include'],
   }
+
+  hpclib::print_config { $::slurm::partitions_file:
+    style => 'linebyline',
+    data  => $::slurm::partitions_options,
+  }
+
 }
