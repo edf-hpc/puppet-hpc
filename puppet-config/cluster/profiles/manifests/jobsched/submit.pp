@@ -26,7 +26,7 @@
 # ```
 #
 class profiles::jobsched::submit {
-  include ::slurmcommons
+  include ::slurm
   include ::munge
 
   package{ [

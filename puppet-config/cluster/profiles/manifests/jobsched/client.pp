@@ -27,6 +27,6 @@
 # ```
 #
 class profiles::jobsched::client {
-  include ::slurmcommons
+  include ::slurm
   include ::munge
 }
