@@ -30,22 +30,15 @@
 # slurmdbd_slurm_db_password: 'SLURM_PASSWORD_OVERRIDEME_IN_EYAML'
 # slurmdbd_slurmro_db_password: 'SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML'
 # 
-# slurmdbd::main_conf_options:
+# slurm::dbd::config_options:
 #   DbdHost:           "%{hiera('slurm_primary_server')}"
 #   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-#   DbdPort:           '6819'
 #   SlurmUser:         "%{hiera('slurm_user')}"        
-#   DebugLevel:        '3'
-#   AuthType:          'auth/munge' 
-#   AuthInfo:          '/var/run/munge/munge.socket.2' 
-#   LogFile:           "/var/log/slurm-llnl/slurmdbd.log"
-#   PidFile:           '/var/run/slurm-llnl/slurmdbd.pid'
-#   StorageType:       'accounting_storage/mysql'      
 #   StorageHost:       'localhost'  
 #   StorageUser:       'slurm'
 #   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 #
-# slurmdbd::dbd_conf_options:
+# slurm::dbd::db_options:
 #   db:
 #     hosts:       'localhost'
 #     user:        'debian-sys-maint' 
@@ -58,13 +51,13 @@
 #     admins:      "%{hiera('cluster_prefix')}admin1"
 # ```
 class profiles::jobsched::server {
-  include ::slurmdbd
-  include ::slurmctld
+  include ::slurm::dbd
+  include ::slurm::ctld
   include ::munge
   
   Class['::munge::service'] ->
-  Class['::slurmdbd::service'] ->
-  Class['::slurmctld::service']
+  Class['::slurm::dbd::service'] ->
+  Class['::slurm::ctld::service']
 
   package{ [
     'slurm-llnl-generic-scripts-plugin',

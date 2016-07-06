@@ -26,11 +26,11 @@
 # ```
 #
 class profiles::jobsched::exec {
-  include ::slurmd
+  include ::slurm::exec
   include ::munge
 
   Class['::munge::service'] -> 
-  Class['::slurmd::service']
+  Class['::slurm::exec::service']
 
   package{ [
     'slurm-llnl-generic-scripts-plugin',
