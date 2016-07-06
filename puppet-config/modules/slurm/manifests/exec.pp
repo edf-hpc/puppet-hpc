@@ -41,8 +41,8 @@ class slurm::exec (
   $cgroup_relfreezer_file   = $::slurm::exec::params::cgroup_relfreezer_file,
   $cgroup_relmem_file       = $::slurm::exec::params::cgroup_relmem_file,
   $cgroup_options           = {},
-  $package_manage           = $::slurm::exec::params::packages_manage,
-  $package_ensure           = $::slurm::exec::params::packages_ensure,
+  $packages_manage          = $::slurm::exec::params::packages_manage,
+  $packages_ensure          = $::slurm::exec::params::packages_ensure,
   $packages                 = $::slurm::exec::params::packages,
   $service_manage           = $::slurm::exec::params::service_manage,
   $service_ensure           = $::slurm::exec::params::service_ensure,
@@ -53,6 +53,14 @@ class slurm::exec (
   ### Validate params ###
   validate_bool($config_manage)
   validate_bool($enable_cgroup)
+  validate_bool($service_manage)
+  validate_bool($service_enable)
+  validate_string($service)
+  validate_bool($packages_manage)
+  validate_string($packages_ensure)
+  validate_array($packages)
+
+
 
   if $enable_cgroup {
     validate_absolute_path($cgroup_rel_dir)
