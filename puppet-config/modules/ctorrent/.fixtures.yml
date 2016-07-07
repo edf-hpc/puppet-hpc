@@ -1,0 +1,5 @@
+fixtures:
+  symlinks:
+    my_module: "#{source_dir}"
+    stdlib: '/usr/share/puppet/modules/stdlib'
+
