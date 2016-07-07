@@ -41,6 +41,7 @@ end
 <%= @comments %> Changes to this file will be overwritten periodically by puppet!
 <%= @comments %>####################################################################
 <%= @comments %> TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
+<%= @comments %> STYLE   : <%=@style%>
 <%= @comments %>####################################################################
 <% case style -%>
   <%- when 'ini' -%>
