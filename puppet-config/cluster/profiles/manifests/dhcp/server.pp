@@ -15,7 +15,7 @@
 
 # Setup a DHCP server for the cluster
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster_prefix`
 # * `profiles::dhcp::bootmenu_url`
 # * `profiles::dhcp::ipxebin`
@@ -38,9 +38,9 @@ class profiles::dhcp::server {
   $my_address      = $::hostfile[$::hostname]
   $dhcp_config     = $::dhcpconfig
   $prefix          = hiera('cluster_prefix')
-  
+
   # Primary server has an index of 1
-  # Secondary server has an index of 2 
+  # Secondary server has an index of 2
   if $::puppet_index == '1' {
     $peer_address  = $::hostfile["${prefix}${::puppet_role}2"]
     $failover_add = {

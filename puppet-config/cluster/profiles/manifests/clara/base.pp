@@ -15,7 +15,7 @@
 
 # Setup clara
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::clara::repos`
 class profiles::clara::base {
   class { '::clara':

@@ -15,7 +15,7 @@
 
 # Installs and configure CCE (Common Commands EDF)
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::environment::cce::default_options` (`hiera_hash`)
 class profiles::environment::cce {
 

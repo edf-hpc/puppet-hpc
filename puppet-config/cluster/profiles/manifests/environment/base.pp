@@ -15,7 +15,7 @@
 
 # Base environment for a cluster host
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster`
 # * `profiles::environment::authorized_users_group`
 # * `profiles::environment::motd_content` (`hiera_hash`)

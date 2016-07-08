@@ -13,9 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Installs computing codes 
+# Installs computing codes
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::environment::codes::packages`
 class profiles::environment::codes {
 

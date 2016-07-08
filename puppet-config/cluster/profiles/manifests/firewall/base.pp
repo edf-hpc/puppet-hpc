@@ -15,7 +15,7 @@
 
 # Setup a firewall
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::firewall::rules` (`hiera_hash`)
 class profiles::firewall::base {
   include ::shorewall
@@ -43,8 +43,8 @@ class profiles::firewall::base {
     order  => 11,
   }
 
-  # Interfaces are created by hpclib functions, that 
-  # interpret the content of hiera to create the relevant entries 
+  # Interfaces are created by hpclib functions, that
+  # interpret the content of hiera to create the relevant entries
   # for the current host.
   # see modules/hpclib/puppet/parser/functions/shorewall.rb
   $interfaces = hpc_shorewall_interfaces()

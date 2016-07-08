@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Metrics relay between local cluster and external server 
+# Metrics relay between local cluster and external server
 #
 # ## Hiera
 # * `profiles::metrics::relay_destination_clusters` (`hiera_array`)
@@ -30,5 +30,5 @@ class profiles::metrics::relay {
 
   $rewrite_rules = hiera_hash('profiles::metrics::relay_rewrite_rules')
   create_resources(::carboncrelay::rewrite, $rewrite_rules)
-  
+
 }

@@ -29,23 +29,23 @@
 # ```
 # slurmdbd_slurm_db_password: 'SLURM_PASSWORD_OVERRIDEME_IN_EYAML'
 # slurmdbd_slurmro_db_password: 'SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML'
-# 
+#
 # slurm::dbd::config_options:
 #   DbdHost:           "%{hiera('slurm_primary_server')}"
 #   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-#   SlurmUser:         "%{hiera('slurm_user')}"        
-#   StorageHost:       'localhost'  
+#   SlurmUser:         "%{hiera('slurm_user')}"
+#   StorageHost:       'localhost'
 #   StorageUser:       'slurm'
 #   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 #
 # slurm::dbd::db_options:
 #   db:
 #     hosts:       'localhost'
-#     user:        'debian-sys-maint' 
+#     user:        'debian-sys-maint'
 #     password:    "%{hiera('mariadb::mysql_root_pwd')}"
 #   passwords:
 #     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
-#     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}" 
+#     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
 #   hosts:
 #     controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
 #     admins:      "%{hiera('cluster_prefix')}admin1"
@@ -54,7 +54,7 @@ class profiles::jobsched::server {
   include ::slurm::dbd
   include ::slurm::ctld
   include ::munge
-  
+
   Class['::munge::service'] ->
   Class['::slurm::dbd::service'] ->
   Class['::slurm::ctld::service']

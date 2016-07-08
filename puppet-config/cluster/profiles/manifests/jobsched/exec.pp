@@ -29,7 +29,7 @@ class profiles::jobsched::exec {
   include ::slurm::exec
   include ::munge
 
-  Class['::munge::service'] -> 
+  Class['::munge::service'] ->
   Class['::slurm::exec::service']
 
   package{ [

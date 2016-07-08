@@ -15,7 +15,7 @@
 
 # Basic pam_access configuration
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::access::access_config_opts` (`hiera_array`)
 class profiles::access::base {
 

@@ -14,7 +14,7 @@
 ##########################################################################
 
 # Install conman client
-# 
+#
 class profiles::conman::client {
   include ::hpc_conman::client
 }

@@ -28,7 +28,7 @@ class profiles::network::base {
   $net_topology      = hiera_hash('net_topology')
   $bondcfg           = hiera_hash('bondcfg')
   if ! empty($net_keyword) {
-    $defaultgw         = $net_topology[$net_keyword]['gateway'] 
+    $defaultgw         = $net_topology[$net_keyword]['gateway']
   }
   else { $defaultgw = ''}
   $routednet = []

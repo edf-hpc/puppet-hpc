@@ -16,7 +16,7 @@
 # Setup a local xorg server with nvidia
 class profiles::xorg::nvidia {
   class { '::nvidia': } ->
-  class { '::xorg': 
+  class { '::xorg':
     driver => 'nvidia'
   }
 }

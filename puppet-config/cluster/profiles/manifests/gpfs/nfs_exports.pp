@@ -15,7 +15,7 @@
 
 # GPFS -  CNFS server
 #
-# ## Hiera 
+# ## Hiera
 # * `gpfs::nfs_to_export` (`hiera_hash`)
 class profiles::gpfs::nfs_exports {
 
@@ -25,7 +25,7 @@ class profiles::gpfs::nfs_exports {
   # Install gpfs client
   class { '::gpfs::client': }
 
-  # Install gpfs server 
+  # Install gpfs server
   class { '::gpfs::server': }
 
   # Set up multipath

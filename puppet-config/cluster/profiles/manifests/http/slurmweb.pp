@@ -15,7 +15,7 @@
 
 # HTTP server for slurm-web API
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster_prefix`
 # * `profiles::http::port`
 # * `profiles::http::slurmweb::docroot`
@@ -26,7 +26,7 @@
 class profiles::http::slurmweb {
 
   ## Hiera lookups
-  
+
   $port           = hiera('profiles::http::port')
   $docroot        = hiera('profiles::http::slurmweb::docroot')
   $serveradmin    = hiera('profiles::http::serveradmin')
@@ -50,7 +50,7 @@ class profiles::http::slurmweb {
   package { "${packages}" :
     ensure => latest,
   }
-  
+
   exec { 'a2enconf-javascript-common' :
     command => '/usr/sbin/a2enconf javascript-common',
     creates => '/etc/apache2/conf-enabled/javascript-common.conf',

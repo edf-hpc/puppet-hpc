@@ -15,7 +15,7 @@
 
 # HTTP server for package repository mirrors
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster_prefix`
 # * `website_dir`
 # * `profiles::http::port`
@@ -26,7 +26,7 @@
 class profiles::http::mirror {
 
   ## Hiera lookups
-  
+
   $port           = hiera('profiles::http::port')
   $docroot        = hiera('profiles::http::mirror::docroot')
   $serveradmin    = hiera('profiles::http::serveradmin')
