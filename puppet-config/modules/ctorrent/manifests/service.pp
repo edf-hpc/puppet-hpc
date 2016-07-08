@@ -24,7 +24,6 @@ class ctorrent::service inherits ctorrent {
     ],
   }
 
-<<<<<<< HEAD
   cron { $::ctorrent::init_file:
     command => "PATH=\$PATH:/sbin; systemctl restart ${::ctorrent::service}.service &> /dev/null || exit 0",
     user    => 'root',
