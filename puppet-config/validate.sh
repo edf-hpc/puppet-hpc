@@ -15,7 +15,7 @@
 ##########################################################################
 
 MYROOT=$(dirname $(readlink -f ${0}))
-MODDIR=${MYROOT}/modules
+MODDIR=${MODDIR:-${MYROOT}/modules}
 MODULES=$(ls ${MODDIR})
 
 print_error () {
@@ -68,7 +68,7 @@ ctrl_manif () {
 					/usr/bin/puppet-lint \
             --no-80chars-check \
             --no-class_inherits_from_params_class-check \
-            --log-format '%{filename}" "%{KIND}": "%{message}" on line "%{line}' \
+            --log-format '%{path}" "%{KIND}": "%{message}" on line "%{line}' \
             ${manif}
 				fi
 			done
