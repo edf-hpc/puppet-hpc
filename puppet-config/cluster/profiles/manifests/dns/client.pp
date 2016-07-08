@@ -15,7 +15,7 @@
 
 # Configure the DNS servers for the OS
 #
-# ## Hiera 
+# ## Hiera
 # * `domain`
 # * `profiles::dns::client::nameservers` (`hiera_array`)
 # * `profiles::dns::client::search`

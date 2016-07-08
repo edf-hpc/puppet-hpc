@@ -15,7 +15,7 @@
 
 # Setup tftp and an http server for boot system
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster_prefix`
 # * `profiles::bootsystem::tftp_config_options` (`hiera_hash`)
 # * `profiles::bootsystem::tftp_dir`
@@ -32,7 +32,7 @@ class profiles::bootsystem::server {
 
   # Install and configure the server tftp
   $tftp_config_options = hiera_hash('profiles::bootsystem::tftp_config_options')
-  
+
   class { '::tftp':
     config_options     => $tftp_config_options,
   }

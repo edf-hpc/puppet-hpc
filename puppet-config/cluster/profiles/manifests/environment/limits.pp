@@ -15,7 +15,7 @@
 
 # Configure the pam_limits module for resources limits
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::environment::limits_ruleset`
 # * `profiles::environment::limits_${ruleset}` (`hiera_hash`), `${ruleset}` is the value of profiles::environment::limits_ruleset
 class profiles::environment::limits {

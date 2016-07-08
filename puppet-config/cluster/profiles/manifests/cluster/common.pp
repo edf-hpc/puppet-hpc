@@ -15,7 +15,7 @@
 
 # Common profile for all cluster node
 #
-# ## Hiera 
+# ## Hiera
 # * `libcalibre`
 # * `profiles::cluster::root_password_hash`
 class profiles::cluster::common {
@@ -24,7 +24,7 @@ class profiles::cluster::common {
   user { 'root':
     ensure   => present,
     password => $root_password,
-  }  
+  }
 
   # Create /var/lib/calibre or equivalent
   $libcalibre_path = hiera('libcalibre')

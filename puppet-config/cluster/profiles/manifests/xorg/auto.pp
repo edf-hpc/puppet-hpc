@@ -15,7 +15,7 @@
 
 # Setup a local Xorg server and let it auto-confgure
 class profiles::xorg::auto {
-  class { '::xorg': 
+  class { '::xorg':
     driver => 'auto'
   }
 }

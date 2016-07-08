@@ -21,7 +21,7 @@
 class profiles::metrics::collect_base {
   include ::collectd
 
-  # The default relay is <prefix><role> of the role having the 
+  # The default relay is <prefix><role> of the role having the
   # metrics::relay role
   $cluster_prefix = hiera('cluster_prefix')
   $relay_host_default = "${cluster_prefix}${::my_metrics_relay}"
@@ -55,7 +55,7 @@ class profiles::metrics::collect_base {
     calculateaverage => true,
     calculatesum     => true,
   }
-    
+
   class { '::collectd::plugin::chain':
     chainname     => "PostCache",
     defaulttarget => "write",

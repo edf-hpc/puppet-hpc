@@ -15,7 +15,7 @@
 
 # Pam_access configuration with `passwd` command support
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::access::access_config_opts` (`hiera_array`)
 class profiles::access::password {
 

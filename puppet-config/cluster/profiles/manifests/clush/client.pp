@@ -36,7 +36,7 @@
 #  'all':     '@admin,@service,@compute'
 # ```
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::clustershell::groups` (`hiera_hash`) Custom groups, `hpc_roles`
 # is the default source if empty.
 class profiles::clush::client {
@@ -45,13 +45,13 @@ class profiles::clush::client {
   if $roles_groups == {} {
     fail("Roles to nodeset hash is empty, this should never happen, the local node should have a role.")
   }
-  $rooted_roles_groups = { 
+  $rooted_roles_groups = {
     "hpc_roles" => $roles_groups
   }
 
   $hiera_groups = hiera_hash('profiles::clustershell::groups', {})
   if $hiera_groups != {} {
-    $rooted_hiera_groups = { 
+    $rooted_hiera_groups = {
       "hpc" => $hiera_groups
     }
     $default_source = 'hpc'

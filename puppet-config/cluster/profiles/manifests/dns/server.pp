@@ -15,7 +15,7 @@
 
 # DNS server for the local cluster
 #
-# ## Hiera 
+# ## Hiera
 # * `domain`
 # * `profiles::dns::server::config_options` (`hiera_hash`)
 class profiles::dns::server {

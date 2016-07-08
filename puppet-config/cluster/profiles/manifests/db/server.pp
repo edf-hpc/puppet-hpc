@@ -19,15 +19,15 @@
 # working configuration:
 #
 # ```
-# ###### Slurm DBD database #### 
+# ###### Slurm DBD database ####
 # galera_base_name:             "%{hiera('cluster_prefix')}%{::my_db_server}"
-# mariadb::galera_conf_options:  
-#   mysqld:            
-#    binlog_format:            'ROW' 
+# mariadb::galera_conf_options:
+#   mysqld:
+#    binlog_format:            'ROW'
 #    default-storage-engine:   'innodb'
-#    innodb_autoinc_lock_mode: '2'   
-#    query_cache_size:         '0'   
-#    query_cache_type:         '0'   
+#    innodb_autoinc_lock_mode: '2'
+#    query_cache_size:         '0'
+#    query_cache_type:         '0'
 #    bind-address:             '0.0.0.0'
 #    wsrep_provider:           '/usr/lib/galera/libgalera_smm.so'
 #    wsrep_cluster_name:       '"galera_cluster"'

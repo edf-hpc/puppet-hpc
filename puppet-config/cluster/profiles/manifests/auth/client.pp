@@ -15,7 +15,7 @@
 
 # Authentication system client
 #
-# ## Hiera 
+# ## Hiera
 # * `cluster`
 # * `profiles::auth::client::enable_kerberos`
 # * `profiles::auth::client::directory_source`
@@ -58,7 +58,7 @@ class profiles::auth::client {
     }
   }
 
-  $sssd_options = { 
+  $sssd_options = {
     sssd => $sssd_options_general,
     nss  => $sssd_options_nss,
     pam  => $sssd_options_pam,

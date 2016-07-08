@@ -15,7 +15,7 @@
 
 # Install and configure VTune
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::environment::vtune::default_options` (`hiera_hash`)
 class profiles::environment::vtune {
 

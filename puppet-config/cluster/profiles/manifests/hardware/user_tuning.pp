@@ -15,7 +15,7 @@
 
 # Host tuning for user nodes
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::hardware::user_tuning::config_file`
 # * `profiles::hardware::user_tuning::config_options` (`hiera_hash`)
 class profiles::hardware::user_tuning {
@@ -24,7 +24,7 @@ class profiles::hardware::user_tuning {
   $config_file    = hiera('profiles::hardware::user_tuning::config_file')
   $config_options = hiera_hash('profiles::hardware::user_tuning::config_options')
 
-  # Call to hpclib::sysctl 
+  # Call to hpclib::sysctl
   hpclib::sysctl { $config_file :
     config      => $config_options,
     sysctl_file => $config_file,

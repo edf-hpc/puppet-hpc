@@ -15,7 +15,7 @@
 
 # Host tuning for user nodes
 #
-# ## Hiera 
+# ## Hiera
 # * `profiles::environment::modules::config_options`
 class profiles::environment::modules {
 
