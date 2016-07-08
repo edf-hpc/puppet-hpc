@@ -16,21 +16,14 @@
 # SSH client default configuration
 #
 # ## Hiera
-# * `cluster`
-# * `profiles::opensshclient::main_config_options` (`hiera_array`)
-# * `profiles::opensshclient::public_key`
-class profiles::opensshclient::client {
+# * `profiles::openssh::client::config_augeas` (`hiera_array`)
+class profiles::openssh::client {
 
   ## Hiera lookups
-
-  $main_config_options = hiera_array('profiles::opensshclient::main_config_options')
-  $public_key          = hiera('profiles::opensshclient::public_key')
-  $cluster             = hiera('cluster')
+  $config_augeas = hiera_array('profiles::openssh::client::config_augeas')
 
   # Pass config options as a class parameter
-  class { '::opensshclient':
-    main_config_options => $main_config_options,
-    cluster             => $cluster,
-    public_key          => $public_key,
+  class { '::openssh::client':
+    config_augeas => $config_augeas,
   }
 }
