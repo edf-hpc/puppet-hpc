@@ -13,12 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshserver::config inherits opensshserver {
+class openssh::client::config inherits openssh::client {
 
-  augeas { $opensshserver::main_config :
-    context => $opensshserver::augeas_context,
-    require => Package[$opensshserver::packages],
-    changes => $opensshserver::sshd_config_options,
+  augeas { $::openssh::client::config_file:
+    context => $::openssh::client::augeas_context,
+    require => Package[$::openssh::client::packages],
+    changes => $::openssh::client::config_augeas,
   }
 
 }

@@ -13,12 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshclient::keys inherits opensshclient {
+class openssh::server::config inherits openssh::server {
 
-  ssh_authorized_key { "root_${opensshclient::cluster}" :
-    ensure => 'present',
-    key    => $opensshclient::public_key,
-    type   => 'ssh-rsa',
-    user   => 'root',
+  augeas { $::openssh::server::config_file:
+    context => $::openssh::server::augeas_context,
+    require => Package[$::openssh::server::packages],
+    changes => $::openssh::server::config_augeas,
   }
+
 }
