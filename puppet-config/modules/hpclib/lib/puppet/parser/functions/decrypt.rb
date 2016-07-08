@@ -2,7 +2,7 @@ require 'openssl'
 require 'digest/md5'
 def decryptor(file, password, scheme='AES-256-CBC')
 
- ### Define key and iv lenght according to the RC4 encryption scheme ###
+  ### Define key and iv lenght according to the RC4 encryption scheme ###
   case scheme
     when 'AES-256-CBC'
       keylength=32
@@ -15,23 +15,24 @@ def decryptor(file, password, scheme='AES-256-CBC')
       ivlength=16
   end
 
-  encrypted_data = nil
-
-  ### Use binread in old versions ###
+  encrypted_data = ''
   begin
-  rver = RUBY_VERSION.split('.')[0]+RUBY_VERSION.split('.')[1]
-  if rver.to_i > 18
-    encrypted_data = IO.binread(file)
-  else
-    encrypted_data = IO.read(file)
-  end
+    # Read the file with the Puppet file function
+    if file.kind_of?(Array)
+      encrypted_data = function_file(file)
+    else
+      encrypted_data = function_file([file])
+    end
   rescue
     raise "Failed to read encrypted file: #{file}"
   end
 
-  
-  if !encrypted_data.nil? or encrypted_data.length > 16 or encrypted_data[0, 8] == 'Salted__'
-    salt = encrypted_data[8, 8]
+  if encrypted_data.length > 16 or encrypted_data[0, 8] == 'Salted__'
+    # the unpack/pack trick is here to avoid an encoding issue
+    # when using the salt in the MD5::digest. Not sufficiently
+    # an expert on ruby string encoding to entirely understand
+    # what's going on here.
+    salt = encrypted_data[8, 8].unpack('c*').pack('c*')
     encrypted_data = encrypted_data[16..-1]
     totsize = keylength + ivlength
     keyivdata = ''
@@ -55,19 +56,20 @@ def decryptor(file, password, scheme='AES-256-CBC')
   end
 end
 
-#require 'fileutils'
-
 # @param target File that should be decrypted
 # @param passwd Password to use for decrypting the file
-Puppet::Parser::Functions::newfunction(:decrypt, :type => :rvalue, :arity => -3, :doc =>
-  "Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.") do |args|
-  raise ArgumentError, ("decrypt(): wrong number of arguments (#{args.length}; must be 2 or 3") if args.length > 3
-  args.each do | arg|
-    raise ArgumentError, ('decrypt(): argument must be a string') unless arg.is_a?(String)
-  end
+Puppet::Parser::Functions::newfunction(
+  :decrypt, 
+  :type => :rvalue,
+  :arity => 2,
+  :doc => "Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.") do |args|
+  raise ArgumentError, ("decrypt(): wrong number of arguments (#{args.length}; must be 2") if args.length != 2
 
   target = args[0]
   passwd = args[1] 
+
+  raise ArgumentError, ('decrypt(): First argument (Target) must be an Array or a String') unless target.kind_of?(Array) or target.is_a?(String)
+  raise ArgumentError, ('decrypt(): Seconf argument (Password) must be a string') unless passwd.is_a?(String)
 
   debug "Retrieving crypted content in #{target}"
     result = decryptor(target, passwd) 
