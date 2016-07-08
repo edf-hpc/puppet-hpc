@@ -13,12 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshclient::config inherits opensshclient {
-
-  augeas { $opensshclient::main_config :
-    context => $opensshclient::augeas_context,
-    require => Package[$opensshclient::packages],
-    changes => $opensshclient::main_config_options,
+class openssh::client::keys inherits openssh::client {
+  $root_key_dir = dirname($::openssh::client::root_key_file)
+  file { $root_key_dir:
+    ensure => directory,
   }
+
+  file { $::openssh::client::root_key_file:
+    ensure  => present,
+    content => decrypt($::openssh::client::root_key_enc, $::openssh::client::decrypt_passwd),
+    mode    => '0600',
+  }
+
+  exec { 'openssh_client_update_root_public_key':
+    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+    command     => "ssh-keygen -y -f ${::openssh::client::root_key_file} > ${::openssh::client::root_key_file}.pub",
+    refreshonly => true,
+    subscribe   => File[$::openssh::client::root_key_file],
+  }
+
 
 }

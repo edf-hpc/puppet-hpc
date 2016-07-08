@@ -13,8 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hostkeys::config inherits hostkeys {
+class openssh::client::install inherits openssh::client {
 
-  create_resources(file, $::hostkeys::hostkeys, $::hostkeys::files_defaults)
+  package { $::openssh::client::packages:
+    ensure => $::openssh::client::packages_ensure,
+  }
 
 }

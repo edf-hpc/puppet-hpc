@@ -13,10 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshserver::service inherits opensshserver {
+class openssh::server::service inherits openssh::server {
 
-  service { $opensshserver::service :
-    require => Package[$opensshserver::packages],
+  service { $::openssh::server::service:
+    ensure  => $::openssh::server::service_ensure,
+    enable  => $::openssh::server::service_enable,
+    require => Package[$::openssh::server::packages],
   }
 
 }

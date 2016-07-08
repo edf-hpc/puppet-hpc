@@ -13,13 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensshclient::params {
+class openssh::client::params {
 
-#### Module variables
-
+  #### Module variables
   $packages_ensure = 'latest'
-  $main_config     = '/etc/ssh/ssh_config'
-  $augeas_context  = '/files/etc/ssh/ssh_config/Host'
+  $config_file     = '/etc/ssh/ssh_config'
+  $augeas_context  = "/files${config_file}/Host"
   case $::osfamily {
     'Debian' : {
       $packages = ['openssh-client']
@@ -32,10 +31,12 @@ class opensshclient::params {
     }
   }
 
-#### Defaults values
-
-  $main_config_options = [
+  #### Defaults values
+  $config_augeas = [
     'set StrictHostKeyChecking no',
   ]
 
+  $root_key_file  = '/root/.ssh/id_rsa'
+  $root_key_enc   = 'puppet:///modules/openssh/id_rsa_root.enc'
+  $decrypt_passwd = 'password'
 }
