@@ -120,19 +120,19 @@ slurmdbd_slurmro_db_password: &#39;SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML&#39;
 slurm::dbd::config_options:
   DbdHost:           &quot;%{hiera(&#39;slurm_primary_server&#39;)}&quot;
   DbdBackupHost:     &quot;%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
-  SlurmUser:         &quot;%{hiera(&#39;slurm_user&#39;)}&quot;        
-  StorageHost:       &#39;localhost&#39;  
+  SlurmUser:         &quot;%{hiera(&#39;slurm_user&#39;)}&quot;
+  StorageHost:       &#39;localhost&#39;
   StorageUser:       &#39;slurm&#39;
   StoragePass:       &quot;%{hiera(&#39;slurmdbd_slurm_db_password&#39;)}&quot;
 
 slurm::dbd::db_options:
   db:
     hosts:       &#39;localhost&#39;
-    user:        &#39;debian-sys-maint&#39; 
+    user:        &#39;debian-sys-maint&#39;
     password:    &quot;%{hiera(&#39;mariadb::mysql_root_pwd&#39;)}&quot;
   passwords:
     slurm:       &quot;%{hiera(&#39;slurmdbd_slurm_db_password&#39;)}&quot;
-    slurmro:     &quot;%{hiera(&#39;slurmdbd_slurmro_db_password&#39;)}&quot; 
+    slurmro:     &quot;%{hiera(&#39;slurmdbd_slurmro_db_password&#39;)}&quot;
   hosts:
     controllers: &quot;%{hiera(&#39;slurm_primary_server&#39;)},%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
     admins:      &quot;%{hiera(&#39;cluster_prefix&#39;)}admin1&quot;
@@ -148,7 +148,7 @@ slurm::dbd::db_options:
 </div>
 
     <div id="footer">
-  Generated on Wed Jul  6 16:07:40 2016 by
+  Generated on Fri Jul  8 16:48:37 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

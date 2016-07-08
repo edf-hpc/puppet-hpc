@@ -395,14 +395,15 @@
 53
 54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/decrypt.rb', line 3</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decryptor'>decryptor</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='comma'>,</span> <span class='id identifier rubyid_scheme'>scheme</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AES-256-CBC</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
- <span class='comment'>### Define key and iv lenght according to the RC4 encryption scheme ###
+  <span class='comment'>### Define key and iv lenght according to the RC4 encryption scheme ###
 </span>  <span class='kw'>case</span> <span class='id identifier rubyid_scheme'>scheme</span>
     <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AES-256-CBC</span><span class='tstring_end'>&#39;</span></span>
       <span class='id identifier rubyid_keylength'>keylength</span><span class='op'>=</span><span class='int'>32</span>
@@ -415,23 +416,24 @@
       <span class='id identifier rubyid_ivlength'>ivlength</span><span class='op'>=</span><span class='int'>16</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='kw'>nil</span>
-
-  <span class='comment'>### Use binread in old versions ###
-</span>  <span class='kw'>begin</span>
-  <span class='id identifier rubyid_rver'>rver</span> <span class='op'>=</span> <span class='const'>RUBY_VERSION</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='op'>+</span><span class='const'>RUBY_VERSION</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_rver'>rver</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&gt;</span> <span class='int'>18</span>
-    <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_binread'>binread</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>begin</span>
+    <span class='comment'># Read the file with the Puppet file function
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_file'>file</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
   <span class='kw'>rescue</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failed to read encrypted file: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  
-  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>16</span> <span class='kw'>or</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Salted__</span><span class='tstring_end'>&#39;</span></span>
-    <span class='id identifier rubyid_salt'>salt</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>8</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>16</span> <span class='kw'>or</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Salted__</span><span class='tstring_end'>&#39;</span></span>
+    <span class='comment'># the unpack/pack trick is here to avoid an encoding issue
+</span>    <span class='comment'># when using the salt in the MD5::digest. Not sufficiently
+</span>    <span class='comment'># an expert on ruby string encoding to entirely understand
+</span>    <span class='comment'># what&#39;s going on here.
+</span>    <span class='id identifier rubyid_salt'>salt</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>8</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>16</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_totsize'>totsize</span> <span class='op'>=</span> <span class='id identifier rubyid_keylength'>keylength</span> <span class='op'>+</span> <span class='id identifier rubyid_ivlength'>ivlength</span>
     <span class='id identifier rubyid_keyivdata'>keyivdata</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
@@ -1046,7 +1048,7 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Jul  6 16:08:02 2016 by
+  Generated on Fri Jul  8 16:48:58 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

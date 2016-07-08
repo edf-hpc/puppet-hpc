@@ -100,7 +100,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p><p>Activate HA for roles </p>
+    <p><p>Activate HA for roles</p>
 
 <p>This profile defines Virtual IP addresses associated with the role as a
 whole and not specific to a service.
@@ -116,17 +116,17 @@ of the same role. This is done by configuring two hiera hashes:</p>
 <pre class="code ruby"><code class="ruby">#### High-Availability Virtual IP addresses ######
 profiles::ha::role_vips:
   clusterloc_misc:
-    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;    
-    net_id:      &#39;clusterloc&#39;  
+    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;
+    net_id:      &#39;clusterloc&#39;
     router_id:   &#39;121&#39;
-    ip_address:  &#39;10.100.2.20&#39; 
+    ip_address:  &#39;10.100.2.20&#39;
     auth_secret: &#39;SECRET&#39;
   wan_misc:
-    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;    
+    prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;
     net_id:      &#39;wan&#39;
     router_id:   &#39;122&#39;
     ip_address:  &#39;192.168.42.55&#39;
-    auth_secret: &#39;SECRET&#39; 
+    auth_secret: &#39;SECRET&#39;
 </code></pre>
 
 <ul>
@@ -137,7 +137,7 @@ profiles::ha::role_vips:
   wan_front_ssh:
     ip_address:        &#39;192.168.42.57&#39;
     port:              &#39;22&#39;
-    vip_name:          &#39;wan_front&#39;  
+    vip_name:          &#39;wan_front&#39;
     real_server_hosts:
       - &#39;extgenfront1&#39;
 </code></pre>
@@ -159,7 +159,7 @@ profiles::ha::role_vips:
 </div>
 
     <div id="footer">
-  Generated on Wed Jul  6 16:07:40 2016 by
+  Generated on Fri Jul  8 16:48:37 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
