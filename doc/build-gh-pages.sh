@@ -1,16 +1,28 @@
 #!/bin/bash
 docdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
-puppet_hpc_dir="$(dirname "${docdir}")"
+
+puppet_hpc_current_git="$(dirname "${docdir}")" 
+
+temp_base="$(mktemp -d --tmpdir puppet_hpc_build_gh_pagesXXXXX)"
+
+puppet_hpc_dir="${temp_base}/puppet-hpc-master"
+puppet_hpc_gh_pages="${temp_base}/puppet-hpc-gh-pages"
+
+git clone "${puppet_hpc_current_git}" "${puppet_hpc_dir}"
+git clone -b gh-pages "${puppet_hpc_current_git}" "${puppet_hpc_gh_pages}"
 
 rm -rf ${docdir}/gh-pages
 
 mkdir ${docdir}/gh-pages
 mkdir ${docdir}/gh-pages/modules
 
-make
+(
+  cd ${docdir}
+  make
 
-cp PuppetHPCConfiguration.html ${docdir}/gh-pages/PuppetHPCConfiguration.html
-cp PuppetHPCConfiguration.pdf ${docdir}/gh-pages/PuppetHPCConfiguration.pdf
+  cp PuppetHPCConfiguration.html ${docdir}/gh-pages/PuppetHPCConfiguration.html
+  cp PuppetHPCConfiguration.pdf ${docdir}/gh-pages/PuppetHPCConfiguration.pdf
+)
 
 module_list="$(find "${puppet_hpc_dir}/puppet-config/modules" -mindepth 1 -maxdepth 1 -name '[^.]*' -type d -printf '%f\n' |sort)"
 
@@ -30,7 +42,7 @@ do
   )
 done
 
-cat > gh-pages/index.html << EOF
+cat > "${docdir}/gh-pages/index.html" << EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -79,12 +91,12 @@ EOF
 
 for i in ${module_list}
 do
-    cat >> gh-pages/index.html << EOF
+    cat >> "${docdir}/gh-pages/index.html" << EOF
     <li> <a href="modules/${i}/index.html">${i}</a> </li>
 EOF
 done
 
-cat >> gh-pages/index.html << EOF
+cat >> "${docdir}/gh-pages/index.html" << EOF
     </ul>
   <br/>
 
@@ -92,4 +104,21 @@ cat >> gh-pages/index.html << EOF
 </body>
 </html>
 EOF
+
+
+if [ -n "${puppet_hpc_gh_pages}" ]
+then
+  (
+    cd "${puppet_hpc_gh_pages}"
+    rm -rf *
+    cp -r ${docdir}/gh-pages/* .
+    git add *
+    git commit -m "Automatic doc regen"
+  )
+  (
+    cd ${docdir}
+    git fetch "${puppet_hpc_gh_pages}" gh-pages:gh-pages
+  )
+  rm -rf "${temp_base}"
+fi
 
