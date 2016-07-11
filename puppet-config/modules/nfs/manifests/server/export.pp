@@ -25,8 +25,6 @@ define nfs::server::export (
   $options      = 'ro,sync',
   $exports_file = $::nfs::server::exports_file,
 ){
-  require ::nfs::server
-
   if $options {
     $content = "${exportdir}    ${host}(${options})\n"
   }
