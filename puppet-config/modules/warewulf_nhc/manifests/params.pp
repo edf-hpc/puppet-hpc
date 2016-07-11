@@ -13,41 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Job scheduler execution node
-#
-# A generic configuration is defined in
-# ``puppet-hpc/hieradata/common.yaml", in your own hiera files you could
-# just redefine, the following values:
-#
-# ## Common
-# ```
-# slurm_primary_server:         "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
-# slurm_secondary_server:       "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
-# ```
-# A generic configuration for warewulf-nhc is defined in
-# ``puppet-hpc/hieradata/common.yaml", in your own hiera files you could
-# change or add some checks
-#
-class profiles::jobsched::exec {
-  include ::slurm::exec
-  include ::munge
+class warewulf_nhc::params {
 
-  Class['::munge::service'] ->
-  Class['::slurm::exec::service']
+#### Module variables
 
-  package{ [
-    'slurm-llnl-generic-scripts-plugin',
-  ]: }
+  $packages_ensure = 'latest'
+  $config_file     = '/etc/nhc/nhc.conf'
+  $packages        = ['warewulf-nhc']
+  $default_file    = '/etc/default/nhc'
+#### Defaults values
 
-  # Restrict access to execution nodes
-  include ::pam
-  include ::pam::slurm
-
-  # Install and configure NodeHealthChecker
-
-  $config_options = hiera_hash('profiles::warewulf_nhc::config_options')
-  class { '::warewulf_nhc':
-    config_options => $config_options,
+  $default_options = {
+    'HELPERDIR' => "'/usr/lib/warewulf-nhc/nhc'",
   }
 
 }

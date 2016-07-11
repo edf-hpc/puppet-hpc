@@ -162,6 +162,86 @@ slurm::config_options:
       comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
 
 
+
+##### NHC
+profiles::warewulf_nhc::config_options:
+  rm:
+    comment: 'Explicitly instruct NHC to assume the Resource Manager'
+    nodes:   '*'
+    command: 'export NHC_RM=slurm'
+  mark:
+    comment: 'Do not mark nodes offline'
+    nodes:   '*'
+    command: 'export MARK_OFFLINE=1'
+  debug:
+    comment: 'Activate debugging mode'
+    nodes:   '*'
+    command: 'export DEBUG=0'
+  watchdog:
+    comment: 'Set watchdog timer to 15 seconds'
+    nodes:   '*'
+    command: 'export TIMEOUT=15'
+  check:
+    comment: 'In out-of-band contexts, enable all checks'
+    nodes:   '*'
+    command: 'export NHC_CHECK_ALL=1'
+  verbose:
+    comment: 'Run verbosely'
+    nodes:   '*'
+    command: 'export VERBOSE=1'
+  eth0:
+    comment: 'Checks for an active ethernet interface named "eth0."'
+    nodes:   '*'
+    command: 'check_hw_eth eth0'
+  mcelog:
+    comment: 'Check the mcelog daemon for any pending errors'
+    nodes:   '*'
+    command: 'check_hw_mcelog'
+  rootrw:
+    comment: 'All nodes should have their root filesystem mounted read/write'
+    nodes:   '*'
+    command: 'check_fs_mount_rw -f /'
+  rootfree:
+    comment: "Make sure the root filesystem doesn't get too full"
+    nodes:   '*'
+    command: 'check_fs_free / 3%'
+  tmpfree:
+    comment: "Make sure the /tmp filesystem doesn't get too full"
+    nodes:   '*'
+    command: 'check_fs_free /tmp 3%'
+  home-stat:
+    comment: 'Assert that /home filesystem is available'
+    nodes:   '*'
+    command: "check_file_test -d ${nodehealth_home_dir}"
+  scratch-stat:
+    comment: 'Assert that /scratch filesystem is available'
+    nodes:   '*'
+    command: "check_file_test -d ${nodehealth_scratch_dir}"
+  homefree:
+    comment: "Make sure the /home filesystem doesn't get too full"
+    nodes:   '*'
+    command: 'check_fs_free /home 3%'
+  scratchfree:
+    comment: "Make sure the /scratch filesystem doesn't get too full"
+    nodes:   '*'
+    command: 'check_fs_free /scratch 3%'
+  homestale:
+    comment: 'Make sure home is available.'
+    nodes:   '*'
+    command: 'check_cmd_status -r 0 df /gpfssata'
+  scratchstale:
+    comment: 'Make sure scratch is available.' 
+    nodes:   '*'
+    command: 'check_cmd_status -r 0 df /scratch'
+  tmprw:
+    comment: 'These should always be directories and always be read/write/execute and sticky'
+    nodes:   '*'
+    command: 'check_file_test -r -w -x -d -k /tmp /var/tmp'
+  devnull:
+    comment: 'Assert common properties for /dev/null (which occasionally gets clobbered)'
+    nodes:   '*'
+    command: 'check_file_test -c -r -w /dev/null /dev/zero'
+
 ##### CLARA
 # repos - repos.ini
 profiles::clara::dist_mirror_source_server: "ftp.scibian.org"
