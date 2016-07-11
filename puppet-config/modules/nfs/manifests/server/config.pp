@@ -13,32 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_server::params {
+class nfs::server::config inherits nfs::server {
 
-  # Module variables
-  $exports_file    = '/etc/exports'
-  $packages_ensure = 'present'
-  $service_ensure  = 'running'
-  case $::osfamily {
-    'Debian': {
-      $packages = ['nfs-kernel-server']
-      $service   = 'nfs-kernel-server'
-    }
-    'Redhat': {
-      $packages = ['nfs-utils.x86_64']
-      case $::operatingsystemmajrelease {
-        '7': {
-          $service = 'nfs-server'
-        }
-        default: {
-          $service = 'nfs'
-        }
-      }
-    }
-    default: {
-      fail ("Unsupported OS Family: ${::osfamily}")
-    }
+  concat { $::nfs::server::exports_file:
+    ensure => 'present',
   }
 
+  Nfs::Server::Export <| |>
 }
-

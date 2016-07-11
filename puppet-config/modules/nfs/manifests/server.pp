@@ -13,21 +13,32 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_client (
-  $packages        = $::nfs_client::params::packages,
-  $packages_ensure = $::nfs_client::params::packages_ensure,
-  $service         = $::nfs_client::params::service,
-  $service_ensure  = $::nfs_client::params::service_ensure,
-) inherits nfs_client::params {
+# NFS server
+#
+# @param packages_ensure   Install mode (`latest` or `present`) for the
+#                          packages (default: `present`)
+# @param packages          Array of packages names
+# @param service_ensure    Ensure state of the service: `running` or
+#                          `stopped` (default: running)
+# @param service           Name of the service
+class nfs::server (
+  $exports_file    = $::nfs::server::params::exports_file,
+  $packages        = $::nfs::server::params::packages,
+  $packages_ensure = $::nfs::server::params::packages_ensure,
+  $service         = $::nfs::server::params::service,
+  $service_ensure  = $::nfs::server::params::service_ensure,
+) inherits nfs::server::params {
 
+  validate_absolute_path($exports_file)
   validate_array($packages)
   validate_string($packages_ensure)
   validate_string($service)
   validate_string($service_ensure)
 
-  anchor { 'nfs_client::begin': } ->
-  class { 'nfs_client::install': } ->
-  class { 'nfs_client::service': } ->
-  anchor { 'nfs_client::end': }
+  anchor { 'nfs::server::begin': } ->
+  class { '::nfs::server::install': } ->
+  class { '::nfs::server::config': } ~>
+  class { '::nfs::server::service': } ->
+  anchor { 'nfs::server::end': }
 
 }

@@ -13,10 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_server::service inherits nfs_server {
+class nfs::client::params {
 
-  service { $::nfs_server::service:
-    ensure => $::nfs_server::service_ensure,
+  # Module variables
+  $packages_ensure = 'present'
+  $service_ensure  = 'running'
+  case $::osfamily {
+    'Debian': {
+      $packages = ['nfs-common']
+      $service  = 'nfs-common'
+    }
+    'Redhat': {
+      $packages = ['nfs-utils.x86_64']
+      $service  = 'nfs'
+    }
+    default: {
+      fail("Unsupported OS Family: ${::osfamily}")
+    }
   }
 
 }
