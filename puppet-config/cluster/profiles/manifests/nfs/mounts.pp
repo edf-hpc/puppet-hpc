@@ -23,9 +23,9 @@ class profiles::nfs::mounts {
   $to_mount = hiera_hash('profiles::nfs::to_mount')
 
   # Initialize nfs_client
-  include ::nfs_client
+  include ::nfs::client
  
   # Mount all the specified directories
-  create_resources('::nfs_client::mount', $to_mount)
+  create_resources('::nfs::client::mount', $to_mount)
 
 }
