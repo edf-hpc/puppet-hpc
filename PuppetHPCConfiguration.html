@@ -1629,10 +1629,10 @@ is explained in details by this presentation:
 <div class="sect2">
 <h3 id="_node_classifiers">3.1. Node classifiers</h3>
 <div class="paragraph">
-<p>Roles must be associated to a node. In the Puppet HPC configuration, this is
-done by examining the name of the node. The name is analysed by searching for a
+<p>A role must be associated to a node. In the Puppet HPC configuration, this is
+done by examining the name of the node. The name is analyzed by searching for a
 pattern <code>&lt;prefix&gt;&lt;role name&gt;&lt;numerical ID&gt;</code> (Example: <code>gencritical1</code>). This is
-done by the <code>hpclib</code> module which define the <code>puppet_role</code> fact.</p>
+done by the <code>hpclib</code> module which defines the <code>puppet_role</code> fact.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1641,9 +1641,9 @@ done by the <code>hpclib</code> module which define the <code>puppet_role</code>
 <p>In the Puppet HPC configuration, <strong>roles</strong> are implemented in hiera. A
 simple module (<code>puppet-config/cluster/roles</code>) is loading all the classes
 (profiles) defined in the hiera <code>profiles</code> array. The configuration is
-providing some roles definitions but it&#8217;s not mandatory to use it and
-a site may redefine roles entirely. That&#8217;s why referencing a role by
-referencing it&#8217;s name directly should be avoided.</p>
+providing some role definitions but it is not mandatory to use it and
+a site may defines its own roles. That is why referencing a role by
+referencing its name directly should be avoided.</p>
 </div>
 <div class="paragraph">
 <p>The module <code>hpclib</code> defines facts that can return the role that
@@ -1671,9 +1671,9 @@ call any class except other profiles.</p>
 <div class="sect2">
 <h3 id="_hpc_modules">3.4. HPC modules</h3>
 <div class="paragraph">
-<p>HPC modules are modules that provide a more low level implementation of a technical
-solution than a profile, but still rely on the Puppet HPC configuration as a
-whole. This include module that use facts defined by <code>hpclib</code>.</p>
+<p>HPC modules are modules that provide a lower level implementation of a technical
+solution than a profile, but they still rely on the Puppet HPC configuration as a
+whole. This includes modules that use facts defined by <code>hpclib</code>.</p>
 </div>
 <div class="paragraph">
 <p>Those modules can use other modules and define resources, templates, files,
@@ -1685,16 +1685,16 @@ facts, functions&#8230; Their name can be prefixed by <code>hpc_</code>.</p>
 <div class="paragraph">
 <p>Generic modules implement a specific solution directly in a manner that is not
 specific to the Puppet HPC configuration. These modules can not rely on data
-not provided as class parameters or by the standard facts.</p>
+other than class parameters or standard facts.</p>
 </div>
 <div class="paragraph">
-<p>The modules must be able to work without hiera. The fact that these module can be
+<p>Modules must be able to work without hiera. The fact that these modules can be
 used independently of the Puppet HPC configuration, does not mean that it must
 support features not used in the Puppet HPC configuration.</p>
 </div>
 <div class="paragraph">
 <p>HPC and Generic modules are not strictly separated, using or not data specific to
-the Puppet HPC configuration is what makes a module fall into a category or
+the Puppet HPC configuration is what makes a module falls into a category or
 another.</p>
 </div>
 </div>
@@ -1708,7 +1708,7 @@ at least. Exceptions to this rule is possible if the module has been properly
 reviewed. The only exception right now is <code>puppetlabs-strings</code>.</p>
 </div>
 <div class="paragraph">
-<p>Third party module should be copied in the <code>puppet-config/modules_3rdparty</code>
+<p>Third party modules should be copied in the <code>puppet-config/modules_3rdparty</code>
 directory. This may change in the future.</p>
 </div>
 </div>
