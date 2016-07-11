@@ -13,23 +13,31 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_server (
-  $exports_file    = $::nfs_server::params::exports_file,
-  $packages        = $::nfs_server::params::packages,
-  $packages_ensure = $::nfs_server::params::packages_ensure,
-  $service         = $::nfs_server::params::service,
-  $service_ensure  = $::nfs_server::params::service_ensure,
-) inherits nfs_server::params {
+# Export a local directory with NFS
+#
+# @param exportdir    Directory to export
+# @param host         Hosts authorized to connect to this export
+# @param options      Exports options (see `exports(5)`)
+# @param exports_file file where the export is defined (default: `/etc/exports`)
+define nfs::server::export (
+  $exportdir,
+  $host         = '*',
+  $options      = 'ro,sync',
+  $exports_file = $::nfs::server::exports_file,
+){
+  require ::nfs::server
 
-  validate_absolute_path($exports_file)
-  validate_array($packages)
-  validate_string($packages_ensure)
-  validate_string($service)
-  validate_string($service_ensure)
+  if $options {
+    $content = "${exportdir}    ${host}(${options})\n"
+  }
+  else {
+    $content = "${exportdir}    ${host}\n"
+  }
 
-  anchor { 'nfs_server::begin': } ->
-  class { 'nfs_server::install': } ->
-  class { 'nfs_server::service': } ->
-  anchor { 'nfs_server::end': }
+  concat::fragment { "${exportdir}_on_${host}":
+    ensure  => 'present',
+    content => $content,
+    target  => $exports_file,
+  }
 
 }

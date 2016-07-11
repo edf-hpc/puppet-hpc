@@ -13,7 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define nfs_client::mount (
+# Mount an NFS export after creating the mount point
+#
+# @param server     NFS server host
+# @param exportdir  Directory to mount on the server
+# @param mountpoint Local mount point
+# @param options    Mount options (see `mount(8)` and `nfs(5)`)
+# @param ensure     State of the mount
+# @param atboot     File system should be mounted during boot
+# @param remounts   Remount the file system if options changes
+define nfs::client::mount (
   $server,
   $exportdir,
   $mountpoint,
@@ -21,8 +30,6 @@ define nfs_client::mount (
   $ensure   = 'mounted',
   $atboot   = true,
   $remounts = false,
-  $pass     = 2,
-  $dump     = 0,
 ){
 
   if $ensure == 'mounted' {
@@ -40,15 +47,16 @@ define nfs_client::mount (
   }
 
   # Mount the device
+  #  Dump and pass should always be 0 for NFS
   mount {$mountpoint:
     ensure   => $ensure,
     device   => "${server}:${exportdir}",
     fstype   => 'nfs',
     atboot   => $atboot,
     options  => $options,
-    pass     => $pass,
+    pass     => 0,
     remounts => $remounts,
-    dump     => $dump,
+    dump     => 0,
   }
 
 }

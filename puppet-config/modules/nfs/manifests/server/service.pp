@@ -13,15 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_server::install inherits nfs_server {
+class nfs::server::service inherits nfs::server {
 
-  package { $::nfs_server::packages:
-    ensure => $::nfs_server::packages_ensure,
+  service { $::nfs::server::service:
+    ensure => $::nfs::server::service_ensure,
   }
 
-  concat { $::nfs_server::exports_file:
-    ensure => 'present',
-  }
-
-  Nfs_server::Export <| |>
 }

@@ -13,24 +13,29 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define nfs_server::export (
-  $exportdir,
-  $host         = '*',
-  $options      = 'ro,sync',
-  $exports_file = $::nfs_server::exports_file,
-){
+# NFS client
+#
+# @param packages_ensure   Install mode (`latest` or `present`) for the
+#                          packages (default: `present`)
+# @param packages          Array of packages names
+# @param service_ensure    Ensure state of the service: `running` or
+#                          `stopped` (default: running)
+# @param service           Name of the service
+class nfs::client (
+  $packages        = $::nfs::client::params::packages,
+  $packages_ensure = $::nfs::client::params::packages_ensure,
+  $service         = $::nfs::client::params::service,
+  $service_ensure  = $::nfs::client::params::service_ensure,
+) inherits nfs::client::params {
 
-  if $options {
-    $content = "${exportdir}    ${host}(${options})\n"
-  }
-  else {
-    $content = "${exportdir}    ${host}\n"
-  }
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_string($service)
+  validate_string($service_ensure)
 
-  concat::fragment { "${exportdir}_on_${host}":
-    ensure  => 'present',
-    content => $content,
-    target  => $exports_file,
-  }
+  anchor { 'nfs::client::begin': } ->
+  class { '::nfs::client::install': } ->
+  class { '::nfs::client::service': } ->
+  anchor { 'nfs::client::end': }
 
 }

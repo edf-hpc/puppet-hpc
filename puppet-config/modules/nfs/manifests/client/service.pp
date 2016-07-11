@@ -13,10 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs_client::install inherits nfs_client {
+class nfs::client::service inherits nfs::client {
 
-  package { $::nfs_client::packages:
-    ensure => $::nfs_client::packages_ensure,
+  service { $::nfs::client::service:
+    ensure => $::nfs::client::service_ensure,
   }
 
 }
