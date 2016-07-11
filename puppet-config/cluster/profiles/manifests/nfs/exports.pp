@@ -23,9 +23,9 @@ class profiles::nfs::exports {
   $to_export = hiera_hash('profiles::nfs::to_export')
 
   # Initialize nfs_server
-  include ::nfs_server
+  include ::nfs::server
  
   # Mount all the specified directories
-  create_resources('::nfs_server::export', $to_export)
+  create_resources('::nfs::server::export', $to_export)
 
 }
