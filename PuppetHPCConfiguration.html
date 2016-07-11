@@ -1629,34 +1629,58 @@ is explained in details by this presentation:
 <div class="sect2">
 <h3 id="_node_classifiers">3.1. Node classifiers</h3>
 <div class="paragraph">
-<p>A role must be associated to a node. In the Puppet HPC configuration, this is
-done by examining the name of the node. The name is analyzed by searching for a
-pattern <code>&lt;prefix&gt;&lt;role name&gt;&lt;numerical ID&gt;</code> (Example: <code>gencritical1</code>). This is
-done by the <code>hpclib</code> module which defines the <code>puppet_role</code> fact.</p>
+<p>A role must be associated to a node. In the Puppet HPC configuration, it is
+assumed the node is named after its role. The naming rule for a node follows
+the pattern :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&lt;prefix&gt;&lt;role name&gt;&lt;numerical ID&gt;</code> (Example: <code>gencritical1</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>where <code>&lt;prefix&gt;</code> is the value of the variable <code>cluster_prefix</code> defined in Hiera.</p>
+</div>
+<div class="paragraph">
+<p>To retrieve the role of a node, its hostname is analyzed by searching for the previous
+pattern. This is done by the Ruby script <code>role.rb</code> of the <code>hpclib</code> module which
+defines the <code>puppet_role</code> fact.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_roles">3.2. Roles</h3>
 <div class="paragraph">
-<p>In the Puppet HPC configuration, <strong>roles</strong> are implemented in hiera. A
-simple module (<code>puppet-config/cluster/roles</code>) is loading all the classes
-(profiles) defined in the hiera <code>profiles</code> array. The configuration is
-providing some role definitions but it is not mandatory to use it and
-a site may defines its own roles. That is why referencing a role by
+<p>In the Puppet HPC configuration, each role is associated to the list of profiles
+it includes.
+The content of each role is specified in Hiera (<code>hieradata/default/roles</code>) in
+the corresponding YAML file <code>&lt;role&gt;.yaml</code>. This YAML file includes the definition
+of a <code>profiles</code> array,
+which is the list of profiles the role is composed of.</p>
+</div>
+<div class="paragraph">
+<p>A simple module (<code>puppet-config/cluster/roles</code>) is loading all the profile classes
+defined in the Hiera <code>profiles</code> array.
+The configuration is providing some role definitions (critical, misc, batch, etc)
+but it is not mandatory
+to use them. Any site may define its own roles. That is why referencing a role by
 referencing its name directly should be avoided.</p>
 </div>
 <div class="paragraph">
-<p>The module <code>hpclib</code> defines facts that can return the role that
-implements profiles with specific names (<code>server</code>, <code>relay</code>, <code>mirror</code>,
-<code>replica</code>, <code>tracker</code>).</p>
+<p>The module <code>hpclib</code> defines some facts that indicate which role includes a
+profile with some specific keywords in its name (<code>server</code>, <code>relay</code>, <code>mirror</code>,
+<code>replica</code>, <code>tracker</code>). Looking at the facts on any node of the cluster, it is
+easy to know which role implements the DNS server or the LDAP replica for example.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_profiles">3.3. Profiles</h3>
 <div class="paragraph">
-<p>Profiles are classes grouped inside the <code>profiles</code> module. Each profile is a
+<p>Profiles are classes grouped inside the <code>profiles</code> module
+(<code>puppet-config/cluster/profiles</code>). Each profile is a
 feature for a host. That feature is built from technical components defined
-by the modules. Profiles can rely heavily on hiera to get the configuration
+by modules. Profiles can rely heavily on Hiera to get the configuration
 for the site. The profiles do not use auto-lookup but explicit <code>hiera</code> (or
 <code>hiera_hash</code> and <code>hiera_array</code>) calls, this permits to control how data
 coming from multiple hierarchy levels are merged.</p>
@@ -1664,7 +1688,7 @@ coming from multiple hierarchy levels are merged.</p>
 <div class="paragraph">
 <p>The <code>profiles</code> module only defines classes, no resource, methods or facts. It
 should not use templates or files. Profiles are meant to rely on the rest of
-the hiera/Puppet HPC configuration and may not work outside of it. Profiles can
+the Hiera/Puppet HPC configuration and may not work outside of it. Profiles can
 call any class except other profiles.</p>
 </div>
 </div>
@@ -1688,14 +1712,16 @@ specific to the Puppet HPC configuration. These modules can not rely on data
 other than class parameters or standard facts.</p>
 </div>
 <div class="paragraph">
-<p>Modules must be able to work without hiera. The fact that these modules can be
-used independently of the Puppet HPC configuration, does not mean that it must
-support features not used in the Puppet HPC configuration.</p>
+<p>Modules must be able to work without Hiera. Despite the fact that these modules
+can be used independently of the Puppet HPC configuration, most of them have been
+created to be used in the context of an HPC cluster. As a result, the features they
+support might seem incomplete for other uses. If you feel this way, please feel free
+to contribute and add features to make our modules as generic as possible.</p>
 </div>
 <div class="paragraph">
-<p>HPC and Generic modules are not strictly separated, using or not data specific to
-the Puppet HPC configuration is what makes a module falls into a category or
-another.</p>
+<p>HPC and Generic modules are not strictly separated. Whether data specific to
+the Puppet HPC configuration is used in the module or not is what makes a module
+falls into a category or the other.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1725,7 +1751,7 @@ parser from Puppet 4 (<code>foreach</code>&#8230;). Compatibility with the futur
 encouraged though.</p>
 </div>
 <div class="paragraph">
-<p>You must assume that the manifest will be applied with the followin setting in
+<p>You must assume that the manifest will be applied with the following setting in
 <code>puppet.conf</code>:</p>
 </div>
 <div class="listingblock">
@@ -1735,14 +1761,14 @@ encouraged though.</p>
 </div>
 <div class="paragraph">
 <p>The configuration provides a script <code>validate.sh</code> that checks the syntax with
-<code>puppet-lint</code>. You can use it or run <code>puppet-lint</code> yourself with the followings
+<code>puppet-lint</code>. You can use it or run <code>puppet-lint</code> yourself with the following
 arguments:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p><code>--no-class_inherits_from_params_class-check</code>, the configuration does not
-support puppet &lt; 3.0, this check is ignored</p>
+support puppet &lt; 3.0, so this check is ignored</p>
 </li>
 <li>
 <p><code>--no-80chars-check</code>, the limit in the style guide is 140 characters, but
@@ -1766,11 +1792,11 @@ support puppet &lt; 3.0, this check is ignored</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A class with the same name as the service should exist, this class inherits a
-<code>params</code> class that define default values for the software. Defaults should
+<code>params</code> class that defines default values for the software. Defaults should
 change when appropriate (eg. different package names for different OS).</p>
 </div>
 <div class="paragraph">
-<p>Most modules follow a pattern were the following subclasses are defined:</p>
+<p>Most modules follow a pattern where the following subclasses are defined:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1806,7 +1832,7 @@ from the puppetlabs forge does this:
 <h2 id="_variables">4. Variables</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To maintain consistency between modules, some recuring variables and/or
+<p>To maintain consistency between modules, some recurring variables and/or
 parameters should use the following standardised names:</p>
 </div>
 <div class="ulist">
