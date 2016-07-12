@@ -39,7 +39,6 @@ Profiles are grouped by sections:
 * *gpfs*, IBM GPFS (Spectrum Scaler) service
 * *ha*, High Availability tools
 * *hardware*, Hardware tools and tuning
-* *hostkeys*, Keys deployment to the host
 * *http*, Web server (Apache)
 * *jobsched*, Job scheduler (SLURM)
 * *log*, System log management
@@ -48,8 +47,7 @@ Profiles are grouped by sections:
 * *network*, Host network configuration
 * *nfs*, NFS service
 * *ntp*, NTP service
-* *opensshclient*, SSH client
-* *opensshserver*, SSH server
+* *openssh*, SSH configuration and keys
 * *p2p*, Peer to Peer system (bittorrent) service
 * *postfix*, Full featured MTA
 * *software*, Application software
