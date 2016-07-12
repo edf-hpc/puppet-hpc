@@ -1,5 +1,7 @@
 require 'openssl'
 require 'digest/md5'
+require 'open-uri'
+
 def decryptor(file, password, scheme='AES-256-CBC')
 
   ### Define key and iv lenght according to the RC4 encryption scheme ###
@@ -15,16 +17,37 @@ def decryptor(file, password, scheme='AES-256-CBC')
       ivlength=16
   end
 
+  if file.kind_of?(Array)
+    file_array = file
+  else
+    file_array = [file]
+  end
+
+  # First, try to read the file with the puppet function 
+  # file, it handles fallback natively and paths like:
+  # * <module>/<filename>
+  # * Absolute file name
   encrypted_data = ''
   begin
-    # Read the file with the Puppet file function
-    if file.kind_of?(Array)
-      encrypted_data = function_file(file)
-    else
-      encrypted_data = function_file([file])
-    end
+    encrypted_data = function_file(file_array)
   rescue
-    raise "Failed to read encrypted file: #{file}"
+    debug("function_file failed to read #{file_array}.")
+  end
+
+  if encrypted_data == ''
+    file_array.each do |current_file|
+      begin
+        # Remove the 'file://' part
+        uri = current_file.sub(%r{^file://}, '')
+        encrypted_data = open(uri, 'rb') { |f| f.read }
+      rescue => e 
+          debug("IO module failed to read #{current_file}: #{e}")
+      end
+    end
+  end
+
+  if encrypted_data == ''
+    raise "Failed to read encrypted data from any source: #{file}"
   end
 
   if encrypted_data.length > 16 or encrypted_data[0, 8] == 'Salted__'
