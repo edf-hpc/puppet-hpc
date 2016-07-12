@@ -356,16 +356,16 @@ clara::ipmi_options:
 
 
 ##### APT config
-profiles::cluster::always_apt_update:    true
-profiles::cluster::disable_keys:         false
-profiles::cluster::purge_sources_list:   true
-profiles::cluster::purge_sources_list_d: true
-profiles::cluster::purge_preferences_d:  true
-profiles::cluster::update_timeout:       '10'
+apt::always_apt_update:    true
+apt::disable_keys:         false
+apt::purge_sources_list:   true
+apt::purge_sources_list_d: true
+apt::purge_preferences_d:  true
+apt::update_timeout:       '10'
 
 profiles::cluster::apt_sources:
   'debian_stable':
-    location: "http://%{hiera('cluster_prefix')}%{my_http_mirror}2/mirror/jessie"
+    location: "http://%{hiera('cluster_prefix')}%{my_http_mirror}/mirror/jessie"
     release: 'jessie'
     repos: 'main contrib non-free'
     required_packages: 'debian-keyring debian-archive-keyring'
