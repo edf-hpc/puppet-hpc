@@ -31,4 +31,26 @@ class profiles::cluster::common {
   file { $libcalibre_path:
     ensure => directory
   }
+
+  # Set apt config
+  $always_apt_update    = hiera('profiles::cluster::always_apt_update')
+  $disable_keys         = hiera('profiles::cluster::disable_keys')
+  $purge_sources_list   = hiera('profiles::cluster::purge_sources_list')
+  $purge_sources_list_d = hiera('profiles::cluster::purge_sources_list_d')
+  $purge_preferences_d  = hiera('profiles::cluster::purge_preferences_d')
+  $update_timeout       = hiera('profiles::cluster::update_timeout')
+  $apt_sources          = hiera_hash('profiles::cluster::apt_sources')
+
+  if $::osfamily == 'Debian' {
+    class { 'apt':
+      always_apt_update    => $always_apt_update,
+      disable_keys         => $disable_keys,
+      purge_sources_list   => $purge_sources_list,
+      purge_sources_list_d => $purge_sources_list_d,
+      purge_preferences_d  => $purge_preferences_d,
+      update_timeout       => $update_timeout,
+    }
+  }
+
+  create_resources(apt::source, $apt_sources)
 }
