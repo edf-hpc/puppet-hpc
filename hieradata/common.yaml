@@ -12,6 +12,7 @@ cluster_name:   "%{hiera('cluster')}"
 website_dir:    "%{hiera('admin_dir')}/public/http"
 preseeddir:     '/var/cache/debconf'
 libcalibre:     '/var/lib/calibre'
+home_dir:       '/home'
 
 ###### NTP
 ntp::iburst_enable: false
@@ -212,27 +213,11 @@ profiles::warewulf_nhc::config_options:
   home-stat:
     comment: 'Assert that /home filesystem is available'
     nodes:   '*'
-    command: "check_file_test -d ${nodehealth_home_dir}"
-  scratch-stat:
-    comment: 'Assert that /scratch filesystem is available'
-    nodes:   '*'
-    command: "check_file_test -d ${nodehealth_scratch_dir}"
+    command: "check_file_test -d %{hiera('home_dir')}"
   homefree:
     comment: "Make sure the /home filesystem doesn't get too full"
     nodes:   '*'
-    command: 'check_fs_free /home 3%'
-  scratchfree:
-    comment: "Make sure the /scratch filesystem doesn't get too full"
-    nodes:   '*'
-    command: 'check_fs_free /scratch 3%'
-  homestale:
-    comment: 'Make sure home is available.'
-    nodes:   '*'
-    command: 'check_cmd_status -r 0 df /gpfssata'
-  scratchstale:
-    comment: 'Make sure scratch is available.' 
-    nodes:   '*'
-    command: 'check_cmd_status -r 0 df /scratch'
+    command: "check_fs_free %{hiera('home_dir')} 3%"
   tmprw:
     comment: 'These should always be directories and always be read/write/execute and sticky'
     nodes:   '*'
@@ -367,4 +352,4 @@ clara::repo_options:
   gpg_key:     "%{hiera('cluster_repo_gpg_key')}"
   clustername: "%{hiera('cluster_name')}"
 clara::ipmi_options:
-  conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}" 
+  conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}"
