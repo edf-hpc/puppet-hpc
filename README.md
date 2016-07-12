@@ -10,7 +10,7 @@ The project is an effort to produce a puppet configuration suitable for an HPC c
 
 EDF HPC team is focused on Debian support, but contributions related to other distributions are welcome. 
 
-## Pinciples
+## Principles
 
 The design is using the pattern of roles and profiles exposed here: https://puppet.com/presentations/designing-puppet-rolesprofiles-pattern
 
