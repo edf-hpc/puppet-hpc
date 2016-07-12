@@ -13,10 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class nfs::client::service inherits nfs::client {
+class nfs::config inherits nfs {
 
-  service { $::nfs::client::service:
-    ensure => $::nfs::client::service_ensure,
+  hpclib::print_config { $::nfs::idmapd_file :
+    style    => 'ini',
+    comments => ';',
+    data     => $::nfs::_idmapd_options,
   }
 
 }

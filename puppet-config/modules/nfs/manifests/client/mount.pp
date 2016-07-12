@@ -34,7 +34,7 @@ define nfs::client::mount (
 
   if $ensure == 'mounted' {
     # Make sure the mount point exists
-    exec {"creating_${mountpoint}":
+    exec { "creating_${mountpoint}":
       command => "mkdir -p ${mountpoint}",
       unless  => "test -d ${mountpoint}",
       path    => $::path,
@@ -48,7 +48,7 @@ define nfs::client::mount (
 
   # Mount the device
   #  Dump and pass should always be 0 for NFS
-  mount {$mountpoint:
+  mount { $mountpoint:
     ensure   => $ensure,
     device   => "${server}:${exportdir}",
     fstype   => 'nfs',

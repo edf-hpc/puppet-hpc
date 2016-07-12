@@ -28,6 +28,7 @@ class nfs::server (
   $service         = $::nfs::server::params::service,
   $service_ensure  = $::nfs::server::params::service_ensure,
 ) inherits nfs::server::params {
+  require ::nfs
 
   validate_absolute_path($exports_file)
   validate_array($packages)
