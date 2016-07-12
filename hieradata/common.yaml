@@ -353,3 +353,21 @@ clara::repo_options:
   clustername: "%{hiera('cluster_name')}"
 clara::ipmi_options:
   conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}"
+
+
+##### APT config
+profiles::cluster::always_apt_update:    true
+profiles::cluster::disable_keys:         false
+profiles::cluster::purge_sources_list:   true
+profiles::cluster::purge_sources_list_d: true
+profiles::cluster::purge_preferences_d:  true
+profiles::cluster::update_timeout:       '10'
+
+profiles::cluster::apt_sources:
+  'debian_stable':
+    location: "http://%{hiera('cluster_prefix')}%{my_http_mirror}2/mirror/jessie"
+    release: 'jessie'
+    repos: 'main contrib non-free'
+    required_packages: 'debian-keyring debian-archive-keyring'
+    pin: '500'
+    include_src: false
