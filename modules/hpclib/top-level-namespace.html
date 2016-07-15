@@ -342,8 +342,6 @@
       <pre class="lines">
 
 
-3
-4
 5
 6
 7
@@ -396,10 +394,33 @@
 54
 55
 56
-57</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/decrypt.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/decrypt.rb', line 5</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decryptor'>decryptor</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='comma'>,</span> <span class='id identifier rubyid_scheme'>scheme</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AES-256-CBC</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
@@ -416,16 +437,37 @@
       <span class='id identifier rubyid_ivlength'>ivlength</span><span class='op'>=</span><span class='int'>16</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_file_array'>file_array</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_file_array'>file_array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_file'>file</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># First, try to read the file with the puppet function 
+</span>  <span class='comment'># file, it handles fallback natively and paths like:
+</span>  <span class='comment'># * &lt;module&gt;/&lt;filename&gt;
+</span>  <span class='comment'># * Absolute file name
+</span>  <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>begin</span>
-    <span class='comment'># Read the file with the Puppet file function
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_kind_of?'>kind_of?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_file'>file</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file_array'>file_array</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failed to read encrypted file: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>function_file failed to read </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file_array'>file_array</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_file_array'>file_array</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_current_file'>current_file</span><span class='op'>|</span>
+      <span class='kw'>begin</span>
+        <span class='comment'># Remove the &#39;file://&#39; part
+</span>        <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='id identifier rubyid_current_file'>current_file</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^file://</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_uri'>uri</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rb</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span> <span class='rbrace'>}</span>
+      <span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span> 
+          <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IO module failed to read </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_current_file'>current_file</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failed to read encrypted data from any source: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>16</span> <span class='kw'>or</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Salted__</span><span class='tstring_end'>&#39;</span></span>
@@ -1048,7 +1090,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:54:52 2016 by
+  Generated on Fri Jul 15 10:26:50 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

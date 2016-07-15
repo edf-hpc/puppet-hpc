@@ -93,10 +93,10 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="access/params.html" title="pam::access::params (hostclass)">pam::access::params</a></span></span>
       <ul class="fullTree">
         
-          <li class="next"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></li>
+          <li class="next"><span class='object_link'><a href="access/params.html" title="pam::access::params (hostclass)">pam::access::params</a></span></li>
         
           <li class="next">pam::access</li>
         
@@ -112,9 +112,17 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure pam_access</p>
+
+<p>The configuration options below is completed with a last catchall
+reject rule.</p>
+
+<p>The <code>exec</code> parameter is only used on Redhat. The parameters <code>type</code>,
+<code>module</code>, <code>control</code>, <code>position</code> and <code>pam_service</code> are only used on
+Debian.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,13 +133,21 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">pam_ssh_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_ssh_config</tt></li><li><span class="name">access_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::access_config</tt></li><li><span class="name">access_config_opts </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::access_config_opts</tt></li><li><span class="name">access_exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::access_exec</tt></li>
+    <li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::config_file</tt> - <div class="inline"><p> Path of the configuration file for pam_access
+(default: `/etc/security/access.conf`) </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::config_options</tt> - <div class="inline"><p> Content of the pam_access config file as an array
+of lines (default: []) </p></div></li><li><span class="name">exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::exec</tt> - <div class="inline"><p> Command to execute, to activate the module </p></div></li><li><span class="name">type </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::type</tt> - <div class="inline"><p> Pam type (default: 'account') </p></div></li><li><span class="name">module </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::module</tt> - <div class="inline"><p> Pam module name (default: 'pam_access.so') </p></div></li><li><span class="name">control </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::control</tt> - <div class="inline"><p> Pam control (default: 'required') </p></div></li><li><span class="name">position </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::position</tt> - <div class="inline"><p> Position of the module inside the file (default:
+after the comment "account required
+pam_access.so") </p></div></li><li><span class="name">pam_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::access::params::pam_service</tt> - <div class="inline"><p> Pam service name (default: 'sshd') </p></div></li>
   </ul>
+</div>
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="access/config.html" title="pam::access::config (hostclass)">pam::access::config</a></span></p>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:55:06 2016 by
+  Generated on Fri Jul 15 10:27:03 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

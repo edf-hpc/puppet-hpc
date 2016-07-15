@@ -112,9 +112,13 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Installs basic pam modules packages</p>
+
+<p>PAM (Pluggable Authentication Modules) is used by the system to
+authorize and setup user sessions.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +129,8 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::packages_ensure</tt></li><li><span class="name">pam_modules_config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_modules_config_dir</tt></li><li><span class="name">pam_ssh_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_ssh_config</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
+'present) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +140,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:55:06 2016 by
+  Generated on Fri Jul 15 10:27:03 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

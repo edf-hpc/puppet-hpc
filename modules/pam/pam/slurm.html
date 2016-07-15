@@ -93,10 +93,10 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="slurm/params.html" title="pam::slurm::params (hostclass)">pam::slurm::params</a></span></span>
       <ul class="fullTree">
         
-          <li class="next"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></li>
+          <li class="next"><span class='object_link'><a href="slurm/params.html" title="pam::slurm::params (hostclass)">pam::slurm::params</a></span></li>
         
           <li class="next">pam::slurm</li>
         
@@ -112,9 +112,12 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure pam_slurm: only authorize users with a slurm job</p>
+
+<p>Only works on Debian</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +128,8 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::packages_ensure</tt></li><li><span class="name">pam_slurm_package </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_slurm_package</tt></li><li><span class="name">pam_slurm_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_slurm_config</tt></li><li><span class="name">pam_slurm_exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_slurm_exec</tt></li><li><span class="name">pam_slurm_condition </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pam_slurm_condition</tt></li>
+    <li><span class="name">condition </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::condition</tt></li><li><span class="name">exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::exec</tt></li><li><span class="name">pamauthupdate_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::pamauthupdate_file</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
+'present) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +139,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:55:06 2016 by
+  Generated on Fri Jul 15 10:27:03 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

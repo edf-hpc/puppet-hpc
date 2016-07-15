@@ -102,10 +102,24 @@
   <div class="discussion">
     <p><p>Basic pam_access configuration</p>
 
+<p>This profile defines options passed to the <code>pam_access</code> configuration
+in the file <code>/etc/security/access.conf</code>.</p>
+
+<p>There is three sets of options: base, maintenance and production. Base
+is always included, if the boolean <code>profiles::access::maintenance_mode</code>
+is set to true in hiera, the maintenance set is loaded, otherwise it&#39;s
+production.</p>
+
+<p>Usually, production includes all the users and maintenance only the 
+administrators or pilot users.</p>
+
 <h2>Hiera</h2>
 
 <ul>
-<li><code>profiles::access::access_config_opts</code> (<code>hiera_array</code>)</li>
+<li><code>profiles::access::base_options</code> (<code>hiera_array</code>)</li>
+<li><code>profiles::access::maintenance_mode</code></li>
+<li><code>profiles::access::maintenance_options</code> (<code>hiera_array</code>)</li>
+<li><code>profiles::access::production_options</code> (<code>hiera_array</code>)</li>
 </ul>
 </p>
   </div>
@@ -118,7 +132,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:54:32 2016 by
+  Generated on Fri Jul 15 10:26:29 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

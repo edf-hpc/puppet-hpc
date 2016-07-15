@@ -93,10 +93,10 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="limits/params.html" title="pam::limits::params (hostclass)">pam::limits::params</a></span></span>
       <ul class="fullTree">
         
-          <li class="next"><span class='object_link'><a href="params.html" title="pam::params (hostclass)">pam::params</a></span></li>
+          <li class="next"><span class='object_link'><a href="limits/params.html" title="pam::limits::params (hostclass)">pam::limits::params</a></span></li>
         
           <li class="next">pam::limits</li>
         
@@ -114,7 +114,10 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p><p>This class uses the augeasproviders_pam::pam type</p>
+    <p><p>Configure pam_limits</p>
+
+<p>The class will configure <code>/etc/security/limits.conf</code> and <em>only on
+Debian</em> activate the pam_limits module.</p>
 </p>
   </div>
 </div>
@@ -126,13 +129,21 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">pam_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_pam_service</tt></li><li><span class="name">module </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_module</tt></li><li><span class="name">control </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_control</tt></li><li><span class="name">type </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_type</tt></li><li><span class="name">position </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_position</tt></li><li><span class="name">rules_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::limits_rules_file</tt></li><li><span class="name">rules </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li>
+    <li><span class="name">pam_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::pam_service</tt> - <div class="inline"><p> Pam service name (default: 'common-session') </p></div></li><li><span class="name">module </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::module</tt> - <div class="inline"><p> Pam module name (default: 'pam_limits.so') </p></div></li><li><span class="name">control </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::control</tt> - <div class="inline"><p> Pam control (default: 'required') </p></div></li><li><span class="name">type </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::type</tt> - <div class="inline"><p> Pam type (default: 'session') </p></div></li><li><span class="name">position </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::position</tt> - <div class="inline"><p> Position of the module inside the file (default:
+after the comment "end of pam-auth-update
+config") </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::config_file</tt> - <div class="inline"><p> Path of the configuration file for pam_access
+(default: `/etc/security/limits.conf`) </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::limits::params::config_options</tt> - <div class="inline"><p> Content of the pam_limits config file as a hash
+of key -> lines (default: {}) </p></div></li>
   </ul>
+</div>
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="limits/config.html" title="pam::limits::config (hostclass)">pam::limits::config</a></span></p>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 11 17:55:06 2016 by
+  Generated on Fri Jul 15 10:27:03 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
