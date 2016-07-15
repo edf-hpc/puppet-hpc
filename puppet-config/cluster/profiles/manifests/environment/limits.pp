@@ -21,11 +21,10 @@
 class profiles::environment::limits {
   $ruleset = hiera('profiles::environment::limits_ruleset', undef)
 
-
   if $ruleset {
-    $rules = hiera_hash("profiles::environment::limits_${ruleset}")
+    $config_options = hiera_hash("profiles::environment::limits_${ruleset}")
     class { '::pam::limits':
-      rules => $rules,
+      config_options => $config_options,
     }
   } else {
     # Just setup limits, rules are coming from autolookup or elswhere
