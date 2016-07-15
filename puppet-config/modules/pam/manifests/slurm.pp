@@ -19,7 +19,7 @@
 #
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
-# @param packaes          List of packages to install
+# @param packages         List of packages to install
 class pam::slurm (
   $condition          = $pam::slurm::params::condition,
   $exec               = $pam::slurm::params::exec,

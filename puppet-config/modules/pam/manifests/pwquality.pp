@@ -19,7 +19,7 @@
 #
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
-# @param packaes          List of packages to install
+# @param packages         List of packages to install
 class pam::pwquality (
   $pamauthupdate_file = $pam::params::pwquality::pamauthupdate_file,
   $packages_ensure    = $pam::params::pwquality::packages_ensure,

@@ -21,7 +21,7 @@
 #
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
-# @param packaes          List of packages to install
+# @param packages         List of packages to install
 class pam (
   $packages                  = $pam::params::packages,
   $packages_ensure           = $pam::params::packages_ensure,
