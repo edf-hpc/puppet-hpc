@@ -14,23 +14,21 @@
 ##########################################################################
 
 class kerberos (
-  $packages         = $kerberos::params::packages,
-  $packages_ensure  = $kerberos::params::packages_ensure,
-  $config_dir       = $kerberos::params::config_dir,
-  $config_file      = $kerberos::params::config_file,
-  $keytab_file      = $kerberos::params::keytab_file,
-  $directory_source = $kerberos::params::keytab_source,
-  $decrypt_passwd   = $kerberos::params::decrypt_passwd,
   $config_options,
+  $packages          = $kerberos::params::packages,
+  $packages_ensure   = $kerberos::params::packages_ensure,
+  $config_file       = $kerberos::params::config_file,
+  $keytab_file       = $kerberos::params::keytab_file,
+  $keytab_source_dir = $kerberos::params::keytab_source_dir,
+  $decrypt_passwd    = $kerberos::params::decrypt_passwd,
 ) inherits kerberos::params {
 
   validate_array($packages)
   validate_string($packages_ensure)
-  validate_absolute_path($config_dir)
-  validate_string($config_file)
+  validate_absolute_path($config_file)
+  validate_absolute_path($keytab_file)
   validate_hash($config_options)
-  validate_string($keytab_file)
-  validate_string($directory_source)
+  validate_string($keytab_source_dir)
 
   anchor { 'kerberos::begin': } ->
   class { '::kerberos::install': } ->
