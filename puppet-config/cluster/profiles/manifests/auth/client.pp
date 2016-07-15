@@ -18,7 +18,6 @@
 # ## Hiera
 # * `cluster`
 # * `profiles::auth::client::enable_kerberos`
-# * `profiles::auth::client::directory_source`
 # * `profiles::auth::client::krb5_server`
 # * `profiles::auth::client::krb5_realm`
 # * `profiles::auth::client::krb5_store_password_if_offline`
@@ -27,6 +26,10 @@
 # * `profiles::auth::client::sssd_options_pam` (`hiera_hash`)
 # * `profiles::auth::client::sssd_options_domain` (`hiera_hash`)
 # * `profiles::auth::client::krb5_options` (`hiera_hash`)
+#
+# ## Relevant Autolookup
+# * `kerberos::keytab_source_dir` Directory where the keytabs are sourced (with `hpclib::decrypt`)
+# * `kerberos::decrypt_passwd`    Password to decrypt keytabs (with `hpclib::decrypt`)
 class profiles::auth::client {
 
   ## Hiera lookups
@@ -37,7 +40,6 @@ class profiles::auth::client {
   $sssd_options_domain  = hiera_hash('profiles::auth::client::sssd_options_domain')
   $krb5_options         = hiera_hash('profiles::auth::client::krb5_options')
   $enable_kerberos      = hiera('profiles::auth::client::enable_kerberos')
-  $directory_source     = hiera('profiles::auth::client::directory_source')
   $cluster              = hiera('cluster')
 
   if $enable_kerberos {
@@ -48,8 +50,8 @@ class profiles::auth::client {
       auth_provider                  => 'krb5',
     }
     class { '::kerberos':
-      config_options          => $krb5_options,
-      directory_source => $directory_source,
+      config_options    => $krb5_options,
+      keytab_source_dir => $directory_source,
     }
   }
   else {
