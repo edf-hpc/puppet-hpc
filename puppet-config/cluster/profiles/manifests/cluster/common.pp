@@ -37,6 +37,8 @@ class profiles::cluster::common {
     $apt_sources = hiera_hash('profiles::cluster::apt_sources')
     class { 'apt': }
     create_resources(apt::source, $apt_sources)
+
+    Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
 
 }
