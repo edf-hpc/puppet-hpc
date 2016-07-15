@@ -15,17 +15,40 @@
 
 # Basic pam_access configuration
 #
+# This profile defines options passed to the `pam_access` configuration
+# in the file `/etc/security/access.conf`.
+#
+# There is three sets of options: base, maintenance and production. Base
+# is always included, if the boolean `profiles::access::maintenance_mode`
+# is set to true in hiera, the maintenance set is loaded, otherwise it's
+# production.
+#
+# Usually, production includes all the users and maintenance only the 
+# administrators or pilot users.
+#
 # ## Hiera
-# * `profiles::access::access_config_opts` (`hiera_array`)
+# * `profiles::access::base_options` (`hiera_array`)
+# * `profiles::access::maintenance_mode`
+# * `profiles::access::maintenance_options` (`hiera_array`)
+# * `profiles::access::production_options` (`hiera_array`)
 class profiles::access::base {
 
   ## Hiera lookups
+  $base_options = hiera_array('profiles::access::base_options')
+  $maintenance_options = hiera_array('profiles::access::maintenance_options')
+  $production_options = hiera_array('profiles::access::production_options')
 
-  $access_config_opts = hiera_array('profiles::access::access_config_opts')
+  $maintenance_mode = hiera('profiles::access::maintenance_mode')
+
+  if $maintenance_mode {
+    $options = concat($base_options, $maintenance_options)
+  } else {
+    $options = concat($base_options, $production_options)
+  }
 
   # Pass config options as a class parameter
   include pam
   class { '::pam::access':
-    access_config_opts => $access_config_opts,
+    config_options => $options,
   }
 }
