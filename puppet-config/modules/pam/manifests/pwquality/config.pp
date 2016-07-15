@@ -15,18 +15,18 @@
 
 class pam::pwquality::config inherits pam::pwquality {
 
-  file { $pam::pwquality::pam_pwquality_config :
+  file { $::pam::pwquality::pamauthupdate_file :
     source    => 'puppet:///modules/pam/pwquality',
     owner     => 'root',
     group     => 'root',
     mode      => '0644',
-    subscribe => Package[$pam::pwquality::pam_pwquality_package]
+    subscribe => Package[$pam::pwquality::packages]
   }
 
-  exec { [ 'refresh common-password' ]:
-    command     => '/usr/sbin/pam-auth-update --package --force',
-    require     => File[$pam::pwquality::pam_pwquality_config],
-    subscribe   => File[$pam::pwquality::pam_pwquality_config],
+  exec { 'refresh common-password for pwquality':
+    command     => 'pam-auth-update --package --force',
+    require     => File[$::pam::pwquality::pamauthupdate_file],
+    subscribe   => File[$::pam::pwquality::pamauthupdate_file],
     refreshonly => true
   }
 

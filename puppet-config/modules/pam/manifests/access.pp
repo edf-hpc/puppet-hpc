@@ -13,32 +13,45 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure pam_access
+#
+# The configuration options below is completed with a last catchall
+# reject rule.
+#
+# The `exec` parameter is only used on Redhat. The parameters `type`,
+# `module`, `control`, `position` and `pam_service` are only used on
+# Debian.
+#
+# @param config_file    Path of the configuration file for pam_access
+#                       (default: `/etc/security/access.conf`)
+# @param config_options Content of the pam_access config file as an array
+#                       of lines (default: [])
+# @param exec           Command to execute, to activate the module
+# @param type           Pam type (default: 'account')
+# @param module         Pam module name (default: 'pam_access.so')
+# @param control        Pam control (default: 'required')
+# @param position       Position of the module inside the file (default:
+#                       after the comment "account required
+#                       pam_access.so")
+# @param pam_service    Pam service name (default: 'sshd')
 class pam::access (
-  $pam_ssh_config     = $pam::params::pam_ssh_config,
-  $access_config      = $pam::params::access_config,
-  $access_config_opts = $pam::params::access_config_opts,
-  $access_exec        = $pam::params::access_exec,
-) inherits pam::params {
+  $config_file     = $pam::access::params::config_file,
+  $config_options  = $pam::access::params::config_options,
+  $exec            = $pam::access::params::exec,
+  $type            = $pam::access::params::type,
+  $module          = $pam::access::params::module,
+  $control         = $pam::access::params::control,
+  $position        = $pam::access::params::position,
+  $pam_service     = $pam::access::params::pam_service
+) inherits pam::access::params {
+  require ::pam
 
-  validate_absolute_path($access_config)
-  validate_array($access_config_opts)
-  validate_string($access_exec)
+  validate_absolute_path($config_file)
+  validate_array($config_options)
+  validate_string($exec)
 
-
-  # Array concatenation (Can be simplified with future parser)
-  $array_to_concat = [$access_config_opts,'- : ALL : ALL']
-  $config_opts = flatten($array_to_concat)
-
-  hpclib::print_config { $access_config :
-    style  => 'linebyline',
-    data   => $config_opts,
-    mode   => 0600,
-    notify => Exec[$access_exec],
-  }
-
-  exec { $access_exec :
-    command => $access_exec,
-    require => File[$pam_ssh_config],
-  }
+  anchor { 'pam::access::begin': } ->
+  class { '::pam::access::config': } ->
+  anchor { 'pam::access::end': }
 
 }

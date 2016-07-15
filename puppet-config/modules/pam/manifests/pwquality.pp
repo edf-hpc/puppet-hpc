@@ -13,17 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure pam_pwquality: check password strength
+#
+# Only works on Debian
+#
+# @param packages_ensure  Ensures the packages are in this state (default:
+#                         'present)
+# @param packaes          List of packages to install
 class pam::pwquality (
-  $pam_pwquality_package        = $pam::params::pam_pwquality_package,
-  $pam_pwquality_exec           = $pam::params::pam_pwquality_exec,
-  $pam_pwquality_config         = $pam::params::pam_pwquality_config,
-  $packages_ensure              = $pam::params::packages_ensure,
-) inherits pam::params {
+  $pamauthupdate_file = $pam::params::pwquality::pamauthupdate_file,
+  $packages_ensure    = $pam::params::pwquality::packages_ensure,
+  $packages           = $pam::params::pwquality::packages,
+) inherits pam::pwquality::params {
+  require ::pam
 
-  validate_array($pam_pwquality_package)
-  validate_string($pam_pwquality_exec)
-  validate_absolute_path($pam_pwquality_config)
+  validate_absolute_path($pamauthupdate_file)
   validate_string($packages_ensure)
+  validate_array($packages)
 
   anchor { 'pam::pwquality::begin': } ->
   class { '::pam::pwquality::install': } ->

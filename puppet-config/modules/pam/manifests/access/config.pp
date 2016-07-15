@@ -13,10 +13,36 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::access::config inherits pam::access {
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
+  $options = concat($::pam::access::config_options, ['- : ALL : ALL'])
+  hpclib::print_config { $::pam::access::config_file :
+    style => 'linebyline',
+    data  => $options,
+    mode  => 0600,
+  }
+
+  # direct file modification for Debian, authconfig for RH
+  case $::osfamily {
+    'Debian': {
+      pam { 'Access Definition':
+        ensure   => present,
+        provider => augeas,
+        service  => $::pam::access::pam_service,
+        type     => $::pam::access::type,
+        module   => $::pam::access::module,
+        control  => $::pam::access::control,
+        position => $::pam::access::position,
+      }
+    }
+    'RedHat': {
+      exec { $::pam::access::exec:
+        command => $::pam::access::exec,
+      }
+    }
+    default: {
+      fail("Unsupported OS Family: ${::osfamily}, should be 'Debian' or 'Redhat'.")
+    }
   }
 
 }

@@ -13,17 +13,22 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# Installs basic pam modules packages
+#
+# PAM (Pluggable Authentication Modules) is used by the system to
+# authorize and setup user sessions.
+#
+# @param packages_ensure  Ensures the packages are in this state (default:
+#                         'present)
+# @param packaes          List of packages to install
 class pam (
   $packages                  = $pam::params::packages,
   $packages_ensure           = $pam::params::packages_ensure,
-  $pam_modules_config_dir    = $pam::params::pam_modules_config_dir,
-  $pam_ssh_config            = $pam::params::pam_ssh_config,
 ) inherits pam::params {
 
   validate_array($packages)
   validate_string($packages_ensure)
-  validate_absolute_path($pam_modules_config_dir)
-  validate_absolute_path($pam_ssh_config)
 
   class { '::pam::install': }
 

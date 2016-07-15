@@ -13,19 +13,27 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure pam_slurm: only authorize users with a slurm job
+#
+# Only works on Debian
+#
+# @param packages_ensure  Ensures the packages are in this state (default:
+#                         'present)
+# @param packaes          List of packages to install
 class pam::slurm (
-  $packages_ensure           = $pam::params::packages_ensure,
-  $pam_slurm_package         = $pam::params::pam_slurm_package,
-  $pam_slurm_config          = $pam::params::pam_slurm_config,
-  $pam_slurm_exec            = $pam::params::pam_slurm_exec,
-  $pam_slurm_condition       = $pam::params::pam_slurm_condition,
-) inherits pam::params {
+  $condition          = $pam::slurm::params::condition,
+  $exec               = $pam::slurm::params::exec,
+  $pamauthupdate_file = $pam::slurm::params::pamauthupdate_file,
+  $packages_ensure    = $pam::slurm::params::packages_ensure,
+  $packages           = $pam::slurm::params::packages,
+) inherits pam::slurm::params {
+  require ::pam
 
+  validate_string($condition)
+  validate_string($exec)
+  validate_absolute_path($pamauthupdate_file)
   validate_string($packages_ensure)
-  validate_array($pam_slurm_package)
-  validate_absolute_path($pam_slurm_config)
-  validate_string($pam_slurm_exec)
-  validate_string($pam_slurm_condition)
+  validate_array($packages)
 
   anchor { 'pam::slurm::begin': } ->
   class { '::pam::slurm::install': } ->

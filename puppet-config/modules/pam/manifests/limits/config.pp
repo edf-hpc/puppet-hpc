@@ -13,10 +13,34 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::limits::config inherits pam::limits {
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
+  # config_options has a key for each rule that is not written
+  # to the file
+  $options_array = values ($::pam::limits::config_options)
+  hpclib::print_config { $::pam::limits::config_file :
+    style => 'linebyline',
+    data  => $options_array,
+  }
+
+  case $::osfamily {
+    'Debian': {
+      pam { 'Resource limits':
+        ensure   => present,
+        provider => augeas,
+        service  => $::pam::limits::pam_service,
+        type     => $::pam::limits::type,
+        module   => $::pam::limits::module,
+        control  => $::pam::limits::control,
+        position => $::pam::limits::position,
+      }
+    }
+    'RedHat': {
+      notice('pam_limits activation not implemented for Redhat.')
+    }
+    default: {
+      fail("Unsupported OS Family: ${::osfamily}, should be 'Debian' or 'Redhat'.")
+    }
   }
 
 }
