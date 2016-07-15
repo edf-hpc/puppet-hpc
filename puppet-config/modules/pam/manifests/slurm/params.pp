@@ -1,5 +1,5 @@
 ##########################################################################
-#  Puppet configuration file                                             #
+#  Puppet paramsuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
@@ -13,10 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::slurm::params {
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
-  }
+  $packages_ensure    = 'present'
+  $packages           = ['libpam-slurm']
+  $pamauthupdate_file = '/usr/share/pam-configs/slurm'
+  $exec               = "/bin/sed -i 's/account.*\\[.*\\].*pam_slurm.so/account\\trequired\\tpam_slurm.so/g' ${pamauthupdate_file}"
+  $condition          = "/bin/grep -q 'account.*\\[.*\\].*pam_slurm' ${pamauthupdate_file}"
 
 }

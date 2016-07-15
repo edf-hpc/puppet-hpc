@@ -1,5 +1,5 @@
 ##########################################################################
-#  Puppet configuration file                                             #
+#  Puppet paramsuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
@@ -13,10 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::access::params {
+  # Common
+  $config_file    = '/etc/security/access.conf'
+  $config_options = []
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
-  }
+  # For Debian
+  $pam_service = 'sshd'
+  $module      = 'pam_access.so'
+  $type        = 'account'
+  $control     = 'required'
+  $position    = 'after #comment[ . = "account  required     pam_access.so" ]'
+
+  # For Red Hat
+  $exec        = 'authconfig --enablepamaccess --update'
 
 }

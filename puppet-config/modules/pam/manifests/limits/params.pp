@@ -1,5 +1,5 @@
 ##########################################################################
-#  Puppet configuration file                                             #
+#  Puppet paramsuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
@@ -13,10 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::limits::params {
+  # Common
+  $config_file    = '/etc/security/limits.d/puppet.conf'
+  $config_options = {}
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
-  }
+  # For Debian
+  $pam_service = 'common-session'
+  $module      = 'pam_access.so'
+  $type        = 'session'
+  $control     = 'required'
+  $position    = 'after #comment[ . = "end of pam-auth-update config" ]'
 
 }

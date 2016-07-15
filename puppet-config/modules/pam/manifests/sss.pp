@@ -13,16 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure pam_sss: pam<-->sssd integration
+#
+# Only works on Debian
+#
+# @param packages_ensure  Ensures the packages are in this state (default:
+#                         'present)
+# @param packaes          List of packages to install
 class pam::sss (
-  $packages_ensure           = $pam::params::packages_ensure,
-  $pam_sss_package           = $pam::params::pam_sss_package,
-) inherits pam::params {
+  $packages_ensure = $pam::sss::params::packages_ensure,
+  $packages        = $pam::sss::params::packages,
+) inherits pam::sss::params {
+  require ::pam
 
   validate_string($packages_ensure)
-  validate_array($pam_sss_package)
+  validate_array($packages)
 
-  package { $pam_sss_package :
-    ensure   => $packages_ensure,
-  }
+  anchor { 'pam::sss::begin': } ->
+  class { '::pam::sss::install': } ->
+  anchor { 'pam::sss::end': }
 
 }

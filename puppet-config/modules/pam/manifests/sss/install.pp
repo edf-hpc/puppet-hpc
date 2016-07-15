@@ -13,10 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::sss::install inherits pam::sss {
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
+  package { $pam::sss::packages:
+    ensure => $pam::sss::packages_ensure,
   }
 
 }

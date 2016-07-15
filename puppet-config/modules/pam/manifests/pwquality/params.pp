@@ -1,5 +1,5 @@
 ##########################################################################
-#  Puppet configuration file                                             #
+#  Puppet paramsuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
@@ -13,10 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class pam::pwquality::install inherits pam::pwquality {
+class pam::pwquality::params {
 
-  package { $pam::pwquality::packages:
-    ensure => $pam::pwquality::packages_ensure,
-  }
+  $packages_ensure    = 'present'
+  $packages           = ['libpam-pwquality']
+  $pamauthupdate_file = '/usr/share/pam-configs/pwquality'
 
 }

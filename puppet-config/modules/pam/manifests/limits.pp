@@ -13,39 +13,42 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# This class uses the augeasproviders_pam::pam type
+# Configure pam_limits
+#
+# The class will configure `/etc/security/limits.conf` and _only on
+# Debian_ activate the pam_limits module.
+#
+# @param config_file    Path of the configuration file for pam_access
+#                       (default: `/etc/security/limits.conf`)
+# @param config_options Content of the pam_limits config file as a hash
+#                       of key -> lines (default: {})
+# @param type           Pam type (default: 'session')
+# @param module         Pam module name (default: 'pam_limits.so')
+# @param control        Pam control (default: 'required')
+# @param position       Position of the module inside the file (default:
+#                       after the comment "end of pam-auth-update
+#                       config")
+# @param pam_service    Pam service name (default: 'common-session')
 class pam::limits (
-  $pam_service = $pam::params::limits_pam_service,
-  $module      = $pam::params::limits_module,
-  $control     = $pam::params::limits_control,
-  $type        = $pam::params::limits_type,
-  $position    = $pam::params::limits_position,
-  $rules_file  = $pam::params::limits_rules_file,
-  $rules       = {},
-) inherits pam::params {
+  $pam_service    = $pam::limits::params::pam_service,
+  $module         = $pam::limits::params::module,
+  $control        = $pam::limits::params::control,
+  $type           = $pam::limits::params::type,
+  $position       = $pam::limits::params::position,
+  $config_file    = $pam::limits::params::config_file,
+  $config_options = $pam::limits::params::config_options,
+) inherits pam::limits::params {
+  require ::pam
 
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
   validate_string($pam_service)
   validate_string($module)
   validate_string($type)
   validate_string($control)
   validate_string($position)
-  validate_hash($rules)
 
-
-  pam { 'Resources limits':
-    ensure   => present,
-    provider => augeas,
-    service  => $pam_service,
-    type     => $type,
-    module   => $module,
-    control  => $control,
-    position => $position,
-  }
-
-  $rules_array = values($rules)
-  hpclib::print_config{ $rules_file:
-    style => 'linebyline',
-    data  => $rules_array,
-  }
-
+  anchor { 'pam::limits::begin': } ->
+  class { '::pam::limits::config': } ->
+  anchor { 'pam::limits::end': }
 }
