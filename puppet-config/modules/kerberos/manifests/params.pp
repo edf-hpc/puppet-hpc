@@ -17,9 +17,8 @@ class kerberos::params {
 
   #### Module variables
   $packages_ensure = 'latest'
-  $config_dir      = '/etc'
-  $config_file     = 'krb5.conf'
-  $keytab_file     = 'krb5.keytab'
+  $config_file     = '/etc/krb5.conf'
+  $keytab_file     = '/etc/krb5.keytab'
   case $::osfamily {
     'Debian' : {
       $packages = ['krb5-user','krb5-config']
@@ -33,6 +32,6 @@ class kerberos::params {
   }
 
   #### Defaults values
-  $keytab_source  = 'puppet:///modules/kerberos/'
-  $decrypt_passwd = 'password'
+  $keytab_source_dir  = 'kerberos'
+  $decrypt_passwd     = 'password'
 }

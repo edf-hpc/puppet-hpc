@@ -15,22 +15,16 @@
 
 class kerberos::config inherits kerberos {
 
-  file { $::kerberos::config_dir :
-    ensure => directory,
-  }
-
-  hpclib::print_config { "${::kerberos::config_dir}/${::kerberos::config_file}" :
+  hpclib::print_config { $::kerberos::config_file:
     style   => 'ini',
     data    => $::kerberos::config_options,
     mode    => 0600,
-    require => [Package[$::kerberos::packages],File[$::kerberos::config_dir]],
   }
 
-  file { "${::kerberos::config_dir}/${::kerberos::keytab_file}" :
+  file { $::kerberos::keytab_file:
     ensure  => present,
-    content => decrypt("${::kerberos::directory_source}/${::hostname}.${::kerberos::keytab_file}.enc", $::kerberos::decrypt_passwd),
+    content => decrypt("${::kerberos::keytab_source_dir}/${::hostname}.krb5.keytab.enc", $::kerberos::decrypt_passwd),
     mode    => '0600',
-    require => [Package[$::kerberos::packages],File[$::kerberos::config_dir]],
   }
 
 }
