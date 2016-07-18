@@ -107,7 +107,6 @@
 <ul>
 <li><code>cluster</code></li>
 <li><code>profiles::auth::client::enable_kerberos</code></li>
-<li><code>profiles::auth::client::directory_source</code></li>
 <li><code>profiles::auth::client::krb5_server</code></li>
 <li><code>profiles::auth::client::krb5_realm</code></li>
 <li><code>profiles::auth::client::krb5_store_password_if_offline</code></li>
@@ -116,6 +115,13 @@
 <li><code>profiles::auth::client::sssd_options_pam</code> (<code>hiera_hash</code>)</li>
 <li><code>profiles::auth::client::sssd_options_domain</code> (<code>hiera_hash</code>)</li>
 <li><code>profiles::auth::client::krb5_options</code> (<code>hiera_hash</code>)</li>
+</ul>
+
+<h2>Relevant Autolookup</h2>
+
+<ul>
+<li><code>kerberos::keytab_source_dir</code> Directory where the keytabs are sourced (with <code>hpclib::decrypt</code>)</li>
+<li><code>kerberos::decrypt_passwd</code>    Password to decrypt keytabs (with <code>hpclib::decrypt</code>)</li>
 </ul>
 </p>
   </div>
@@ -128,7 +134,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 15 10:26:29 2016 by
+  Generated on Mon Jul 18 13:49:15 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
