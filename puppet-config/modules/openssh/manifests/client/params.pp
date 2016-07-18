@@ -36,7 +36,8 @@ class openssh::client::params {
     'set StrictHostKeyChecking no',
   ]
 
-  $root_key_file  = '/root/.ssh/id_rsa'
-  $root_key_enc   = 'puppet:///modules/openssh/id_rsa_root.enc'
-  $decrypt_passwd = 'password'
+  $root_config_file = '/root/.ssh/config'
+  $root_key_file    = '/root/.ssh/id_rsa_cluster_root'
+  $root_key_enc     = 'puppet:///modules/openssh/id_rsa_root.enc'
+  $decrypt_passwd   = 'password'
 }
