@@ -21,8 +21,10 @@ class network::config inherits network {
     changes => $::network::hostname_augeas_change,
   }
 
-  file { $::network::ib_file:
-    content => template('network/openib_conf.erb'),
+  ::hpclib::print_config { $::network::ib_file:
+    style           => 'keyval',
+    data            => $::network::_ib_options,
+    upper_case_keys => true,
   }
 
   # $net_ifaces hash is used by create_resources to generate main network
