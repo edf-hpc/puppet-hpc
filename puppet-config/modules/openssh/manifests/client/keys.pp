@@ -14,23 +14,12 @@
 ##########################################################################
 
 class openssh::client::keys inherits openssh::client {
-  $root_key_dir = dirname($::openssh::client::root_key_file)
-  file { $root_key_dir:
-    ensure => directory,
-  }
 
-  file { $::openssh::client::root_key_file:
-    ensure  => present,
-    content => decrypt($::openssh::client::root_key_enc, $::openssh::client::decrypt_passwd),
-    mode    => '0600',
+  ::openssh::client::identity {$::openssh::client::root_key_file:
+    key_enc        => $::openssh::client::root_key_enc,
+    config_file    => $::openssh::client::root_config_file,
+    host           => '*',
+    decrypt_passwd => $openssh::client::decrypt_passwd,
   }
-
-  exec { 'openssh_client_update_root_public_key':
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => "ssh-keygen -y -f ${::openssh::client::root_key_file} > ${::openssh::client::root_key_file}.pub",
-    refreshonly => true,
-    subscribe   => File[$::openssh::client::root_key_file],
-  }
-
 
 }
