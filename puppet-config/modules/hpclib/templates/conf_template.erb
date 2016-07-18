@@ -16,7 +16,12 @@
 conf  = @data
 style = @style
 
-def entry_to_string(key, entry)
+def entry_to_string(orig_key, entry)
+  if @upper_case_keys
+    key = orig_key.upcase
+  else
+    key = orig_key
+  end
   result = ""
   if @exceptions.include?(key)
     sep = @excep_separator
