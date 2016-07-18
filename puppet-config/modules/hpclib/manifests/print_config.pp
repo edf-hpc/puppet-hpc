@@ -26,7 +26,7 @@
 # @param style           Config file style.
 #   One of: ``ini``, ``keyval``, ``linebyline``, ``yaml``
 # @param target           Path of the file to write.
-#
+# @param upper_case_keys Transform keys to upper case
 define hpclib::print_config(
   $style,
   $data,
@@ -37,7 +37,8 @@ define hpclib::print_config(
   $owner           = 'root',
   $backup          = undef,
   $exceptions      = [],
-  $excep_separator = ' '
+  $excep_separator = ' ',
+  $upper_case_keys = false,
 ) {
 
   validate_string($style)
@@ -47,6 +48,8 @@ define hpclib::print_config(
   validate_array($exceptions)
   validate_string($excep_separator)
   validate_string($owner)
+  validate_bool($upper_case_keys)
+
   $conf_template = 'hpclib/conf_template.erb'
 
   case $style {
