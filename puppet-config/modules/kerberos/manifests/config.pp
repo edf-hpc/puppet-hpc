@@ -16,9 +16,9 @@
 class kerberos::config inherits kerberos {
 
   hpclib::print_config { $::kerberos::config_file:
-    style   => 'ini',
-    data    => $::kerberos::config_options,
-    mode    => 0600,
+    style => 'ini',
+    data  => $::kerberos::config_options,
+    mode  => 0600,
   }
 
   file { $::kerberos::keytab_file:
