@@ -15,7 +15,7 @@
 
 # Configure other File System mounts
 #
-# This profile lets you define file system mounts in hiera. It only 
+# This profile lets you define file system mounts in hiera. It only
 # defines the mounts and does not handle creating the mount points.
 #
 # NFS mounts should be handled by `profiles::nfs::mounts`.
@@ -27,7 +27,7 @@ class profiles::otherfs::mounts {
 
   # Hiera lookups
   $to_mount = hiera_hash('profiles::otherfs::to_mount')
- 
+
   # Mount all the specified directories
   create_resources('mount', $to_mount)
 

@@ -23,7 +23,7 @@
 # is set to true in hiera, the maintenance set is loaded, otherwise it's
 # production.
 #
-# Usually, production includes all the users and maintenance only the 
+# Usually, production includes all the users and maintenance only the
 # administrators or pilot users.
 #
 # ## Hiera
