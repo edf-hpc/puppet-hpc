@@ -15,33 +15,52 @@
 
 # Setup a firewall
 #
+# Interfaces configuration are built from the
+# `hpclib::hpc_shorewall_interfaces` function. This function get
+# association between the network topology of the cluster and the
+# interfaces configured on this host in the `master_network`.
+#
+# ## Base configuration
+#
+# A base configuration close to the following is expected to be
+# configured in your hiera
+#
+# ```
+# profiles::firewall::zones:
+#   'fw':
+#     'type': 'firewall'
+#   'wan':
+#     'type': 'ipv4'
+#   'clstr':
+#     'type': 'ipv4'
+# profiles::firewall::policies:
+#   'to_wan':
+#     'source': 'all'
+#     'dest':   'wan'
+#     'policy': 'REJECT'
+#     'order':  '1'
+#   'other':
+#     'source': 'all'
+#     'dest':   'all'
+#     'policy': 'ACCEPT'
+#     'order':  '11'
+# ```
+#
 # ## Hiera
-# * `profiles::firewall::rules` (`hiera_hash`)
+# * `profiles::firewall::rules` (`hiera_hash`)    Hash of rules to apply
+#                                                 on this host
+# * `profiles::firewall::zones` (`hiera_hash`)    hash of zones to apply
+#                                                 on this host
+# * `profiles::firewall::policies` (`hiera_hash`) Hash of policies to
+#                                                 apply on this host
 class profiles::firewall::base {
   include ::shorewall
 
-  ::shorewall::zone { 'fw':
-    type => 'firewall',
-  }
-  ::shorewall::zone { 'wan':
-    type => 'ipv4',
-  }
-  ::shorewall::zone { 'clstr':
-    type => 'ipv4',
-  }
+  $zones = hiera_hash('profiles::firewall::zones')
+  create_resources('::shorewall::zone', $zones)
 
-  ::shorewall::policy { 'to_wan':
-    source => 'all',
-    dest   => 'wan',
-    policy => 'REJECT',
-    order  => 1,
-  }
-  ::shorewall::policy { 'other':
-    source => 'all',
-    dest   => 'all',
-    policy => 'ACCEPT',
-    order  => 11,
-  }
+  $policies = hiera_hash('profiles::firewall::policies')
+  create_resources('::shorewall::policy', $policies)
 
   # Interfaces are created by hpclib functions, that
   # interpret the content of hiera to create the relevant entries
