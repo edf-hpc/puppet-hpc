@@ -16,26 +16,28 @@
 # Local network configuration
 #
 # ## Hiera
-# * `bondcfg` (`hiera_hash`)
-# * `net_topology` (`hiera_hash`)
-# * `network::gw_connect`
-# * `network::mlx4load`
+# * `net_topology` (`hiera_hash`)   Global description of the network
+#                                   topology of the cluster
+# * `profiles::network::gw_connect` Name of the network to get the default
+#                                   gateway from.
+#
+# ## Relevant Autolookups
+# * `network::mlx4load`        Load `mlx4` Driver for Mellanox
+#                              ConnectX-3 cards
+# * `network::bonding_options` Interface bonding configuration
 class profiles::network::base {
 
   ## Hiera lookups
-  $net_keyword       = hiera('network::gw_connect')
-  $mlx4load          = hiera('network::mlx4load')
-  $net_topology      = hiera_hash('net_topology')
-  $bondcfg           = hiera_hash('bondcfg')
+  $net_keyword  = hiera('profiles::network::gw_connect')
+  $net_topology = hiera_hash('net_topology')
   if ! empty($net_keyword) {
-    $defaultgw         = $net_topology[$net_keyword]['gateway']
+    $defaultgw = $net_topology[$net_keyword]['gateway']
   }
-  else { $defaultgw = ''}
-  $routednet = []
+  else {
+    $defaultgw = ''
+  }
 
   class { '::network':
-    defaultgw                   => $defaultgw,
-    routednet                   => $routednet,
-    mlx4load                    => $mlx4load,
+    defaultgw => $defaultgw,
   }
 }
