@@ -10,6 +10,6 @@ profiles:
   - profiles::access::base
   - profiles::sudo::base
 
-network::gw_connect:  'clusterloc'
+profiles::network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
 certificates_owner: 'openldap'

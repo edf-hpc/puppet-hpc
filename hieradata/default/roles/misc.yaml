@@ -21,6 +21,6 @@ profiles:
   - profiles::http::mirror
   - profiles::bootsystem::server
 
-network::gw_connect:  'clusterloc'
+profiles::network::gw_connect:  'clusterloc'
 sssd::case_sensitive: 'true'
 certificates::certificates_owner: 'openldap'
