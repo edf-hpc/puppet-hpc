@@ -16,10 +16,10 @@
 # Setup SSMTP (lightweight forwarding MTA)
 #
 # ## Hiera
-# * `profiles::ssmtp::client::config_options`
+# * `profiles::ssmtp::config_options`
 class profiles::ssmtp::client {
   ## Hiera lookups
-  $config_options  = hiera_hash('profiles::ssmtp::client::config_options')
+  $config_options  = hiera_hash('profiles::ssmtp::config_options')
 
   # Pass config options as a class parameter
   class { '::ssmtp':
