@@ -13,9 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# @param routednet Direct routes for this host, array of triplets:
+#                  `<IP network address>@<network prefix length>@<device>`
+#                  (default: [])
+# @param mlx4load  Load the `mlx4` driver, 'yes'` or 'no' (default: 'yes')
 class network (
   $defaultgw,
-  $routednet,
+  $routednet                   = $::network::params::routednet,
   $hostname_augeas_path        = $::network::params::hostname_augeas_path,
   $hostname_augeas_change      = $::network::params::hostname_augeas_change,
   $bonding_packages            = $::network::params::bonding_packages,
