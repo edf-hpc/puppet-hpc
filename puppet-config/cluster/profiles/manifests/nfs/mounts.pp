@@ -24,7 +24,7 @@ class profiles::nfs::mounts {
 
   # Initialize nfs_client
   include ::nfs
- 
+
   # Mount all the specified directories
   create_resources('::nfs::client::mount', $to_mount)
 

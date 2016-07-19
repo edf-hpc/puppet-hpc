@@ -24,7 +24,7 @@ class profiles::nfs::exports {
 
   # Initialize nfs_server
   include ::nfs::server
- 
+
   # Mount all the specified directories
   create_resources('::nfs::server::export', $to_export)
 

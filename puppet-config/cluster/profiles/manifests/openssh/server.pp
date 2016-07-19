@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Configure the local SSH server 
+# Configure the local SSH server
 #
 # If Kerberos authentication is enabled on this host, it will be enabled
 # in the SSH server configuration.
@@ -28,7 +28,7 @@ class profiles::openssh::server {
   ## Hiera lookups
   $config_augeas               = hiera_array('profiles::openssh::server::config_augeas')
   $config_augeas_with_kerberos = hiera_array('profiles::openssh::server::config_augeas_with_kerberos')
-  $cluster                      = hiera('cluster') 
+  $cluster                      = hiera('cluster')
   $enable_kerberos              = hiera('profiles::auth::client::enable_kerberos')
 
   if $enable_kerberos {
