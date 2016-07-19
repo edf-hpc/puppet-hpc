@@ -25,10 +25,10 @@
 #####################################################################
 <% # Import Hash Tables -%>
 <% require 'ipaddr' -%>
-<% netconfig = @netconfig -%>
-<% defaultgw = @defaultgw -%>
-<% bondcfg   = @bondcfg -%>
-<% routnet = @routednet -%>
+<% netconfig = scope['::network::netconfig'] -%>
+<% defaultgw = scope['::network::defaultgw'] -%>
+<% bondcfg   = scope['::network::bonding_options'] -%>
+<% routnet   = scope['::network::routednet'] -%>
 <% network_gw_set = String.new -%>
 <% bndprim = String.new -%>
 <% bndmode = String.new -%>
