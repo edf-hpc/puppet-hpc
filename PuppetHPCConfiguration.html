@@ -629,7 +629,7 @@ configuration, these modules rely on data provided by <strong>hiera</strong></p>
 <p>A generic <strong>hiera</strong> configuration to provide some defaults</p>
 </li>
 <li>
-<p>A series of scripts and tools to apply, fetch and debug the configuration</p>
+<p>A set of scripts and tools to apply, fetch and debug the configuration</p>
 </li>
 </ul>
 </div>
@@ -836,7 +836,7 @@ nodes, it must be done higher in the hierarchy (<em>role</em> or <em>node</em>).
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>bondcfg:
+<pre>network::bonding_options:
     'bond0':
       'slaves':
          - 'eth0'
@@ -848,6 +848,10 @@ nodes, it must be done higher in the hierarchy (<em>role</em> or <em>node</em>).
          - 'eth3'
       'options':  'mode=active-backup primary=eth2'</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>This value from hiera uses <em>Auto Lookup</em> to be passed to the <code>network</code>
+class.</p>
 </div>
 </div>
 </div>
@@ -906,6 +910,12 @@ Addresses"</p>
 <p>DNS/Hosts Configuration, "Hostnames" &#8592;&#8594; "IPv4 Addresses"</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The interface is the device where the configuration must be applied, this
+means that with a bonded interface, the configuration must be applied on
+the <code>bond</code> interface. The interfaces enslaved to the <code>bond</code> interfaces
+can be ommited from this configuration.</p>
 </div>
 <div class="paragraph">
 <p>Example:</p>
@@ -1001,8 +1011,7 @@ host with this role.</p>
   - profiles::ntp::client
   - profiles::ssmtp::client
   - profiles::jobsched::exec
-  - profiles::opensshserver::server
-  - profiles::opensshclient::client
+  - profiles::openssh::server
   - profiles::environment::base
   - profiles::environment::codes
   - profiles::environment::modules
@@ -1108,12 +1117,16 @@ current git archive.</p>
 <pre># apt-get install hiera-eyaml</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>If you wish to generate the documentation, installing
+the <code>ruby-puppet-strings</code> package is necessary.</p>
+</div>
 </div>
 </div>
 <h1 id="_installation" class="sect0">Installation</h1>
 <div class="paragraph">
 <p>Installing the configuration will depend of your cluster topology. This
-page only describes most simple.</p>
+page only describes the most simple case.</p>
 </div>
 <div class="sect1">
 <h2 id="shared-admin">1. Shared <code>/admin</code></h2>
@@ -1302,7 +1315,7 @@ clara::password_options:
 </div>
 <div class="paragraph">
 <p>This password is used elsewhere in the hiera, generally under the name
-<code>decrypt_password</code> (for example: <code>opensshserver::decrypt_passwd</code>). So we
+<code>decrypt_password</code> (for example: <code>openssh::server::decrypt_passwd</code>). So we
 define a top level variable (<code>cluster_decrypt_password</code>) to reuse it
 more easily.</p>
 </div>
@@ -1430,6 +1443,9 @@ will be handled by the bootsystem eventually.</p>
 <div class="ulist">
 <ul>
 <li>
+<p>Installing puppet</p>
+</li>
+<li>
 <p>Distributing the puppet configuration</p>
 </li>
 <li>
@@ -1437,6 +1453,9 @@ will be handled by the bootsystem eventually.</p>
 </li>
 <li>
 <p>Mounting <code>/admin</code></p>
+</li>
+<li>
+<p>Apply puppet</p>
 </li>
 </ul>
 </div>
@@ -1644,27 +1663,25 @@ the pattern :</p>
 <p>where <code>&lt;prefix&gt;</code> is the value of the variable <code>cluster_prefix</code> defined in Hiera.</p>
 </div>
 <div class="paragraph">
-<p>To retrieve the role of a node, its hostname is analyzed by searching for the previous
-pattern. This is done by the Ruby script <code>role.rb</code> of the <code>hpclib</code> module which
+<p>To retrieve the role of a node, its hostname is analyzed by searching for the
+pattern above. This is done by the Ruby script <code>role.rb</code> of the <code>hpclib</code> module which
 defines the <code>puppet_role</code> fact.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_roles">3.2. Roles</h3>
 <div class="paragraph">
-<p>In the Puppet HPC configuration, each role is associated to the list of profiles
-it includes.
-The content of each role is specified in Hiera (<code>hieradata/default/roles</code>) in
-the corresponding YAML file <code>&lt;role&gt;.yaml</code>. This YAML file includes the definition
-of a <code>profiles</code> array,
-which is the list of profiles the role is composed of.</p>
+<p>In the Puppet HPC configuration, each role is associated to the list of
+profiles it includes.  The content of each role is specified in Hiera
+(<code>hieradata/default/roles</code>) in the corresponding YAML file <code>&lt;role&gt;.yaml</code>. This
+YAML file includes the definition of a <code>profiles</code> array, which is the list of
+profiles the role is composed of.</p>
 </div>
 <div class="paragraph">
-<p>A simple module (<code>puppet-config/cluster/roles</code>) is loading all the profile classes
-defined in the Hiera <code>profiles</code> array.
-The configuration is providing some role definitions (critical, misc, batch, etc)
-but it is not mandatory
-to use them. Any site may define its own roles. That is why referencing a role by
+<p>A simple module (<code>puppet-config/cluster/roles</code>) is loading all the profile
+classes defined in the Hiera <code>profiles</code> array.  The configuration is providing
+some role definitions (critical, misc, batch, etc) but it is not mandatory to
+use them. Any site may define its own roles. That is why referencing a role by
 referencing its name directly should be avoided.</p>
 </div>
 <div class="paragraph">
@@ -1673,31 +1690,109 @@ profile with some specific keywords in its name (<code>server</code>, <code>rela
 <code>replica</code>, <code>tracker</code>). Looking at the facts on any node of the cluster, it is
 easy to know which role implements the DNS server or the LDAP replica for example.</p>
 </div>
+<div class="paragraph">
+<p>Example in <code>hieradata/common.yaml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example above assumes an high-availability virtual IP address is defined
+for the role defining including the profile <code>profiles::conman::server</code>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_profiles">3.3. Profiles</h3>
 <div class="paragraph">
 <p>Profiles are classes grouped inside the <code>profiles</code> module
-(<code>puppet-config/cluster/profiles</code>). Each profile is a
-feature for a host. That feature is built from technical components defined
-by modules. Profiles can rely heavily on Hiera to get the configuration
-for the site. The profiles do not use auto-lookup but explicit <code>hiera</code> (or
-<code>hiera_hash</code> and <code>hiera_array</code>) calls, this permits to control how data
-coming from multiple hierarchy levels are merged.</p>
+(<code>puppet-config/cluster/profiles</code>). Each profile is a feature for a host. That
+feature is built from technical components defined by modules. Profiles can
+rely heavily on Hiera to get the configuration for the site. The profiles do
+not use auto-lookup but explicit <code>hiera</code> (or <code>hiera_hash</code> and <code>hiera_array</code>)
+calls, this permits to control how data coming from multiple hierarchy levels
+are merged.</p>
 </div>
 <div class="paragraph">
-<p>The <code>profiles</code> module only defines classes, no resource, methods or facts. It
-should not use templates or files. Profiles are meant to rely on the rest of
-the Hiera/Puppet HPC configuration and may not work outside of it. Profiles can
-call any class except other profiles.</p>
+<p>A profile should not need a hiera key if the value is just passed to the
+component class. This kind of parameters should be passed to the module class
+directly with <em>Auto Lookup</em>. Only parameters processed or retrieved with
+<code>hiera_array</code> and <code>hiera_hash</code> should be retrieved from the profile.</p>
+</div>
+<div class="paragraph">
+<p>Doing this avoid redefining all module parameters in the profiles. Default
+values should be set in the <code>common.yaml</code> of the Puppet HPC configuration
+<code>hieradata</code> directory.</p>
+</div>
+<div class="paragraph">
+<p><strong>Bad</strong></p>
+</div>
+<div class="paragraph">
+<p><code>profiles/manifests/toto/server.pp</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>class profiles::toto::server {
+  $peers = hiera_array('profiles::toto:server::peers')
+  $port = hiera('profiles::toto:server::port')
+  class { '::toto::server':
+    port  =&gt; $port,
+    peers =&gt; $peers,
+  }
+}
+
+`cluster.yaml`:</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>profiles::toto::server::port: <em>42</em>
+profiles::toto::server::peers:
+  - servera
+  - serverb</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>
+**Good**
+
+`profiles/manifests/toto/server.pp`:
+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>class profiles::toto::server {
+  $peers = hiera_array(<em>profiles::toto:server::peers</em>)
+  class { <em>::toto::server</em>:
+    peers &#8658; $peers
+  }
+}</p>
+</div>
+<div class="paragraph">
+<p><code>cluster.yaml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>toto::server::port: '42'
+profiles::toto::server::peers:
+  - servera
+  - serverb</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>profiles</code> module only defines classes, no resources, methods or facts. It
+should not use templates or files sourced in the <code>profiles</code> module. Profiles
+are meant to rely on the rest of the Hiera/Puppet HPC configuration and may not
+work outside of it. Profiles can call any class except other profiles or roles.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_hpc_modules">3.4. HPC modules</h3>
 <div class="paragraph">
-<p>HPC modules are modules that provide a lower level implementation of a technical
-solution than a profile, but they still rely on the Puppet HPC configuration as a
-whole. This includes modules that use facts defined by <code>hpclib</code>.</p>
+<p>HPC modules are modules that provide a lower level implementation of a
+technical solution than a profile, but they still rely on the Puppet HPC
+configuration as a whole. This includes modules that use facts defined by
+<code>hpclib</code>.</p>
 </div>
 <div class="paragraph">
 <p>Those modules can use other modules and define resources, templates, files,
@@ -1713,10 +1808,11 @@ other than class parameters or standard facts.</p>
 </div>
 <div class="paragraph">
 <p>Modules must be able to work without Hiera. Despite the fact that these modules
-can be used independently of the Puppet HPC configuration, most of them have been
-created to be used in the context of an HPC cluster. As a result, the features they
-support might seem incomplete for other uses. If you feel this way, please feel free
-to contribute and add features to make our modules as generic as possible.</p>
+can be used independently of the Puppet HPC configuration, most of them have
+been created to be used in the context of an HPC cluster. As a result, the
+features they support might seem incomplete for other uses. If you feel this
+way, please feel free to contribute and add features to make our modules as
+generic as possible.</p>
 </div>
 <div class="paragraph">
 <p>HPC and Generic modules are not strictly separated. Whether data specific to
@@ -1727,15 +1823,23 @@ falls into a category or the other.</p>
 <div class="sect2">
 <h3 id="_third_party_modules">3.6. Third Party modules</h3>
 <div class="paragraph">
-<p>Usage of third party generic modules is encouraged when possible. The limitation
-is that it should come from a reliable source: distribution package or
-puppetlabs forge. For modules from the forge, support level should be <strong>approved</strong>
-at least. Exceptions to this rule is possible if the module has been properly
-reviewed. The only exception right now is <code>puppetlabs-strings</code>.</p>
+<p>Usage of third party generic modules is encouraged when possible. The
+limitation is that it should come from a reliable source: distribution package
+or puppetlabs forge. For modules from the forge, support level should be
+<strong>approved</strong> at least. Exceptions to this rule is possible if the module has been
+properly reviewed.</p>
 </div>
 <div class="paragraph">
 <p>Third party modules should be copied in the <code>puppet-config/modules_3rdparty</code>
 directory. This may change in the future.</p>
+</div>
+<div class="paragraph">
+<p>Forking a third party module should be avoided as much as possible. If a
+suitable third party module does not provide all the necessary features, it is
+recommended to create another module that will <strong>wrap</strong> the third party module.
+Upstreaming the new feature when it makes sense is encouraged. In some
+cases, the wraping can be done directly in the profile (eg.
+<code>profiles::ntp::server</code>) to avoid creating a module.</p>
 </div>
 </div>
 </div>
@@ -1847,6 +1951,10 @@ parameters should use the following standardised names:</p>
 <p><code>service_enable</code>, should the service be started on boot (boolean)</p>
 </li>
 <li>
+<p><code>config_enc</code>, encrypted source of a configuration file (see the
+<code>hpclib::decrypt`</code> function) (string)</p>
+</li>
+<li>
 <p><code>config_file</code>, absolute file path of the configuration file (string)</p>
 </li>
 <li>
@@ -1866,6 +1974,10 @@ parameters should use the following standardised names:</p>
 <p><code>default_options</code>, values to put in the <code>default_file</code> (hash)</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If the module has multiple configuration files, the pattern <em>XXXX_enc</em>,
+<em>XXXX_file</em> and <em>XXXX_options</em> should be kept.</p>
 </div>
 </div>
 </div>

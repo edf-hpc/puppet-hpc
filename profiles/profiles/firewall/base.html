@@ -102,10 +102,45 @@
   <div class="discussion">
     <p><p>Setup a firewall</p>
 
+<p>Interfaces configuration are built from the
+<code>hpclib::hpc_shorewall_interfaces</code> function. This function get
+association between the network topology of the cluster and the
+interfaces configured on this host in the <code>master_network</code>.</p>
+
+<h2>Base configuration</h2>
+
+<p>A base configuration close to the following is expected to be
+configured in your hiera</p>
+
+<pre class="code ruby"><code class="ruby">profiles::firewall::zones:
+  &#39;fw&#39;:
+    &#39;type&#39;: &#39;firewall&#39;
+  &#39;wan&#39;:
+    &#39;type&#39;: &#39;ipv4&#39;
+  &#39;clstr&#39;:
+    &#39;type&#39;: &#39;ipv4&#39;
+profiles::firewall::policies:
+  &#39;to_wan&#39;:
+    &#39;source&#39;: &#39;all&#39;
+    &#39;dest&#39;:   &#39;wan&#39;
+    &#39;policy&#39;: &#39;REJECT&#39;
+    &#39;order&#39;:  &#39;1&#39;
+  &#39;other&#39;:
+    &#39;source&#39;: &#39;all&#39;
+    &#39;dest&#39;:   &#39;all&#39;
+    &#39;policy&#39;: &#39;ACCEPT&#39;
+    &#39;order&#39;:  &#39;11&#39;
+</code></pre>
+
 <h2>Hiera</h2>
 
 <ul>
-<li><code>profiles::firewall::rules</code> (<code>hiera_hash</code>)</li>
+<li><code>profiles::firewall::rules</code> (<code>hiera_hash</code>)    Hash of rules to apply
+                                            on this host</li>
+<li><code>profiles::firewall::zones</code> (<code>hiera_hash</code>)    hash of zones to apply
+                                            on this host</li>
+<li><code>profiles::firewall::policies</code> (<code>hiera_hash</code>) Hash of policies to
+                                            apply on this host</li>
 </ul>
 </p>
   </div>
@@ -118,7 +153,7 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jul 19 14:49:50 2016 by
+  Generated on Tue Jul 19 17:33:35 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
