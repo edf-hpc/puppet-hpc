@@ -104,9 +104,13 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Add sysctl settings and load them</p>
+
+<p>This will create a file in <code>/etc/sysctl.d</code> and load this file with
+<code>sysctl -p</code>. File are automatically read during boot.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +121,14 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">config </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">sysctl_file </span><span class="type">(<tt>Any</tt>)</span></li>
+    <li><span class="name">config </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Hash with keyval entries for sysctl settings </p></div></li><li><span class="name">sysctl_file </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Name of the file to create relative to
+`/etc/sysctl.d` </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 18 13:49:35 2016 by
+  Generated on Tue Jul 19 14:50:11 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

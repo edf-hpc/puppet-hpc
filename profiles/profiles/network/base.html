@@ -105,10 +105,18 @@
 <h2>Hiera</h2>
 
 <ul>
-<li><code>bondcfg</code> (<code>hiera_hash</code>)</li>
-<li><code>net_topology</code> (<code>hiera_hash</code>)</li>
-<li><code>network::gw_connect</code></li>
-<li><code>network::mlx4load</code></li>
+<li><code>net_topology</code> (<code>hiera_hash</code>)   Global description of the network
+                              topology of the cluster</li>
+<li><code>profiles::network::gw_connect</code> Name of the network to get the default
+                              gateway from.</li>
+</ul>
+
+<h2>Relevant Autolookups</h2>
+
+<ul>
+<li><code>network::mlx4load</code>        Load <code>mlx4</code> Driver for Mellanox
+                         ConnectX-3 cards</li>
+<li><code>network::bonding_options</code> Interface bonding configuration</li>
 </ul>
 </p>
   </div>
@@ -121,7 +129,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 18 13:49:15 2016 by
+  Generated on Tue Jul 19 14:49:50 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

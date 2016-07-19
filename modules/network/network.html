@@ -112,9 +112,24 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure the network on this host</p>
+
+<h2>Bonding</h2>
+
+<p>Bonding is configured by passing bonding options as a hash:</p>
+
+<pre class="code ruby"><code class="ruby">&#39;bond0&#39; =&gt; {
+  &#39;slaves&#39;  =&gt; [ &#39;eth0&#39;, &#39;eth1&#39; ],
+  &#39;options&#39; =&gt; &#39;mode=active-backup primary=eth0&#39;,
+},
+&#39;bond1&#39; =&gt; {
+  &#39;slaves&#39;  =&gt; [ &#39;eth2&#39;, &#39;eth3&#39; ],
+  &#39;options&#39; =&gt; &#39;mode=active-backup primary=eth2&#39;,
+},
+</code></pre>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +140,11 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">defaultgw </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">routednet </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">hostname_augeas_path </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::hostname_augeas_path</tt></li><li><span class="name">hostname_augeas_change </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::hostname_augeas_change</tt></li><li><span class="name">bonding_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::bonding_packages</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::config_file</tt></li><li><span class="name">systemd_tmpfile </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::systemd_tmpfile</tt></li><li><span class="name">systemd_tmpfile_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::systemd_tmpfile_options</tt></li><li><span class="name">ifup_hotplug_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service</tt></li><li><span class="name">ifup_hotplug_service_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_file</tt></li><li><span class="name">ifup_hotplug_service_link </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_link</tt></li><li><span class="name">ifup_hotplug_service_exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_exec</tt></li><li><span class="name">ifup_hotplug_service_params </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_params</tt></li><li><span class="name">ifup_hotplug_services </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_services</tt></li><li><span class="name">ifup_hotplug_files </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_files</tt></li><li><span class="name">ib_udev_rule_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_udev_rule_file</tt></li><li><span class="name">ib_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_file</tt></li><li><span class="name">ib_rules </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_rules</tt></li><li><span class="name">ib_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_packages</tt></li><li><span class="name">mlx4load </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::mlx4load</tt></li><li><span class="name">ib_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => [</tt></li>
+    <li><span class="name">defaultgw </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">routednet </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::routednet</tt> - <div class="inline"><p> Direct routes for this host, array of triplets:
+`<IP network address>@<network prefix length>@<device>`
+(default: []) </p></div></li><li><span class="name">hostname_augeas_path </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::hostname_augeas_path</tt></li><li><span class="name">hostname_augeas_change </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::hostname_augeas_change</tt></li><li><span class="name">bonding_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::bonding_packages</tt></li><li><span class="name">bonding_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::bonding_options</tt> - <div class="inline"><p> Hash with the bonding configuration for this
+host, see above (default: {}) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::config_file</tt></li><li><span class="name">systemd_tmpfile </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::systemd_tmpfile</tt></li><li><span class="name">systemd_tmpfile_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::systemd_tmpfile_options</tt></li><li><span class="name">ifup_hotplug_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service</tt></li><li><span class="name">ifup_hotplug_service_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_file</tt></li><li><span class="name">ifup_hotplug_service_link </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_link</tt></li><li><span class="name">ifup_hotplug_service_exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_exec</tt></li><li><span class="name">ifup_hotplug_service_params </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_service_params</tt></li><li><span class="name">ifup_hotplug_services </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_services</tt></li><li><span class="name">ifup_hotplug_files </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ifup_hotplug_files</tt></li><li><span class="name">ib_udev_rule_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_udev_rule_file</tt></li><li><span class="name">ib_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_file</tt></li><li><span class="name">ib_rules </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_rules</tt></li><li><span class="name">ib_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::ib_packages</tt></li><li><span class="name">mlx4load </span><span class="type">(<tt>Any</tt>)</span><tt> => $::network::params::mlx4load</tt> - <div class="inline"><p> Load the `mlx4` driver, 'yes'` or 'no'
+(default: 'yes') </p></div></li><li><span class="name">ib_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => [</tt></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +154,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 18 13:49:43 2016 by
+  Generated on Tue Jul 19 14:50:18 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
