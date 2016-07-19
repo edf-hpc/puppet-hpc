@@ -13,26 +13,31 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Add sysctl settings and load them
+#
+# This will create a file in `/etc/sysctl.d` and load this file with
+# `sysctl -p`. File are automatically read during boot.
+#
+# @param config       Hash with keyval entries for sysctl settings
+# @param sysctl_file  Name of the file to create relative to
+#                     `/etc/sysctl.d`
 define hpclib::sysctl(
   $config,
   $sysctl_file,
 ) {
 
-  $rootdir        = '/etc/sysctl.d'
+  $root_dir       = '/etc/sysctl.d'
   $sysctl_command = 'sysctl'
 
-  ensure_resource('file', $rootdir, {'ensure' => 'directory'})
-
-  hpclib::print_config { $sysctl_file :
-    style   => 'keyval',
-    target  => "${rootdir}/${sysctl_file}",
-    data    => $config,
-    require => File[$rootdir],
+  hpclib::print_config { "${root_dir}/${sysctl_file}":
+    style => 'keyval',
+    data  => $config,
   }
 
-  exec { "${sysctl_command}_${sysctl_file}" :
-    command   => "${sysctl_command} -p ${rootdir}/${sysctl_file}",
-    subscribe => File["${rootdir}/${sysctl_file}"],
-    path      => ['/bin','/sbin'],
+  exec { "${sysctl_command}_${sysctl_file}":
+    command     => "${sysctl_command} -p ${root_dir}/${sysctl_file}",
+    refreshonly => true,
+    subscribe   => File["${root_dir}/${sysctl_file}"],
+    path        => ['/bin','/sbin'],
   }
 }
