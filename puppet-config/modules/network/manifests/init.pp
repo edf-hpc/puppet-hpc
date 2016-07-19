@@ -13,16 +13,37 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# @param routednet Direct routes for this host, array of triplets:
-#                  `<IP network address>@<network prefix length>@<device>`
-#                  (default: [])
-# @param mlx4load  Load the `mlx4` driver, 'yes'` or 'no' (default: 'yes')
+# Configure the network on this host
+#
+# ## Bonding
+#
+# Bonding is configured by passing bonding options as a hash:
+#
+# ```
+# 'bond0' => {
+#   'slaves'  => [ 'eth0', 'eth1' ],
+#   'options' => 'mode=active-backup primary=eth0',
+# },
+# 'bond1' => {
+#   'slaves'  => [ 'eth2', 'eth3' ],
+#   'options' => 'mode=active-backup primary=eth2',
+# },
+# ```
+#
+# @param routednet       Direct routes for this host, array of triplets:
+#                        `<IP network address>@<network prefix length>@<device>`
+#                        (default: [])
+# @param mlx4load        Load the `mlx4` driver, 'yes'` or 'no'
+#                        (default: 'yes')
+# @param bonding_options Hash with the bonding configuration for this
+#                        host, see above (default: {})
 class network (
   $defaultgw,
   $routednet                   = $::network::params::routednet,
   $hostname_augeas_path        = $::network::params::hostname_augeas_path,
   $hostname_augeas_change      = $::network::params::hostname_augeas_change,
   $bonding_packages            = $::network::params::bonding_packages,
+  $bonding_options             = $::network::params::bonding_options,
   $config_file                 = $::network::params::config_file,
   $systemd_tmpfile             = $::network::params::systemd_tmpfile,
   $systemd_tmpfile_options     = $::network::params::systemd_tmpfile_options,
