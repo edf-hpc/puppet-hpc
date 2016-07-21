@@ -466,7 +466,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </li>
 </ul>
 </li>
-<li><a href="#_internals_roles_and_profiles">Internals - Roles and Profiles</a></li>
+<li><a href="#internals-roles-and-profiles">Internals - Roles and Profiles</a></li>
 <li>
 <ul class="sectlevel1">
 <li><a href="#overview">1. Overview</a></li>
@@ -484,13 +484,36 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </li>
 </ul>
 </li>
-<li><a href="#internals-writing-modules">Writing Modules</a></li>
+<li><a href="#internals-writing-modules">Internals - Writing Modules</a></li>
 <li>
 <ul class="sectlevel1">
 <li><a href="#_feature_set">1. Feature set</a></li>
 <li><a href="#_style">2. Style</a></li>
 <li><a href="#_classes">3. Classes</a></li>
 <li><a href="#_variables">4. Variables</a></li>
+<li><a href="#_documentation">5. Documentation</a></li>
+</ul>
+</li>
+<li><a href="#internals-Documentation">Internals - Documentation</a></li>
+<li>
+<ul class="sectlevel1">
+<li><a href="#_main_documentation">1. Main Documentation</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_dependencies_2">1.1. Dependencies</a></li>
+<li><a href="#_generation">1.2. Generation</a></li>
+<li><a href="#_modification">1.3. Modification</a></li>
+<li><a href="#_figures">1.4. Figures</a></li>
+</ul>
+</li>
+<li><a href="#_puppet_documentation">2. Puppet Documentation</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_dependencies_3">2.1. Dependencies</a></li>
+<li><a href="#_generation_2">2.2. Generation</a></li>
+</ul>
+</li>
+<li><a href="#_github_pages">3. GitHub Pages</a></li>
 </ul>
 </li>
 </ul>
@@ -599,6 +622,12 @@ knowledge of the CeCILL license and that you accept its terms.</pre>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p>Benoit BOCCARD</p>
+</li>
+<li>
+<p>Cécile YOSHIKAWA</p>
+</li>
 <li>
 <p>Thomas HAMEL</p>
 </li>
@@ -1595,7 +1624,7 @@ undefined method `empty?' for nil:NilClass
 </div>
 </div>
 </div>
-<h1 id="_internals_roles_and_profiles" class="sect0">Internals - Roles and Profiles</h1>
+<h1 id="internals-roles-and-profiles" class="sect0">Internals - Roles and Profiles</h1>
 <div class="sect1">
 <h2 id="overview">1. Overview</h2>
 <div class="sectionbody">
@@ -1733,50 +1762,53 @@ values should be set in the <code>common.yaml</code> of the Puppet HPC configura
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>class profiles::toto::server {
+<pre>class profiles::toto::server {
   $peers = hiera_array('profiles::toto:server::peers')
   $port = hiera('profiles::toto:server::port')
   class { '::toto::server':
     port  =&gt; $port,
     peers =&gt; $peers,
   }
-}
-
-`cluster.yaml`:</code></pre>
+}</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>profiles::toto::server::port: <em>42</em>
-profiles::toto::server::peers:
-  - servera
-  - serverb</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>
-**Good**
-
-`profiles/manifests/toto/server.pp`:
-</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>class profiles::toto::server {
-  $peers = hiera_array(<em>profiles::toto:server::peers</em>)
-  class { <em>::toto::server</em>:
-    peers &#8658; $peers
-  }
-}</p>
 </div>
 <div class="paragraph">
 <p><code>cluster.yaml</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code>toto::server::port: '42'
+<pre>profiles::toto::server::port: '42'
 profiles::toto::server::peers:
   - servera
-  - serverb</code></pre>
+  - serverb</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Good</strong></p>
+</div>
+<div class="paragraph">
+<p><code>profiles/manifests/toto/server.pp</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>class profiles::toto::server {
+  $peers = hiera_array('profiles::toto:server::peers')
+  class { '::toto::server':
+    peers =&gt; $peers
+  }
+}
+</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>cluster.yaml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>toto::server::port: '42'
+profiles::toto::server::peers:
+  - servera
+  - serverb</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1844,7 +1876,7 @@ cases, the wraping can be done directly in the profile (eg.
 </div>
 </div>
 </div>
-<h1 id="internals-writing-modules" class="sect0">Writing Modules</h1>
+<h1 id="internals-writing-modules" class="sect0">Internals - Writing Modules</h1>
 <div class="sect1">
 <h2 id="_feature_set">1. Feature set</h2>
 <div class="sectionbody">
@@ -1981,10 +2013,150 @@ parameters should use the following standardised names:</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_documentation">5. Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All modules should have a file <code>README.md</code> at the root of the module. This
+file should follow the guidelines spelled out in the Puppetlabs Style Guide.</p>
+</div>
+<div class="paragraph">
+<p>Even if the Puppet HPC configuration does not yet use the future parser, the
+class/resource documentation uses puppet strings:
+<a href="https://github.com/puppetlabs/puppetlabs-strings">https://github.com/puppetlabs/puppetlabs-strings</a></p>
+</div>
+<div class="paragraph">
+<p>The use of this tool makes the writing of the <strong>reference</strong> section in the
+README.md file redundant.</p>
+</div>
+<div class="paragraph">
+<p>Code comments should use the markdown syntax (as recommended by the puppet
+strings documentation). The root of the module should include a <code>.yardopts</code>
+file with the following content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>--markup=markdown
+--markup-provider=redcarpet
+--verbose</pre>
+</div>
+</div>
+</div>
+</div>
+<h1 id="internals-Documentation" class="sect0">Internals - Documentation</h1>
+<div class="sect1">
+<h2 id="_main_documentation">1. Main Documentation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_dependencies_2">1.1. Dependencies</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>asciidoctor</strong></p>
+</li>
+<li>
+<p><strong>inkscape</strong> (for SVG to PNG conversion)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generation">1.2. Generation</h3>
+<div class="paragraph">
+<p>Main documentation (this document) uses <code>asciidoctor</code> to generate the
+documentation. From the <code>doc/</code> directory a call to <code>make</code> will generate the
+PDF and HTML version.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modification">1.3. Modification</h3>
+<div class="paragraph">
+<p>Chapters modification are be done in the <code>.asc</code> files in the <code>doc/src</code>
+directory. To add a chapter, you must edit the main documentation file:
+<code>doc/PuppetHPCConfiguration.asc</code> and add an include entry.</p>
+</div>
+<div class="paragraph">
+<p>The included files should use the <code>.asc</code> extension, this permits GitHub to
+automatically detect the format and render the pages when browsing the git
+repository.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_figures">1.4. Figures</h3>
+<div class="paragraph">
+<p>Figures and images should go into the <code>doc/src/img</code> directory. If there is an
+SVG file without a corresponding PNG file, make will call <strong>Inkscape</strong> to
+generate it. Only the SVG source should be in the repository.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_puppet_documentation">2. Puppet Documentation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_dependencies_3">2.1. Dependencies</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>puppet strings gem</strong></p>
+</li>
+<li>
+<p><strong>yard</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The puppet strings gem has been packaged for debian:
+<a href="https://github.com/edf-hpc/ruby-puppet-strings">https://github.com/edf-hpc/ruby-puppet-strings</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generation_2">2.2. Generation</h3>
+<div class="paragraph">
+<p>In a module directory, call the command: <code>puppet strings</code>. It will generate a
+<code>doc/</code> directory with HTML pages.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_github_pages">3. GitHub Pages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The documentation is available in the GitHub pages:
+<a href="https://edf-hpc.github.io/puppet-hpc/">https://edf-hpc.github.io/puppet-hpc/</a></p>
+</div>
+<div class="paragraph">
+<p>This set of file is in the <code>gh-pages</code> branch. This branch can be updated with a
+current documentation by calling the script: <code>build-gh-pages.sh</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd doc/
+$ ./build-gh-pages.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This script will clone the current master branch of the local repository to
+a temporary location, generate the main documentation and puppet documentations
+for profiles and modules. The result will be commited in the <code>gh-pages</code> branch
+of the local repository.</p>
+</div>
+<div class="paragraph">
+<p>To publish on GitHub, the branch should be pushed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ git push origin gh-pages:gh-pages</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-05 12:45:01 BST
+Last updated 2016-07-21 09:43:39 BST
 </div>
 </div>
 </body>
