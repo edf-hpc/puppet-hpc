@@ -33,6 +33,7 @@ This module require the edf-hpc/hpclib module.
 
 You must pass the content of the configuration file in a hash formated like
 this :
+
 ```
 $config_options = {
   'name_of_the_check' => {
@@ -41,7 +42,9 @@ $config_options = {
     command    => 'command_to_execute',
   },
 ```
+
 For example, this hash :
+
 ```
 $config_options = {
   'rm' => {
@@ -50,11 +53,14 @@ $config_options = {
     command    => 'export NHC_RM=slurm',
   },
 ```
+
 will generate this config file :
+
 ```
 ### Explicitly instruct NHC to assume the Resource Manager ###
 * || export NHC_RM=slurm
 ```
+
 ## Usage
 
 Include the warewulf_nhc class.
