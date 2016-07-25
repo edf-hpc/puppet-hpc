@@ -120,34 +120,33 @@ cluster configuration.</p>
 <h3>Beginning with warewuf_nhc</h3>
 
 <p>You must pass the content of the configuration file in a hash formated like
-this :
-<code>
-$config_options = {
+this :</p>
+
+<pre class="code ruby"><code class="ruby">$config_options = {
   &#39;name_of_the_check&#39; =&gt; {
     comment    =&gt; &#39;Comments associated to this check&#39;,
     nodes      =&gt; &#39;nodes_concerned&#39;,
     command    =&gt; &#39;command_to_execute&#39;,
   },
-</code>
-For example, this hash :
-<code>
-$config_options = {
+</code></pre>
+
+<p>For example, this hash :</p>
+
+<pre class="code ruby"><code class="ruby">$config_options = {
   &#39;rm&#39; =&gt; {
     comment    =&gt; &#39;Explicitly instruct NHC to assume the Resource Manager&#39;,
     nodes      =&gt; &#39;*&#39;,
     command    =&gt; &#39;export NHC_RM=slurm&#39;,
   },
-</code>
-will generate this config file :
-```</p>
+</code></pre>
 
-<h3>Explicitly instruct NHC to assume the Resource Manager</h3>
+<p>will generate this config file :</p>
 
-<ul>
-<li>|| export NHC_RM=slurm
-```
-## Usage</li>
-</ul>
+<pre class="code ruby"><code class="ruby">### Explicitly instruct NHC to assume the Resource Manager ###
+* || export NHC_RM=slurm
+</code></pre>
+
+<h2>Usage</h2>
 
 <p>Include the warewulf_nhc class.</p>
 
@@ -162,7 +161,7 @@ will generate this config file :
 </div></div>
 
     <div id="footer">
-  Generated on Thu Jul 21 10:08:09 2016 by
+  Generated on Mon Jul 25 14:03:47 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

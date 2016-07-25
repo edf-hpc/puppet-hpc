@@ -102,6 +102,103 @@
   <div class="discussion">
     <p><p>Authentication system client</p>
 
+<p>Authentication uses the SSS daemon to configure node directory and
+authentication. The common pattern supported by this profile is a local
+LDAP replica and an external Kerberos server for authentication.</p>
+
+<h2>SSSD</h2>
+
+<p>SSSD is configured with four hiera keys
+(<code>profiles::auth::client::sssd_options_*</code>), those options are combined
+to create <code>sssd_options</code> used to generate the file <code>/etc/sssd/sssd.conf</code></p>
+
+<h2>Kerberos</h2>
+
+<p>If the <code>enable_kerberos</code> hiera boolean is true, the options related to
+kerberos are also generated.</p>
+
+<h2>Example</h2>
+
+<p>The example below relies on some other hiera variables like
+<code>profiles::auth::ldap_default_authtok</code> that should define the password.</p>
+
+<p><code>certificates::certificates_directory</code> is defined with the keys for the
+replica configuration.</p>
+
+<p>If you have a trusted certificate, you should pay attention to the
+<code>ldap_tls_reqcert</code> value that should use <code>require</code> in production.</p>
+
+<pre class="code ruby"><code class="ruby">profiles::auth::client::enable_kerberos: false
+kdc_primary:                    &#39;kdc1.example.com&#39;
+kdc_secondary:                  &#39;kdc2.example.com&#39;
+external_ldap:                  &#39;ldap.example.com&#39;
+krb5_realm:                     &#39;EXAMPLE.COM&#39;
+
+profiles::auth::client::sssd_options_general:
+  config_file_version:  &#39;2&#39;
+  reconnection_retries: &#39;3&#39;
+  sbus_timeout:         &#39;30&#39;
+  services:             &#39;nss,pam&#39;
+  domains:              &quot;%{hiera(&#39;cluster&#39;)}&quot;
+profiles::auth::client::sssd_options_nss:
+  filter_groups:        &#39;root&#39;
+  filter_users:         &#39;root&#39;
+  reconnection_retries: &#39;3&#39;
+profiles::auth::client::sssd_options_pam:
+  reconnection_retries:           &#39;3&#39;
+  offline_credentials_expiration: &#39;1&#39;
+profiles::auth::client::sssd_options_domain:
+  name:                      &quot;%{hiera(&#39;cluster&#39;)}&quot;
+  description:               &quot;LDAP replica for %{hiera(&#39;cluster&#39;)}&quot;
+  id_provider:               &#39;ldap&#39;
+  auth_provider:             &#39;krb5&#39;
+  cache_credentials:         &#39;true&#39;
+  enumerate:                 &#39;true&#39;
+  min_id:                    &#39;1000&#39;
+  ldap_uri:                  &quot;ldaps://%{hiera(&#39;cluster_prefix&#39;)}%{my_auth_replica}1, ldaps://%{hiera(&#39;cluster_prefix&#39;)}%{my_auth_replica}2&quot;
+  ldap_tls_reqcert:          &#39;allow&#39;
+  ldap_tls_cacert:           &quot;%{hiera(&#39;certificates::certificates_directory&#39;)}&quot;
+  ldap_search_timeout:       &#39;3&#39;
+  ldap_network_timeout:      &#39;2&#39;
+  ldap_pwd_policy:           &#39;&#39;
+  case_sensitive:            &quot;%{hiera(&#39;sssd::case_sensitive&#39;)}&quot;
+  account_cache_expiration:  &#39;1&#39;
+  ldap_user_gecos:           &#39;cn&#39;
+  ldap_schema:               &#39;rfc2307bis&#39;
+  ldap_search_base:          &#39;dc=example,dc=com&#39;
+  ldap_default_bind_dn:      &#39;cn=nss,ou=infra,dc=example,dc=com&#39;
+  ldap_default_authtok_type: &#39;password&#39;
+  ldap_default_authtok:      &quot;%{hiera(&#39;profiles::auth::ldap_default_authtok&#39;)}&quot;
+  ldap_user_search_base:     &#39;ou=people,dc=example,dc=com&#39;
+  ldap_group_search_base:    &#39;ou=groups,dc=example,dc=com&#39;
+profiles::auth::client::krb5_server:                    &quot;%{hiera(&#39;kdc_primary&#39;)}, %{hiera(&#39;kdc_secondary&#39;)}&quot;
+profiles::auth::client::krb5_realm:                     &quot;%{hiera(&#39;krb5_realm&#39;)}&quot;
+profiles::auth::client::krb5_store_password_if_offline: &#39;true&#39;
+
+profiles::auth::client::krb5_options:
+  libdefaults:
+    default_realm:    &quot;%{hiera(&#39;krb5_realm&#39;)}&quot;
+    rdns:             &#39;false&#39;
+    dns_lookup_realm: &#39;false&#39;
+    dns_lookup_kdc:   &#39;false&#39;
+    forwardable:      &#39;true&#39;
+  realms:
+    &quot;%{hiera(&#39;krb5_realm&#39;)}&quot;: |-
+      {
+        kdc = %{hiera(&#39;kdc_primary&#39;)}
+        kdc = %{hiera(&#39;kdc_secondary&#39;)}
+        admin_server = %{hiera(&#39;external_ldap&#39;)}
+        kpasswd_server = %{hiera(&#39;external_ldap&#39;)}
+        default_domain = example.com
+      }
+  domain_realm:
+    &#39;.EXAMPLE.COM&#39;: &quot;%{hiera(&#39;krb5_realm&#39;)}&quot;
+    &#39;EXAMPLE.COM&#39;:  &quot;%{hiera(&#39;krb5_realm&#39;)}&quot;
+
+kerberos::keytab_source_dir: &quot;%{hiera(&#39;private_files_dir&#39;)}/auth/keytabs&quot;
+kerberos::decrypt_passwd:    &quot;%{hiera(&#39;cluster_decrypt_password&#39;)}&quot;
+</code></pre>
+
 <h2>Hiera</h2>
 
 <ul>
@@ -134,7 +231,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Jul 21 10:07:25 2016 by
+  Generated on Mon Jul 25 14:03:02 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
