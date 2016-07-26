@@ -13,26 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# HTTP server for slurm-web API
-#
-# ## Hiera
-# * `profiles::jobsched::user`
-# * `profiles::http::slurmweb::config_options`
-class profiles::http::slurmweb {
+class slurmweb::params {
 
-  ## Hiera lookups
-
-  $slurm_user     = hiera('profiles::jobsched::user')
-  $config_options = hiera_hash('profiles::http::slurmweb::config_options')
-  # Pass config options as a class parameter
-
-  class { '::apache' :
-    mpm_module => 'event',
-  }
-
-  class { '::slurmweb':
-    config_options => $config_options,
-    slurm_user     => $slurm_user,
-  }
-
+  #### Module variables
+  $packages_ensure   = 'latest'
+  $packages          = ['slurm-web-restapi', 'redis-server']
+  $config_file       = '/etc/slurm-web/restapi.conf'
+  $racks_file        = '/etc/slurm-web/racks.xml'
+  $racks_file_source = 'puppet:///modules/slurmweb/racks.xml'
+  
+  #### Defaults values
+  $decrypt_password  = 'password'
+  $slurm_user        = 'slurm'
 }

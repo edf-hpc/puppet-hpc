@@ -13,26 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# HTTP server for slurm-web API
-#
-# ## Hiera
-# * `profiles::jobsched::user`
-# * `profiles::http::slurmweb::config_options`
-class profiles::http::slurmweb {
+class ctorrent::service inherits ctorrent {
 
-  ## Hiera lookups
-
-  $slurm_user     = hiera('profiles::jobsched::user')
-  $config_options = hiera_hash('profiles::http::slurmweb::config_options')
-  # Pass config options as a class parameter
-
-  class { '::apache' :
-    mpm_module => 'event',
+  service { $::ctorrent::service:
+    ensure  => running,
+    enable  => true,
+    require => [
+      Package[$::ctorrent::packages],
+      File[$::ctorrent::default_file, $::ctorrent::init_file]
+    ],
   }
 
-  class { '::slurmweb':
-    config_options => $config_options,
-    slurm_user     => $slurm_user,
+  cron { $::ctorrent::init_file:
+    command => "PATH=\$PATH:/sbin; systemctl restart ${::ctorrent::service}.service &> /dev/null || exit 0",
+    user    => 'root',
+    require => File[$::ctorrent::init_file],
   }
-
 }

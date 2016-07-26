@@ -1,0 +1,26 @@
+<!-- 
+#############################################################
+!!!!! Example file, modify it according to your configuration 
+#############################################################
+-->
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rackmap SYSTEM "/usr/share/slurm-web/restapi/schema/dtd/racks.dtd">
+<rackmap>
+  <nodetypes>
+    <nodetype id="node1" model="Node1 compute node" height="1" width="0.5" />
+  </nodetypes>
+
+  <racks posx="0" posy="0" width="500" depth="300" rackwidth="1">
+    <racksrow posx="0">
+
+      <!-- Rack A1 -->
+      <rack id="A1" posy="0">
+        <nodes>
+          <nodeset id="pocn[001]" type="node1" posy="2" />
+        </nodes>
+      </rack>
+    </racksrow>
+  </racks>
+</rackmap>
