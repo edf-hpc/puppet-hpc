@@ -13,10 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Setup a Bitorrent tracker
+# Bitorrent tracker
 #
+# P2P boot system uses opentracker as tracker for the p2p system.
 # The tracker is configured to allow admin connections
 # from the first node with the `admin` role.
+#
+# ## Opentracker
+#
+# Opentracker is configured with two facts to generate the file
+# `/etc/default/opentracker`. The configuration file for opentracker daemon
+# `/etc/opentracker/opentracker.conf` is generated using default values from
+# opentracker puppet module.
+#
+# ## Facts
+# * `hosts_by_role['admin'][0]`
+# * `hosts_by_role["$my_p2p_tracker"]`
+
 class profiles::p2p::tracker {
 
   $admin_node    = $hosts_by_role['admin'][0]
