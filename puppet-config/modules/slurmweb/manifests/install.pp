@@ -13,26 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# HTTP server for slurm-web API
-#
-# ## Hiera
-# * `profiles::jobsched::user`
-# * `profiles::http::slurmweb::config_options`
-class profiles::http::slurmweb {
+class slurmweb::install inherits slurmweb {
 
-  ## Hiera lookups
-
-  $slurm_user     = hiera('profiles::jobsched::user')
-  $config_options = hiera_hash('profiles::http::slurmweb::config_options')
-  # Pass config options as a class parameter
-
-  class { '::apache' :
-    mpm_module => 'event',
-  }
-
-  class { '::slurmweb':
-    config_options => $config_options,
-    slurm_user     => $slurm_user,
+  package { $::slurmweb::packages:
+    ensure => $::slurmweb::packages_ensure,
   }
 
 }

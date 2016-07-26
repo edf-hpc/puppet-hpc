@@ -371,3 +371,6 @@ profiles::cluster::apt_sources:
     required_packages: 'debian-keyring debian-archive-keyring'
     pin: '500'
     include_src: false
+
+##### Slurmweb
+slurmweb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
