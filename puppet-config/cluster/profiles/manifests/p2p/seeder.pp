@@ -13,7 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Setup a Bitorrent seeder
+# Bitorrent seeder
+#
+# P2P boot system uses ctorrent as a seeder for the diskless images.
+#
+# ## Ctorrent
+# Ctorrent is configured with the hiera key 
+# `profiles::p2p::seeder::ctorrent_cfg`, used to generate the file 
+# `/etc/default/ctorrent` witch control options for the ctorrent service like
+# file(s) to seed, torrent file and daemon options.
 #
 # ## Hiera
 # * `cluster`
