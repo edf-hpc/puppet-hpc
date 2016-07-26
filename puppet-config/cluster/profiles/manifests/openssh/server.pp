@@ -19,7 +19,7 @@
 # in the SSH server configuration.
 #
 # ## Hiera
-# * `cluster`
+# * `cluster_name`
 # * `profiles::auth::client::enable_kerberos`
 # * `profiles::openssh::server::config_augeas` (`hiera_array`)
 # * `profiles::openssh::server::config_augeas_with_kerberos` (`hiera_array`)
@@ -28,7 +28,7 @@ class profiles::openssh::server {
   ## Hiera lookups
   $config_augeas               = hiera_array('profiles::openssh::server::config_augeas')
   $config_augeas_with_kerberos = hiera_array('profiles::openssh::server::config_augeas_with_kerberos')
-  $cluster                      = hiera('cluster')
+  $cluster                      = hiera('cluster_name')
   $enable_kerberos              = hiera('profiles::auth::client::enable_kerberos')
 
   if $enable_kerberos {
