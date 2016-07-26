@@ -33,7 +33,7 @@
 # slurm::dbd::config_options:
 #   DbdHost:           "%{hiera('slurm_primary_server')}"
 #   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-#   SlurmUser:         "%{hiera('slurm_user')}"
+#   SlurmUser:         "%{hiera('profile::jobsched::slurm_user')}"
 #   StorageHost:       'localhost'
 #   StorageUser:       'slurm'
 #   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"

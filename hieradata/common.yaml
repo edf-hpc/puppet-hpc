@@ -30,9 +30,9 @@ profiles::ntp::srv_opts:
     NTPD_OPTS: "'-4 -g'"
 
 ###### SLURM
+profiles::jobsched::user:  'slurm'
 slurm_primary_server:      'batch1'
 slurm_secondary_server:    'batch2'
-slurm_user:                'slurm'
 slurm_cluster_name:        "%{hiera('cluster_name')}"
 slurmd_user:               'root'
 
@@ -49,7 +49,7 @@ slurm::config_options:
       value:   "%{hiera('slurm_secondary_server')}"
       comment: "Machine where SLURM control functions are to be executed if ControlMachine fails"
     SlurmUser:
-      value:   "%{hiera('slurm_user')}"
+      value:   "%{hiera('profiles::jobsched::user')}"
       comment: "The name of the user that the slurmctld daemon executes as"
     SlurmdUser:
       value:   "%{hiera('slurmd_user')}"
