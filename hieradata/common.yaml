@@ -1,6 +1,6 @@
 ###### Global Organization settings ######
 # These  values should be redefined for your site
-cluster:                  'mycluster'
+cluster_name:             'mycluster'
 cluster_prefix:           'my'
 domain:                   'hpc.example.com'
 cluster_repo_originator:  'TeamHPC'
@@ -8,7 +8,6 @@ cluster_repo_gpg_key:     '01234567'
 cluster_decrypt_password: 'password'
 # These values might be redefined for your site
 admin_dir:      '/admin'
-cluster_name:   "%{hiera('cluster')}"
 website_dir:    "%{hiera('admin_dir')}/public/http"
 preseeddir:     '/var/cache/debconf'
 libcalibre:     '/var/lib/calibre'

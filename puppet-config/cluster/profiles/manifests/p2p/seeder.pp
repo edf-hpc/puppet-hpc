@@ -21,7 +21,7 @@
 class profiles::p2p::seeder {
 
   ## Hiera lookups
-  $cluster          = hiera('cluster')
+  $cluster          = hiera('cluster_name')
   $ctorrent_options = hiera('profiles::p2p::seeder::ctorrent_cfg')
 
   class { '::ctorrent':

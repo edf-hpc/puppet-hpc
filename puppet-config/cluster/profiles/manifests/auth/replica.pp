@@ -5,7 +5,6 @@ class profiles::auth::replica {
   $directory_source = hiera('profiles::auth::replica::directory_source')
   $ldif_file        = hiera('profiles::auth::replica::ldif_file')
   $ldif_directory   = hiera('profiles::auth::replica::ldif_directory')
-  $cluster          = hiera('cluster')
 
   # Pass config options as a class parameter
   include certificates

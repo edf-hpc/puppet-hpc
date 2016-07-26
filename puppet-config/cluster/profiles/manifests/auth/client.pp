@@ -53,7 +53,7 @@
 #   reconnection_retries: '3'
 #   sbus_timeout:         '30'
 #   services:             'nss,pam'
-#   domains:              "%{hiera('cluster')}"
+#   domains:              "%{hiera('cluster_name')}"
 # profiles::auth::client::sssd_options_nss:
 #   filter_groups:        'root'
 #   filter_users:         'root'
@@ -62,8 +62,8 @@
 #   reconnection_retries:           '3'
 #   offline_credentials_expiration: '1'
 # profiles::auth::client::sssd_options_domain:
-#   name:                      "%{hiera('cluster')}"
-#   description:               "LDAP replica for %{hiera('cluster')}"
+#   name:                      "%{hiera('cluster_name')}"
+#   description:               "LDAP replica for %{hiera('cluster_name')}"
 #   id_provider:               'ldap'
 #   auth_provider:             'krb5'
 #   cache_credentials:         'true'
@@ -114,7 +114,7 @@
 # ```
 #
 # ## Hiera
-# * `cluster`
+# * `cluster_name`
 # * `profiles::auth::client::enable_kerberos`
 # * `profiles::auth::client::krb5_server`
 # * `profiles::auth::client::krb5_realm`
@@ -138,7 +138,7 @@ class profiles::auth::client {
   $sssd_options_domain  = hiera_hash('profiles::auth::client::sssd_options_domain')
   $krb5_options         = hiera_hash('profiles::auth::client::krb5_options')
   $enable_kerberos      = hiera('profiles::auth::client::enable_kerberos')
-  $cluster              = hiera('cluster')
+  $cluster              = hiera('cluster_name')
 
   if $enable_kerberos {
     $sssd_options_domain_kerberos_opts = {

@@ -16,7 +16,7 @@
 # Base environment for a cluster host
 #
 # ## Hiera
-# * `cluster`
+# * `cluster_name`
 # * `profiles::environment::authorized_users_group`
 # * `profiles::environment::motd_content` (`hiera_hash`)
 class profiles::environment::base {
@@ -24,7 +24,7 @@ class profiles::environment::base {
   ## Hiera lookups
 
   $motd_content           = hiera_hash('profiles::environment::motd_content')
-  $cluster                = hiera('cluster')
+  $cluster                = hiera('cluster_name')
   $authorized_users_group = hiera('profiles::environment::authorized_users_group')
 
   # Pass config options as a class parameter
