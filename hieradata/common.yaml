@@ -373,3 +373,21 @@ profiles::cluster::apt_sources:
 
 ##### Slurmweb
 slurmweb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
+
+##### OpenLDAP Replica settings #####
+openldap::replica::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
+certificates::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
+
+##### SSH settings #####
+openssh::server::decrypt_passwd:   "%{hiera('cluster_decrypt_password')}"
+openssh::client::decrypt_passwd:   "%{hiera('cluster_decrypt_password')}"
+
+##### Kerberos settings
+kerberos::decrypt_passwd:          "%{hiera('cluster_decrypt_password')}"
+
+##### Munge settings
+munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
+
+##### Clara settings
+clara::password_options:
+  ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
