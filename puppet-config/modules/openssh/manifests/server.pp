@@ -22,15 +22,18 @@
 # Note this is the actual key without the `ssh-rsa` and user name, not a
 # file path.
 #
-# @param packages_ensure   Install mode (`latest` or `present`) for the
-#                          packages (default: `present`)
-# @param packages          Array of packages names
-# @param service_ensure    Ensure state of the service: `running` or
-#                          `stopped` (default: running)
-# @param service_enable    Service started at boot (default: true)
-# @param service           Name of the service
-# @param cluster           Name of the cluster for comment (default: 'cluster')
-# @param root_public_key   String of the RSA public key
+# @param packages_ensure     Install mode (`latest` or `present`) for the
+#                            packages (default: `present`)
+# @param packages            Array of packages names
+# @param service_ensure      Ensure state of the service: `running` or
+#                            `stopped` (default: running)
+# @param service_enable      Service started at boot (default: true)
+# @param service             Name of the service
+# @param cluster             Name of the cluster for comment (default: 
+#                            'cluster')
+# @param root_public_key     String of the RSA public key
+# @param hostkeys_source_dir Base URL to fetch the source keys (default:
+#                            'openssh'
 class openssh::server (
   $packages                 = $::openssh::server::params::packages,
   $packages_ensure          = $::openssh::server::params::packages_ensure,
@@ -71,7 +74,7 @@ class openssh::server (
   validate_string($host_private_key_ed25519)
   validate_string($host_public_key_ed25519)
   validate_absolute_path($hostkeys_dir)
-  validate_absolute_path($hostkeys_source_dir)
+  validate_string($hostkeys_source_dir)
 
   anchor { 'openssh::server::begin': } ->
   class { '::openssh::server::install': } ->
