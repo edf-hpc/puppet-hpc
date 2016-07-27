@@ -13,7 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs ipxe boot files in a directory
 #
+# @param config_dir_ftp     Target directory for boot files
+# @param ipxe_efi_source    Source URL for IPXE EFI file
+# @param ipxe_legacy_source Source URL for IPXE legacy (non EFI) file
 class boottftp (
 
   $config_dir_ftp                  = $ipxe::params::config_dir_ftp,
@@ -23,8 +27,8 @@ class boottftp (
 ) inherits boottftp::params {
 
   validate_absolute_path($config_dir_ftp)
-  validate_absolute_path($ipxe_efi_source)
-  validate_absolute_path($ipxe_legacy_source)
+  validate_string($ipxe_efi_source)
+  validate_string($ipxe_legacy_source)
 
   $ipxe_efi_file                   = "${config_dir_ftp}/ipxe.efi"
   $ipxe_legacy_file                = "${config_dir_ftp}/ipxe.legacy"
