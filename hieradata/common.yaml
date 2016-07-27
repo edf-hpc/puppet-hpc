@@ -373,6 +373,54 @@ profiles::cluster::apt_sources:
 
 ##### Slurmweb
 slurmweb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
+profiles::http::slurmweb::config_options:
+  infos:
+    version:
+      comment: ''
+      value:   '2.0'
+  cors:
+    authorized_origins:
+      comment: ''
+      value:   'https://your_dashboard'
+  config:
+    server_name:
+      comment: ''
+      value:   "%(hostname)"
+    secret_key:
+       comment: ''
+       value:   'none'
+    authentication:
+      comment: ''
+      value:   'disable'
+    cache:
+      comment: ''
+      value:   'disable'
+    racksxml:
+      comment: ''
+      value:   '/etc/slurm-web/racks.xml'
+  roles:
+    all:
+      comment: ''
+      value:   'all'
+    user:
+      comment: ''
+      value:   "@cl-%{hiera('cluster_name')}-users"
+    admin:
+      comment: ''
+      value:   "@cl-%{hiera('cluster_name')}-admin"
+    restricted_fields_for_all:
+      comment: ''
+      value:   'command'
+    restricted_fields_for_user:
+      comment: ''
+      value:   'command'
+    restricted_fields_for_admin:
+      comment: ''
+      value:   ''
+  acl:
+    3dview:
+      comment: ''
+      value:   "@cl-%{hiera('cluster_name')}-admin"
 
 ##### OpenLDAP Replica settings #####
 openldap::replica::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
