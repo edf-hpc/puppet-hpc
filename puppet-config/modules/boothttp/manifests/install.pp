@@ -21,16 +21,16 @@ class boothttp::install inherits boothttp {
   ensure_resource('file',[$boothttp::config_dir_http,$menu_dir],{'ensure' => 'directory'})
 
   $boot_files          = {
-    "${menu_file}"        => {
-      source                   => $boothttp::menu_source,
-      mode                     => '755',
-      validate_cmd             => "test -d `dirname ${menu_file}`",
+    "${menu_file}" => {
+      content      => hpc_source_file($boothttp::menu_source),
+      mode         => '755',
+      validate_cmd => "test -d `dirname ${menu_file}`",
     },
-    "${disk_dir}"        => {
-      source                   => $boothttp::disk_source,
-      ensure                   => 'directory',
-      recurse                  => 'remote',
-      validate_cmd             => "test -d `dirname ${disk_dir}`",
+    "${disk_dir}" => {
+      source       => $boothttp::disk_source,
+      ensure       => 'directory',
+      recurse      => 'remote',
+      validate_cmd => "test -d `dirname ${disk_dir}`",
     },
   }
 
