@@ -1,6 +1,6 @@
+require 'hpc/source'
 require 'openssl'
 require 'digest/md5'
-require 'open-uri'
 
 def decryptor(file, password, scheme='AES-256-CBC')
 
@@ -17,34 +17,7 @@ def decryptor(file, password, scheme='AES-256-CBC')
       ivlength=16
   end
 
-  if file.kind_of?(Array)
-    file_array = file
-  else
-    file_array = [file]
-  end
-
-  # First, try to read the file with the puppet function 
-  # file, it handles fallback natively and paths like:
-  # * <module>/<filename>
-  # * Absolute file name
-  encrypted_data = ''
-  begin
-    encrypted_data = function_file(file_array)
-  rescue
-    debug("function_file failed to read #{file_array}.")
-  end
-
-  if encrypted_data == ''
-    file_array.each do |current_file|
-      begin
-        # Remove the 'file://' part
-        uri = current_file.sub(%r{^file://}, '')
-        encrypted_data = open(uri, 'rb') { |f| f.read }
-      rescue => e 
-          debug("IO module failed to read #{current_file}: #{e}")
-      end
-    end
-  end
+  encrypted_data = hpc_source_file(file)
 
   if encrypted_data == ''
     raise "Failed to read encrypted data from any source: #{file}"
