@@ -9,7 +9,9 @@ require 'ipaddr'
 options = {
   :default => nil,
   :config  => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
-  :scope   => {},
+  :scope => {
+    'environment' => Puppet[:environment],
+  },
   :key     => nil,
   :verbose => false,
   :resolution_type => :priority
