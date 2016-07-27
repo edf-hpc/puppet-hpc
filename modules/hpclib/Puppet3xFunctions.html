@@ -93,7 +93,11 @@
   <dd class="r1 last">
   
     <em>decrypt</em>:
-    lib/puppet/parser/functions/decrypt.rb (84)
+    lib/puppet/parser/functions/decrypt.rb (57)
+    <br/>
+  
+    <em>hpc_source_file</em>:
+    lib/puppet/parser/functions/hpc_source_file.rb (4)
     <br/>
   
     <em>hpc_nodeset_fold</em>:
@@ -108,12 +112,12 @@
     lib/puppet/parser/functions/hpc_nodeset_expand.rb (4)
     <br/>
   
-    <em>hpc_roles_single_nodeset</em>:
-    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb (26)
-    <br/>
-  
     <em>hpc_shorewall_interfaces</em>:
     lib/puppet/parser/functions/hpc_shorewall_interfaces.rb (25)
+    <br/>
+  
+    <em>hpc_roles_single_nodeset</em>:
+    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb (26)
     <br/>
   
   </dd>
@@ -135,6 +139,22 @@
     <span class = "summary_desc">
       <div class = "inline">
         <p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_source_file-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_source_file</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Loads a file from a source (module, file://, http://.</p>
       </div>
     </span>
   
@@ -188,22 +208,6 @@
   
     <li class = "private">
       <span class = "summary_signature">
-      <a href =#hpc_roles_single_nodeset-instance_method>
-          
-            (<span class="type"><tt>rvalue</tt></span>)
-          
-        -
-       <strong>hpc_roles_single_nodeset</strong>
-      </span>
-    </li></a>
-    <span class = "summary_desc">
-      <div class = "inline">
-        <p>Return a single nodeset of all the hosts in the roles passed as argument</p>
-      </div>
-    </span>
-  
-    <li class = "private">
-      <span class = "summary_signature">
       <a href =#hpc_shorewall_interfaces-instance_method>
           
             (<span class="type"><tt>rvalue</tt></span>)
@@ -215,6 +219,22 @@
     <span class = "summary_desc">
       <div class = "inline">
         <p>Returns an array of shorewall interfaces for this host, based on the current network config.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_roles_single_nodeset-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_roles_single_nodeset</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a single nodeset of all the hosts in the roles passed as argument</p>
       </div>
     </span>
   
@@ -232,6 +252,34 @@
   <div class="docstring">
     <div class="discussion">
       <p><p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_source_file-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_source_file
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Loads a file from a source (module, file://, http://...) and returns the data</p>
 </p>
     </div>
   </div>
@@ -333,34 +381,6 @@
     
   </div>
 
-  <h3 class="signature" id = hpc_roles_single_nodeset-instance_method>
-    <strong>
-      
-        (<span class="type"><tt>rvalue</tt></span>)
-      
-      hpc_roles_single_nodeset
-    </strong>
-  </h3>
-  <div class="docstring">
-    <div class="discussion">
-      <p><p>Return a single nodeset of all the hosts in the roles passed as argument</p>
-</p>
-    </div>
-  </div>
-  <div class="tags">
-    
-    
-    
-      <p class="tag_title">Returns:</p>
-      <ul class="return">
-        <li>
-          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
-        </li>
-      </ul>
-    
-    
-  </div>
-
   <h3 class="signature" id = hpc_shorewall_interfaces-instance_method>
     <strong>
       
@@ -389,10 +409,38 @@
     
   </div>
 
+  <h3 class="signature" id = hpc_roles_single_nodeset-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_roles_single_nodeset
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a single nodeset of all the hosts in the roles passed as argument</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 25 14:03:23 2016 by
+  Generated on Wed Jul 27 17:34:25 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

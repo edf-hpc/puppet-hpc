@@ -139,7 +139,7 @@ profiles::auth::client::sssd_options_general:
   reconnection_retries: &#39;3&#39;
   sbus_timeout:         &#39;30&#39;
   services:             &#39;nss,pam&#39;
-  domains:              &quot;%{hiera(&#39;cluster&#39;)}&quot;
+  domains:              &quot;%{hiera(&#39;cluster_name&#39;)}&quot;
 profiles::auth::client::sssd_options_nss:
   filter_groups:        &#39;root&#39;
   filter_users:         &#39;root&#39;
@@ -148,8 +148,8 @@ profiles::auth::client::sssd_options_pam:
   reconnection_retries:           &#39;3&#39;
   offline_credentials_expiration: &#39;1&#39;
 profiles::auth::client::sssd_options_domain:
-  name:                      &quot;%{hiera(&#39;cluster&#39;)}&quot;
-  description:               &quot;LDAP replica for %{hiera(&#39;cluster&#39;)}&quot;
+  name:                      &quot;%{hiera(&#39;cluster_name&#39;)}&quot;
+  description:               &quot;LDAP replica for %{hiera(&#39;cluster_name&#39;)}&quot;
   id_provider:               &#39;ldap&#39;
   auth_provider:             &#39;krb5&#39;
   cache_credentials:         &#39;true&#39;
@@ -202,7 +202,7 @@ kerberos::decrypt_passwd:    &quot;%{hiera(&#39;cluster_decrypt_password&#39;)}&
 <h2>Hiera</h2>
 
 <ul>
-<li><code>cluster</code></li>
+<li><code>cluster_name</code></li>
 <li><code>profiles::auth::client::enable_kerberos</code></li>
 <li><code>profiles::auth::client::krb5_server</code></li>
 <li><code>profiles::auth::client::krb5_realm</code></li>
@@ -231,7 +231,7 @@ kerberos::decrypt_passwd:    &quot;%{hiera(&#39;cluster_decrypt_password&#39;)}&
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 25 14:03:02 2016 by
+  Generated on Wed Jul 27 17:34:05 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

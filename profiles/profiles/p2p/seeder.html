@@ -100,7 +100,16 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p><p>Setup a Bitorrent seeder</p>
+    <p><p>Bitorrent seeder</p>
+
+<p>P2P boot system uses ctorrent as a seeder for the diskless images.</p>
+
+<h2>Ctorrent</h2>
+
+<p>Ctorrent is configured with the hiera key 
+<code>profiles::p2p::seeder::ctorrent_cfg</code>, used to generate the file 
+<code>/etc/default/ctorrent</code> witch control options for the ctorrent service like
+file(s) to seed, torrent file and daemon options.</p>
 
 <h2>Hiera</h2>
 
@@ -119,7 +128,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Jul 25 14:03:02 2016 by
+  Generated on Wed Jul 27 17:34:05 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
