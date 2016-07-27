@@ -65,7 +65,7 @@ class openssh::server::params {
   $host_public_key_ecdsa    = 'ssh_host_ecdsa_key.pub'
   $host_private_key_ed25519 = 'ssh_host_ed25519_key'
   $host_public_key_ed25519  = 'ssh_host_ed25519_key.pub'
-  $hostkeys_source_dir      = 'puppet:///modules/hostkeys'
+  $hostkeys_source_dir      = 'openssh'
 
   $decrypt_password         = 'password'
 
