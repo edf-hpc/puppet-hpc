@@ -4,7 +4,9 @@ require 'facter/network'
 options = {
   :default => nil,
   :config => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
-  :scope => {},
+  :scope => {
+    'environment' => Puppet[:environment],
+  },
   :key => nil,
   :verbose => false,
   :resolution_type => :priority
@@ -58,17 +60,18 @@ end
 
 
 myrole, myindex = get_role_index_for_name(Facter.value(:hostname), prefix)
+
 Facter.add('puppet_role') do
   setcode do
     myrole
   end
 end
+
 Facter.add('puppet_index') do
   setcode do
     myindex
   end
 end
-
 
 Facter.add('hosts_by_role') do
   setcode do
