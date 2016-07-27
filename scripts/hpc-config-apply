@@ -1,0 +1,231 @@
+#!/usr/bin/env python3
+
+import argparse
+import urllib3
+import urllib3.util
+import tarfile
+import subprocess
+import os.path
+import configparser
+import logging
+import io
+
+CONF_ARCHIVE_NAME = 'puppet-config-environment.tar.xz'
+CONF_BASE_PATH = '/etc/puppet/environments'
+
+KEYS_ARCHIVE_NAME = 'keys.tar.xz'
+KEYS_BASE_PATH = '/etc/puppet/secure'
+
+
+def get_parameter(key, default, config_section, args):
+    if key in args:
+        return vars(args)[key]
+    if key in config_section:
+        return config_section[key]
+    return default
+
+
+def get_parameter_int(key, default, config_section, args):
+    if key in args:
+        return int(vars(args)[key])
+    if key in config_section:
+        return int(config_section[key])
+    return default
+
+
+def get_parameters():
+    params = {}
+
+    args = parse_args()
+    if 'config_file' in args:
+        config = parse_config(vars(args)['config_file'])
+    else:
+        config = parse_config()
+
+    if 'DEFAULT' not in config:
+        default_section = {}
+    else:
+        default_section = config['DEFAULT']
+    env = get_parameter('environment', 'production', default_section, args)
+    params['environment'] = env
+
+    if env not in config:
+        env_section = {}
+    else:
+        env_section = config[env]
+
+    params['source'] = get_parameter(
+        'source', None, env_section, args)
+    params['keys_source'] = get_parameter(
+        'keys_source', None, env_section, args)
+    params['deploy_step'] = get_parameter(
+        'deploy_step', None, env_section, args)
+    params['verbosity'] = get_parameter_int(
+        'verbosity', 0, env_section, args)
+
+    return params
+
+
+def parse_config(file_path='/etc/hpc-config.conf'):
+    config = configparser.ConfigParser()
+    config.read(file_path)
+    return config
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Apply the HPC Configuration.',
+        argument_default=argparse.SUPPRESS
+    )
+
+    parser.add_argument('--config', '-c',
+                        dest='config_file',
+                        nargs='?', help='Configuration file')
+
+    parser.add_argument('--source', '-s',
+                        dest='source',
+                        nargs='?', help='Configuration source URL')
+
+    parser.add_argument('--environment', '-e',
+                        dest='environment',
+                        nargs='?', help='Environment name')
+
+    parser.add_argument('--deploy-step', '-d',
+                        dest='deploy_step',
+                        nargs='?', help='Deploy step',
+                        choices=['production', 'usbdisk'])
+
+    parser.add_argument('--keys-source', '-k',
+                        dest='keys_source',
+                        nargs='?', help='Secret keys source')
+
+    parser.add_argument('--verbose', '-v',
+                        dest='verbosity', action='count',
+                        help='More output, can be specified multiple times.')
+
+    return parser.parse_args()
+
+
+def setup_logging(verbosity=0):
+    level = logging.WARNING
+    if verbosity > 0:
+        level = logging.INFO
+    if verbosity > 1:
+        level = logging.DEBUG
+    logging.basicConfig(level=level)
+
+
+def http_get_file(url, root_source_port=False):
+    parsed_url = urllib3.util.parse_url(url)
+    connect_ok = False
+    source_port = 1024
+    while not connect_ok or (root_source_port and source_port == 0):
+        if root_source_port:
+            source_port -= 1
+        else:
+            source_port = 0
+        if parsed_url.scheme == 'https':
+            http = urllib3.connection.HTTPSConnection(
+                host=parsed_url.host, port=parsed_url.port,
+                source_address=('0.0.0.0', source_port)
+            )
+        else:
+            http = urllib3.connection.HTTPConnection(
+                host=parsed_url.host, port=parsed_url.port,
+                source_address=('0.0.0.0', source_port)
+            )
+        try:
+            logging.debug("Trying to connect with source port %s" % source_port)
+            http.connect()
+            connect_ok = True
+        except OSError as e:
+            logging.warn(
+                "Failed to connect to http(s) server %s with " % url +
+                "source port: %s, error: %s. Retrying..." % (source_port, e)
+            )
+            http.close()
+
+    if not connect_ok:
+        raise RuntimeError(
+            "Failed to connect to the server to get url: %s" % url
+        )
+
+    http.request('GET', url)
+    response = http.getresponse()
+    data = response.read()
+    source_file = io.BytesIO(data)
+    http.close()
+
+    return source_file
+
+
+def extract_url(url, path, root_source_port=False):
+    parsed_url = urllib3.util.parse_url(url)
+    if parsed_url.scheme in [None, 'file']:
+        source_file = open(parsed_url.path, 'rb')
+    else:
+        source_file = http_get_file(url, root_source_port)
+
+    archive = tarfile.open(fileobj=source_file, mode='r:xz')
+    archive.extractall(path=path)
+
+    source_file.close()
+
+
+def get_keys(source):
+    keys_url = '/'.join([source, KEYS_ARCHIVE_NAME])
+    logging.info(
+        "Getting secure keys from %s" % keys_url
+    )
+    extract_url(keys_url, KEYS_BASE_PATH, root_source_port=True)
+    return
+
+
+def get_puppet_environment(source, environment, version='latest'):
+    env_url = '/'.join([
+        source,
+        environment,
+        version,
+        CONF_ARCHIVE_NAME
+    ])
+    logging.info(
+        "Getting Puppet HPC configuration environment from %s" % env_url
+    )
+    extract_url(env_url, CONF_BASE_PATH)
+    return
+
+
+def puppet_apply(environment, deploy_step, verbosity=0):
+    logging.info("Applying puppet configuration.")
+    if verbosity > 0:
+        apply_options = ['--test']
+        if verbosity > 1:
+            apply_options += ['--debug']
+    else:
+        apply_options = ['--logdest', 'syslog']
+
+    manifests_path = os.path.join(
+        CONF_BASE_PATH, environment, 'manifests', 'cluster.pp')
+
+    subprocess.call(['/usr/bin/puppet', 'apply'] + apply_options + [
+        '--environment', environment,
+        manifests_path
+    ])
+    return
+
+if __name__ == "__main__":
+    params = get_parameters()
+
+    setup_logging(params['verbosity'])
+
+    logging.debug("Parameters: %s." % params)
+
+    get_keys(params['keys_source'])
+
+    get_puppet_environment(params['source'], params['environment'])
+
+    puppet_apply(
+        params['environment'],
+        params['deploy_step'],
+        params['verbosity']
+    )
