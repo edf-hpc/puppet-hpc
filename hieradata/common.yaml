@@ -7,7 +7,7 @@ cluster_repo_originator:  'TeamHPC'
 cluster_repo_gpg_key:     '01234567'
 cluster_decrypt_password: 'password'
 # These values might be redefined for your site
-admin_dir:      '/admin'
+admin_dir:      '/var/admin'
 website_dir:    "%{hiera('admin_dir')}/public/http"
 preseeddir:     '/var/cache/debconf'
 libcalibre:     '/var/lib/calibre'
