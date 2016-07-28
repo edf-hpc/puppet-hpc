@@ -1,7 +1,9 @@
 #!/bin/bash
 
-puppethpc_dir='/admin/restricted/puppet-hpc'
-hpcprivate_dir='/admin/restricted/hpc-privatedata'
+script_dir="$(readlink -f $(dirname "${BASH_SOURCE[0]}"))"
+
+puppethpc_dir="$(dirname "${script_dir}")"
+hpcprivate_dir="$(dirname "${puppethpc_dir}")/hpc-privatedata"
 environment='production'
 version='latest'
 destination='/admin/public/http/mirror/hpc-config'
