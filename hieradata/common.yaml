@@ -24,19 +24,106 @@ ntp::restrict:
     - "-4 %{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
     - '127.0.0.1'
     - '::1' 
-
 profiles::ntp::srv_opts:
     NTPD_OPTS: "'-4 -g'"
+profiles::ntp::client::site_preferred_servers:
+  - "%{hiera('cluster_prefix')}%{::my_ntp_server}1"
+profiles::ntp::client::site_servers:
+  - "%{hiera('cluster_prefix')}%{::my_ntp_server}2"
+
+##### SSMTP
+profiles::ssmtp::config_options:
+  mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}1"
+  rewritedomain: "%{hiera('cluster')}.%{hiera('domain')}"
+
+##### POSTFIX
+profiles::postfix::relay::config_options:
+  myhostname:          "%{hostname}"
+  mydomain:            "%{hiera('cluster')}.%{hiera('domain')}"
+
+##### TFTP
+profiles::tftp::server::tftp_opts:
+  TFTP_DIRECTORY: "\"%{hiera('admin_dir')}/public/tftp\""
+
+##### SSH
+profiles::openssh::server::config_augeas:
+  - 'set MaxStartups 8192'
+  - 'set PermitRootLogin yes'
+  - 'set X11UseLocalhost no'
+openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
+openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
+openssh::client::root_key_enc:        "%{hiera('private_files_dir')}/rootkeys/id_rsa_root.enc"
+openssh::client::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
+
+
+##### Environment
+profiles::environment::authorized_users_group: "%{hiera('user_group')}"
+
+##### Codes packages
+profiles::environment::codes::packages:
+  - "%{hiera('cluster')}-hpc-%{puppet_role}"
+## Values below should be overriden by roles
+profiles::access::production_options: []
+profiles::access::maintenance_options: []
+
+##### Access Rules #####
+profiles::access::maintenance_mode: false
+
+##### SSSD
+profiles::auth::client::enable_kerberos: false
+profiles::auth::client::sssd_options_general:
+  config_file_version:  '2'
+  reconnection_retries: '3'
+  sbus_timeout:         '30'
+  services:             'nss,pam'
+  domains:              "%{hiera('cluster')}"
+profiles::auth::client::sssd_options_nss:
+  filter_groups:        'root'
+  filter_users:         'root'
+  reconnection_retries: '3'
+profiles::auth::client::sssd_options_pam:
+  reconnection_retries:           '3'
+  offline_credentials_expiration: '1'
+profiles::auth::client::krb5_server:                    "%{hiera('kdc_primary')}, %{hiera('kdc_secondary')}"
+profiles::auth::client::krb5_realm:                     "%{hiera('krb5_realm')}"
+profiles::auth::client::krb5_store_password_if_offline: 'true'
+kerberos::keytab_source_dir:                            "%{hiera('private_files_dir')}/auth/keytabs"
+kerberos::decrypt_passwd:                               "%{hiera('cluster_decrypt_password')}"
+
+###### Openldap
+profiles::auth::replica::ldif_directory:   "%{hiera('libcalibre')}/slapdcfg"
+profiles::auth::replica::ldif_file:        'config_replica.ldif'
+profiles::auth::replica::directory_source: "%{hiera('private_files_dir')}/auth"
+certificates::directory_source:            "%{hiera('private_files_dir')}/auth"
+certificates::certificates_directory:      '/etc/ldap/certificates'
+certificates::certificate_file:            "%{hiera('cluster')}_ldap.crt"
+certificates::key_file:                    "%{hiera('cluster')}_ldap.key"
+certificates::decrypt_passwd:              "%{hiera('cluster_decrypt_password')}"
+openldap::replica::decrypt_passwd:         "%{hiera('cluster_decrypt_password')}"
+
+
+##### HTTP
+apache::apache_version:          '2.4'
+profiles::http::port:            80
+profiles::http::error_log_file:  'error.log'
+profiles::http::log_level:       'warn'
+profiles::http::serveradmin:     'webmaster@localhost'
+profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
+
+###### P2P
+profiles::p2p::tracker_path: "%{hiera('website_dir')}/ram"
+
+##### Munge
+munge::auth_key_source: "%{hiera('private_files_dir')}/munge/munge.key.enc"
+munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 
 ###### SLURM
 profiles::jobsched::user:  'slurm'
-slurm_primary_server:      'batch1'
-slurm_secondary_server:    'batch2'
+slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
+slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 slurm_cluster_name:        "%{hiera('cluster_name')}"
 slurmd_user:               'root'
-
 slurm::exec::enable_cgroup: true
-
 slurm::config_options:
     ClusterName: 
       value:   "%{hiera('slurm_cluster_name')}"
@@ -161,7 +248,38 @@ slurm::config_options:
       value:   "2"
       comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
 
-
+##### Slurm DBD database
+galera_base_name:             "%{hiera('cluster_prefix')}%{::my_db_server}"
+mariadb::galera_conf_options:
+  mysqld:
+    binlog_format:            'ROW'
+    default-storage-engine:   'innodb'
+    innodb_autoinc_lock_mode: '2'
+    query_cache_size:         '0'
+    query_cache_type:         '0'
+    bind-address:             '0.0.0.0'
+    wsrep_provider:           '/usr/lib/galera/libgalera_smm.so'
+    wsrep_cluster_name:       '"galera_cluster"'
+    wsrep_cluster_address:    "\"gcomm://%{hiera('galera_base_name')}1,%{hiera('galera_base_name')}2\""
+    wsrep_sst_method:         'rsync'
+slurm::dbd::config_options:
+  DbdHost:           "%{hiera('slurm_primary_server')}"
+  DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
+  SlurmUser:         "%{hiera('slurm_user')}"
+  StorageHost:       'localhost'
+  StorageUser:       'slurm'
+  StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
+slurm::dbd::db_options:
+  db:
+    hosts:       'localhost'
+    user:        'debian-sys-maint'
+    password:    "%{hiera('mariadb::mysql_root_pwd')}"
+  passwords:
+    slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
+    slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
+  hosts:
+    controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
+    admins:      "%{hiera('cluster_prefix')}admin1"
 
 ##### NHC
 profiles::warewulf_nhc::config_options:
@@ -343,16 +461,20 @@ profiles::clara::repos:
     server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
     mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
     archs:       'amd64'
-
-##### CLARA
 clara::common_options:
   origin:      "%{hiera('cluster_repo_originator')}"
 clara::repo_options:
   gpg_key:     "%{hiera('cluster_repo_gpg_key')}"
   clustername: "%{hiera('cluster_name')}"
+  mirror_root: "%{hiera('profiles::http::mirror::docroot')}"
 clara::ipmi_options:
   conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}"
+clara::keyring_source: "%{hiera('private_files_dir')}/repo/cluster_keyring.secret.gpg.enc"
+clara::password_options:
+  ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
 
+##### Ftp
+proftpd::user_home: "%{hiera('admin_dir')}/restricted/ftp"
 
 ##### APT config
 apt::always_apt_update:    true
@@ -404,10 +526,10 @@ profiles::http::slurmweb::config_options:
       value:   'all'
     user:
       comment: ''
-      value:   "@cl-%{hiera('cluster_name')}-users"
+      value:   "@%{hiera('user_group')}"
     admin:
       comment: ''
-      value:   "@cl-%{hiera('cluster_name')}-admin"
+      value:   "@%{hiera('admin_group')}"
     restricted_fields_for_all:
       comment: ''
       value:   'command'
@@ -420,22 +542,12 @@ profiles::http::slurmweb::config_options:
   acl:
     3dview:
       comment: ''
-      value:   "@cl-%{hiera('cluster_name')}-admin"
+      value:   "@%{hiera('admin_group')}"
 
-##### OpenLDAP Replica settings #####
-openldap::replica::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
-certificates::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
-
-##### SSH settings #####
-openssh::server::decrypt_passwd:   "%{hiera('cluster_decrypt_password')}"
-openssh::client::decrypt_passwd:   "%{hiera('cluster_decrypt_password')}"
-
-##### Kerberos settings
-kerberos::decrypt_passwd:          "%{hiera('cluster_decrypt_password')}"
-
-##### Munge settings
-munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
-
-##### Clara settings
-clara::password_options:
-  ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
+##### Logs
+profiles::log::client::remote_type:   'repl'
+profiles::log::client::log_local:     true
+profiles::log::client::server:        "%{hiera('cluster_prefix')}%{::my_log_server}"
+profiles::log::client::port:          '20514'
+profiles::log::server::server_dir:    "%{hiera('admin_dir')}/restricted/logs/"
+profiles::log::server::custom_config: 'rsyslog/server-hostname.conf.erb'
