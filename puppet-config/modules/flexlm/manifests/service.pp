@@ -13,6 +13,22 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Set up a flexlm license manager for a specific vendor
+# 
+# @param license_path     Absolute path of the license file
+# @param service_ensure   State of the service : `running` or `stopped` 
+#                         (default: running)
+# @param service_enable   Whether the service should be enabled to start 
+#                         at boot : `true`, `false`, `manual` or `mask`
+#                         (default: true)
+# @param binary_path      Absolute path of the license manager binary   
+# @param vendor_name      Name of the vendor using flexlm 
+# @param user             User that runs the flexlm service
+# @param user_home        Home of the user that runs the flexlm service
+# @param logfile          Absolute path of the flexlm log file 
+# @param systemd_service  Absolute path of the flexlm service unit file
+# @param systemd_config   Hash that contains the configuration of the flexlm
+#                         service unit file          
 define flexlm::service (
   $license_path,
   $service_ensure  = $flexlm::params::service_ensure,
