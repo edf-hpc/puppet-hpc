@@ -406,11 +406,12 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 </ul>
 </li>
 <li><a href="#_glossary">Glossary</a></li>
-<li><a href="#_dependencies">Dependencies</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
 <li>
 <ul class="sectlevel1">
-<li><a href="#debian">1. Debian</a></li>
-<li><a href="#puppet">2. Puppet</a></li>
+<li><a href="#deps-debian">1. Debian</a></li>
+<li><a href="#deps-puppet">2. Puppet</a></li>
+<li><a href="#deps-apply">3. Apply script</a></li>
 </ul>
 </li>
 <li><a href="#installation">Installation</a></li>
@@ -516,7 +517,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <li><a href="#_main_documentation">1. Main Documentation</a></li>
 <li>
 <ul class="sectlevel2">
-<li><a href="#_dependencies_2">1.1. Dependencies</a></li>
+<li><a href="#_dependencies">1.1. Dependencies</a></li>
 <li><a href="#_generation">1.2. Generation</a></li>
 <li><a href="#_modification">1.3. Modification</a></li>
 <li><a href="#_figures">1.4. Figures</a></li>
@@ -525,7 +526,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <li><a href="#_puppet_documentation">2. Puppet Documentation</a></li>
 <li>
 <ul class="sectlevel2">
-<li><a href="#_dependencies_3">2.1. Dependencies</a></li>
+<li><a href="#_dependencies_2">2.1. Dependencies</a></li>
 <li><a href="#_generation_2">2.2. Generation</a></li>
 </ul>
 </li>
@@ -1120,9 +1121,9 @@ or GPGPU jobs</p>
 </li>
 </ul>
 </div>
-<h1 id="_dependencies" class="sect0">Dependencies</h1>
+<h1 id="dependencies" class="sect0">Dependencies</h1>
 <div class="sect1">
-<h2 id="debian">1. Debian</h2>
+<h2 id="deps-debian">1. Debian</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1132,7 +1133,7 @@ or GPGPU jobs</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="puppet">2. Puppet</h2>
+<h2 id="deps-puppet">2. Puppet</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a list of current puppet Module dependencies not provided.</p>
@@ -1155,7 +1156,7 @@ or GPGPU jobs</p>
 current git archive.</p>
 </div>
 <div class="paragraph">
-<p>Installing and using <code>hiera-eyaml</code> is not recomended:</p>
+<p>Installing and using <code>hiera-eyaml</code> is recomended:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1166,12 +1167,34 @@ current git archive.</p>
 <p>If you wish to generate the documentation, installing
 the <code>ruby-puppet-strings</code> package is necessary.</p>
 </div>
+<div class="paragraph">
+<p>With the Development Push &amp; Apply installation pattern, the debian
+modules are only needed on the host doing the push.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deps-apply">3. Apply script</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The apply script depends on Python 3 and the urllib3 module.</p>
+</div>
+<div class="paragraph">
+<p>On debian:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># apt-get install python3 python3-urllib3</pre>
+</div>
+</div>
 </div>
 </div>
 <h1 id="installation" class="sect0">Installation</h1>
 <div class="paragraph">
-<p>Installing the configuration will depend of your cluster topology. This
-page only describes the most simple case.</p>
+<p>Installing the configuration will depend of your cluster topology. This chapter
+describes two installation patterns, the first uses a shared Posix storage, the
+second pushes the configuration on a central storage and pull it on the node
+with Posix or  HTTP(S).</p>
 </div>
 <div class="sect1">
 <h2 id="install-shared-admin">1. Shared <code>/admin</code></h2>
@@ -1410,15 +1433,155 @@ the puppet modules.</p>
 </div>
 <div class="sect2">
 <h3 id="install-dev-push-apply-directory-layout">2.1. Directory layout</h3>
-
+<div class="paragraph">
+<p>Source directories (git puppet-hpc and git hpc-privatedata), can be placed
+anywhere on the Admin/Development machine. They should be in the same place though.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&lt;SOME DIRECTORY&gt;</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>puppet-hpc</code> (a git clone of the puppet-hpc repository)</p>
+</li>
+<li>
+<p><code>hpc-privatedata</code> a directory containing cluster specific data, frequently another git repository)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>hieradata</code></p>
+</li>
+<li>
+<p><code>files</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The destination should be shared between the development host and the central
+storage. This can be an NFS space. This restriction is meant to be removed
+eventually. This is because the push to destination is a simple <code>cp</code>, it should
+support SFTP and HTTP push.</p>
+</div>
+<div class="paragraph">
+<p>The destination is <code>/admin/public/http/mirror/hpc-config</code>. The paths described
+here can be modified directly in the script: <code>scripts/dev-hpc-config-push.sh</code>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="install-dev-push-apply-puppet">2.2. Puppet</h3>
+<div class="paragraph">
+<p>Puppet must be installed and configured to use
+<a href="https://docs.puppet.com/puppet/3.7/reference/environments_configuring.html">Directory
+Environments</a>. To do this, use the following <code>/etc/puppet/puppet.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+environmentpath = $confdir/environments
+prerun_command=/etc/puppet/etckeeper-commit-pre
+postrun_command=/etc/puppet/etckeeper-commit-post
+stringify_facts=false
+hiera_config=$confdir/hiera.yaml
 
+[master]
+# These are needed when the puppetmaster is run by passenger
+# # and can safely be removed if webrick is used.
+# ssl_client_header = SSL_CLIENT_S_DN
+# ssl_client_verify_header = SSL_CLIENT_VERIFY</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create the base environments directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># mkdir /etc/puppet/environments</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="install-dev-push-apply-hiera-eyaml">2.3. Hiera eyaml</h3>
-
+<div class="paragraph">
+<p>It is recomended to use <a href="https://github.com/TomPoulton/hiera-eyaml">Hiera
+EYAML</a> to store secret values. The keys must be created on the first
+node.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># mkdir /etc/puppet/secure
+# cd /etc/puppet/secure/
+# eyaml createkeys
+[hiera-eyaml-core] Created key directory: ./keys
+Keys created OK
+# chown -R puppet:puppet /etc/puppet/secure/keys
+# chmod -R 0500 /etc/puppet/secure/keys
+# chmod 0400 /etc/puppet/secure/keys/*.pem</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure <code>eyaml(1)</code> itself, the following file should be created:
+<code>/etc/eyaml/config.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>---
+pkcs7_private_key: '/etc/puppet/secure/keys/private_key.pkcs7.pem'
+pkcs7_public_key: '/etc/puppet/secure/keys/public_key.pkcs7.pem'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Hiera is configured to search for values in the generic configuration
+repository, then in a few files for all nodes, then in files specific
+for each <em>role</em>. This is done in the file <code>/etc/puppet/hiera.yaml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>:backends:
+  - eyaml
+:eyaml:
+  :datadir:           /etc/puppet/environments/%{environment}/hieradata
+  :pkcs7_private_key: /etc/puppet/secure/keys/private_key.pkcs7.pem
+  :pkcs7_public_key:  /etc/puppet/secure/keys/public_key.pkcs7.pem
+  :extension:         'yaml'
+:hierarchy:
+  - private/default/roles/%{puppet_role}
+  - generic/default/roles/%{puppet_role}
+  - private/cluster
+  - private/network
+  - private/default
+  - generic/common
+  - generic/%{osfamily}/common</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The apply script will fetch the keys with the configuration. You must create a
+tarball with the keys and put it in a place where the apply script can fetch
+it. In the example below, it is placed with the puppet-configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># cd /etc/puppet/secure
+# tar cJf /admin/public/http/mirror/keys/keys.tar.xz key</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Please not this setup is quite insecure, on a production system, the central
+storage for this file should only be accessible by root users on node. The apply
+script can prove an http request originates from a root user by using a source port
+in the 1-1023 range.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="install-dev-push-apply-common">2.4. Common steps</h3>
@@ -1428,7 +1591,89 @@ the puppet modules.</p>
 </div>
 <div class="sect2">
 <h3 id="install-dev-push-apply-usage">2.5. Usage</h3>
+<div class="paragraph">
+<p>To push, from the admin/development host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ &lt;SOME DIRECTORY&gt;/puppet-hpc/scripts/dev-hpc-config-push.sh
+## Creating env structure
+## Creating env modules generic
+cp: cannot overwrite directory '/tmp/puppet-config-production-zARV/production/modules_generic/stdlib' with non-directory
+## Creating env modules private
+## Creating env hieradata
+## Creating env config
+## Building Destination
+## Cleaning
+$</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>From a node, you must call the <code>hpc-config-apply</code> script with sources for keys and Puppet HPC configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># &lt;SOME DIRECTORY&gt;/hpc-config-apply -k http://genmisc/keys -s http://genmisc/hpc-config -v
+INFO:root:Getting secure keys from http://genmisc/keys/keys.tar.xz
+INFO:root:Getting Puppet HPC configuration environment from http://genmisc/hpc-config/production/latest/puppet-config-environment.tar.xz
+INFO:root:Applying puppet configuration.
+Info: Loading facts
+Info: Loading facts
+Info: Loading facts
+Info: Loading facts
+Info: Loading facts
+Info: Loading facts
+Notice: Compiled catalog for genadmin1.hpc.example.com in environment production in 4.49 seconds
+Info: Applying configuration version '1469783844'
+Notice: /Stage[main]/Apt::Update/Exec[apt_update]/returns: executed successfully
+Notice: /Stage[main]/Network::Service/Service[ifup-hotplug]/ensure: ensure changed 'stopped' to 'running'
+Info: /Stage[main]/Network::Service/Service[ifup-hotplug]: Unscheduling refresh on Service[ifup-hotplug]
+Notice: Finished catalog run in 11.30 seconds</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-v</code> switch increases verbosity.</p>
+</div>
+<div class="paragraph">
+<p>You can use a configuration file to not always give the source, by default in <code>/etc/hpc-config.conf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[DEFAULT]
+environment=production
 
+[production]
+source=http://genmisc/hpc-config/
+keys_source=http://genmisc/keys/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The full usage for <code>hpc-config-apply</code> is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>usage: hpc-config-apply [-h] [--config [CONFIG_FILE]] [--source [SOURCE]]
+                        [--environment [ENVIRONMENT]]
+                        [--deploy-step [{production,usbdisk}]]
+                        [--keys-source [KEYS_SOURCE]] [--verbose]
+
+Apply the HPC Configuration.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config [CONFIG_FILE], -c [CONFIG_FILE]
+                        Configuration file
+  --source [SOURCE], -s [SOURCE]
+                        Configuration source URL
+  --environment [ENVIRONMENT], -e [ENVIRONMENT]
+                        Environment name
+  --deploy-step [{production,usbdisk}], -d [{production,usbdisk}]
+                        Deploy step
+  --keys-source [KEYS_SOURCE], -k [KEYS_SOURCE]
+                        Secret keys source
+  --verbose, -v         More output, can be specified multiple times.</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2129,7 +2374,7 @@ file with the following content:</p>
 <h2 id="_main_documentation">1. Main Documentation</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_dependencies_2">1.1. Dependencies</h3>
+<h3 id="_dependencies">1.1. Dependencies</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2176,7 +2421,7 @@ generate it. Only the SVG source should be in the repository.</p>
 <h2 id="_puppet_documentation">2. Puppet Documentation</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_dependencies_3">2.1. Dependencies</h3>
+<h3 id="_dependencies_2">2.1. Dependencies</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2237,7 +2482,7 @@ of the local repository.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-25 14:02:47 BST
+Last updated 2016-07-29 14:09:36 BST
 </div>
 </div>
 </body>
