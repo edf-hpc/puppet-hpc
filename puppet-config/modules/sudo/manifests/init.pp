@@ -13,7 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install and configure sudo
 #
+# @param packages Package list
+# @param packages_ensure Package install mode
+# @param config_file Main configuration file path (`/etc/sudoers`)
+# @param config_options Content of the configuration file (Array of lines)
 class sudo (
   $packages               = $sudo::params::packages,
   $packages_ensure        = $sudo::params::packages_ensure,
