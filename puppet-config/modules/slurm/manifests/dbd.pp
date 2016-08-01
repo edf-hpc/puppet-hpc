@@ -81,7 +81,7 @@ class slurm::dbd (
 
   anchor { 'slurm::dbd::begin': } ->
   class { '::slurm::dbd::install': } ->
-  class { '::slurm::dbd::config': } ->
+  class { '::slurm::dbd::config': } ~>
   class { '::slurm::dbd::service': } ->
   anchor { 'slurmdbd::end': }
 }
