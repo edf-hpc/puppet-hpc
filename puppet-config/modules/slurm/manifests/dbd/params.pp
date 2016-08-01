@@ -41,7 +41,6 @@ class slurm::dbd::params {
     'PidFile'           => '/var/run/slurm-llnl/slurmdbd.pid',
     'StorageType'       => 'accounting_storage/mysql',
     'StorageHost'       => 'localhost',
-    'StorageBackupHost' => '',
     'StorageUser'       => 'slurm',
     'StoragePass'       => 'password',
   }
