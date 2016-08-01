@@ -34,12 +34,12 @@ profiles::ntp::client::site_servers:
 ##### SSMTP
 profiles::ssmtp::config_options:
   mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}1"
-  rewritedomain: "%{hiera('cluster')}.%{hiera('domain')}"
+  rewritedomain: "%{hiera('cluster_name')}.%{hiera('domain')}"
 
 ##### POSTFIX
 profiles::postfix::relay::config_options:
   myhostname:          "%{hostname}"
-  mydomain:            "%{hiera('cluster')}.%{hiera('domain')}"
+  mydomain:            "%{hiera('cluster_name')}.%{hiera('domain')}"
 
 ##### TFTP
 profiles::tftp::server::tftp_opts:
@@ -61,7 +61,7 @@ profiles::environment::authorized_users_group: "%{hiera('user_group')}"
 
 ##### Codes packages
 profiles::environment::codes::packages:
-  - "%{hiera('cluster')}-hpc-%{puppet_role}"
+  - "%{hiera('cluster_name')}-hpc-%{puppet_role}"
 ## Values below should be overriden by roles
 profiles::access::production_options: []
 profiles::access::maintenance_options: []
@@ -76,7 +76,7 @@ profiles::auth::client::sssd_options_general:
   reconnection_retries: '3'
   sbus_timeout:         '30'
   services:             'nss,pam'
-  domains:              "%{hiera('cluster')}"
+  domains:              "%{hiera('cluster_name')}"
 profiles::auth::client::sssd_options_nss:
   filter_groups:        'root'
   filter_users:         'root'
@@ -96,8 +96,8 @@ profiles::auth::replica::ldif_file:        'config_replica.ldif'
 profiles::auth::replica::directory_source: "%{hiera('private_files_dir')}/auth"
 certificates::directory_source:            "%{hiera('private_files_dir')}/auth"
 certificates::certificates_directory:      '/etc/ldap/certificates'
-certificates::certificate_file:            "%{hiera('cluster')}_ldap.crt"
-certificates::key_file:                    "%{hiera('cluster')}_ldap.key"
+certificates::certificate_file:            "%{hiera('cluster_name')}_ldap.crt"
+certificates::key_file:                    "%{hiera('cluster_name')}_ldap.key"
 certificates::decrypt_passwd:              "%{hiera('cluster_decrypt_password')}"
 openldap::replica::decrypt_passwd:         "%{hiera('cluster_decrypt_password')}"
 
@@ -265,7 +265,7 @@ mariadb::galera_conf_options:
 slurm::dbd::config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-  SlurmUser:         "%{hiera('slurm_user')}"
+  SlurmUser:         "%{hiera('profiles::jobsched::user')}"
   StorageHost:       'localhost'
   StorageUser:       'slurm'
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
