@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Install and configures neos</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +126,9 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::config_file</tt></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::packages</tt> - <div class="inline"><p> Neos packages list. </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::packages_ensure</tt> - <div class="inline"><p> Neos packages target state (`present` or `latest`) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::config_file</tt> - <div class="inline"><p> Absolute path of the configuration file (default:
+`/etc/neos/neos.conf`) </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the configuration file as a hash
+, see `hpclib::print_config` </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +138,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 29 14:10:20 2016 by
+  Generated on Tue Aug  2 16:21:24 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

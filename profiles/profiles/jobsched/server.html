@@ -137,6 +137,13 @@ slurm::dbd::db_options:
     controllers: &quot;%{hiera(&#39;slurm_primary_server&#39;)},%{hiera(&#39;slurm_secondary_server&#39;)}&quot;
     admins:      &quot;%{hiera(&#39;cluster_prefix&#39;)}admin1&quot;
 </code></pre>
+
+<h2>Hiera</h2>
+
+<ul>
+<li>profiles::jobsched::slurm_config_options (<code>hiera_hash</code>) Content of the slurm
+    configuration file.</li>
+</ul>
 </p>
   </div>
 </div>
@@ -148,7 +155,7 @@ slurm::dbd::db_options:
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 29 14:09:53 2016 by
+  Generated on Tue Aug  2 16:20:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

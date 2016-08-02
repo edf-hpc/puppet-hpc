@@ -115,6 +115,15 @@ slurm_secondary_server:       &quot;%{hiera(&#39;cluster_prefix&#39;)}%{::my_job
 <p>A generic configuration for warewulf-nhc is defined in
 ``puppet-hpc/hieradata/common.yaml&quot;, in your own hiera files you could
 change or add some checks</p>
+
+<h2>Hiera</h2>
+
+<ul>
+<li>profiles::jobsched::slurm_config_options (<code>hiera_hash</code>) Content of the slurm
+    configuration file.</li>
+<li>profiles::warewulf_nhc::config_options (<code>hiera_hash</code>) Content of the
+    NHC configuration file.</li>
+</ul>
 </p>
   </div>
 </div>
@@ -126,7 +135,7 @@ change or add some checks</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 29 14:09:53 2016 by
+  Generated on Tue Aug  2 16:20:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

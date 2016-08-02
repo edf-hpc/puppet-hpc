@@ -102,10 +102,14 @@
   <div class="discussion">
     <p><p>Neos on an exec host</p>
 
+<p>On exec node, this profiles also install <code>neos-slurm-graphical-plugins</code>.
+This package sets an epilog scripts that reset the node X server state.</p>
+
 <h2>Hiera</h2>
 
 <ul>
-<li><code>profiles::neos::config_options</code> (<code>hiera_hash</code>)</li>
+<li><code>profiles::neos::config_options</code> (<code>hiera_hash</code>) Content of the config
+  file for &#39;/etc/neos.conf&#39;.</li>
 </ul>
 </p>
   </div>
@@ -118,7 +122,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 29 14:09:53 2016 by
+  Generated on Tue Aug  2 16:20:57 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

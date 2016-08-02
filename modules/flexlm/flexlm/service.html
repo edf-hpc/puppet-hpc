@@ -104,9 +104,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Set up a flexlm license manager for a specific vendor</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +118,17 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">license_path </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::service_ensure</tt></li><li><span class="name">service_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::service_enable</tt></li><li><span class="name">binary_path </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::binary_path</tt></li><li><span class="name">vendor_name </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::vendor_name</tt></li><li><span class="name">user </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::user</tt></li><li><span class="name">user_home </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::user_home</tt></li><li><span class="name">logfile </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::logfile</tt></li><li><span class="name">systemd_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::systemd_service</tt></li><li><span class="name">systemd_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::systemd_config</tt></li>
+    <li><span class="name">license_path </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Absolute path of the license file </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::service_ensure</tt> - <div class="inline"><p> State of the service : `running` or `stopped` 
+(default: running) </p></div></li><li><span class="name">service_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::service_enable</tt> - <div class="inline"><p> Whether the service should be enabled to start 
+at boot : `true`, `false`, `manual` or `mask`
+(default: true) </p></div></li><li><span class="name">binary_path </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::binary_path</tt> - <div class="inline"><p> Absolute path of the license manager binary </p></div></li><li><span class="name">vendor_name </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::vendor_name</tt> - <div class="inline"><p> Name of the vendor using flexlm </p></div></li><li><span class="name">user </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::user</tt> - <div class="inline"><p> User that runs the flexlm service </p></div></li><li><span class="name">user_home </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::user_home</tt> - <div class="inline"><p> Home of the user that runs the flexlm service </p></div></li><li><span class="name">logfile </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::logfile</tt> - <div class="inline"><p> Absolute path of the flexlm log file </p></div></li><li><span class="name">systemd_service </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::systemd_service</tt> - <div class="inline"><p> Absolute path of the flexlm service unit file </p></div></li><li><span class="name">systemd_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $flexlm::params::systemd_config</tt> - <div class="inline"><p> Hash that contains the configuration of the flexlm
+service unit file </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 29 14:10:09 2016 by
+  Generated on Tue Aug  2 16:21:13 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
