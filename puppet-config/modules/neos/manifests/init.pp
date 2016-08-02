@@ -13,11 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install and configures neos
+#
+# @param packages        Neos packages list.
+# @param packages_ensure Neos packages target state (`present` or `latest`)
+# @param config_file     Absolute path of the configuration file (default:
+#                        `/etc/neos/neos.conf`)
+# @param config_options  Content of the configuration file as a hash
+#                        , see `hpclib::print_config`
 class neos (
-  $packages        = $::neos::params::packages,
-  $packages_ensure = $::neos::params::packages_ensure,
-  $config_file     = $::neos::params::config_file,
-  $config_options  = {},
+  $packages         = $::neos::params::packages,
+  $packages_ensure  = $::neos::params::packages_ensure,
+  $config_file      = $::neos::params::config_file,
+  $config_options   = {},
 ) inherits neos::params {
   validate_array($packages)
   validate_string($packages_ensure)
