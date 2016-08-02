@@ -26,7 +26,15 @@
 # slurm_secondary_server:       "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 # ```
 #
+# ## Hiera
+#
+# * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
+#         configuration file.
 class profiles::jobsched::client {
-  include ::slurm
+  # Install slurm and munge
+  $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+  class { '::slurm':
+    config_options => $slurm_config_options
+  }
   include ::munge
 }

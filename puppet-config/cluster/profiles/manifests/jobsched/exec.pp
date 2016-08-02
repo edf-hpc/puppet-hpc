@@ -28,26 +28,36 @@
 # ``puppet-hpc/hieradata/common.yaml", in your own hiera files you could
 # change or add some checks
 #
+# ## Hiera
+#
+# * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
+#         configuration file.
+# * profiles::warewulf_nhc::config_options (`hiera_hash`) Content of the
+#         NHC configuration file.
 class profiles::jobsched::exec {
-  include ::slurm::exec
+  # Install slurm and munge
+  $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+  class { '::slurm':
+    config_options => $slurm_config_options
+  }
   include ::munge
-
-  Class['::munge::service'] ->
-  Class['::slurm::exec::service']
+  include ::slurm::exec
+  Class['::slurm'] -> Class['::slurm::exec']
+  Class['::munge::service'] -> Class['::slurm::exec::service']
 
   package{ [
     'slurm-llnl-generic-scripts-plugin',
   ]: }
+
 
   # Restrict access to execution nodes
   include ::pam
   include ::pam::slurm
 
   # Install and configure NodeHealthChecker
-
-  $config_options = hiera_hash('profiles::warewulf_nhc::config_options')
+  $nhc_config_options = hiera_hash('profiles::warewulf_nhc::config_options')
   class { '::warewulf_nhc':
-    config_options => $config_options,
+    config_options => $nhc_config_options,
   }
 
 }

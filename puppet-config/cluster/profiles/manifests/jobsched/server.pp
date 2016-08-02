@@ -50,14 +50,24 @@
 #     controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
 #     admins:      "%{hiera('cluster_prefix')}admin1"
 # ```
+#
+# ## Hiera
+#
+# * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
+#         configuration file.
 class profiles::jobsched::server {
+  # Install slurm and munge
+  $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+  class { '::slurm':
+    config_options => $slurm_config_options
+  }
   include ::slurm::dbd
   include ::slurm::ctld
   include ::munge
 
-  Class['::munge::service'] ->
-  Class['::slurm::dbd::service'] ->
-  Class['::slurm::ctld::service']
+  Class['::slurm'] -> Class['::slurm::ctld']
+
+  Class['::munge::service'] -> Class['::slurm::dbd::service'] -> Class['::slurm::ctld::service']
 
   package{ [
     'slurm-llnl-generic-scripts-plugin',
