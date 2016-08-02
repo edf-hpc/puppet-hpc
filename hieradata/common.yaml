@@ -124,7 +124,7 @@ slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 slurm_cluster_name:        "%{hiera('cluster_name')}"
 slurmd_user:               'root'
 slurm::exec::enable_cgroup: true
-slurm::config_options:
+profiles::jobsched::slurm_config_options:
     ClusterName: 
       value:   "%{hiera('slurm_cluster_name')}"
       comment: "The name by which this SLURM managed cluster is known in the accounting database"
