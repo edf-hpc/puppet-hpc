@@ -13,6 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Generate a paraview `pvsc` file
 class neos::web (
   $apache_file      = $::neos::params::web_apache_file,
   $paraview_content = undef,

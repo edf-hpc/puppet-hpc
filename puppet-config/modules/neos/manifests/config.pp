@@ -15,7 +15,7 @@
 
 class neos::config inherits neos {
   hpclib::print_config { $::neos::config_file:
-    style => 'keyval',
+    style => 'ini',
     data  => $::neos::_config_options,
   }
 }
