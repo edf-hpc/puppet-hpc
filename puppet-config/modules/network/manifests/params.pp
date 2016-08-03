@@ -17,6 +17,7 @@ class network::params {
 
   $routednet = []
 
+  $ib_enable         = true
   $ib_udev_rule_file = '/etc/udev/rules.d/50-infiniband-permissions.rules'
   $ib_file           = '/etc/infiniband/openib.conf'
   case $::osfamily {

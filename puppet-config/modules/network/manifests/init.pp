@@ -30,6 +30,8 @@
 # },
 # ```
 #
+# @param ib_enable       Enable infiniband stack installation and
+#                        configuration
 # @param routednet       Direct routes for this host, array of triplets:
 #                        `<IP network address>@<network prefix length>@<device>`
 #                        (default: [])
@@ -54,6 +56,7 @@ class network (
   $ifup_hotplug_service_params = $::network::params::ifup_hotplug_service_params,
   $ifup_hotplug_services       = $::network::params::ifup_hotplug_services,
   $ifup_hotplug_files          = $::network::params::ifup_hotplug_files,
+  $ib_enable                   = $::network::params::ib_enable,
   $ib_udev_rule_file           = $::network::params::ib_udev_rule_file,
   $ib_file                     = $::network::params::ib_file,
   $ib_rules                    = $::network::params::ib_rules,
@@ -84,13 +87,17 @@ class network (
   validate_hash($ib_rules)
   validate_string($mlx4load)
   validate_hash($ib_options)
+  validate_bool($ib_enable)
 
   # Bring all the package sources together
   validate_array($ib_packages)
   validate_array($bonding_packages)
   validate_array($packages)
-  # can be done in one call with later stdlib versions
-  $ibbonding_packages = concat($ib_packages, $bonding_packages)
+  if $ib_enable {
+    $ibbonding_packages = concat($ib_packages, $bonding_packages)
+  } else {
+    $ibbonding_packages = $bonding_packages
+  }
   $_packages = concat($ibbonding_packages, $packages)
 
   # OpenIB options
