@@ -72,6 +72,11 @@ EOF
 
 echo "## Building Destination"
 
+if [ -n "${destination}" ] && [ -n "${environment}" ] && [ -n "${version}" ] 
+then
+  rm -rf "${destination}/${environment}/${version}"
+fi
+
 mkdir -p "${destination}/${environment}/${version}"
 
 (
