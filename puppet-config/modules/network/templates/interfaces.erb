@@ -77,7 +77,12 @@ post-up ip link set <%= card %> up
   <%- value.each do | ipadd| -%>
 post-up ip addr add <%= ipadd %> dev $IFACE || true
 pre-down ip addr del <%= ipadd %> dev $IFACE
-    <%- range = IPAddr.new(ipadd)  -%>
+    <%- begin -%>
+      <%- range = IPAddr.new(ipadd)  -%>
+    <%- rescue -%>
+      <%- scope.function_warning(["Invalid IP address: #{ipadd}"]) -%>
+      <%- next -%>
+    <%- end -%>
     <%- unless defaultgw.empty? or default_gw_set -%>
       <%- addtrg = IPAddr.new(defaultgw) -%>
       <%- if range.include?(addtrg) -%>
