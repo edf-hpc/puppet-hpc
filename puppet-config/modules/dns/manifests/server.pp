@@ -51,14 +51,17 @@ class dns::server (
 
   file { $config_file:
     content => template('dns/named_conf_options.erb'),
+    require => Package[$packages], 
   }
 
   file { $local_file:
     content => template('dns/named_conf_local.erb'),
+    require => Package[$packages], 
   }
 
   file { $zone_file:
     content => template('dns/db_cluster.erb'),
+    require => Package[$packages], 
   }
 
 }
