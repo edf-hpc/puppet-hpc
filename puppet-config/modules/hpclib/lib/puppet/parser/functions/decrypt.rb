@@ -28,8 +28,9 @@ def decryptor(file, password, scheme='AES-256-CBC')
     # when using the salt in the MD5::digest. Not sufficiently
     # an expert on ruby string encoding to entirely understand
     # what's going on here.
-    salt = encrypted_data[8, 8].unpack('c*').pack('c*')
-    encrypted_data = encrypted_data[16..-1]
+    encrypted_data = encrypted_data.unpack('c*').pack('c*')
+    salt = encrypted_data[8, 8]
+    encrypted_data_without_salt = encrypted_data[16..-1]
     totsize = keylength + ivlength
     keyivdata = ''
     temp = ''
@@ -39,13 +40,13 @@ def decryptor(file, password, scheme='AES-256-CBC')
     end
     key = keyivdata[0, keylength]
     iv  = keyivdata[keylength, ivlength]
-   
-    ### Decrypt data ###
+
+    ### Decrypt data ###
     decipher = OpenSSL::Cipher::Cipher.new(scheme)
     decipher.decrypt
     decipher.key = key
     decipher.iv = iv
-    result = decipher.update(encrypted_data) + decipher.final
+    result = decipher.update(encrypted_data_without_salt) + decipher.final
     return result
   else
     raise "Invalid encrypted data read from file: #{file}"
