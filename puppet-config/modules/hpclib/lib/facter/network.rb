@@ -98,29 +98,36 @@ if !masternetwork.nil? and masternetwork.length > 0
   i = 4; netmasks  = Array.new; netmasks  = mymasternet[i].split(",") unless mymasternet[i].empty? 
   i = 6; netcfg    = Array.new; netcfg    = mymasternet[i].split(",") unless mymasternet[i].empty? 
   ### Set netconfig used to generate local network config and mynet_toplogy ###
-  netcfg.each do | triplet| 
-    index = triplet.split("@")
+  netcfg.each do |iface_config| 
+    index = iface_config.split("@")
     iface   = ifaces[index[0].to_i]
     address = addresses[index[1].to_i]
     netmask = netmasks[index[2].to_i]
+    external_config = false
+    if index.length > 3 and index[3] == 'true'
+        external_config = true
+    end
 
     ### Build netconfig (iface -> Address)                   ###
     ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
-    if not netconfig.has_key?(iface)
-      netconfig[iface] = Array.new
+    if not external_config
+      if not netconfig.has_key?(iface)
+        netconfig[iface] = Array.new
+      end
+      netconfig[iface].push(address+"/"+netmask)
+      ifaces_target[iface] = {'target' => iface} if os == 'Redhat'
     end
-    netconfig[iface].push(address+"/"+netmask)
-    ifaces_target[iface] = {'target' => iface} if os == 'Redhat'
 
-    ### Build mynet_topology (net name -> iface association)        ###
-    ### Structure: {                                                ###
-    ###               "net_id"=> {                                  ###
-    ###                 interfaces    => ["interface","interface"], ###
-    ###                 name          => "name"                     ###
-    ###                 firewall_zone => "firewall_zone"            ###
-    ###               }                                             ###
-    ###            }                                                ###
-    ### multiple interfaces on the same net_id should be rare       ###
+    ### Build mynet_topology (net name -> iface association)
+    ### Structure: {
+    ###               "net_id"=> {
+    ###                 interfaces      => ["interface","interface"],
+    ###                 name            => "name"
+    ###                 firewall_zone   => "firewall_zone"
+    ###                 external_config => true/false
+    ###               }
+    ###            }
+    ### multiple interfaces on the same net_id should be rare
     found_net = nil
     # Search the network where the address is in
     if !net_topology.nil? and masternetwork.length > 0
@@ -141,6 +148,7 @@ if !masternetwork.nil? and masternetwork.length > 0
           mynet_topology[found_net]['interfaces'] = Array.new
           mynet_topology[found_net]['name'] = net_topology[found_net]['name']
           mynet_topology[found_net]['firewall_zone'] = net_topology[found_net]['firewall_zone']
+          mynet_topology[found_net]['external_config'] = net_topology[found_net]['external_config']
         end
         # Even if the net already existed, adding the interface
         mynet_topology[found_net]['interfaces'].push(iface)
