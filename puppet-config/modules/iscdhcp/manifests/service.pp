@@ -23,7 +23,10 @@ class iscdhcp::service inherits iscdhcp {
 
   service { $iscdhcp::service :
     require   => Package[$iscdhcp::packages],
-    subscribe => File[$iscdhcp::default_file],
+    subscribe => [
+      File[$iscdhcp::default_file],
+      Concat[$iscdhcp::config_file],
+    ],
   }
 
 }
