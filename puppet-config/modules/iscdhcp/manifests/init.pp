@@ -35,7 +35,6 @@ class iscdhcp (
   $service_ensure             = $iscdhcp::params::service_ensure,
   $systemd_config_file        = $iscdhcp::params::systemd_config_file,
   $systemd_config_options     = $iscdhcp::params::systemd_config_options,
-
 ) inherits iscdhcp::params {
 
   validate_string($my_address)
@@ -60,7 +59,7 @@ class iscdhcp (
 
   anchor { 'iscdhcp::begin': } ->
   class { '::iscdhcp::install': } ->
-  class { '::iscdhcp::config': } ->
+  class { '::iscdhcp::config': } ~>
   class { '::iscdhcp::service': }
   anchor { 'iscdhcp::end': }
 
