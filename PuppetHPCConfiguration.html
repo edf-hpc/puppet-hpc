@@ -372,6 +372,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <ul class="sectlevel1">
 <li><a href="#_purpose">Purpose</a></li>
 <li><a href="#_typographic_conventions">Typographic conventions</a></li>
+<li><a href="#_build_dependancies">Build dependancies</a></li>
 <li><a href="#_license">License</a></li>
 <li><a href="#_authors">Authors</a></li>
 </ul>
@@ -509,6 +510,13 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <li><a href="#_classes">3. Classes</a></li>
 <li><a href="#_variables">4. Variables</a></li>
 <li><a href="#_documentation">5. Documentation</a></li>
+<li><a href="#_testing">6. Testing</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_files">6.1. Files</a></li>
+<li><a href="#_launching_tests">6.2. Launching tests</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#internals-Documentation">Internals - Documentation</a></li>
@@ -575,6 +583,24 @@ the format below:</p>
 </div>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_build_dependancies">Build dependancies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>On a Debian Jessie system, these packages must be installed to build this
+documentation :
+- graphviz
+- inkscape
+- rubber
+- rubygems
+- texlive-latex-extra
+- texlive-latex-recommended
+- ruby-tilt
+- asciidoctor
+- ruby-puppet-strings</p>
 </div>
 </div>
 </div>
@@ -2369,6 +2395,187 @@ file with the following content:</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_testing">6. Testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Automatic module testing is based on rspec-puppet (<a href="http://rspec-puppet.com/">http://rspec-puppet.com/</a>)
+and puppetlabs-spec-helper
+(<a href="https://github.com/puppetlabs/puppetlabs_spec_helper">https://github.com/puppetlabs/puppetlabs_spec_helper</a>). These two are packaged
+for Debian 8 in packages ruby-rspec-puppet and ruby-puppetlabs-spec-helper.</p>
+</div>
+<div class="paragraph">
+<p>All modules should have a minimal batch of rspec-puppet tests to ensure the
+module can compile.</p>
+</div>
+<div class="paragraph">
+<p>Indications on how to write test cases can be found here :
+* <a href="https://puppet.com/blog/next-generation-of-puppet-module-testing">https://puppet.com/blog/next-generation-of-puppet-module-testing</a>
+* <a href="http://rspec-puppet.com/tutorial/">http://rspec-puppet.com/tutorial/</a></p>
+</div>
+<div class="sect2">
+<h3 id="_files">6.1. Files</h3>
+<div class="paragraph">
+<p>Some files are necessary at the root of the module to implement the tests :
+* Rakefile :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>require 'rake'
+require 'rspec/core/rake_task'
+require 'puppetlabs_spec_helper/rake_tasks'
+require 'rubygems'
+require 'puppetlabs_spec_helper/module_spec_helper'
+require 'puppet-lint/tasks/puppet-lint'
+
+
+desc "Run all RSpec code examples"
+RSpec::Core::RakeTask.new(:rspec) do |t|
+  t.rspec_opts = File.read("spec/spec.opts").chomp || ""
+end
+
+SPEC_SUITES = (Dir.entries('spec') - ['.', '..','fixtures']).select {|e| File.directory? "spec/#{e}" }
+namespace :rspec do
+  SPEC_SUITES.each do |suite|
+    desc "Run #{suite} RSpec code examples"
+    RSpec::Core::RakeTask.new(suite) do |t|
+      t.pattern = "spec/#{suite}/**/*_spec.rb"
+      t.rspec_opts = File.read("spec/spec.opts").chomp || ""
+    end
+  end
+end
+task :default =&gt; :rspec
+
+begin
+  if Gem::Specification::find_by_name('puppet-lint')
+    require 'puppet-lint/tasks/puppet-lint'
+    PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
+    task :default =&gt; [:rspec, :lint]
+  end
+rescue Gem::LoadError
+end</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>.fixtures.yml :
+File used by the common rake tasks to automatically install dependencies for
+test runs.
+This file should indicate how to access to all the dependancies.
+For example, this a .fixture.yml file for a module called <code>ctorrent</code> using
+the <code>puppetlabs-stdlib</code> module installed via the standard debian package :</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>fixtures:
+  symlinks:
+    ctorrent: "#{source_dir}"
+    stdlib: '/usr/share/puppet/modules/stdlib'</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>spec/spec.opts :
+Used to indicate options to use with rspec</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>--format s --colour --backtrace</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>spec/classes/*.rb
+Files containing rspec tests for classes of the module. It should contain at
+least one test for the main class of the module verifying it can compile.
+Exemple below :</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># cat init_spec.rb
+require 'spec_helper'
+describe 'ctorrent' do
+  context 'The following classes should be present in the catalog' do
+
+    it { should compile }                # this is the test to check if it compiles.
+
+  end
+end</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the test cases concerning a class are written inside one file. The name of
+this file must be <code>[class_name]_spec.rb</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>spec/defines/*.rb
+Files containing rspec tests for defines of the module.</p>
+</li>
+<li>
+<p>spec/functions/*.rb
+Files containing rspec tests for functions of the module.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_launching_tests">6.2. Launching tests</h3>
+<div class="paragraph">
+<p>Tests are launched via Rake tasks:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#rake help
+rake help
+rake build            # Build puppet module package
+rake clean            # Clean a built module package
+rake coverage         # Generate code coverage information
+rake help             # Display the list of available rake tasks
+rake lint             # Check puppet manifests with puppet-lint / Run puppet-lint
+rake rspec            # Run all RSpec code examples
+rake rspec:classes    # Run classes RSpec code examples
+rake rspec:defines    # Run defines RSpec code examples
+rake rspec:functions  # Run functions RSpec code examples
+rake rspec:hosts      # Run hosts RSpec code examples
+rake spec             # Run spec tests in a clean fixtures directory
+rake spec_clean       # Clean up the fixtures directory
+rake spec_prep        # Create the fixtures directory
+rake spec_standalone  # Run spec tests on an existing fixtures directory</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The main command to use is <code>rake spec</code>. It will create the dependancies in
+<code>spec/fixtures/</code> directory, run the rspec code and finally clean the test
+directory. Same result can be achieved by running successively
+<code>rake spec_prep</code>, <code>rake spec_standalone</code> and <code>rake spec_clean</code>.</p>
+</div>
+<div class="paragraph">
+<p>When running the tests, results are clearly indicated :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#rake spec
+/usr/bin/ruby2.1 -S rspec spec/classes/init_spec.rb --color
+........
+
+Finished in 2.07 seconds
+8 examples, 0 failures</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <h1 id="internals-Documentation" class="sect0">Internals - Documentation</h1>
 <div class="sect1">
 <h2 id="_main_documentation">1. Main Documentation</h2>
@@ -2482,7 +2689,7 @@ of the local repository.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-07-29 14:09:36 BST
+Last updated 2016-08-05 16:04:13 BST
 </div>
 </div>
 </body>
