@@ -53,6 +53,7 @@ Profiles are grouped by sections:
 * *software*, Application software
 * *ssmtp*, Basic MTA
 * *sudo*, sudo permissions
+* *virt*, Virtualization host with libvirt/kvm
 * *xorg*, X.org graphical server (including nvidia drivers)
 
 ## Setup
