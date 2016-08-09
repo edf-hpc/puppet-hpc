@@ -18,23 +18,17 @@ class boothttp::install inherits boothttp {
   $menu_dir                        = "${boothttp::config_dir_http}/cgi-bin"
   $menu_file                       = "${menu_dir}/bootmenu.rb"
   $disk_dir                        = "${boothttp::config_dir_http}/disk"
-  ensure_resource('file',[$boothttp::config_dir_http,$menu_dir],{'ensure' => 'directory'})
 
-  $boot_files          = {
-    "${menu_file}" => {
-      content      => hpc_source_file($boothttp::menu_source),
-      mode         => '755',
-      validate_cmd => "test -d `dirname ${menu_file}`",
-    },
-    "${disk_dir}" => {
-      source       => $boothttp::disk_source,
-      ensure       => 'directory',
-      recurse      => 'remote',
-      validate_cmd => "test -d `dirname ${disk_dir}`",
-    },
+  ensure_resource('file',$boothttp::config_dir_http,{'ensure' => 'directory'})
+  ensure_resource('file',$menu_dir,{'ensure' => 'directory'})
+
+  file { $menu_file:
+    content => hpc_source_file($::boothttp::menu_source),
+    mode    => '0755',
   }
 
-  create_resources(file,$boot_files)
+  create_resources(hpclib::hpc_file, $::boothttp::hpc_files)
+  create_resources(archive, $::boothttp::archives)
 
 }
 

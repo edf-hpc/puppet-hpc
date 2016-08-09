@@ -18,13 +18,23 @@ define boothttp::printconfig (
   $os = 'calibre9'
 ) {
 
-  $config_file     = "${::boothttp::install::disk_dir}/${os}/install_config"
-  $template_file   = "boothttp/install_config.${os}.erb"
-  $virtual_address = $boothttp::virtual_address
+  $config_file = "${::boothttp::install::disk_dir}/${os}/install_config"
 
-  file { $config_file:
-    ensure  => 'present',
-    content => template($template_file)
+  if $os == 'debian-jessie' {
+    $install_options = $::boothttp::install_options
+    hpclib::print_config{ $config_file:
+      style     => 'keyval',
+      data      => $install_options[$os],
+      separator => ' ',
+    }
+  } else {
+    $template_file   = "boothttp/install_config.${os}.erb"
+    $virtual_address = $boothttp::virtual_address
+
+    file { $config_file:
+      ensure  => 'present',
+      content => template($template_file)
+    }
   }
 
 }
