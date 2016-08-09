@@ -16,17 +16,21 @@
 #
 class boothttp::params {
 
-  $config_dir                      = '/public/'
-  $config_dir_source               = '/path/to/sources'
+  $config_dir        = '/public/'
+  $config_dir_source = '/path/to/sources'
 
   # Files and directories that can be downloaded by HTTP
-  $config_dir_http                 = "${config_dir}/http"
-  $menu_source                     = "${config_dir_source}/bootmenu.rb"
-  $disk_source                     = "${config_dir_source}/disk"
+  $config_dir_http = "${config_dir}/http"
+  $menu_source     = "${config_dir_source}/bootmenu.rb"
 
-  $supported_os                    = {
-    'calibre9'                      => {
-      'os'                         => 'calibre9',
+  $hpc_files = {}
+  $archives  = {}
+
+  $install_options = {}
+
+  $supported_os = {
+    'debian-jessie' => {
+      'os' => 'debian-jessie',
     }
   }
 

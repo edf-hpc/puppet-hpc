@@ -19,23 +19,24 @@
 #                        the HTTP server
 # @param config_dir_http Target directory for files to serve
 # @param menu_source     Source URL of the menu CGI
-# @param disk_source     Source of the disk installers (puppet:// or
-#                        local file
-# @param supported_os    List of Operating Systems to include in the 
+# @param supported_os    List of Operating Systems to include in the
 #                        configuration.
 class boothttp (
 
   $virtual_address,
-  $config_dir_http  = $boothttp::params::config_dir_http,
-  $menu_source      = $boothttp::params::menu_source,
-  $disk_source      = $boothttp::params::disk_source,
-  $supported_os     = $boothttp::params::supported_os,
+  $config_dir_http = $::boothttp::params::config_dir_http,
+  $menu_source     = $::boothttp::params::menu_source,
+  $hpc_files       = $::boothttp::params::hpc_files,
+  $archives        = $::boothttp::params::archives,
+  $supported_os    = $::boothttp::params::supported_os,
+  $install_options = $::boothttp::params::install_options,
 
 ) inherits boothttp::params {
 
   validate_absolute_path($config_dir_http)
   validate_string($menu_source)
-  validate_string($disk_source)
+  validate_hash($hpc_files)
+  validate_hash($archives)
   validate_hash($supported_os)
 
   anchor { 'boothttp::begin': } ->
