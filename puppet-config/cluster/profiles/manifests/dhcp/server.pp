@@ -55,7 +55,7 @@ class profiles::dhcp::server {
     }
   }
   $_failover = merge($failover, $failover_add)
-  $virtual_address = $::hostfile["${prefix}${::puppet_role}"]
+  $virtual_address = "${prefix}${::puppet_role}.cluster"
 
   # Pass config options as a class parameter
   class { '::iscdhcp':
