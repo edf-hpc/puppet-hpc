@@ -108,6 +108,7 @@ profiles::http::port:            80
 profiles::http::error_log_file:  'error.log'
 profiles::http::log_level:       'warn'
 profiles::http::serveradmin:     'webmaster@localhost'
+profiles::http::scriptalias:     "%{hiera('profiles::http::mirror::docroot')}/cgi-bin"
 profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
 
 ###### P2P
