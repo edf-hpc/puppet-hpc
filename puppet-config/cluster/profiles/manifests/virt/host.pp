@@ -15,6 +15,8 @@
 
 # Setup a virtualization physical host
 #
+# Will install a libvirt daemon with kvm. No other configuration (hosts,
+# networks, pools, volumes...) done by default.
 class profiles::virt::host {
   include '::libvirt'
 }
