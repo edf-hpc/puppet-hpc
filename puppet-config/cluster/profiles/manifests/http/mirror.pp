@@ -32,22 +32,29 @@ class profiles::http::mirror {
   $serveradmin    = hiera('profiles::http::serveradmin')
   $error_log_file = hiera('profiles::http::error_log_file')
   $log_level      = hiera('profiles::http::log_level')
+  $scriptalias    = hiera('profiles::http::scriptalias')
   $website_dir    = hiera('website_dir')
   $cluster_prefix = hiera('cluster_prefix')
 
   include apache
 
-  file { "$website_dir" :
+  file { $website_dir:
     ensure => directory,
   }
 
+  $servername = "${cluster_prefix}${::my_http_mirror}"
+  # This is hardcoded but, the zone is hardcoded right now (GH issue #45)
+  $serveraliases = ["${servername}.cluster"]
+
   # Pass config options as a class parameter
 
-  apache::vhost { "${cluster_prefix}${my_http_mirror}" :
+  apache::vhost { $servername:
     port           => $port,
     docroot        => $docroot,
     serveradmin    => $serveradmin,
     error_log_file => $error_log_file,
     log_level      => $log_level,
+    serveraliases  => $serveraliases,
+    scriptalias    => $scriptalias,
   }
 }
