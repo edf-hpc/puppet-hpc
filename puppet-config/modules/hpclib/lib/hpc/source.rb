@@ -12,14 +12,14 @@ def hpc_source_file(source)
   # file, it handles fallback natively and paths like:
   # * <module>/<filename>
   # * Absolute file name
-  data = ''
+  data = nil
   begin
     data = function_file(source_array)
   rescue
     debug("function_file failed to read #{source_array}.")
   end
 
-  if data == ''
+  if not data
     source_array.each do |current_file|
       begin
         # Remove the 'file://' part
@@ -29,6 +29,10 @@ def hpc_source_file(source)
           debug("IO module failed to read #{current_file}: #{e}")
       end
     end
+  end
+
+  if not data
+    raise "Failed to get data for sources: #{source}"
   end
 
   return data
