@@ -18,7 +18,7 @@
 # ## Hiera
 # * `profiles::log::server::server_dir`
 # * `profiles::log::server::custom_config`
-# * `profiles::log::server::logrotate_firstaction` Check command before 
+# * `profiles::log::server::logrotate_firstaction` Check command before
 #     rotating the logs on disk (default: `undef`)
 class profiles::log::server {
 
