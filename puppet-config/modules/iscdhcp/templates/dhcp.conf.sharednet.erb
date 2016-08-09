@@ -4,6 +4,7 @@ shared-network "<%= @sharednet['name'] %>" {
 
   subnet <%= subnet['network'] %> netmask <%= subnet['netmask'] %> {
 
+    option domain-name-servers <%= subnet['domain-name-servers'] %>;
     option domain-name "<%= subnet['domain-name'] %>";
     option broadcast-address <%= subnet['broadcast'] %>;
 
