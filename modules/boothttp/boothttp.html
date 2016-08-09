@@ -127,9 +127,8 @@
 <div class="tags">
   <ul class="param">
     <li><span class="name">virtual_address </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Hostname to insert in the kickstart/preseed for
-the HTTP server </p></div></li><li><span class="name">config_dir_http </span><span class="type">(<tt>Any</tt>)</span><tt> => $boothttp::params::config_dir_http</tt> - <div class="inline"><p> Target directory for files to serve </p></div></li><li><span class="name">menu_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $boothttp::params::menu_source</tt> - <div class="inline"><p> Source URL of the menu CGI </p></div></li><li><span class="name">disk_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $boothttp::params::disk_source</tt> - <div class="inline"><p> Source of the disk installers (puppet:// or
-local file </p></div></li><li><span class="name">supported_os </span><span class="type">(<tt>Any</tt>)</span><tt> => $boothttp::params::supported_os</tt> - <div class="inline"><p> List of Operating Systems to include in the 
-configuration. </p></div></li>
+the HTTP server </p></div></li><li><span class="name">config_dir_http </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::config_dir_http</tt> - <div class="inline"><p> Target directory for files to serve </p></div></li><li><span class="name">menu_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::menu_source</tt> - <div class="inline"><p> Source URL of the menu CGI </p></div></li><li><span class="name">hpc_files </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::hpc_files</tt></li><li><span class="name">archives </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::archives</tt></li><li><span class="name">supported_os </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::supported_os</tt> - <div class="inline"><p> List of Operating Systems to include in the
+configuration. </p></div></li><li><span class="name">install_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::boothttp::params::install_options</tt></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -139,7 +138,7 @@ configuration. </p></div></li>
 </div>
 
     <div id="footer">
-  Generated on Fri Aug  5 16:58:37 2016 by
+  Generated on Tue Aug  9 09:34:09 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

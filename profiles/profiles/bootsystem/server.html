@@ -108,12 +108,16 @@
 <li><code>cluster_prefix</code></li>
 <li><code>profiles::bootsystem::tftp_config_options</code> (<code>hiera_hash</code>)</li>
 <li><code>profiles::bootsystem::tftp_dir</code></li>
-<li><code>profiles::bootsystem::ipxe_efi_source</code></li>
-<li><code>profiles::bootsystem::ipxe_leg_source</code></li>
 <li><code>profiles::bootsystem::http_dir</code></li>
-<li><code>profiles::bootsystem::menu_source</code></li>
-<li><code>profiles::bootsystem::http_disk_source</code></li>
 <li><code>profiles::bootsystem::supported_os</code></li>
+</ul>
+
+<h2>Relevant Autolookups</h2>
+
+<ul>
+<li><code>boothttp::menu_source</code></li>
+<li><code>boottftp::ipxe_efi_source</code></li>
+<li><code>boottftp::ipxe_legacy_source</code></li>
 </ul>
 </p>
   </div>
@@ -126,7 +130,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Aug  5 16:58:35 2016 by
+  Generated on Tue Aug  9 09:34:09 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

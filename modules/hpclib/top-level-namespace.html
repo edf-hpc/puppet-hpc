@@ -412,7 +412,8 @@
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/puppet/parser/functions/decrypt.rb', line 5</span>
@@ -443,8 +444,9 @@
 </span>    <span class='comment'># when using the salt in the MD5::digest. Not sufficiently
 </span>    <span class='comment'># an expert on ruby string encoding to entirely understand
 </span>    <span class='comment'># what&#39;s going on here.
-</span>    <span class='id identifier rubyid_salt'>salt</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>8</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>16</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+</span>    <span class='id identifier rubyid_encrypted_data'>encrypted_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_salt'>salt</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>8</span><span class='comma'>,</span> <span class='int'>8</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_encrypted_data_without_salt'>encrypted_data_without_salt</span> <span class='op'>=</span> <span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='lbracket'>[</span><span class='int'>16</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_totsize'>totsize</span> <span class='op'>=</span> <span class='id identifier rubyid_keylength'>keylength</span> <span class='op'>+</span> <span class='id identifier rubyid_ivlength'>ivlength</span>
     <span class='id identifier rubyid_keyivdata'>keyivdata</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
     <span class='id identifier rubyid_temp'>temp</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
@@ -454,13 +456,13 @@
     <span class='kw'>end</span>
     <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_keyivdata'>keyivdata</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_keylength'>keylength</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_iv'>iv</span>  <span class='op'>=</span> <span class='id identifier rubyid_keyivdata'>keyivdata</span><span class='lbracket'>[</span><span class='id identifier rubyid_keylength'>keylength</span><span class='comma'>,</span> <span class='id identifier rubyid_ivlength'>ivlength</span><span class='rbracket'>]</span>
-   
-    <span class='comment'>### Decrypt data ###
+
+    <span class='comment'>### Decrypt data ###
 </span>    <span class='id identifier rubyid_decipher'>decipher</span> <span class='op'>=</span> <span class='const'>OpenSSL</span><span class='op'>::</span><span class='const'>Cipher</span><span class='op'>::</span><span class='const'>Cipher</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_scheme'>scheme</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_decrypt'>decrypt</span>
     <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
     <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_iv'>iv</span> <span class='op'>=</span> <span class='id identifier rubyid_iv'>iv</span>
-    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_encrypted_data'>encrypted_data</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_final'>final</span>
+    <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='id identifier rubyid_encrypted_data_without_salt'>encrypted_data_without_salt</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_decipher'>decipher</span><span class='period'>.</span><span class='id identifier rubyid_final'>final</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_result'>result</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid encrypted data read from file: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_file'>file</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1112,7 +1114,11 @@
 33
 34
 35
-36</pre>
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/hpc/source.rb', line 3</span>
@@ -1129,14 +1135,14 @@
 </span>  <span class='comment'># file, it handles fallback natively and paths like:
 </span>  <span class='comment'># * &lt;module&gt;/&lt;filename&gt;
 </span>  <span class='comment'># * Absolute file name
-</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>begin</span>
     <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_function_file'>function_file</span><span class='lparen'>(</span><span class='id identifier rubyid_source_array'>source_array</span><span class='rparen'>)</span>
   <span class='kw'>rescue</span>
     <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>function_file failed to read </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source_array'>source_array</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_data'>data</span>
     <span class='id identifier rubyid_source_array'>source_array</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_current_file'>current_file</span><span class='op'>|</span>
       <span class='kw'>begin</span>
         <span class='comment'># Remove the &#39;file://&#39; part
@@ -1146,6 +1152,10 @@
           <span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IO module failed to read </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_current_file'>current_file</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='kw'>not</span> <span class='id identifier rubyid_data'>data</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Failed to get data for sources: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_source'>source</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span>
@@ -1162,7 +1172,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Aug  5 16:59:11 2016 by
+  Generated on Tue Aug  9 09:34:29 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

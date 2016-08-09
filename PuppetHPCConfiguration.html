@@ -372,7 +372,7 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <ul class="sectlevel1">
 <li><a href="#_purpose">Purpose</a></li>
 <li><a href="#_typographic_conventions">Typographic conventions</a></li>
-<li><a href="#_build_dependancies">Build dependancies</a></li>
+<li><a href="#_build_dependencies">Build dependencies</a></li>
 <li><a href="#_license">License</a></li>
 <li><a href="#_authors">Authors</a></li>
 </ul>
@@ -587,7 +587,7 @@ the format below:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_build_dependancies">Build dependancies</h2>
+<h2 id="_build_dependencies">Build dependencies</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>On a Debian Jessie system, these packages must be installed to build this
@@ -669,10 +669,10 @@ knowledge of the CeCILL license and that you accept its terms.</pre>
 <p>Benoit BOCCARD</p>
 </li>
 <li>
-<p>Cécile YOSHIKAWA</p>
+<p>Thomas HAMEL</p>
 </li>
 <li>
-<p>Thomas HAMEL</p>
+<p>Cécile YOSHIKAWA</p>
 </li>
 </ul>
 </div>
@@ -816,15 +816,15 @@ hierarchy. This means it is common to all nodes.</p>
 <pre>## Network topology of the cluster
 net::allloc::ipnetwork: '172.16.0.0'
 net::allloc::netmask: '255.255.0.0'
-net::clusterloc::ipnetwork: '172.16.0.0'
-net::clusterloc::netmask: '255.255.248.0'
-net::clusterloc::prefix_length: '/21'
-net::clusterloc::broadcast: '172.16.7.255'
-net::clusterib::ipnetwork: '172.16.40.0'
-net::clusterib::prefix_length: '/21'
-net::clusteradm::ipnetwork: '172.16.80.0'
-net::clusteradm::netmask: '255.255.240.0'
-net::clusteradm::broadcast: '172.16.95.255'
+net::administration::ipnetwork: '172.16.0.0'
+net::administration::netmask: '255.255.248.0'
+net::administration::prefix_length: '/21'
+net::administration::broadcast: '172.16.7.255'
+net::lowlatency::ipnetwork: '172.16.40.0'
+net::lowlatency::prefix_length: '/21'
+net::management::ipnetwork: '172.16.80.0'
+net::management::netmask: '255.255.240.0'
+net::management::broadcast: '172.16.95.255'
 net_topology:
     'wan':
         'name':           'WAN'
@@ -840,8 +840,8 @@ net_topology:
     'allloc':
         'ipnetwork':      '172.16.0.0'
         'netmask':        '255.255.0.0'
-    'clusterloc':
-        'name':           'CLUSTER'
+    'administration':
+        'name':           'ADM'
         'prefixes':       ''
         'ipnetwork':      '172.16.0.0'
         'netmask':        '255.255.248.0'
@@ -861,7 +861,7 @@ net_topology:
                             '172.16.6.1'
             'ip_range_end':
                             '172.16.7.254'
-    'clusterib':
+    'lowlatency':
         'name':           'IB'
         'prefixes':       'ib'
         'ipnetwork':      '172.16.40.0'
@@ -872,9 +872,9 @@ net_topology:
         'ip_range_start':  '172.16.40.1'
         'ip_range_end':    '172.16.47.254'
         'firewall_zone':   'clstr'
-    'clusteradm':
-        'name':            'ADMIN'
-        'prefixes':        'adm'
+    'management':
+        'name':            'MGT'
+        'prefixes':        'mgt'
         'ipnetwork':       '172.16.80.0'
         'netmask':         '255.255.240.0'
         'prefix_length':   '/20'
@@ -883,9 +883,9 @@ net_topology:
         'ip_range_start':  '172.16.80.1'
         'ip_range_end':    '172.16.95.254'
         'firewall_zone':   'clstr'
-    'mgmt':
-        'name':            'MANAGEMENT'
-        'prefixes':        'mgmt'
+    'bmc':
+        'name':            'BMC'
+        'prefixes':        'bmc'
         'ipnetwork':       '172.16.80.0'
         'netmask':         '255.255.248.0'
         'prefix_length':   '/21'
@@ -976,7 +976,7 @@ Addresses"</p>
 </li>
 <li>
 <p>Node Configuration, "Interfaces devices" &#8592;&#8594; "IPv4 Addresses" &#8592;&#8594;
-"IPv4 Netmask"</p>
+"IPv4 Netmask" &#8592;&#8594; "External Configuration"</p>
 </li>
 <li>
 <p>DNS/Hosts Configuration, "Hostnames" &#8592;&#8594; "IPv4 Addresses"</p>
@@ -990,13 +990,20 @@ the <code>bond</code> interface. The interfaces enslaved to the <code>bond</code
 can be ommited from this configuration.</p>
 </div>
 <div class="paragraph">
+<p>External configuration means the interface is configured on the system but
+should not be setup by the Puppet HPC Configuration. It&#8217;s usefull if another
+subsystems sets-up the network interface: VPN, libvirt&#8230; On Debian, it means
+the interface is not added to <code>/etc/network/interfaces</code>. This boolean can take
+the value <code>true</code> or <code>false</code> and is considered <code>false</code> if ommited.</p>
+</div>
+<div class="paragraph">
 <p>Example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>master_network:
   #MAC_Addr;Interfaces;Hostnames;Addresses;NetMask;DHCP(Mac_Addr@Hostname@Address);Config(Interface@Address@Netmask);Hosts(Hostname@Address)
-  - 52:54:00:ba:9d:ac,52:54:00:43:d9:45,52:54:00:8a:aa:30,52:54:00:8a:0b:d2;bond0,bond1;genmisc1,wangenmisc1;172.16.2.21,172.17.42.45;255.255.248.0,255.255.255.0;0@0@0;0@0@0,1@1@1;0@0,1@1</pre>
+  - 52:54:00:ba:9d:ac,52:54:00:43:d9:45,52:54:00:8a:aa:30,52:54:00:8a:0b:d2;bond0,bond1;genmisc1,wangenmisc1;172.16.2.21,172.17.42.45;255.255.248.0,255.255.255.0;0@0@0;0@0@0,1@1@1@false;0@0,1@1</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1020,10 +1027,10 @@ configuration:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>bond0</code> <code>172.16.2.21</code> <code>255.255.248.0</code></p>
+<p><code>bond0</code> <code>172.16.2.21</code> <code>255.255.248.0</code> External Config: <code>false</code></p>
 </li>
 <li>
-<p><code>bond1</code> <code>172.17.42.45</code> <code>255.255.255.0</code></p>
+<p><code>bond1</code> <code>172.17.42.45</code> <code>255.255.255.0</code> External Config: <code>false</code></p>
 </li>
 </ul>
 </div>
@@ -1118,7 +1125,7 @@ interactively to the cluster</p>
 system</p>
 </li>
 <li>
-<p><strong>CG</strong>, see <em>Graphical Node</em></p>
+<p><strong>GN</strong>, see <em>Graphical Node</em></p>
 </li>
 <li>
 <p><strong>CN</strong>, see <em>Compute Node</em></p>
@@ -2689,7 +2696,7 @@ of the local repository.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-05 16:04:13 BST
+Last updated 2016-08-09 09:33:55 BST
 </div>
 </div>
 </body>
