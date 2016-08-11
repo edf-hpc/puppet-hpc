@@ -20,7 +20,9 @@ define boothttp::printconfig (
 
   $config_file = "${::boothttp::install::disk_dir}/${os}/install_config"
 
-  if $os == 'debian-jessie' {
+  # Calibre9 uses a hash passed as parameter directly written as a preseed
+  # RH still uses a direct template
+  if $os == 'calibre9' {
     $install_options = $::boothttp::install_options
     hpclib::print_config{ $config_file:
       style     => 'keyval',
