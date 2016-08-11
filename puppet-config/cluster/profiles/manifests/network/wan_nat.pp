@@ -16,7 +16,7 @@
 # Setup this node as a NAT gateway.
 #
 # Activate a firewall, the interface corresponding to the `wan` network
-# is configured to be masquerading the `clusterloc` network.
+# is configured to be masquerading the `administration` network.
 #
 # ## Hiera
 # * `net_topology` (`hiera_hash`)
@@ -25,16 +25,16 @@ class profiles::network::wan_nat {
 
   # mynet_topology is and hpclib fact
   if ! has_key($::mynet_topology, 'wan') {
-    fail("Network 'wan' must be configured on this host  to activate profiles::network::wan_nat")
+    fail("Network 'wan' must be configured on this host to activate profiles::network::wan_nat")
   }
 
   $net_topology = hiera_hash('net_topology')
 
   $wan_interface = $::mynet_topology['wan']['interfaces'][0]
 
-  shorewall::masq { 'wan_from_clusterloc_nat':
+  shorewall::masq { 'wan_from_administration_nat':
     interface => $wan_interface,
-    source    => "${net_topology['clusterloc']['ipnetwork']}${net_topology['clusterloc']['prefix_length']}",
+    source    => "${net_topology['administration']['ipnetwork']}${net_topology['administration']['prefix_length']}",
   }
 
 }
