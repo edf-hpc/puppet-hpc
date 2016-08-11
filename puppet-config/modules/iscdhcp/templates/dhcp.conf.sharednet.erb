@@ -6,6 +6,7 @@ shared-network "<%= @sharednet['name'] %>" {
 
     option domain-name-servers <%= subnet['domain-name-servers'] %>;
     option domain-name "<%= subnet['domain-name'] %>";
+    option domain-search "<%= subnet['domain-name'] %>";
     option broadcast-address <%= subnet['broadcast'] %>;
 
 <%   @includes.each do |inc_name, include| -%>
