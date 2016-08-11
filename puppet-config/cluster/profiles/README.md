@@ -23,6 +23,7 @@ the parameters in hiera.
 
 Profiles are grouped by sections:
 
+* *apt*, APT proxy
 * *access*, access list to a host
 * *auth*, authentication on the host
 * *bootsystem*, install/diskless boot server
