@@ -3,7 +3,7 @@ require 'hiera'
 require_relative 'role'
 
 # Please maintain this list in the documentation (README.md)
-tracked_profiles=['server','relay','mirror','replica','tracker']
+tracked_profiles=['server','relay','mirror','replica','tracker', 'proxy']
 
 hiera_cfg_file = File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml')
 

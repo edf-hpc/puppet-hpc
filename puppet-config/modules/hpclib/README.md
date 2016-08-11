@@ -270,9 +270,9 @@ Array of active profiles on the current node.
 
 Hash with roles as keys and array of active profiles for this node type as value.
 
-#### Fact: `my_XXXXX_{server,relay,mirror,replica,tracker}` (profiles)
+#### Fact: `my_XXXXX_{server,relay,mirror,replica,tracker,proxy}` (profiles)
 
-Those facts give for each profile ``profiles::XXXXXX::{server,relay,mirror,replica,tracker}`` which role has the profile defined. This value can then be used elsewhere in the configuration to configure the clients.
+Those facts give for each profile ``profiles::XXXXXX::{server,relay,mirror,replica,tracker,proxy}`` which role has the profile defined. This value can then be used elsewhere in the configuration to configure the clients.
 
 Example:
 
