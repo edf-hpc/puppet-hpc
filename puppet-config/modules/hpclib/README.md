@@ -249,16 +249,18 @@ Example:
 
 ```
     mynet_topology: 
-      clusterloc: 
+      administration:
         interfaces: 
           - eth0
         name: CLUSTER
         firewall_zone: clstr
+        external_config: false
       wan: 
         interfaces: 
           - bond1
         name: EXT
         firewall_zone: wan
+        external_config: false
 
 ```
 
