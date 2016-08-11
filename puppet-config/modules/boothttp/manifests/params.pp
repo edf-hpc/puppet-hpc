@@ -29,8 +29,8 @@ class boothttp::params {
   $install_options = {}
 
   $supported_os = {
-    'debian-jessie' => {
-      'os' => 'debian-jessie',
+    'calibre9' => {
+      'os' => 'calibre9',
     }
   }
 
