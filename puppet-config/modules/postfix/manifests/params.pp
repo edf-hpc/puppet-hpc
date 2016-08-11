@@ -23,7 +23,7 @@ class postfix::params {
   $config_file     = '/etc/postfix/main.cf'
 
   #### Default values
-  $config_options_default = {
+  $config_options_defaults = {
     alias_database                      => 'hash:/etc/aliases',
     alias_maps                          => 'hash:/etc/aliases',
     append_dot_mydomain                 => 'yes',
