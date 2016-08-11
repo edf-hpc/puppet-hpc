@@ -23,6 +23,11 @@ class network::service inherits network {
       config => $::network::systemd_tmpfile_options,
     }
 
+    hpclib::systemd_service { $::network::ifup_hotplug_service_file :
+      target => $::network::ifup_hotplug_service_file,
+      config => $::network::ifup_hotplug_service_params,
+    }
+
     # Enable systemd service ifup-hotplug to ensure it is run at server boot.
     # If service provider is systemd (calibre9 running production),
     # use Puppet service type.
@@ -31,10 +36,6 @@ class network::service inherits network {
     # running at this stage.
     case $::puppet_context {
       'ondisk', 'diskless-postinit': {
-        hpclib::systemd_service { $::network::ifup_hotplug_service_file :
-          target => $::network::ifup_hotplug_service_file,
-          config => $::network::ifup_hotplug_service_params,
-        }
         create_resources(service, $::network::ifup_hotplug_services)
       }
       'installer', 'diskless-preinit': {
