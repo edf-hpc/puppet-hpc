@@ -31,7 +31,7 @@ class postfix (
   validate_absolute_path($config_file)
   validate_hash($config_options)
 
-  $_config_options = merge ($::postfix::params::config_options_default, $config_options)
+  $_config_options = merge ($::postfix::params::config_options_defaults, $config_options)
 
   anchor { 'postfix::begin': } ->
   class { '::postfix::install': } ->
