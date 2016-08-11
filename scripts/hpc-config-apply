@@ -10,15 +10,21 @@ import os.path
 import configparser
 import logging
 import io
+import shutil
 
 LOCALE = 'C.UTF-8'
 
-CONF_ARCHIVE_NAME = 'puppet-config-environment.tar.xz'
-CONF_BASE_PATH = '/etc/puppet/environments'
+PUPPET_ENV_ARCHIVE_NAME = 'puppet-config-environment.tar.xz'
+PUPPET_ENV_BASE_PATH = '/etc/puppet/environments'
 
 KEYS_ARCHIVE_NAME = 'keys.tar.xz'
 KEYS_BASE_PATH = '/etc/puppet/secure'
 
+HIERA_CONF_ARCHIVE_NAME = 'hiera.yaml'
+HIERA_CONF_PATH = '/etc/puppet/hiera.yaml'
+
+PUPPET_CONF_ARCHIVE_NAME = 'puppet.conf'
+PUPPET_CONF_PATH = '/etc/puppet/puppet.conf'
 
 def get_parameter(key, default, config_section, args):
     if key in args:
@@ -110,11 +116,12 @@ def parse_args():
 
 
 def setup_logging(verbosity=0):
-    level = logging.WARNING
-    if verbosity > 0:
-        level = logging.INFO
-    if verbosity > 1:
+    if verbosity >= 3:
         level = logging.DEBUG
+    elif verbosity >= 1:
+        level = logging.INFO
+    else:
+        level = logging.WARNING
     logging.basicConfig(level=level)
 
 
@@ -162,25 +169,79 @@ def http_get_file(url, root_source_port=False):
     return source_file
 
 
-def extract_url(url, path, root_source_port=False):
+def get_file_for_url(url, root_source_port=False):
     parsed_url = urllib3.util.parse_url(url)
     if parsed_url.scheme in [None, 'file']:
-        source_file = open(parsed_url.path, 'rb')
+        url_file = open(parsed_url.path, 'rb')
     else:
-        source_file = http_get_file(url, root_source_port)
+        url_file = http_get_file(url, root_source_port)
+    return url_file
 
+
+def extract_url(url, path, root_source_port=False):
+    source_file = get_file_for_url(url)
     archive = tarfile.open(fileobj=source_file, mode='r:xz')
     archive.extractall(path=path)
 
     source_file.close()
 
 
+def get_url(url, path, root_source_port=False):
+    source_file = get_file_for_url(url)
+    dest = open(path, 'wb')
+
+    buffer_size = 1024
+    while 1:
+        copy_buffer = source_file.read(buffer_size)
+        if not copy_buffer:
+            break
+        dest.write(copy_buffer)
+
+    source_file.close()
+    dest.close()
+
+
 def get_keys(source):
     keys_url = '/'.join([source, KEYS_ARCHIVE_NAME])
+    keys_path = os.path.join(KEYS_BASE_PATH, 'keys')
     logging.info(
         "Getting secure keys from %s" % keys_url
     )
+    if os.path.isdir(keys_path):
+        shutil.rmtree(keys_path)
     extract_url(keys_url, KEYS_BASE_PATH, root_source_port=True)
+    return
+
+
+def get_hiera_conf(source, environment, version='latest'):
+    hiera_conf_url = '/'.join([
+        source,
+        environment,
+        version,
+        HIERA_CONF_ARCHIVE_NAME
+    ])
+    logging.info(
+        "Getting Hiera config from %s" % hiera_conf_url
+    )
+    if os.path.exists(HIERA_CONF_PATH):
+        os.remove(HIERA_CONF_PATH)
+    get_url(hiera_conf_url, HIERA_CONF_PATH)
+    return
+
+
+def get_puppet_conf(source, environment, version='latest'):
+    puppet_conf_url = '/'.join([
+        source,
+        environment,
+        version,
+        PUPPET_CONF_ARCHIVE_NAME
+    ])
+    logging.info(
+        "Getting Puppet config from %s" % puppet_conf_url
+    )
+    if os.path.exists(PUPPET_CONF_PATH):
+        os.remove(PUPPET_CONF_PATH)
+    get_url(puppet_conf_url, PUPPET_CONF_PATH)
     return
 
 
@@ -189,26 +250,32 @@ def get_puppet_environment(source, environment, version='latest'):
         source,
         environment,
         version,
-        CONF_ARCHIVE_NAME
+        PUPPET_ENV_ARCHIVE_NAME
     ])
+    puppet_env_path = os.path.join(PUPPET_ENV_BASE_PATH, environment)
     logging.info(
         "Getting Puppet HPC configuration environment from %s" % env_url
     )
-    extract_url(env_url, CONF_BASE_PATH)
+    if os.path.isdir(puppet_env_path):
+        shutil.rmtree(puppet_env_path)
+    extract_url(env_url, PUPPET_ENV_BASE_PATH)
     return
 
 
 def puppet_apply(environment, deploy_step, verbosity=0):
     logging.info("Applying puppet configuration.")
-    if verbosity > 0:
+
+    if verbosity >= 3:
+        apply_options = ['--debug']
+    elif verbosity == 2:
         apply_options = ['--test']
-        if verbosity > 1:
-            apply_options += ['--debug']
+    elif verbosity == 1:
+        apply_options = ['--verbose']
     else:
         apply_options = ['--logdest', 'syslog']
 
     manifests_path = os.path.join(
-        CONF_BASE_PATH, environment, 'manifests', 'cluster.pp')
+         PUPPET_ENV_BASE_PATH, environment, 'manifests', 'cluster.pp')
 
     subprocess.call(['/usr/bin/puppet', 'apply'] + apply_options + [
         '--environment', environment,
@@ -228,6 +295,10 @@ if __name__ == "__main__":
     get_keys(params['keys_source'])
 
     get_puppet_environment(params['source'], params['environment'])
+
+    get_hiera_conf(params['source'], params['environment'])
+
+    get_puppet_conf(params['source'], params['environment'])
 
     puppet_apply(
         params['environment'],
