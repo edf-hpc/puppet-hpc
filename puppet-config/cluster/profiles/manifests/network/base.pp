@@ -30,12 +30,10 @@ class profiles::network::base {
   ## Hiera lookups
   $net_keyword  = hiera('profiles::network::gw_connect')
   $net_topology = hiera_hash('net_topology')
-  if ! empty($net_keyword) {
-    $defaultgw = $net_topology[$net_keyword]['gateway']
+  if ! is_hash($net_topology[$net_keyword]) {
+    fail("Undefined WAN network ${net_keyword} in \$net_topology.")
   }
-  else {
-    $defaultgw = ''
-  }
+  $defaultgw = $net_topology[$net_keyword]['gateway']
 
   class { '::network':
     defaultgw => $defaultgw,
