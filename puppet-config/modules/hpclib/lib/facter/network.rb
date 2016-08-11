@@ -62,7 +62,7 @@ net_topology = hiera.lookup(
 if !masternetwork.nil? and masternetwork.length > 0 
   masternetwork.each do | line|
     ### Set mymasternet used to generate local network config ###
-    if ( eth_hwaddr.length > 0 and line.match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and line.match(/#{h_name}/) )
+    if ( eth_hwaddr.length > 0 and line.match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and line.match(/[;,]#{h_name}[;,]/) )
         mymasternet = line.chomp.split(';')
     end
     element = line.split(";") 
