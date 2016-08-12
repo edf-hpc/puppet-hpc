@@ -6,7 +6,10 @@ puppethpc_dir="$(dirname "${script_dir}")"
 hpcprivate_dir="$(dirname "${puppethpc_dir}")/hpc-privatedata"
 environment='production'
 version='latest'
-destination='/admin/public/http/mirror/hpc-config'
+destination_host="atiqservice1"
+destination_path="/var/admin/public/http/mirror/hpc-config"
+destination="${destination_host}:${destination_path}"
+destination_cmd=( "ssh" "${destination_host}" )
 
 # Order is important, first has more priority
 generic_modules_sources=(
@@ -27,6 +30,8 @@ private_files_dir="${hpcprivate_dir}/files"
 
 private_hiera_yaml="${hpcprivate_dir}/hiera.yaml"
 
+private_puppet_conf="${hpcprivate_dir}/puppet.conf"
+
 echo "## Creating env structure"
 
 tmp_dir="$(mktemp -d --tmpdir "puppet-config-${environment}-XXXX")"
@@ -44,7 +49,8 @@ echo "## Creating env modules generic"
 mkdir "${tmp_dir}/${environment}/modules_generic"
 for source in "${generic_modules_sources[@]}"
 do
-  cp -fa ${source}/* "${tmp_dir}/${environment}/modules_generic"
+  # -L: dereference symlinks
+  cp -faL ${source}/* "${tmp_dir}/${environment}/modules_generic"
 done
 
 echo "## Creating env modules private"
@@ -52,7 +58,8 @@ echo "## Creating env modules private"
 mkdir "${tmp_dir}/${environment}/modules_private"
 for source in "${private_modules_sources[@]}"
 do
-  cp -fa ${source}/* "${tmp_dir}/${environment}/modules_private"
+  # -L: dereference symlinks
+  cp -faL ${source}/* "${tmp_dir}/${environment}/modules_private"
 done
 
 echo "## Creating env hieradata"
@@ -74,19 +81,22 @@ echo "## Building Destination"
 
 if [ -n "${destination}" ] && [ -n "${environment}" ] && [ -n "${version}" ] 
 then
-  rm -rf "${destination}/${environment}/${version}"
+  "${destination_cmd[@]}" rm -rf "${destination_path}/${environment}/${version}"
 fi
 
-mkdir -p "${destination}/${environment}/${version}"
+"${destination_cmd[@]}" mkdir -p "${destination_path}/${environment}/${version}"
 
 (
   cd "${tmp_dir}"
-  tar cJf "${destination}/${environment}/${version}/puppet-config-environment.tar.xz" "${environment}"
+  tar cJf "puppet-config-environment.tar.xz" "${environment}"
+  scp -q "puppet-config-environment.tar.xz" "${destination}/${environment}/${version}"
 )
 
-cp -a "${private_files_dir}" "${destination}/${environment}/${version}/files"
+scp -qr "${private_files_dir}" "${destination}/${environment}/${version}/files"
 
-cp -a "${private_hiera_yaml}" "${destination}/${environment}/${version}/hiera.yaml"
+scp -q "${private_hiera_yaml}" "${destination}/${environment}/${version}/hiera.yaml"
+
+scp -q "${private_puppet_conf}" "${destination}/${environment}/${version}/puppet.conf"
 
 echo "## Cleaning"
 
