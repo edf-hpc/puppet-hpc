@@ -1,0 +1,9 @@
+[Unit]
+Description=Apply the HPC Configuration to this node
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/hpc-config-apply
+
+[Install]
+WantedBy=multi-user.target
