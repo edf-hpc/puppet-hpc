@@ -19,13 +19,13 @@ ntp::disable_auth: true
 ntp::disable_monitor: false
 ntp::driftfile: '/var/lib/ntp/ntp.drift'
 ntp::restrict: 
-    - '-4 default kod notrap nomodify nopeer'
-    - '-6 default kod notrap nomodify nopeer'
-    - "-4 %{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
-    - '127.0.0.1'
-    - '::1' 
+  - '-4 default kod notrap nomodify nopeer'
+  - '-6 default kod notrap nomodify nopeer'
+  - "-4 %{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
+  - '127.0.0.1'
+  - '::1' 
 profiles::ntp::srv_opts:
-    NTPD_OPTS: "'-4 -g'"
+  NTPD_OPTS: "'-4 -g'"
 profiles::ntp::client::site_preferred_servers:
   - "%{hiera('cluster_prefix')}%{::my_ntp_server}1"
 profiles::ntp::client::site_servers:
@@ -126,128 +126,124 @@ slurm_cluster_name:        "%{hiera('cluster_name')}"
 slurmd_user:               'root'
 slurm::exec::enable_cgroup: true
 profiles::jobsched::slurm_config_options:
-    ClusterName: 
-      value:   "%{hiera('slurm_cluster_name')}"
-      comment: "The name by which this SLURM managed cluster is known in the accounting database"
-    ControlMachine:
-      value:   "%{hiera('slurm_primary_server')}"
-      comment: "Hostname of the machine where SLURM control functions are executed"
-    BackupController:
-      value:   "%{hiera('slurm_secondary_server')}"
-      comment: "Machine where SLURM control functions are to be executed if ControlMachine fails"
-    SlurmUser:
-      value:   "%{hiera('profiles::jobsched::user')}"
-      comment: "The name of the user that the slurmctld daemon executes as"
-    SlurmdUser:
-      value:   "%{hiera('slurmd_user')}"
-      comment: "The name of the user that the slurmd daemon executes as"
-    DisableRootJobs:
-      value:   "YES"
-      comment: "If set to 'YES' then user root will be prevented from running any jobs"
-    CacheGroups:
-      value:   "0"
-      comment: "If set to 1 the slurmd daemon will cache /etc/groups entries. This can improve performance for highly parallel jobs"
-    GroupUpdateForce:
-      value:   "1"
-      comment: "If set to 1 then information about which users are members of groups allowed to use a partition will be updated periodically"
-    GroupUpdateTime:
-      value:   "600"
-      comment: "Controls how frequently information about which users are members of groups allowed to use a partition will be updated"
-    UsePAM:
-      value:   "1"
-      comment: "If set to 1 authentication by PAM will be enabled"
-    SwitchType:
-      value:   "switch/none"
-      comment: "Identifies the type of switch or interconnect used for application communications. Acceptable values include 'switch/none' and 'switch/elan'"
-    TreeWidth:
-      value:   "600"
-      comment: "Slurmd daemons use a virtual tree network for communications. IMPORTANT: configure TreeWidth to a number at least as large as the maximum node count!!"
-    HealthCheckProgram:
-      value:   "/usr/sbin/nhc"
-      comment: "Script to execute as user root periodically on all compute nodes. This may be used to verify the node is fully operational and DRAIN the node if a problem is detected."
-    HealthCheckInterval:
-     value:   "300"
-     comment: "The interval in seconds between executions of HealthCheckProgram. If value is zero execution will be disabled"
-    HealthCheckInterval:
-      value:   "300"
-      comment: "The interval in seconds between executions of HealthCheckProgram. If value is zero execution will be disabled"
-    InactiveLimit:
-      value:   "0"
-      comment: "IMPORTANT : Script /usr/local/sbin/slurm_srun_prolog.visu require set up this value to zero"
-    MessageTimeout:
-      value:   "30"
-      comment: "Time permitted for a round-trip communication to complete in seconds"
-    ResvOverRun:
-      value:   "10"
-      comment: "Describes how long (in minutes] a job already running in a reservation should be permitted to execute after the end time of the reservation has been reached"
-    MaxJobCount:
-      value:   "5000"
-      comment: "The maximum number of jobs SLURM can have in its active database at one time"
-      comment: "Number of minutes by which a job can exceed its time limit before being canceled"
-    SlurmctldTimeout:
-      value:   "60"
-      comment: "The interval in seconds that the backup controller waits for the primary controller to respond before assuming control"
-    SlurmdTimeout:
-      value:   "120"
-      comment: "The interval in seconds that the SLURM controller waits for slurmd to respond before configuring that node's state to DOWN"
-    SchedulerType:
-      value:   "sched/backfill"
-      comment: "sched/wiki or sched/wiki2: for the Wiki interface to the Maui Schedule"
-    SelectType:
-      value:   "select/cons_res"
-      comment: "select/cons_res: The resources within a node are individually allocated as consumable resources. Note that whole nodes can be allocated to jobs for selected partitions by using the Shared=Exclusive option. Defines specific subsystems which should provide more detailed event logging. Valid subsystems available today (with more to come) include:"
-    SelectTypeParameters:
-      value:   "CR_CPU_Memory"
-      comment: ""
-    PropagateResourceLimits:
-      value:   "NONE"
-      comment: "The following limit names are supported by SLURM: ALL NONE AS CORE CPU DATA FSIZE MEMLOCK NOFILE NPROC RSS STACK. A list of comma separated resource limit names to exclude"
-    EnforcePartLimits:
-      value:   "YES"
-      comment: "If set to 'YES' then jobs which exceed a partition's size and/or time limits will be rejected at submission time"
-    JobSubmitPlugins:
-      value:   "lua"
-      comment: "A comma delimited list of job submission plugins to be used. The specified plugins will be executed in the order listed."
-    MaxStepCount:
-      value:   "100000"
-      comment: "The maximum number of steps that any job can initiate"
-    MaxTasksPerNode:
-      value:   "28"
-      comment: "Maximum number of tasks SLURM will allow a job step to spawn on a single node"
-    TaskPlugin:
-      value:   "task/cgroup"
-      comment: "'task/affinity' 'task/cgroup' or 'task/none'"
-    ProctrackType:
-      value:   "proctrack/cgroup"
-      comment: "Identifies the plugin to be used for process tracking"
-    PriorityType:
-      value:   "priority/basic"
-      comment: "This specifies the plugin to be used in establishing a jobs scheduling priority. Supported values are 'priority/basic' and 'priority/multifactor'"
-    AccountingStorageType:
-      value:   "accounting_storage/slurmdbd"
-      comment: "'accounting_storage/filetxt' 'accounting_storage/mysql' 'accounting_storage/none' 'accounting_storage/pgsql' and 'accounting_storage/slurmdbd'"
-    AccountingStorageHost:
-      value:   "%{hiera('slurm_primary_server')}"
-    AccountingStorageBackupHost:
-      value:   "%{hiera('slurm_secondary_server')}"
-    TrackWCKey:
-      value:   "yes"
-      comment: "If you want to track wckeys (Workload Characterization Key) of users."
-    JobAcctGatherType:
-      value:   "jobacct_gather/linux"
-      comment: "The job accounting mechanism type. Acceptable values at present include 'jobacct_gather/aix' 'jobacct_gather/linux' and 'jobacct_gather/none'"
-    JobAcctGatherFrequency:
-      value:   "60"
-      comment: "A value of zero disables real the periodic job sampling and provides accounting information only on job termination. "
-    SlurmctldDebug:
-      value:   "3"
-      comment: "The level of detail to provide slurmctld daemon's logs. Values from 0 to 9 are legal"
-    SlurmdDebug:
-      value:   "3"
-      comment: "The level of detail to provide slurmd daemon's logs. Values from 0 to 9 are legal"
-    ReturnToService:
-      value:   "2"
-      comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
+  ClusterName: 
+    value:   "%{hiera('slurm_cluster_name')}"
+    comment: "The name by which this SLURM managed cluster is known in the accounting database"
+  ControlMachine:
+    value:   "%{hiera('slurm_primary_server')}"
+    comment: "Hostname of the machine where SLURM control functions are executed"
+  BackupController:
+    value:   "%{hiera('slurm_secondary_server')}"
+    comment: "Machine where SLURM control functions are to be executed if ControlMachine fails"
+  SlurmUser:
+    value:   "%{hiera('profiles::jobsched::user')}"
+    comment: "The name of the user that the slurmctld daemon executes as"
+  SlurmdUser:
+    value:   "%{hiera('slurmd_user')}"
+    comment: "The name of the user that the slurmd daemon executes as"
+  DisableRootJobs:
+    value:   "YES"
+    comment: "If set to 'YES' then user root will be prevented from running any jobs"
+  CacheGroups:
+    value:   "0"
+    comment: "If set to 1 the slurmd daemon will cache /etc/groups entries. This can improve performance for highly parallel jobs"
+  GroupUpdateForce:
+    value:   "1"
+    comment: "If set to 1 then information about which users are members of groups allowed to use a partition will be updated periodically"
+  GroupUpdateTime:
+    value:   "600"
+    comment: "Controls how frequently information about which users are members of groups allowed to use a partition will be updated"
+  UsePAM:
+    value:   "1"
+    comment: "If set to 1 authentication by PAM will be enabled"
+  SwitchType:
+    value:   "switch/none"
+    comment: "Identifies the type of switch or interconnect used for application communications. Acceptable values include 'switch/none' and 'switch/elan'"
+  TreeWidth:
+    value:   "600"
+    comment: "Slurmd daemons use a virtual tree network for communications. IMPORTANT: configure TreeWidth to a number at least as large as the maximum node count!!"
+  HealthCheckProgram:
+    value:   "/usr/sbin/nhc"
+    comment: "Script to execute as user root periodically on all compute nodes. This may be used to verify the node is fully operational and DRAIN the node if a problem is detected."
+  HealthCheckInterval:
+    value:   "300"
+    comment: "The interval in seconds between executions of HealthCheckProgram. If value is zero execution will be disabled"
+  InactiveLimit:
+    value:   "0"
+    comment: "IMPORTANT : Script /usr/local/sbin/slurm_srun_prolog.visu require set up this value to zero"
+  MessageTimeout:
+    value:   "30"
+    comment: "Time permitted for a round-trip communication to complete in seconds"
+  ResvOverRun:
+    value:   "10"
+    comment: "Describes how long (in minutes] a job already running in a reservation should be permitted to execute after the end time of the reservation has been reached"
+  MaxJobCount:
+    value:   "5000"
+    comment: "The maximum number of jobs SLURM can have in its active database at one time"
+  SlurmctldTimeout:
+    value:   "60"
+    comment: "The interval in seconds that the backup controller waits for the primary controller to respond before assuming control"
+  SlurmdTimeout:
+    value:   "120"
+    comment: "The interval in seconds that the SLURM controller waits for slurmd to respond before configuring that node's state to DOWN"
+  SchedulerType:
+    value:   "sched/backfill"
+    comment: "sched/wiki or sched/wiki2: for the Wiki interface to the Maui Schedule"
+  SelectType:
+    value:   "select/cons_res"
+    comment: "select/cons_res: The resources within a node are individually allocated as consumable resources. Note that whole nodes can be allocated to jobs for selected partitions by using the Shared=Exclusive option. Defines specific subsystems which should provide more detailed event logging. Valid subsystems available today (with more to come) include:"
+  SelectTypeParameters:
+    value:   "CR_CPU_Memory"
+    comment: ""
+  PropagateResourceLimits:
+    value:   "NONE"
+    comment: "The following limit names are supported by SLURM: ALL NONE AS CORE CPU DATA FSIZE MEMLOCK NOFILE NPROC RSS STACK. A list of comma separated resource limit names to exclude"
+  EnforcePartLimits:
+    value:   "YES"
+    comment: "If set to 'YES' then jobs which exceed a partition's size and/or time limits will be rejected at submission time"
+  JobSubmitPlugins:
+    value:   "lua"
+    comment: "A comma delimited list of job submission plugins to be used. The specified plugins will be executed in the order listed."
+  MaxStepCount:
+    value:   "100000"
+    comment: "The maximum number of steps that any job can initiate"
+  MaxTasksPerNode:
+    value:   "28"
+    comment: "Maximum number of tasks SLURM will allow a job step to spawn on a single node"
+  TaskPlugin:
+    value:   "task/cgroup"
+    comment: "'task/affinity' 'task/cgroup' or 'task/none'"
+  ProctrackType:
+    value:   "proctrack/cgroup"
+    comment: "Identifies the plugin to be used for process tracking"
+  PriorityType:
+    value:   "priority/basic"
+    comment: "This specifies the plugin to be used in establishing a jobs scheduling priority. Supported values are 'priority/basic' and 'priority/multifactor'"
+  AccountingStorageType:
+    value:   "accounting_storage/slurmdbd"
+    comment: "'accounting_storage/filetxt' 'accounting_storage/mysql' 'accounting_storage/none' 'accounting_storage/pgsql' and 'accounting_storage/slurmdbd'"
+  AccountingStorageHost:
+    value:   "%{hiera('slurm_primary_server')}"
+  AccountingStorageBackupHost:
+    value:   "%{hiera('slurm_secondary_server')}"
+  TrackWCKey:
+    value:   "yes"
+    comment: "If you want to track wckeys (Workload Characterization Key) of users."
+  JobAcctGatherType:
+    value:   "jobacct_gather/linux"
+    comment: "The job accounting mechanism type. Acceptable values at present include 'jobacct_gather/aix' 'jobacct_gather/linux' and 'jobacct_gather/none'"
+  JobAcctGatherFrequency:
+    value:   "60"
+    comment: "A value of zero disables real the periodic job sampling and provides accounting information only on job termination. "
+  SlurmctldDebug:
+    value:   "3"
+    comment: "The level of detail to provide slurmctld daemon's logs. Values from 0 to 9 are legal"
+  SlurmdDebug:
+    value:   "3"
+    comment: "The level of detail to provide slurmd daemon's logs. Values from 0 to 9 are legal"
+  ReturnToService:
+    value:   "2"
+    comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
 
 ##### Slurm DBD database
 galera_base_name:             "%{hiera('cluster_prefix')}%{::my_db_server}"
@@ -510,8 +506,8 @@ profiles::http::slurmweb::config_options:
       comment: ''
       value:   "%(hostname)"
     secret_key:
-       comment: ''
-       value:   'none'
+      comment: ''
+      value:   'none'
     authentication:
       comment: ''
       value:   'disable'
