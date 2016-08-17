@@ -57,6 +57,7 @@ class slurm::ctld::params {
     }
     default: {
       $packages_manage =  false
+      $submit_lua_source = 'puppet:///modules/slurm/job_submit.lua'
     }
   }
 }
