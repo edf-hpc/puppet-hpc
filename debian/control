@@ -1,0 +1,23 @@
+Source: hpc-config
+Section: admin
+Priority: optional
+Maintainer: Thomas Hamel <thomas-externe.hamel@edf.fr>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://github.com/edf-hpc/puppet-hpc
+
+Package: hpc-config-pply
+Architecture: all
+Depends:
+ ${misc:Depends},
+ clustershell,
+ hiera-eyaml,
+ puppet,
+ python3,
+ python3-urllib3
+Description: Download and apply the Puppet HPC Configuration
+ Puppet HPC Configuration is a collection of puppet modules and hiera
+ configuration designed to install an HPC cluster.
+ .
+ This package provide the hpc-config-apply script to deploy the configuration
+ on a cluster node during installation or boot.
