@@ -2,8 +2,8 @@ Source: hpc-config
 Section: admin
 Priority: optional
 Maintainer: Thomas Hamel <thomas-externe.hamel@edf.fr>
-Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5)
+Standards-Version: 3.9.6
 Homepage: https://github.com/edf-hpc/puppet-hpc
 
 Package: hpc-config-pply
