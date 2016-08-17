@@ -52,6 +52,10 @@ end
   <%- when 'ini' -%>
   <%- conf.each do | section, content | -%>
 <%= '['+section+']' %>
+    <%- if not content.is_a?(::Hash)
+          raise "Content of section #{section} (#{@name}) is not a Hash (#{content}), not valid for an 'ini' style file."   
+        end
+    -%>
     <%- content.each do | key, kcont | -%>
 <%= entry_to_string(key, kcont) %>
     <%- end -%>
