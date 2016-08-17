@@ -69,6 +69,48 @@
          d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
          transform="scale(0.6) rotate(180) translate(0,0)" />
     </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-3"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-6"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-9"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-27"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-0"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -78,8 +120,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="413.52644"
-     inkscape:cy="808.13116"
+     inkscape:cx="483.79273"
+     inkscape:cy="805.07937"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -96,7 +138,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -171,26 +213,36 @@
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="234.35539"
-       y="183.631"
+       y="179.631"
        id="text3795"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3797"
          x="234.35539"
-         y="183.631"
+         y="179.631"
          style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">&lt;env&gt;/&lt;version&gt;/files</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="233.65491"
-       y="204.80554"
+       y="194.80554"
        id="text3795-3"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          x="233.65491"
-         y="204.80554"
+         y="194.80554"
          style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
-         id="tspan3820">&lt;env&gt;/&lt;version&gt;/hiera.yaml</tspan></text>
+         id="tspan3820">&lt;env&gt;/&lt;version&gt;/hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="233.65491"
+         y="209.80554"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3094">&lt;env&gt;/&lt;version&gt;/puppet.conf</tspan><tspan
+         sodipodi:role="line"
+         x="233.65491"
+         y="224.80554"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3096" /></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -313,7 +365,12 @@
          x="-56.219101"
          y="240.05135"
          style="font-size:12px"
-         id="tspan3998">hiera.yaml</tspan></text>
+         id="tspan3998">hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="-56.219101"
+         y="255.05135"
+         style="font-size:12px"
+         id="tspan3092">puppet.conf</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
        d="m 108.43295,78.340538 117.48408,1.239487"
@@ -364,7 +421,7 @@
        sodipodi:nodetypes="ccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
-       d="m 12.46846,237.11832 c 4.04061,0 134.39925,0.35714 134.39925,0.35714 l 83.44707,-34.65157"
+       d="m 12.46846,237.11832 c 4.04061,0 134.39925,0.35714 134.39925,0.35714 l 84.87564,-43.93728"
        id="path4054"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
@@ -532,6 +589,46 @@
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
        d="m 615.93569,17.814608 0,277.286872"
        id="path4821-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 21.431412,250.0535 c 4.04061,0 134.399248,0.35714 134.399248,0.35714 l 73.44707,-41.79443"
+       id="path4054-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="648.75488"
+       y="178.89259"
+       id="text3795-3-7-8-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="178.89259"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3820-5-9-3">/etc/puppet</tspan><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="193.89259"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4140-3-6">hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="208.89259"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan3153">puppet.conf</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 438.59931,190.44025 207.69126,0.5484"
+       id="path4152-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 443.5993,206.15454 202.69126,0.36983"
+       id="path4152-1-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
   </g>
