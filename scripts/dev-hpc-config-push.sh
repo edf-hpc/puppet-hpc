@@ -6,8 +6,8 @@ puppethpc_dir="$(dirname "${script_dir}")"
 hpcprivate_dir="$(dirname "${puppethpc_dir}")/hpc-privatedata"
 environment='production'
 version='latest'
-destination_host="atiqservice1"
-destination_path="/var/admin/public/http/mirror/hpc-config"
+destination_host="${DESTINATION_HOST:-service1}"
+destination_path="${DESTINATION_PATH:-/var/admin/public/http/mirror/hpc-config}"
 destination="${destination_host}:${destination_path}"
 destination_cmd=( "ssh" "${destination_host}" )
 
