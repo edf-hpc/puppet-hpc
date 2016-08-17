@@ -2,3 +2,4 @@ README.md
 scripts/debug-hiera.sh
 scripts/debug-facts.sh
 scripts/debug-yamllint.sh
+examples/hpc-config.conf
