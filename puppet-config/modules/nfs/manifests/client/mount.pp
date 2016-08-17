@@ -44,6 +44,10 @@ define nfs::client::mount (
       ensure  => 'directory',
       require => Exec["creating_${mountpoint}"],
     }
+
+    $mount_require = File[$mountpoint]
+  } else {
+    $mount_require = undef
   }
 
   # Mount the device
@@ -57,6 +61,7 @@ define nfs::client::mount (
     pass     => 0,
     remounts => $remounts,
     dump     => 0,
+    require  => $mount_require,
   }
 
 }
