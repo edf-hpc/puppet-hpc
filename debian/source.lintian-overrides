@@ -1,0 +1,3 @@
+hpc-config source: source-is-missing puppet-config/modules_3rdparty/augeasprovider_pam/doc/js/jquery.js
+hpc-config source: source-contains-unsafe-symlink puppet-config/modules/warewulf_nhc/spec/fixtures/modules/stdlib
+hpc-config source: source-contains-unsafe-symlink puppet-config/modules/slurmweb/spec/fixtures/modules/stdlib
