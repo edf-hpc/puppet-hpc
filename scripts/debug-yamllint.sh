@@ -4,6 +4,15 @@ puppet_env="${PUPPET_ENVIRONMENT:-production}"
 
 hpc_puppet_hieradata_dir=/etc/puppet/environments/${puppet_env}/hieradata
 
+
+if [ $# -gt 0 ]
+then
+  target_dirs=( "${@}" )
+else
+  target_dirs=( "${hpc_puppet_hieradata_dir}" )
+fi
+
+
 yamllint_config="$(mktemp --tmpdir yamllint_config_XXXXX.yaml)"
 
 if [ -z "${yamllint_config}" ]
@@ -45,7 +54,7 @@ rules:
 
 EOF
 
-yaml_files="$(find "${hpc_puppet_hieradata_dir}" -name "*.yaml")"
+yaml_files="$(find "${target_dirs[@]}" -name "*.yaml")"
 
 yamllint -c "${yamllint_config}" ${yaml_files}
 
