@@ -15,7 +15,7 @@
 
 class slurm::ctld::install inherits slurm::ctld {
 
-  if $::slurm::ctld::package_manage {
+  if $::slurm::ctld::packages_manage {
     package { $::slurm::ctld::packages:
       ensure => $::slurm::ctld::package_ensure,
     }
