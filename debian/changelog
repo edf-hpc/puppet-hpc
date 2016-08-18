@@ -1,3 +1,28 @@
+hpc-config (0.2-0calibre1~bpo8+1) calibre9; urgency=medium
+
+  [ Thomas HAMEL ]
+  * doc Add updated schema for dev push & apply
+
+  [ Thomas Hamel ]
+  * Add initial debian stuff for hpc-config-apply
+  * Remove gbp config
+  * Fix lintian issues
+  * Add an example and systemd service file
+  * Install systemd service file and example config
+  * Add systemd stuff to control and rules
+  * fix typo in package name
+  * Fix install paths (wrongly included file name in dest)
+  * Disable automatic start during package install
+
+  [ Thomas HAMEL ]
+  * doc Add missing steps in privatedata generation and use of apply package
+  * scripts:h-c-a Correctly pass root_source_port for keys
+  * prof:http Add a vhost for secrets (keys)
+
+  [ root ]
+
+ -- Thomas HAMEL <thomas-externe.hamel@edf.fr>  Thu, 18 Aug 2016 10:45:10 +0100
+
 hpc-config (0.1-0calibre1~bpo8+1) calibre9; urgency=low
 
   * Initial release
