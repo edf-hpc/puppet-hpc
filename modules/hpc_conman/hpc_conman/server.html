@@ -112,9 +112,14 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Create a conman server with the hpc default config</p>
+
+<p>If <code>$vip_name</code> is provided, the service is not started
+automatically by systemd. It will be started by a script
+for a <code>hpc_ha::vip</code>.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,13 +130,13 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">vip_name </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::vip_name</tt></li><li><span class="name">roles </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::roles</tt></li><li><span class="name">device_type </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::device_type</tt></li><li><span class="name">prefix </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li>
+    <li><span class="name">vip_name </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::vip_name</tt> - <div class="inline"><p> String representing the name of `Hpc_ha::Vip` resource </p></div></li><li><span class="name">roles </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::roles</tt> - <div class="inline"><p> Array of roles to define console for </p></div></li><li><span class="name">device_type </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_conman::server::params::device_type</tt> - <div class="inline"><p> Device type (`ipmi` or `telnet`) </p></div></li><li><span class="name">prefix </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Hostname prefix (default depends on the `$device_type`) </p></div></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Port (default depends on the `$device_type) </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Tue Aug  9 09:34:27 2016 by
+  Generated on Thu Aug 18 08:49:58 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
