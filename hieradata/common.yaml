@@ -111,6 +111,9 @@ profiles::http::serveradmin:     'webmaster@localhost'
 profiles::http::scriptalias:     "%{hiera('profiles::http::mirror::docroot')}/cgi-bin"
 profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
 
+profiles::http::secret::port:    '1216'
+profiles::http::secret::docroot: "%{hiera('admin_dir')}/restricted/secrets"
+
 ###### P2P
 profiles::p2p::tracker_path: "%{hiera('website_dir')}/ram"
 
