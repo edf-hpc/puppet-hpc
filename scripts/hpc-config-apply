@@ -26,6 +26,7 @@ HIERA_CONF_PATH = '/etc/puppet/hiera.yaml'
 PUPPET_CONF_ARCHIVE_NAME = 'puppet.conf'
 PUPPET_CONF_PATH = '/etc/puppet/puppet.conf'
 
+
 def get_parameter(key, default, config_section, args):
     if key in args:
         return vars(args)[key]
@@ -179,7 +180,7 @@ def get_file_for_url(url, root_source_port=False):
 
 
 def extract_url(url, path, root_source_port=False):
-    source_file = get_file_for_url(url)
+    source_file = get_file_for_url(url, root_source_port)
     archive = tarfile.open(fileobj=source_file, mode='r:xz')
     archive.extractall(path=path)
 
@@ -275,7 +276,7 @@ def puppet_apply(environment, deploy_step, verbosity=0):
         apply_options = ['--logdest', 'syslog']
 
     manifests_path = os.path.join(
-         PUPPET_ENV_BASE_PATH, environment, 'manifests', 'cluster.pp')
+        PUPPET_ENV_BASE_PATH, environment, 'manifests', 'cluster.pp')
 
     subprocess.call(['/usr/bin/puppet', 'apply'] + apply_options + [
         '--environment', environment,
