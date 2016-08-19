@@ -51,35 +51,33 @@ class profiles::metrics::collect_base {
   ::collectd::plugin::aggregation::aggregator { 'cpu':
     plugin           => 'cpu',
     type             => 'cpu',
-    groupby          => ["Host", "TypeInstance",],
+    groupby          => ['Host', 'TypeInstance',],
     calculateaverage => true,
     calculatesum     => true,
   }
 
   class { '::collectd::plugin::chain':
-    chainname     => "PostCache",
-    defaulttarget => "write",
-    rules         => [
-      {
-        'match' => {
-          'type'    => 'regex',
-          'matches' => {
-            'Plugin'         => '^cpu$',
-            'PluginInstance' => '^[0-9]+$',
-          }
-        },
-        'targets' => [
-          {
-            'type'      => 'write',
-            'attributes' => {
-              'Plugin' => 'aggregation',
-            },
-          },
-          {
-            'type' => "stop",
-          },
-        ],
+    chainname     => 'PostCache',
+    defaulttarget => 'write',
+    rules         => [{
+      'match'  => {
+        'type'    => 'regex',
+        'matches' => {
+          'Plugin'         => '^cpu$',
+          'PluginInstance' => '^[0-9]+$',
+        }
       },
-    ],
+      'targets' => [
+        {
+          'type' => 'write',
+          'attributes' => {
+            'Plugin' => 'aggregation',
+          },
+        },
+        {
+          'type' => 'stop',
+        },
+      ],
+    },],
   }
 }
