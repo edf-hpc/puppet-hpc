@@ -59,6 +59,8 @@ class profiles::http::secret {
     serveradmin   => $serveradmin,
     log_level     => $log_level,
     serveraliases => $serveraliases,
+    docroot_mode  => '0750',
+    docroot_group => 'www-data',
   }
 
   shorewall::rule { 'secret_inbound':
