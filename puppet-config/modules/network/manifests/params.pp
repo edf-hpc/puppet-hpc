@@ -155,7 +155,7 @@ class network::params {
   $mlx4load    = 'yes'
   $ib_options_defaults = {
     'onboot'                       => 'yes',
-    'node_desc'                    => 'ib$(hostname -s)',
+    'node_desc'                    => 'll$(hostname -s)',
     'node_desc_time_before_update' => '20',
     'set_ipoib_channels'           => 'no',
     'run_affinity_tuner'           => 'no',

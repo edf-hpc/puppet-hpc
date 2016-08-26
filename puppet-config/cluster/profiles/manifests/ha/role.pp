@@ -27,9 +27,9 @@
 # ```
 # #### High-Availability Virtual IP addresses ######
 # profiles::ha::role_vips:
-#   clusterloc_misc:
+#   administration_misc:
 #     prefix:      "%{hiera('cluster_prefix')}"
-#     net_id:      'clusterloc'
+#     net_id:      'administration'
 #     router_id:   '121'
 #     ip_address:  '10.100.2.20'
 #     auth_secret: 'SECRET'
