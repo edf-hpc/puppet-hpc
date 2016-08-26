@@ -9,7 +9,7 @@ profiles:
   - profiles::sudo::base
   - profiles::jobsched::exec
 
-network::mlx4load: 'no'
-profiles::network::gw_connect: 'clusterloc'
-sssd::case_sensitive: 'false'
+network::mlx4load:                'no'
+profiles::network::gw_connect:    'administration'
+sssd::case_sensitive:             'false'
 certificates::certificates_owner: 'root'
