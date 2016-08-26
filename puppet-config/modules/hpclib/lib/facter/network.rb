@@ -59,65 +59,51 @@ net_topology = hiera.lookup(
 
 
 ### Begin parsing ###
-if !masternetwork.nil? and masternetwork.length > 0 
-  masternetwork.each do | line|
-    ### Set mymasternet used to generate local network config ###
-    if ( eth_hwaddr.length > 0 and line.match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and line.match(/[;,]#{h_name}[;,]/) )
-        mymasternet = line.chomp.split(';')
+if !masternetwork.nil? and masternetwork.length > 0
+  ### Set mymasternet used to generate local network config ###
+  if ( eth_hwaddr.length > 0 and masternetwork[h_name]['networks']['administration']['MAC'].match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and masternetwork[h_name]['networks']['administration']['hostame'].match(/[;,]#{h_name}[;,]/) )
+    mymasternet = masternetwork[h_name]
+  end
+  ### Begin parsing ###
+  masternetwork.each do | machine,params|
+    networks = params['networks']
+    networks.each do |n_name,n_params|
+      hname   = n_params['hostname']
+      macaddr = n_params['MAC'].to_s
+      ipaddr  = n_params['IP'].to_s
+      #### Set dhcpconfig used to generate dhcpd config files and /etc/hosts ###
+      #### Structure: {"hostname"=>{"macaddress"=>"00:00:00:00:00:AA", "ipaddress"=>"10.0.0.1"}} ###
+      if ( macaddr.length > 0 ) 
+        dhcpconfig[hname] = Hash.new
+        dhcpconfig[hname]["macaddress"] = macaddr
+        dhcpconfig[hname]['ipaddress']  = ipaddr
+      end
+      #### Set hostfile used to generate /etc/hosts file (may differ from dhcp configuration) ###
+      #### Structure: {"hostname"=>"10.0.0.1"} ###
+      hostfile[hname] = ipaddr
     end
-    element = line.split(";") 
-    i = 0; macadds   = Array.new; macadds   = element[i].split(",") unless element[i].empty?
-    i = 2; hnames    = Array.new; hnames    = element[i].split(",") unless element[i].empty?
-    i = 3; addresses = Array.new; addresses = element[i].split(",") unless element[i].empty?
-    i = 5; dhcpd     = Array.new; dhcpd     = element[i].split(",") unless element[i].empty?
-    i = 7; hosts     = Array.new; hosts     = element[i].split(",") unless element[i].empty?
-    #### Set dhcpconfig used to generate dhcpd config files and /etc/hosts ###
-    #### Structure: {"hostname"=>{"macaddress"=>"00:00:00:00:00:AA", "ipaddress"=>"10.0.0.1"}} ###
-    dhcpd.each do | triplet|
-      index = triplet.split("@")
-      mca = index[0].to_i; hnm = index[1].to_i; add = index[2].to_i;
-      dhcpconfig[hnames[hnm]] = Hash.new 
-      dhcpconfig[hnames[hnm]]['macaddress'] = macadds[mca]
-      dhcpconfig[hnames[hnm]]['ipaddress'] = addresses[add]
-    end
-    #### Set hostfile used to generate /etc/hosts file (may differ from dhcp configuration) ###
-    #### Structure: {"hostname"=>"10.0.0.1"} ###
-    hosts.each do | duplet|
-      index = duplet.split("@")
-      hnm = index[0].to_i; add = index[1].to_i;
-      hostfile[hnames[hnm]] = addresses[add]
-    end
-  end 
-  ### End parsing ###
+  end
+### End parsing ###
 
   if not mymasternet
     raise "Could not find an entry for this node in master_network hiera array (no matching name or MAC address)"
   end
-  i = 1; ifaces    = Array.new; ifaces    = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 3; addresses = Array.new; addresses = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 4; netmasks  = Array.new; netmasks  = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  i = 6; netcfg    = Array.new; netcfg    = mymasternet[i].split(",") unless mymasternet[i].empty? 
-  ### Set netconfig used to generate local network config and mynet_toplogy ###
-  netcfg.each do |iface_config| 
-    index = iface_config.split("@")
-    iface   = ifaces[index[0].to_i]
-    address = addresses[index[1].to_i]
-    netmask = netmasks[index[2].to_i]
-    external_config = false
-    if index.length > 3 and index[3] == 'true'
-        external_config = true
-    end
 
+  mymasternet['networks'].each do |network,params|
+    iface   = params['device']
+    address = params['IP']
+    nmask   = net_topology[network]['netmask']
     ### Build netconfig (iface -> Address)                   ###
     ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
-    if not external_config
-      if not netconfig.has_key?(iface)
-        netconfig[iface] = Array.new
+    if not params['external_config']
+      if iface
+        if not netconfig.has_key?(iface)
+          netconfig[iface] = Array.new
+        end
+        netconfig[iface].push(address+"/"+nmask)
+        ifaces_target[iface] = {'target' => iface} if os == 'Redhat'
       end
-      netconfig[iface].push(address+"/"+netmask)
-      ifaces_target[iface] = {'target' => iface} if os == 'Redhat'
     end
-
     ### Build mynet_topology (net name -> iface association)
     ### Structure: {
     ###               "net_id"=> {
@@ -128,35 +114,22 @@ if !masternetwork.nil? and masternetwork.length > 0
     ###               }
     ###            }
     ### multiple interfaces on the same net_id should be rare
-    found_net = nil
-    # Search the network where the address is in
-    if !net_topology.nil? and masternetwork.length > 0
-      net_topology.each do |net_id, net|
-        if not net.has_key?('prefix_length')
-          next
-        end
-        ip_net = IPAddr.new(net['ipnetwork'] + net['prefix_length'])
-        if ip_net === address
-          found_net = net_id
-          break
-        end
+    if iface
+    mynet_topology[network] = Hash.new
+      if not mynet_topology[network].has_key?('interfaces')
+          mynet_topology[network]['interfaces'] = Array.new
       end
-      if found_net != nil
-        if not mynet_topology.has_key?(found_net)
-          # This network is new
-          mynet_topology[found_net] = Hash.new
-          mynet_topology[found_net]['interfaces'] = Array.new
-          mynet_topology[found_net]['name'] = net_topology[found_net]['name']
-          mynet_topology[found_net]['firewall_zone'] = net_topology[found_net]['firewall_zone']
-          mynet_topology[found_net]['external_config'] = net_topology[found_net]['external_config']
-        end
-        # Even if the net already existed, adding the interface
-        mynet_topology[found_net]['interfaces'].push(iface)
+      mynet_topology[network]['interfaces'].push(iface) 
+      mynet_topology[network]['name']          = net_topology[network]['name']
+      mynet_topology[network]['firewall_zone'] = net_topology[network]['firewall_zone']
+      if params['external_config']
+        mynet_topology[network]['external_config'] = params['external_config']
+      else
+        mynet_topology[network]['external_config'] = false
       end
     end
   end
 end
-
 ### Add facters ###
 Facter.add(:netconfig) do
   setcode do
