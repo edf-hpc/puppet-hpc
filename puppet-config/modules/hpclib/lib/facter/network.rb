@@ -61,7 +61,7 @@ net_topology = hiera.lookup(
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0
   ### Set mymasternet used to generate local network config ###
-  if ( eth_hwaddr.length > 0 and masternetwork[h_name]['networks']['administration']['MAC'].match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and masternetwork[h_name]['networks']['administration']['hostame'].match(/[;,]#{h_name}[;,]/) )
+  if ( eth_hwaddr.length > 0 and masternetwork[h_name]['networks']['administration']['DHCP_MAC'].match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and masternetwork[h_name]['networks']['administration']['hostame'].match(/[;,]#{h_name}[;,]/) )
     mymasternet = masternetwork[h_name]
   end
   ### Begin parsing ###
@@ -69,7 +69,7 @@ if !masternetwork.nil? and masternetwork.length > 0
     networks = params['networks']
     networks.each do |n_name,n_params|
       hname   = n_params['hostname']
-      macaddr = n_params['MAC'].to_s
+      macaddr = n_params['DHCP_MAC'].to_s
       ipaddr  = n_params['IP'].to_s
       #### Set dhcpconfig used to generate dhcpd config files and /etc/hosts ###
       #### Structure: {"hostname"=>{"macaddress"=>"00:00:00:00:00:AA", "ipaddress"=>"10.0.0.1"}} ###
