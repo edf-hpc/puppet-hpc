@@ -34,9 +34,11 @@ class profiles::network::base {
     fail("Undefined WAN network ${net_keyword} in \$net_topology.")
   }
   $defaultgw = $net_topology[$net_keyword]['gateway']
+  $fqdn      = $mymasternet['fqdn']
 
   class { '::network':
     defaultgw => $defaultgw,
     stage     => 'first',
+    fqdn      => $fqdn,
   }
 }

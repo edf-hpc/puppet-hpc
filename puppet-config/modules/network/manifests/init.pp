@@ -41,6 +41,7 @@
 #                        host, see above (default: {})
 class network (
   $defaultgw,
+  $fqdn,
   $routednet                   = $::network::params::routednet,
   $hostname_augeas_path        = $::network::params::hostname_augeas_path,
   $hostname_augeas_change      = $::network::params::hostname_augeas_change,
