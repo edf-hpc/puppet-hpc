@@ -18,6 +18,10 @@
 # ## Hiera
 # * `libcalibre`
 # * `profiles::cluster::root_password_hash`
+# * `profiles::cluster::apt_sources` (`hiera_hash`) APT repository sources
+#                                    as defined by `apt::source`
+# * `profiles::cluster::apt_confs` (`hiera_hash`) APT configs as defined by
+#                                  `apt::conf`
 class profiles::cluster::common {
   # Set the root password
   $root_password = hiera('profiles::cluster::root_password_hash')
@@ -34,9 +38,13 @@ class profiles::cluster::common {
 
   # Set apt config
   if $::osfamily == 'Debian' {
-    $apt_sources = hiera_hash('profiles::cluster::apt_sources')
     class { 'apt': }
+
+    $apt_sources = hiera_hash('profiles::cluster::apt_sources')
     create_resources(apt::source, $apt_sources)
+
+    $apt_confs = hiera_hash('profiles::cluster::apt_confs')
+    create_resources(apt::conf, $apt_confs)
 
     Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
