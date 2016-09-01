@@ -61,7 +61,7 @@ net_topology = hiera.lookup(
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0
   ### Set mymasternet used to generate local network config ###
-  if ( eth_hwaddr.length > 0 and masternetwork[h_name]['networks']['administration']['DHCP_MAC'].match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and masternetwork[h_name]['networks']['administration']['hostame'].match(/[;,]#{h_name}[;,]/) )
+  if ( eth_hwaddr.length > 0 and masternetwork[h_name]['networks']['administration']['DHCP_MAC'].match(/\b#{eth_hwaddr}\b/i) ) or ( h_name.length > 0 and masternetwork[h_name]['networks']['administration']['hostname'].match(/[;,]#{h_name}[;,]/) )
     mymasternet = masternetwork[h_name]
   end
   ### Begin parsing ###
