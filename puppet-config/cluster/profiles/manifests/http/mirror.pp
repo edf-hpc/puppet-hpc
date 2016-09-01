@@ -21,6 +21,8 @@
 # * `profiles::http::error_log_file`
 # * `profiles::http::log_level`
 # * `profiles::http::mirror::docroot`
+# * `profiles::http::mirror::hpc_files` (`hiera_hash`) Create resource
+#                                       hpclib::hpc_file to add keys
 # * `profiles::http::port`
 # * `profiles::http::scriptalias`
 # * `profiles::http::serveradmin`
@@ -46,7 +48,6 @@ class profiles::http::mirror {
   $serveraliases = ["${servername}.cluster"]
 
   # Pass config options as a class parameter
-
   apache::vhost { $servername:
     port           => $port,
     docroot        => $docroot,
@@ -56,4 +57,7 @@ class profiles::http::mirror {
     serveraliases  => $serveraliases,
     scriptalias    => $scriptalias,
   }
+
+  $hpc_files = hiera_hash('profiles::http::mirror::hpc_files')
+  create_resources(hpclib::hpc_file, $hpc_files)
 }
