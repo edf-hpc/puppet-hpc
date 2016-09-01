@@ -19,18 +19,18 @@
 #
 # ## Ctorrent
 # Ctorrent is configured with the hiera key
-# `profiles::p2p::seeder::ctorrent_cfg`, used to generate the file
+# `profiles::p2p::seeder::ctorrent_options`, used to generate the file
 # `/etc/default/ctorrent` witch control options for the ctorrent service like
 # file(s) to seed, torrent file and daemon options.
 #
 # ## Hiera
 # * `cluster`
-# * `profiles::p2p::seeder::ctorrent_cfg`
+# * `profiles::p2p::seeder::ctorrent_options`
 class profiles::p2p::seeder {
 
   ## Hiera lookups
   $cluster          = hiera('cluster_name')
-  $ctorrent_options = hiera('profiles::p2p::seeder::ctorrent_cfg')
+  $ctorrent_options = hiera('profiles::p2p::seeder::ctorrent_options')
 
   class { '::ctorrent':
     cluster          => $cluster,
