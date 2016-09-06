@@ -23,30 +23,35 @@
 # * `profiles::cluster::apt_confs` (`hiera_hash`) APT configs as defined by
 #                                  `apt::conf`
 class profiles::cluster::common {
+  # Setup staging
+  stage { 'first': }
+  stage { 'last': }
+  Stage['first'] -> Stage['main'] -> Stage['last']
+
   # Set the root password
   $root_password = hiera('profiles::cluster::root_password_hash')
-  user { 'root':
-    ensure   => present,
+  class { '::hpc_user::root':
     password => $root_password,
+    stage    => 'first',
+  }
+
+  # Set apt config
+  if $::osfamily == 'Debian' {
+    $apt_sources = hiera_hash('profiles::cluster::apt_sources')
+    $apt_confs   = hiera_hash('profiles::cluster::apt_confs')
+    class { '::hpc_apt':
+      stage   => 'first',
+      confs   => $apt_confs,
+      sources => $apt_sources,
+    }
+
+    Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
 
   # Create /var/lib/calibre or equivalent
   $libcalibre_path = hiera('libcalibre')
   file { $libcalibre_path:
     ensure => directory
-  }
-
-  # Set apt config
-  if $::osfamily == 'Debian' {
-    class { 'apt': }
-
-    $apt_sources = hiera_hash('profiles::cluster::apt_sources')
-    create_resources(apt::source, $apt_sources)
-
-    $apt_confs = hiera_hash('profiles::cluster::apt_confs')
-    create_resources(apt::conf, $apt_confs)
-
-    Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
 
 }

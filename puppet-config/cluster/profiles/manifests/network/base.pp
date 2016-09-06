@@ -37,5 +37,6 @@ class profiles::network::base {
 
   class { '::network':
     defaultgw => $defaultgw,
+    stage     => 'first',
   }
 }
