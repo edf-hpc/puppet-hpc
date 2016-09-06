@@ -45,7 +45,7 @@ define nfs::client::mount (
       require => Exec["creating_${mountpoint}"],
     }
 
-    $mount_require = File[$mountpoint]
+    $mount_require = [File[$mountpoint], Class['::nfs']]
   } else {
     $mount_require = undef
   }
