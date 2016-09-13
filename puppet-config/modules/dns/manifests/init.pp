@@ -15,6 +15,8 @@
 
 class dns (
   $domain = '',
+  $local_domain = '',
 ){
+  validate_string($local_domain)
   validate_string($domain)
 }

@@ -31,7 +31,7 @@ $TTL     <%= clzonedef['TTL'] %>
 <% end %>)
 
 ;
-@       IN      NS      <%= @hostname+"."+@domain%>.
+@       IN      NS      <%= @hostname+"."+@local_domain%>.
 @       IN      A       127.0.0.1
 <% @hostfile.sort.map do | name,address | -%>
         <%- unless address.empty? then -%>
