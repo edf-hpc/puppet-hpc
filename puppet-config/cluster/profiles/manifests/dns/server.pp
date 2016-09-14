@@ -22,7 +22,7 @@ class profiles::dns::server {
 
   ## Hiera lookups
   $config_options = hiera_hash('profiles::dns::server::config_options')
-  $domain         = hiera('domain')
+  $domain         = hiera('local_domain')
 
   # Pass config options as a class parameter
   class { '::dns::server':
