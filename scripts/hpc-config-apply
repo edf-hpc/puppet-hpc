@@ -23,6 +23,9 @@ KEYS_BASE_PATH = '/etc/puppet/secure'
 HIERA_CONF_ARCHIVE_NAME = 'hiera.yaml'
 HIERA_CONF_PATH = '/etc/puppet/hiera.yaml'
 
+FACTS_CONF_ARCHIVE_NAME = 'hpc-config-facts.yaml'
+FACTS_CONF_PATH = '/var/lib/puppet/facts.d/hpc-config-facts.yaml'
+
 PUPPET_CONF_ARCHIVE_NAME = 'puppet.conf'
 PUPPET_CONF_PATH = '/etc/puppet/puppet.conf'
 
@@ -229,6 +232,21 @@ def get_hiera_conf(source, environment, version='latest'):
     get_url(hiera_conf_url, HIERA_CONF_PATH)
     return
 
+def get_facts_conf(source, environment, version='latest'):
+    facts_conf_url = '/'.join([
+        source,
+        environment,
+        version,
+        FACTS_CONF_ARCHIVE_NAME
+    ])
+    logging.info(
+        "Getting Facts config from %s" % facts_conf_url
+    )
+    if os.path.exists(FACTS_CONF_PATH):
+        os.remove(FACTS_CONF_PATH)
+    get_url(facts_conf_url, FACTS_CONF_PATH)
+    return
+
 
 def get_puppet_conf(source, environment, version='latest'):
     puppet_conf_url = '/'.join([
@@ -298,6 +316,8 @@ if __name__ == "__main__":
     get_puppet_environment(params['source'], params['environment'])
 
     get_hiera_conf(params['source'], params['environment'])
+
+    get_facts_conf(params['source'], params['environment'])
 
     get_puppet_conf(params['source'], params['environment'])
 

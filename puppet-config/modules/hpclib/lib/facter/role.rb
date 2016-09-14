@@ -6,6 +6,7 @@ options = {
   :config => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
   :scope => {
     'environment' => Puppet[:environment],
+    'cluster_name' => Facter.value(:cluster_name),
   },
   :key => nil,
   :verbose => false,
@@ -40,6 +41,7 @@ end
 
 options[:key] = "cluster_prefix"
 prefix = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
+Facter.debug("Cluster prefix is: #{prefix}")
 
 hostlist = Facter.value('hostfile')
 

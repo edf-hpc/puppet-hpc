@@ -17,6 +17,7 @@ options = {
   :config => hiera_cfg_file,
   :scope => {
     'environment' => Puppet[:environment],
+    'cluster_name' => Facter.value(:cluster_name),
   },
   :key => nil,
   :verbose => false,
@@ -44,6 +45,7 @@ roles.each do |currole|
   curprofiles = Array.new
   options[:scope] = {
     'environment' => Puppet[:environment],
+    'cluster_name' => Facter.value(:cluster_name),
     "puppet_role" => currole,
   }
   curprofiles = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])

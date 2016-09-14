@@ -6,6 +6,7 @@ puppethpc_dir="$(dirname "${script_dir}")"
 hpcprivate_dir="$(dirname "${puppethpc_dir}")/hpc-privatedata"
 environment='production'
 version='latest'
+cluster_name="${CLUSTER_NAME:-eole}"
 destination_host="${DESTINATION_HOST:-service1}"
 destination_path="${DESTINATION_PATH:-/var/admin/public/http/mirror/hpc-config}"
 destination="${destination_host}:${destination_path}"
@@ -26,11 +27,15 @@ generic_hieradata_dir="${puppethpc_dir}/hieradata"
 
 generic_manifests_dir="${puppethpc_dir}/puppet-config/manifests"
 
-private_files_dir="${hpcprivate_dir}/files"
+private_manifests_dir="${hpcprivate_dir}/puppet-config/${cluster_name}/manifests"
 
-private_hiera_yaml="${hpcprivate_dir}/hiera.yaml"
+private_files_dir="${hpcprivate_dir}/files/${cluster_name}"
 
-private_puppet_conf="${hpcprivate_dir}/puppet.conf"
+private_hiera_yaml="${hpcprivate_dir}/puppet-config/${cluster_name}/hiera.yaml"
+
+private_facts_yaml="${hpcprivate_dir}/puppet-config/${cluster_name}/hpc-config-facts.yaml"
+
+private_puppet_conf="${hpcprivate_dir}/puppet-config/${cluster_name}/puppet.conf"
 
 echo "## Creating env structure"
 
@@ -68,7 +73,12 @@ mkdir "${tmp_dir}/${environment}/hieradata"
 cp -a "${private_hieradata_dir}" "${tmp_dir}/${environment}/hieradata/private"
 cp -a "${generic_hieradata_dir}" "${tmp_dir}/${environment}/hieradata/generic"
 
-cp -a "${generic_manifests_dir}" "${tmp_dir}/${environment}/manifests"
+if [ -d "${private_manifests_dir}" ] 
+then
+	cp -a "${private_manifests_dir}" "${tmp_dir}/${environment}/manifests"
+else
+	cp -a "${generic_manifests_dir}" "${tmp_dir}/${environment}/manifests"
+fi
 
 echo "## Creating env config"
 
@@ -95,6 +105,8 @@ fi
 scp -qr "${private_files_dir}" "${destination}/${environment}/${version}/files"
 
 scp -q "${private_hiera_yaml}" "${destination}/${environment}/${version}/hiera.yaml"
+
+scp -q "${private_facts_yaml}" "${destination}/${environment}/${version}/hpc-config-facts.yaml"
 
 scp -q "${private_puppet_conf}" "${destination}/${environment}/${version}/puppet.conf"
 
