@@ -487,15 +487,6 @@ apt::purge_sources_list_d: true
 apt::purge_preferences_d:  true
 apt::update_timeout:       '10'
 
-profiles::cluster::apt_sources:
-  'debian_stable':
-    location: "http://%{hiera('cluster_prefix')}%{my_http_mirror}/mirror/jessie"
-    release: 'jessie'
-    repos: 'main contrib non-free'
-    required_packages: 'debian-keyring debian-archive-keyring'
-    pin: '500'
-    include_src: false
-
 ##### Slurmweb
 slurmweb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 profiles::http::slurmweb::config_options:
