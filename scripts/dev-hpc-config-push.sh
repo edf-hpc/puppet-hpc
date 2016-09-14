@@ -4,7 +4,7 @@ script_dir="$(readlink -f $(dirname "${BASH_SOURCE[0]}"))"
 
 puppethpc_dir="$(dirname "${script_dir}")"
 hpcprivate_dir="$(dirname "${puppethpc_dir}")/hpc-privatedata"
-environment='production'
+environment="${CONFIG_ENVIRONMENT:-production}"
 version='latest'
 cluster_name="${CLUSTER_NAME:-foobar}"
 destination_host="${DESTINATION_HOST:-service1}"
