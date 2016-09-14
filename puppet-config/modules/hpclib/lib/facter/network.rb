@@ -11,6 +11,7 @@ options = {
   :config  => File.join(Hiera::Util.config_dir, 'puppet/hiera.yaml'),
   :scope => {
     'environment' => Puppet[:environment],
+    'cluster_name' => Facter.value(:cluster_name),
   },
   :key     => nil,
   :verbose => false,
