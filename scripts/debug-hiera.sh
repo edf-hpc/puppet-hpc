@@ -1,6 +1,7 @@
 #!/bin/bash
 
-environment=production
+environment=${CONFIG_ENVIRONMENT:-production}
+cluster_name=${CLUSTER_NAME:-mycluster}
 
 scope_file=$(mktemp --tmpdir debug-hiera-scope-file_XXXXXX)
 
@@ -12,6 +13,7 @@ fi
 
 cat > "${scope_file}" << EOF
 environment: ${environment}
+cluster_name: ${cluster_name}
 EOF
 
 hiera -c /etc/puppet/hiera.yaml -y "${scope_file}" "${@}"

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-hpc_puppet_modules_dirs=/etc/puppet/environments/production/modules_*
+environment=${CONFIG_ENVIRONMENT:-production}
+
+hpc_puppet_modules_dirs=/etc/puppet/environments/${environment}/modules_*
 
 for dir in ${hpc_puppet_modules_dirs}
 do
