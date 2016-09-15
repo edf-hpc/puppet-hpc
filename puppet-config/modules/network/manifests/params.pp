@@ -189,4 +189,7 @@ class network::params {
     'ehca_load'                    => 'no',
   }
 
+  $bonding_options = {}
+  $bridge_options = {}
+
 }

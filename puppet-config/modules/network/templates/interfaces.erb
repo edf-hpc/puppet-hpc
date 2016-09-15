@@ -28,12 +28,14 @@
 <% netconfig = scope['::netconfig'] -%>
 <% defaultgw = scope['::network::defaultgw'] -%>
 <% bondcfg   = scope['::network::bonding_options'] -%>
+<% bridgecfg = scope['::network::bridge_options'] -%>
 <% routnet   = scope['::network::routednet'] -%>
 <% network_gw_set = String.new -%>
 <% bndprim = String.new -%>
 <% bndmode = String.new -%>
 <% routecfg = Hash.new -%>
 <% ctrl = 0 -%>
+<% ## Parse the supplementary routes ##-%>
 <%- if routnet.length > 0  -%>
   <%- routnet.each do | triplet| -%>
     <%- rcfg = triplet.split('@') -%>
@@ -44,17 +46,28 @@
     <%- ctrl += 1 -%>
   <%- end -%>
 <%- end -%>
+<% ## Insert bridged interfaces in the netconfig ##-%>
+<%- bridgecfg.map do | bridge, value | -%>
+  <%- ports = value['ports'] -%>
+  <%- ports.each do | port | -%>
+    <%- if not netconfig.include?(port) -%>
+      <%- netconfig[port] = [] -%>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>
+<% ## Initialization done, starting to actually write the file ##-%>
 auto lo
 iface lo inet loopback
 
-<% netconfig.sort.map do | card, value | -%>
+<% netconfig.sort.map do | card, value | -%><% ### Iterate cards (interface) ###-%>
   <%- default_gw_set = false -%>
-
+<% ## Configuring  `card` ##-%>
 ### <%= card %> Configuration ###
 allow-hotplug <%= card %>
 iface <%= card %> inet manual
+<% ### Bonding Begin ###-%>
   <%- if card.include?("bond") -%>
-# Bonding of multiple interfaces
+    # Bonding of multiple interfaces
     <%- bondcfg[card]['options'].split(' ').each do | opt | -%>
       <%- case opt.split('=')[0] when 'mode' -%>
         <%- bndmode = opt.split('=')[1] -%>
@@ -62,21 +75,31 @@ iface <%= card %> inet manual
         <%- bndprim = opt.split('=')[1] -%>
       <%- end -%>
     <%- end -%>
-<%= 'slaves '+bondcfg[card]['slaves'].join(' ') %>
-<%= 'bond_mode'+' '+bndmode %>
+<%= '    slaves '+bondcfg[card]['slaves'].join(' ') %>
+<%= '    bond_mode'+' '+bndmode %>
     <%- bondcfg[card]['slaves'].each do | slcard| -%>
-<%= 'post-up ip link set '+slcard+' up' %>
+<%= '    post-up ip link set '+slcard+' up' %>
     <%- end -%>
     <%- unless bndprim.empty? -%>
-<%= 'bond-primary'+' '+bndprim %>
+<%= '    bond-primary'+' '+bndprim %>
     <%- end -%>
+<% ### Bonding End ###-%>
+<% ### Bridging Begin ###-%>
+  <%- elsif card.include?("br") -%>
+    # Bridging of one or more interfaces
+<%= '    bridge_ports '+bridgecfg[card]['ports'].join(' ') %>
+<% ### Bridging End ###-%>
+<% ### Physical Begin ###-%>
   <%- else -%>
-# Interface not bonded
+    # Interface not bonded
+<% ### Physical End ###-%>
   <%- end -%>
-post-up ip link set <%= card %> up
-  <%- value.each do | ipadd| -%>
-post-up ip addr add <%= ipadd %> dev $IFACE || true
-pre-down ip addr del <%= ipadd %> dev $IFACE
+    post-up ip link set <%= card %> up
+  <%- value.each do | ipadd| -%><% ### Iterate Addresses for this card ###-%>
+<% ### Configure an address ###-%>
+    post-up ip addr add <%= ipadd %> dev $IFACE || true
+    pre-down ip addr del <%= ipadd %> dev $IFACE
+<% ### Configure the default gateway if this address is in the same subnet ###-%>
     <%- begin -%>
       <%- range = IPAddr.new(ipadd)  -%>
     <%- rescue -%>
@@ -87,19 +110,19 @@ pre-down ip addr del <%= ipadd %> dev $IFACE
       <%- addtrg = IPAddr.new(defaultgw) -%>
       <%- if range.include?(addtrg) -%>
         <%- default_gw_set = true -%>
-post-up ip route add default via <%= defaultgw %>
+    post-up ip route add default via <%= defaultgw %>
       <%- else -%>
-#default gateway <%= defaultgw %> not in range <%= range %>
+    # default gateway <%= defaultgw %> not in range <%= range %>
       <%- end -%>
     <%- else -%>
-#A default gateway is not necessary for this network
+    # A default gateway is not necessary for this network
     <%- end -%>
-    <%- if routecfg.include?(card) -%>
-      <%- routecfg[card].each do | duplet| -%>
-<%= 'post-up ip route add '+duplet.split('@')[0]+'/'+duplet.split('@')[1]+' dev $IFACE' %>
-      <%- end -%>
-    <%- else -%>
-<%= '#This network is not routed' %>
-    <%- end -%>
-  <%- end -%>
-<% end -%>
+  <%- end -%><% ### Address iteration End ###-%>
+  <%- if routecfg.include?(card) -%><% ### Card as supplementary routes ? ###-%>
+    <%- routecfg[card].each do | duplet| -%><% ### Iterate supplementary routes ###-%>
+<%= '    post-up ip route add '+duplet.split('@')[0]+'/'+duplet.split('@')[1]+' dev $IFACE' %>
+    <%- end -%><% ### Routes iteration End ###-%>
+  <%- else -%>
+<%= '    # This network has no supplementary routes' %>
+  <%- end -%><% ### Card as supplementary routes ? ###-%>
+<% end -%><% ### Card iteration End ###-%>
