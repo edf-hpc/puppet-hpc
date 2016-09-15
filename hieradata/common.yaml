@@ -18,12 +18,12 @@ ntp::iburst_enable: false
 ntp::disable_auth: true
 ntp::disable_monitor: false
 ntp::driftfile: '/var/lib/ntp/ntp.drift'
+# IPv6 is disabled in /etc/default, so we don't include
+# localhost IPv6 addresses in restrict
 ntp::restrict: 
-  - '-4 default kod notrap nomodify nopeer'
-  - '-6 default kod notrap nomodify nopeer'
-  - "-4 %{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
+  - 'default kod notrap nomodify nopeer'
+  - "%{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
   - '127.0.0.1'
-  - '::1' 
 profiles::ntp::srv_opts:
   NTPD_OPTS: "'-4 -g'"
 profiles::ntp::client::site_preferred_servers:
