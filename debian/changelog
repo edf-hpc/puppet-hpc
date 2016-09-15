@@ -1,5 +1,5 @@
-hpc-config (0.1-0calibre1~bpo8+1) UNRELEASED; urgency=low
+hpc-config (0.2) UNRELEASED; urgency=low
 
-  * Initial release
+  * First version as native package
 
- -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Wed, 17 Aug 2016 13:34:49 +0100
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 15 Sep 2016 10:31:12 +0100
