@@ -21,3 +21,15 @@ Description: Download and apply the Puppet HPC Configuration
  .
  This package provide the hpc-config-apply script to deploy the configuration
  on a cluster node during installation or boot.
+
+Package: hpc-config-push
+Architecture: all
+Depends:
+ ${misc:Depends},
+ python3
+Description: Push the Puppet HPC Configuration
+ Puppet HPC Configuration is a collection of puppet modules and hiera
+ configuration designed to install an HPC cluster.
+ .
+ This package provide the hpc-config-push script to push the configuration
+ on a central location.

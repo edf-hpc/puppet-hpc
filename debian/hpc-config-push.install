@@ -1,0 +1,2 @@
+conf/push.conf           etc/hpc-config
+scripts/hpc-config-push  usr/sbin
