@@ -28,7 +28,7 @@ class network::config inherits network {
       upper_case_keys => true,
     }
   }
-  
+
   host { 'localhost':
     ensure => present,
     ip     => '127.0.0.1',

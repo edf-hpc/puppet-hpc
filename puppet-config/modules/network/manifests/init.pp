@@ -30,6 +30,25 @@
 # },
 # ```
 #
+#
+# ## Bridge
+#
+# Bridges are configured by passing bridge options as a hash. If the 
+# bridged port does not exists in the netconfig fact, it will be added
+# automatically when the configuration is written.
+#
+# ```
+# network::bridge_options:
+#    'br0':
+#      'ports':
+#         - 'eth0'
+#      'description': 'administraton network on service and nas nodes'
+#    'br2':
+#      'ports':
+#         - 'bond2'
+#      'description': 'WAN network on service nodes'
+# ```
+#
 # @param ib_enable       Enable infiniband stack installation and
 #                        configuration
 # @param routednet       Direct routes for this host, array of triplets:
@@ -39,6 +58,8 @@
 #                        (default: 'yes')
 # @param bonding_options Hash with the bonding configuration for this
 #                        host, see above (default: {})
+# @param bridge_options  Hash with the bridges configuration for this
+#                        host, see above (default: {})
 class network (
   $defaultgw,
   $fqdn,
@@ -47,6 +68,7 @@ class network (
   $hostname_augeas_change      = $::network::params::hostname_augeas_change,
   $bonding_packages            = $::network::params::bonding_packages,
   $bonding_options             = $::network::params::bonding_options,
+  $bridge_options              = $::network::params::bridge_options,
   $config_file                 = $::network::params::config_file,
   $systemd_tmpfile             = $::network::params::systemd_tmpfile,
   $systemd_tmpfile_options     = $::network::params::systemd_tmpfile_options,
@@ -89,6 +111,9 @@ class network (
   validate_string($mlx4load)
   validate_hash($ib_options)
   validate_bool($ib_enable)
+
+  validate_hash($bonding_options)
+  validate_hash($bridge_options)
 
   # Bring all the package sources together
   validate_array($ib_packages)
