@@ -25,10 +25,12 @@ class profiles::ntp::client {
   $preferred_servers = hiera_array('profiles::ntp::client::site_preferred_servers')
   $servers           = hiera_array('profiles::ntp::client::site_servers')
 
+  debug("Preferred servers: ${preferred_servers}, other servers: ${servers}")
+
   # Pass server name as a class parameter
   class { '::ntp':
-    preferred_servers           => $preferred_servers,
-    servers                     => $servers,
+    preferred_servers => $preferred_servers,
+    servers           => $servers,
   }
 
   # Modify default options of ntp service
@@ -49,9 +51,9 @@ class profiles::ntp::client {
   $srv_def_cfg = hiera('profiles::ntp::srv_def_cfg', $default_file)
   $srv_opts = hiera('profiles::ntp::srv_opts')
   hpclib::print_config { $srv_def_cfg :
-    style   => 'keyval',
-    data    => $srv_opts,
-    notify  => Service[$srv_name],
+    style  => 'keyval',
+    data   => $srv_opts,
+    notify => Service[$srv_name],
   }
 
 }
