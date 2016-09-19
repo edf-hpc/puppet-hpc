@@ -126,7 +126,7 @@ def parse_conf():
        "puppet_conf = ${privatedata}/puppet-config/${global:cluster}/puppet.conf\n"
        "hiera_conf = ${privatedata}/puppet-config/${global:cluster}/hiera.yaml\n"
        "facts_private = ${privatedata}/puppet-config/${global:cluster}/hpc-config-facts.yaml\n"
-       "modules_generic = ${puppethpc}/puppet-config/cluster,${puppethpc}/puppet-config/modules,${puppethpc}/puppet-config/modules_3rdparty,/usr/share/puppet/modules\n"
+       "modules_generic = ${puppethpc}/puppet-config/cluster,${puppethpc}/puppet-config/modules,/usr/share/puppet/modules\n"
        "modules_private = ${privatedata}/puppet-config/${global:cluster}/modules\n"
        "manifests_generic = ${puppethpc}/puppet-config/manifests\n"
        "manifests_private = ${privatedata}/puppet-config/${global:cluster}/manifests\n"
