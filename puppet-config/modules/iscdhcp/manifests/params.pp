@@ -13,7 +13,6 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-#
 class iscdhcp::params {
 
   $peer_address               = ''
@@ -26,7 +25,6 @@ class iscdhcp::params {
   $packages_ensure            = 'present'
   $config_file                = '/etc/dhcp/dhcpd.conf'
   $global_options             = []
-  $failover                   = {}
   $sharednet                  = {}
   $default_file               = '/etc/default/isc-dhcp-server'
   $default_options            = ['INTERFACES= eth0']

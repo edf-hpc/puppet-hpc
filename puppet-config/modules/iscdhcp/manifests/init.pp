@@ -27,7 +27,6 @@ class iscdhcp (
   $packages_ensure            = $iscdhcp::params::packages_ensure,
   $config_file                = $iscdhcp::params::config_file,
   $global_options             = $iscdhcp::params::global_options,
-  $failover                   = $iscdhcp::params::failover,
   $sharednet                  = $iscdhcp::params::sharednet,
   $default_file               = $iscdhcp::params::default_file,
   $default_options            = $iscdhcp::params::default_options,
@@ -48,7 +47,6 @@ class iscdhcp (
   validate_string($packages_ensure)
   validate_absolute_path($config_file)
   validate_array($global_options)
-  validate_hash($failover)
   validate_hash($sharednet)
   validate_absolute_path($default_file)
   validate_array($default_options)
