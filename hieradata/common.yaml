@@ -548,3 +548,39 @@ profiles::log::client::server:        "%{hiera('cluster_prefix')}%{::my_log_serv
 profiles::log::client::port:          '20514'
 profiles::log::server::server_dir:    "%{hiera('admin_dir')}/restricted/logs/"
 profiles::log::server::custom_config: 'rsyslog/server-hostname.conf.erb'
+
+##### Consul
+consul::domain: "%{hiera('virtual_domain')}"
+consul::datacenter: "%{hiera('cluster_name')}"
+
+profiles::consul::client::packages:
+  - consul
+  - consult
+profiles::consul::server::packages:
+  - consul
+  - monitoring-plugins-basic
+profiles::consul::server::subservices:
+  - name: 'http'
+    port: 80
+    check:
+      id: 'http_check'
+      name: 'Local HTTP service check'
+      http: 'http://localhost/'
+      interval: '10s'
+      timeout: '1s'
+  - name: 'apt'
+    port: "%{hiera('apt::proxy_port')}"
+    check:
+      id: 'apt_check'
+      name: 'Local HTTP service check'
+      http: "http://localhost:%{hiera('apt::proxy_port')}/"
+      interval: '10s'
+      timeout: '1s'
+  - name: 'tftp'
+    port: 69
+    check:
+      id: 'tftpd_check'
+      name: 'Local TFTPD service check'
+      script: '/usr/lib/nagios/plugins/check_procs -w 1: --command=in.tftpd'
+      interval: '30s'
+      timeout: '10s'
