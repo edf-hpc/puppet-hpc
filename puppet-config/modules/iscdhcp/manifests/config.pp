@@ -23,7 +23,6 @@ class iscdhcp::config inherits iscdhcp {
   }
 
   $global_options = $::iscdhcp::global_options
-  $failover       = $::iscdhcp::failover
   $my_address     = $::iscdhcp::my_address
   $peer_address   = $::iscdhcp::peer_address
 
@@ -36,15 +35,10 @@ class iscdhcp::config inherits iscdhcp {
     content => template('iscdhcp/dhcp.conf.global.erb'),
     order   => '01',
   }
-  concat::fragment { 'dhcp-conf-failover':
-    target  => $::iscdhcp::config_file,
-    content => template('iscdhcp/dhcp.conf.failover.erb'),
-    order   => '02',
-  }
   concat::fragment { 'dhcp-conf-sharednet':
     target  => $::iscdhcp::config_file,
     content => template('iscdhcp/dhcp.conf.sharednet.erb'),
-    order   => '03',
+    order   => '02',
   }
   $defaults = {
     'my_address'      => $::iscdhcp::my_address,
