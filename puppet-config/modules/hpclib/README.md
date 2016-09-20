@@ -28,7 +28,7 @@ This module provides building blocks to:
 
 ### What hpclib affects
 
-* Define facts
+* Define facts and functions
 
 ### Setup Requirements
 
@@ -311,6 +311,13 @@ Hash giving a list of hostnames by role, the source is the ``hostfile`` fact (se
       cn: 
         - gencn01
 ```
+
+### Functions
+
+#### Function: `hpc_get_hosts_by_profile($profile)`
+
+This function returns an array with the hosts that have the profile given in
+parameter.
 
 ## Limitations
 
