@@ -69,19 +69,15 @@ iface <%= card %> inet manual
   <%- if card.include?("bond") -%>
     # Bonding of multiple interfaces
     <%- bondcfg[card]['options'].split(' ').each do | opt | -%>
-      <%- case opt.split('=')[0] when 'mode' -%>
-        <%- bndmode = opt.split('=')[1] -%>
-      <%-  when 'primary' -%>
-        <%- bndprim = opt.split('=')[1] -%>
+      <%- opt_key = opt.split('=')[0] -%>
+      <%- opt_value = opt.split('=')[1] -%>
+      <%- unless opt_value.empty? -%>
+<%= '    bond-'+opt_key+' '+opt_value %>
       <%- end -%>
     <%- end -%>
 <%= '    slaves '+bondcfg[card]['slaves'].join(' ') %>
-<%= '    bond_mode'+' '+bndmode %>
-    <%- bondcfg[card]['slaves'].each do | slcard| -%>
+    <%- bondcfg[card]['slaves'].each do | slcard | -%>
 <%= '    post-up ip link set '+slcard+' up' %>
-    <%- end -%>
-    <%- unless bndprim.empty? -%>
-<%= '    bond-primary'+' '+bndprim %>
     <%- end -%>
 <% ### Bonding End ###-%>
 <% ### Bridging Begin ###-%>
@@ -95,7 +91,7 @@ iface <%= card %> inet manual
 <% ### Physical End ###-%>
   <%- end -%>
     post-up ip link set <%= card %> up
-  <%- value.each do | ipadd| -%><% ### Iterate Addresses for this card ###-%>
+  <%- value.each do | ipadd | -%><% ### Iterate Addresses for this card ###-%>
 <% ### Configure an address ###-%>
     post-up ip addr add <%= ipadd %> dev $IFACE || true
     pre-down ip addr del <%= ipadd %> dev $IFACE
