@@ -90,7 +90,6 @@ def get_profiles_by_role(role)
   # clone the default cope from $options and add the role in parameter
   scope = $options[:scope].clone
   scope['puppet_role'] = role
-  puts("lookup with scope #{scope}")
   profiles = $hiera.lookup(key,
                            $options[:default],
                            scope,
@@ -117,11 +116,9 @@ def get_hosts_by_profile(profile)
   # array.
   hosts = Array.new
   roles = roles()
-  puts("lists of roles: #{roles}")
   full_profile_name = 'profiles::' + profile
   roles.each do |role|
     profiles = get_profiles_by_role(role)
-    puts("profiles for role #{role}: #{profiles}")
     if not profiles.nil? and profiles.include?(full_profile_name)
       hosts += get_hosts_by_role(role)
     end
