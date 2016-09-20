@@ -30,19 +30,23 @@ PUPPET_CONF_ARCHIVE_NAME = 'puppet.conf'
 PUPPET_CONF_PATH = '/etc/puppet/puppet.conf'
 
 
-def get_parameter(key, default, config_section, args):
+def get_parameter(key, default, config_section, default_section, args):
     if key in args:
         return vars(args)[key]
     if key in config_section:
         return config_section[key]
+    if key in default_section:
+        return default_section[key]
     return default
 
 
-def get_parameter_int(key, default, config_section, args):
+def get_parameter_int(key, default, config_section, default_section, args):
     if key in args:
         return int(vars(args)[key])
     if key in config_section:
         return int(config_section[key])
+    if key in default_section:
+        return int(default_section[key])
     return default
 
 
@@ -59,22 +63,26 @@ def get_parameters():
         default_section = {}
     else:
         default_section = config['DEFAULT']
-    env = get_parameter('environment', 'production', default_section, args)
+
+    # First get the environment
+    env = get_parameter(
+        'environment', 'production', {}, default_section, args)
     params['environment'] = env
 
+    # Find the environment section
     if env not in config:
         env_section = {}
     else:
         env_section = config[env]
 
-    params['source'] = get_parameter(
-        'source', None, env_section, args)
-    params['keys_source'] = get_parameter(
-        'keys_source', None, env_section, args)
-    params['deploy_step'] = get_parameter(
-        'deploy_step', None, env_section, args)
-    params['verbosity'] = get_parameter_int(
-        'verbosity', 0, env_section, args)
+    # Search other strings params
+    for param_name in ['source', 'keys_source', 'deploy_step']:
+        params[param_name] = get_parameter(
+            param_name, None, env_section, default_section, args)
+    # Search other integer params
+    for param_name in ['verbosity']:
+        params[param_name] = get_parameter(
+            param_name, 0, env_section, default_section, args)
 
     return params
 
