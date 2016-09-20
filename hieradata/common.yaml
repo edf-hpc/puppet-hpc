@@ -3,6 +3,8 @@
 cluster_name:             'mycluster'
 cluster_prefix:           'my'
 domain:                   'hpc.example.com'
+local_domain:             'cluster'
+virtual_domain:           'virtual'
 cluster_repo_originator:  'TeamHPC'
 cluster_repo_gpg_key:     '01234567'
 cluster_decrypt_password: 'password'
