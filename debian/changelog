@@ -1,3 +1,17 @@
+hpc-config (0.3) calibre9; urgency=medium
+
+  [ Rémi Palancher ]
+  * New pkg for hpc-config-push
+  * Remove modules_3rdparty from push conf
+
+  [ Thomas Hamel ]
+  * scripts Add parameters to debug scripts
+  * scripts h-c-a Use DEFAULT section values as... defaults
+  * scripts h-c-a Skip retrievals if sources are undefined
+  * scripts h-c-a Fix infinite loop if connection to http fails
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Tue, 20 Sep 2016 17:12:44 +0200
+
 hpc-config (0.2) calibre9; urgency=low
 
   * First version as native package
