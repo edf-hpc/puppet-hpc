@@ -16,18 +16,20 @@
 class dns::server (
   $packages        = $::dns::params::server_packages,
   $service         = $::dns::params::server_service,
-  $domain          = $::dns::params::server_domain,
   $config_file     = $::dns::params::server_config_file,
-  $config_options  = {},
   $local_file      = $::dns::params::server_local_file,
   $zone_file       = $::dns::params::server_zone_file,
   $zone_options    = $::dns::params::zone_options,
   $zone_defaults   = $::dns::params::zone_defaults,
+  $local_domain    = '',
+  $domain          = '',
+  $config_options  = {},
 ) inherits dns::params {
 
   validate_array($packages)
   validate_string($service)
   validate_string($domain)
+  validate_string($local_domain)
   validate_absolute_path($config_file)
   validate_hash($config_options)
   validate_absolute_path($local_file)
