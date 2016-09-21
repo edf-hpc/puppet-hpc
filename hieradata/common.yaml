@@ -62,7 +62,7 @@ openssh::client::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
 profiles::environment::authorized_users_group: "%{hiera('user_group')}"
 
 ##### Codes packages
-profiles::environment::codes::packages:
+codes::packages:
   - "%{hiera('cluster_name')}-hpc-%{puppet_role}"
 ## Values below should be overriden by roles
 profiles::access::production_options: []
