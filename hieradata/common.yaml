@@ -119,7 +119,10 @@ profiles::http::secret::docroot: "%{hiera('admin_dir')}/restricted/secrets"
 profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 
-###### P2P
+##### BOOTSYSTEM
+profiles::bootsystem::http_port:   '3138'
+
+##### P2P
 profiles::p2p::tracker_path: "%{hiera('profiles::http::diskless::docroot')}"
 
 ##### Munge
