@@ -18,7 +18,6 @@ class iscdhcp (
 
   $my_address,
   $peer_address               = $iscdhcp::params::peer_address,
-  $virtual_address            = $iscdhcp::params::virtual_address,
   $bootmenu_url               = $iscdhcp::params::bootmenu_url,
   $ipxebin                    = $iscdhcp::params::ipxebin,
   $includes                   = $iscdhcp::params::includes,
@@ -38,7 +37,6 @@ class iscdhcp (
 
   validate_string($my_address)
   validate_string($peer_address)
-  validate_string($virtual_address)
   validate_string($bootmenu_url)
   validate_string($ipxebin)
   validate_hash($includes)

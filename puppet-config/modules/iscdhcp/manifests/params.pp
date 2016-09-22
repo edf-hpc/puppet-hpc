@@ -16,7 +16,6 @@
 class iscdhcp::params {
 
   $peer_address               = ''
-  $virtual_address            = ''
   $bootmenu_url               = ''
   $ipxebin                    = ''
   $includes                   = {}

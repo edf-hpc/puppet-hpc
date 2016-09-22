@@ -2,7 +2,7 @@
 <% require 'ipaddr' -%>
 next-server <%= @my_address %>;
 if exists user-class and option user-class = "iPXE" {
-  filename "http://<%= @virtual_address %>/<%= @bootmenu_url %>";
+  filename "<%= @bootmenu_url %>";
 } else {
   filename <%= @ipxebin %>;
 }
