@@ -42,7 +42,6 @@ class iscdhcp::config inherits iscdhcp {
   }
   $defaults = {
     'my_address'      => $::iscdhcp::my_address,
-    'virtual_address' => $::iscdhcp::virtual_address,
     'bootmenu_url'    => $::iscdhcp::bootmenu_url,
     'ipxebin'         => $::iscdhcp::ipxebin,
     'dhcp_config'     => $::iscdhcp::dhcp_config,
