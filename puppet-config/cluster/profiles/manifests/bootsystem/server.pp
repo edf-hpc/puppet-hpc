@@ -17,9 +17,11 @@
 #
 # ## Hiera
 # * `cluster_prefix`
+# * `local_domain`
 # * `profiles::bootsystem::tftp_config_options` (`hiera_hash`)
 # * `profiles::bootsystem::tftp_dir`
 # * `profiles::bootsystem::http_dir`
+# * `profiles::bootsystem::http_port`
 # * `profiles::bootsystem::supported_os`
 #
 # ## Relevant Autolookups
@@ -29,6 +31,7 @@
 class profiles::bootsystem::server {
 
   $prefix          = hiera('cluster_prefix')
+  $local_domain    = hiera('local_domain')
   $virtual_address = $::hostfile["${prefix}${::puppet_role}"]
 
   # Install and configure the server tftp
@@ -52,6 +55,21 @@ class profiles::bootsystem::server {
     config_dir_http => $config_dir_http,
     supported_os    => $supported_os,
     virtual_address => $virtual_address,
+  }
+
+  $port = hiera('profiles::bootsystem::http_port')
+
+  $servername = "${prefix}${::puppet_role}"
+  $serveraliases = ["${servername}.${local_domain}"]
+  include apache
+  apache::vhost { "${servername}_bootsystem":
+    servername    => $servername,
+    port          => $port,
+    docroot       => $config_dir_http,
+    scriptalias   => "${config_dir_http}/cgi-bin",
+    serveraliases => $serveraliases,
+    docroot_mode  => '0750',
+    docroot_group => 'www-data',
   }
 
 }
