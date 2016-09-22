@@ -36,15 +36,10 @@ class profiles::dhcp::server {
 
   $my_address      = $::hostfile[$::hostname]
   $dhcp_config     = $::dhcpconfig
-  $prefix          = hiera('cluster_prefix')
-
-  $virtual_address = "${prefix}${::puppet_role}"
 
   # Pass config options as a class parameter
   class { '::iscdhcp':
     my_address      => $my_address,
-    peer_address    => $peer_address,
-    virtual_address => $virtual_address,
     dhcp_config     => $dhcp_config,
     bootmenu_url    => $bootmenu_url,
     ipxebin         => $ipxebin,
