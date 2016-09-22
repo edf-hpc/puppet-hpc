@@ -1,3 +1,10 @@
+hpc-config (0.4) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * scripts h-c-a Don't stupidly loop on all ports
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Thu, 22 Sep 2016 15:22:25 +0200
+
 hpc-config (0.3) calibre9; urgency=medium
 
   [ Rémi Palancher ]
