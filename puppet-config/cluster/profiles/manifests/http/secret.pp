@@ -30,9 +30,12 @@
 # ## Hiera
 # * `cluster_prefix`
 # * `website_dir`
+# * `local_domain`
 # * `profiles::http::log_level`
 # * `profiles::http::secret::port`
 # * `profiles::http::secret::docroot`
+# * `profiles::http::secret::keys_enc` Encrypted source of the keys
+# * `profiles::http::secret::keys_password` Password encrypting the keys
 # * `profiles::http::serveradmin`
 class profiles::http::secret {
 
@@ -42,16 +45,26 @@ class profiles::http::secret {
   $log_level      = hiera('profiles::http::log_level')
   $port           = hiera('profiles::http::secret::port')
   $docroot        = hiera('profiles::http::secret::docroot')
+  $keys_enc       = hiera('profiles::http::secret::keys_enc')
+  $keys_password  = hiera('profiles::http::secret::keys_password')
   $cluster_prefix = hiera('cluster_prefix')
+  $local_domain   = hiera('local_domain')
 
   include apache
 
   $servername = "${cluster_prefix}${::puppet_role}"
-  # This is hardcoded but, the zone is hardcoded right now (GH issue #45)
-  $serveraliases = ["${servername}.cluster"]
+  $serveraliases = ["${servername}.${local_domain}"]
+
+  file { "${docroot}/keys.tar.xz":
+    ensure  => present,
+    content => decrypt($keys_enc, $keys_password),
+    owner   => 'www-data',
+    group   => 'www-data',
+    mode    => '0600',
+  }
+
 
   # Pass config options as a class parameter
-
   apache::vhost { "${servername}_secret":
     servername    => $servername,
     port          => $port,
