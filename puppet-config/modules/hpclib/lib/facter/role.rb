@@ -15,7 +15,7 @@ options = {
 
 def get_role_index_for_name(hostname, prefix)
   #(prefix)(role)XYZ 
-  if hostname =~ /^#{prefix}([a-z]+)([0-9])+$/
+  if hostname =~ /^#{prefix}([a-z]+[a-z0-9]*[a-z]+)([0-9])+$/
     return [$1, $2]
   else
     return ['default', '0']
