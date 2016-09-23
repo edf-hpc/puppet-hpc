@@ -18,8 +18,10 @@ define hpc_ha::vip (
   $ip_address,
   $router_id,
   $auth_secret,
+  $master,
+  $priority,
   $prefix = '',
-  $notify_script = undef,
+  $notify_script = false,
 ) {
 
   validate_string($net_id)
@@ -37,15 +39,14 @@ define hpc_ha::vip (
   validate_string($interface)
 
   # Create the vrrp_instance ID
+  $_name = regsubst($name, '[:\/\n]', '')
   $up_name = upcase($name)
   $up_prefix = upcase($prefix)
   $vrrp_instance_id = "VI_${up_prefix}${up_name}"
 
   # Setup the notify script and run-parts dirs
   if $notify_script {
-    $_notify_script = $notify_script
-  } else {
-    $_notify_script = $::hpc_ha::default_notify_script
+    $_notify_script = "/etc/hpc_ha/${vrrp_instance_id}/notify/vserv_${_name}_notify"
   }
 
   $scripts_dir = "/etc/hpc_ha/${vrrp_instance_id}"
@@ -62,12 +63,18 @@ define hpc_ha::vip (
     ensure => directory,
   }
 
+  if $master == true {
+    $state = 'MASTER'
+  } else {
+    $state = 'BACKUP'
+  }
+
   # Create the instance itself
   ::keepalived::vrrp::instance { $vrrp_instance_id:
     interface         => $interface,
-    state             => 'BACKUP',
+    state             => $state,
     virtual_router_id => $router_id,
-    priority          => '100',
+    priority          => $priority,
     auth_type         => 'PASS',
     auth_pass         => $auth_secret,
     virtual_ipaddress => [ $ip_address ],
