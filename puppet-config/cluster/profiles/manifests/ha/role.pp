@@ -15,6 +15,9 @@
 
 # Activate HA for roles
 #
+# /!\ This profile is probably broken with changes coming with new profile
+# ha::base. Do not use it.
+#
 # This profile defines Virtual IP addresses associated with the role as a
 # whole and not specific to a service.
 # Virtual IP Addresses should be defined in hiera by following the hpc_ha
