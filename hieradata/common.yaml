@@ -572,7 +572,7 @@ profiles::consul::server::subservices:
       interval: '10s'
       timeout: '1s'
   - name: 'apt'
-    port: "%{hiera('apt::proxy_port')}"
+    port: 3142
     check:
       id: 'apt_check'
       name: 'Local HTTP service check'
