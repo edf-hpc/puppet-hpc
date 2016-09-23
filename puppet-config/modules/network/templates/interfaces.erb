@@ -48,6 +48,9 @@
 <%- end -%>
 <% ## Insert bridged interfaces in the netconfig ##-%>
 <%- bridgecfg.map do | bridge, value | -%>
+  <%- if not netconfig.key?(bridge) -%>
+    <%- next -%>
+  <%- end -%>
   <%- ports = value['ports'] -%>
   <%- ports.each do | port | -%>
     <%- if not netconfig.include?(port) -%>
