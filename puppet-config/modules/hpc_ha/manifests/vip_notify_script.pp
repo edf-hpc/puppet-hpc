@@ -17,7 +17,6 @@ define hpc_ha::vip_notify_script (
   $vip_name,
   $ensure  = present,
   $source  = undef,
-  $content = undef,
 ) {
   validate_string($vip_name)
 
@@ -29,8 +28,7 @@ define hpc_ha::vip_notify_script (
   $vrrp_instance_id = "VI_${up_prefix}${up_name}"
   file { "/etc/hpc_ha/${vrrp_instance_id}/notify/vserv_${_name}_notify":
     ensure  => $ensure,
-    content => $content,
-    source  => $source,
+    content => hpc_source_file($source),
     mode    => '0700',
     require => Hpc_ha::Vip[$vip_name],
   }

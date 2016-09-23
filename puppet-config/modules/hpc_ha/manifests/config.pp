@@ -14,4 +14,14 @@
 ##########################################################################
 
 class hpc_ha::config inherits hpc_ha {
+
+  if $vips {
+    create_resources(hpc_ha::vip, $vips)
+  }
+  if $vip_notify_scripts {
+    create_resources(hpc_ha::vip_notify_script, $vip_notify_scripts)
+  }
+  if $vservs {
+    create_resources(hpc_ha::vserv, $vservs)
+  }
 }
