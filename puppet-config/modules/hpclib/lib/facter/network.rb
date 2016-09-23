@@ -133,6 +133,17 @@ if !masternetwork.nil? and masternetwork.length > 0
     end
   end
 end
+
+# add VIPs to hostfile fact
+vips = hiera.lookup('vips', options[:default], options[:scope], nil, options[:resolution_type])
+if !vips.nil? and vips.length > 0
+  vips.each do |vip_group, vip_items|
+    hostname = vip_items['hostname']
+    ip = vip_items['ip']
+    hostfile[hostname] = ip
+  end
+end
+
 ### Add facters ###
 Facter.add(:netconfig) do
   setcode do
