@@ -17,6 +17,7 @@
 #
 # ## Hiera
 # * `cluster_prefix`
+# * `local_domain`
 # * `website_dir`
 # * `profiles::http::error_log_file`
 # * `profiles::http::log_level`
@@ -38,14 +39,14 @@ class profiles::http::mirror {
   $scriptalias    = hiera('profiles::http::scriptalias')
   $website_dir    = hiera('website_dir')
   $cluster_prefix = hiera('cluster_prefix')
+  $local_domain   = hiera('local_domain')
 
   include apache
 
   ensure_resource(file, $website_dir, { ensure => directory})
 
   $servername = "${cluster_prefix}${::my_http_mirror}"
-  # This is hardcoded but, the zone is hardcoded right now (GH issue #45)
-  $serveraliases = ["${servername}.cluster"]
+  $serveraliases = ["${servername}.${local_domain}"]
 
   # Pass config options as a class parameter
   apache::vhost { $servername:

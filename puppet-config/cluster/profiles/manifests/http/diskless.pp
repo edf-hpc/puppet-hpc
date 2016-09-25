@@ -17,6 +17,7 @@
 #
 # ## Hiera
 # * `cluster_prefix`
+# * `local_domain`
 # * `website_dir`
 # * `profiles::http::log_level`
 # * `profiles::http::diskless::port`
@@ -30,12 +31,12 @@ class profiles::http::diskless {
   $port           = hiera('profiles::http::diskless::port')
   $docroot        = hiera('profiles::http::diskless::docroot')
   $cluster_prefix = hiera('cluster_prefix')
+  $local_domain   = hiera('local_domain')
 
   include apache
 
   $servername = "${cluster_prefix}${::puppet_role}"
-  # This is hardcoded but, the zone is hardcoded right now (GH issue #45)
-  $serveraliases = ["${servername}.cluster"]
+  $serveraliases = ["${servername}.${local_domain}"]
 
   # Pass config options as a class parameter
   apache::vhost { "${servername}_diskless":
