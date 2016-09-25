@@ -18,6 +18,7 @@ class network::params {
   $routednet = []
 
   $ib_enable         = true
+  $opa_enable        = false
   $ib_udev_rule_file = '/etc/udev/rules.d/50-infiniband-permissions.rules'
   $ib_file           = '/etc/infiniband/openib.conf'
   case $::osfamily {
@@ -41,6 +42,29 @@ class network::params {
         'mlnx-ofed-kernel-modules',
         'knem-kernel-module',
         'mxm'
+      ]
+      $opa_packages     = [
+        'compat-rdma-dev-3.16.0-4-amd64',
+        'compat-rdma-modules-3.16.0-4-amd64',
+        'hfi1-diagtools-sw',
+        'hfi1-firmware',
+        'hfi1-utils',
+        'ibacm',
+        'ibverbs-utils',
+        'infiniband-diags',
+        'libhfi1',
+        #'libhfi1-psm',  # depedency of hfi1-diagtools-sw
+        #'libibmad5',  # depedency of infiniband-diags (among others)
+        #'libibnetdisc5', # depedency of infiniband-diags (among others)
+        #'libibumad3', # depedency of infiniband-diags (among others)
+        #'libibverbs1', # depedency of rdmacm-utils
+        #'librdmacm1', # depedency of rdmacm-utils
+        'opa-address-resolution',
+        #'opa-basic-tools', # depedency of opa-scripts
+        'opa-scripts',
+        'qperf',
+        'rdmacm-utils',
+        'rdma'
       ]
     }
     'Redhat': {
@@ -91,6 +115,8 @@ class network::params {
         'perftest',
         'qperf',
         'rds-tools'
+      ]
+      $opa_packages     = [
       ]
     }
     default: {
