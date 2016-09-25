@@ -15,5 +15,5 @@
 
 # Will setup opa-fm
 class profiles::opafm::service {
-  class { '::opafm' }
+  class { '::opafm': }
 }
