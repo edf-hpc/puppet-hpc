@@ -80,10 +80,12 @@ class network (
   $ifup_hotplug_services       = $::network::params::ifup_hotplug_services,
   $ifup_hotplug_files          = $::network::params::ifup_hotplug_files,
   $ib_enable                   = $::network::params::ib_enable,
+  $opa_enable                  = $::network::params::opa_enable,
   $ib_udev_rule_file           = $::network::params::ib_udev_rule_file,
   $ib_file                     = $::network::params::ib_file,
   $ib_rules                    = $::network::params::ib_rules,
   $ib_packages                 = $::network::params::ib_packages,
+  $opa_packages                = $::network::params::opa_packages,
   $mlx4load                    = $::network::params::mlx4load,
   $ib_options                  = {},
   $packages                    = [],
@@ -111,16 +113,20 @@ class network (
   validate_string($mlx4load)
   validate_hash($ib_options)
   validate_bool($ib_enable)
+  validate_bool($opa_enable)
 
   validate_hash($bonding_options)
   validate_hash($bridge_options)
 
   # Bring all the package sources together
   validate_array($ib_packages)
+  validate_array($opa_packages)
   validate_array($bonding_packages)
   validate_array($packages)
   if $ib_enable {
     $ibbonding_packages = concat($ib_packages, $bonding_packages)
+  } elsif $opa_enable {
+    $ibbonding_packages = concat($opa_packages, $bonding_packages)
   } else {
     $ibbonding_packages = $bonding_packages
   }
