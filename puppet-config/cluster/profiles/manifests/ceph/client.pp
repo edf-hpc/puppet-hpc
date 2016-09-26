@@ -15,10 +15,11 @@
 
 # Setup a minimal configuration for a Ceph cluster
 #
-# Will install ceph
-class profiles::ceph::member {
+# Will configure ceph, but not start any service
+class profiles::ceph::client {
   $ceph_config_options = hiera_hash('profiles::ceph::config_options')
   class { '::ceph':
-    config_options => $ceph_config_options
+    config_options => $ceph_config_options,
+    service_ensure => 'stopped'
   }
 }
