@@ -26,6 +26,8 @@ class network::params {
       ## Hostname
       $hostname_augeas_path   = '/files/etc/hostname'
       $hostname_augeas_change = "set hostname ${::hostname}"
+      ## IRQBalance
+      $irqbalance_config = "/etc/default/irqbalance"
       ## Interfaces
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
@@ -63,6 +65,7 @@ class network::params {
         #'opa-basic-tools', # dependency of opa-scripts
         'opa-scripts',
         # 'qperf',
+        'irqbalance',
         'rdmacm-utils',
         'rdma'
       ]
@@ -71,6 +74,8 @@ class network::params {
       ## Hostname
       $hostname_augeas_path   = '/files/etc/sysconfig/network'
       $hostname_augeas_change = "set HOSTNAME ${::hostname}"
+      ## IRQBalance
+      $irqbalance_config      = "/etc/sysconfig/irqbalance"
       ## Interfaces
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
@@ -122,6 +127,15 @@ class network::params {
     default: {
       fail("Unsupported OS Family: ${::osfamily}")
     }
+  }
+
+  $irqbalance_service = 'irqbalance'
+  $irqbalance_ensure  = running
+  $irqbalance_enable  = true
+  $irqbalance_options = {
+    'enabled' => '1',
+    'oneshot' => '0',
+    'options' => '--hintpolicy=exact'
   }
 
   $systemd_tmpfile           = '/etc/tmpfiles.d/openibd.conf'
