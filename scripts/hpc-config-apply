@@ -157,13 +157,13 @@ def http_get_file(url, root_source_port=False):
                 source_address=('0.0.0.0', source_port)
             )
         try:
-            logging.debug("Trying to connect with source port %s" % source_port)
+            logging.debug("Trying to connect with source port %s", source_port)
             http.connect()
             connect_ok = True
-        except OSError as e:
+        except OSError as err:
             logging.warn(
                 "Failed to connect to http(s) server %s with " % url +
-                "source port: %s, error: %s. Retrying..." % (source_port, e)
+                "source port: %s, error: %s. Retrying..." % (source_port, err)
             )
             http.close()
 
@@ -220,9 +220,7 @@ def get_keys(source):
         return
     keys_url = '/'.join([source, KEYS_ARCHIVE_NAME])
     keys_path = os.path.join(KEYS_BASE_PATH, 'keys')
-    logging.info(
-        "Getting secure keys from %s" % keys_url
-    )
+    logging.info("Getting secure keys from %s", keys_url)
     if os.path.isdir(keys_path):
         shutil.rmtree(keys_path)
     extract_url(keys_url, KEYS_BASE_PATH, root_source_port=True)
@@ -240,9 +238,7 @@ def get_hiera_conf(source, environment, version='latest'):
         version,
         HIERA_CONF_ARCHIVE_NAME
     ])
-    logging.info(
-        "Getting Hiera config from %s" % hiera_conf_url
-    )
+    logging.info("Getting Hiera config from %s", hiera_conf_url)
     if os.path.exists(HIERA_CONF_PATH):
         os.remove(HIERA_CONF_PATH)
     get_url(hiera_conf_url, HIERA_CONF_PATH)
@@ -258,9 +254,7 @@ def get_facts_conf(source, environment, version='latest'):
         version,
         FACTS_CONF_ARCHIVE_NAME
     ])
-    logging.info(
-        "Getting Facts config from %s" % facts_conf_url
-    )
+    logging.info("Getting Facts config from %s", facts_conf_url)
     if os.path.exists(FACTS_CONF_PATH):
         os.remove(FACTS_CONF_PATH)
     get_url(facts_conf_url, FACTS_CONF_PATH)
@@ -296,7 +290,7 @@ def get_puppet_environment(source, environment, version='latest'):
     ])
     puppet_env_path = os.path.join(PUPPET_ENV_BASE_PATH, environment)
     logging.info(
-        "Getting Puppet HPC configuration environment from %s" % env_url
+        "Getting Puppet HPC configuration environment from %s", env_url
     )
     if os.path.isdir(puppet_env_path):
         shutil.rmtree(puppet_env_path)
@@ -332,7 +326,7 @@ if __name__ == "__main__":
 
     setup_logging(params['verbosity'])
 
-    logging.debug("Parameters: %s." % params)
+    logging.debug("Parameters: %s.", params)
 
     get_keys(params['keys_source'])
 
