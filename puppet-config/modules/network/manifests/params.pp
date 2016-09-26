@@ -53,14 +53,14 @@ class network::params {
         'ibverbs-utils',
         'infiniband-diags',
         'libhfi1',
-        #'libhfi1-psm',  # depedency of hfi1-diagtools-sw
-        #'libibmad5',  # depedency of infiniband-diags (among others)
-        #'libibnetdisc5', # depedency of infiniband-diags (among others)
-        #'libibumad3', # depedency of infiniband-diags (among others)
-        #'libibverbs1', # depedency of rdmacm-utils
-        #'librdmacm1', # depedency of rdmacm-utils
+        #'libhfi1-psm',  # dependency of hfi1-diagtools-sw
+        #'libibmad5',  # dependency of infiniband-diags (among others)
+        #'libibnetdisc5', # dependency of infiniband-diags (among others)
+        #'libibumad3', # dependency of infiniband-diags (among others)
+        #'libibverbs1', # dependency of rdmacm-utils
+        #'librdmacm1', # dependency of rdmacm-utils
         'opa-address-resolution',
-        #'opa-basic-tools', # depedency of opa-scripts
+        #'opa-basic-tools', # dependency of opa-scripts
         'opa-scripts',
         'qperf',
         'rdmacm-utils',
