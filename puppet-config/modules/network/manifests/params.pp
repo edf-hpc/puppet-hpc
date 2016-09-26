@@ -44,7 +44,7 @@ class network::params {
         'mxm'
       ]
       $opa_packages     = [
-        'compat-rdma-dev-3.16.0-4-amd64',
+#        'compat-rdma-dev-3.16.0-4-amd64',
         'compat-rdma-modules-3.16.0-4-amd64',
         'hfi1-diagtools-sw',
         'hfi1-firmware',
