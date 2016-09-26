@@ -172,7 +172,11 @@ def http_get_file(url, root_source_port=False):
             "Failed to connect to the server to get url: %s" % url
         )
 
-    http.request('GET', url)
+    headers = {
+        'Host': "%s:%s" % (parsed_url.host, parsed_url.port),
+        'User-Agent': 'hpc-config-apply',
+    }
+    http.request('GET', parsed_url.path, headers=headers)
     response = http.getresponse()
     data = response.read()
     source_file = io.BytesIO(data)
