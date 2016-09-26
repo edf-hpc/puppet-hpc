@@ -178,7 +178,7 @@ class network::params {
     rdma  => 'KERNEL=="rdma*", SYMLINK+="infiniband/%k", MODE="0666"',
   }
 
-  $ib_modules_load     = 'yes'
+  $mlx4load    = 'yes'
   $net_topology        = hiera_hash('net_topology')
   $ib_hostname         = join(["${net_topology['lowlatency']['prefixes']}", '$(hostname -s)'], '')
   $ib_options_defaults = {
