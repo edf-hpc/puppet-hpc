@@ -178,10 +178,12 @@ class network::params {
     rdma  => 'KERNEL=="rdma*", SYMLINK+="infiniband/%k", MODE="0666"',
   }
 
-  $mlx4load    = 'yes'
+  $ib_modules_load     = 'yes'
+  $net_topology        = hiera_hash('net_topology')
+  $ib_hostname         = join(["${net_topology['lowlatency']['prefixes']}", '$(hostname -s)'], '')
   $ib_options_defaults = {
     'onboot'                       => 'yes',
-    'node_desc'                    => 'll$(hostname -s)',
+    'node_desc'                    => $ib_hostname,
     'node_desc_time_before_update' => '20',
     'set_ipoib_channels'           => 'no',
     'run_affinity_tuner'           => 'no',
