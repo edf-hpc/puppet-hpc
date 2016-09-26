@@ -62,7 +62,7 @@ class network::params {
         'opa-address-resolution',
         #'opa-basic-tools', # dependency of opa-scripts
         'opa-scripts',
-        'qperf',
+        # 'qperf',
         'rdmacm-utils',
         'rdma'
       ]
