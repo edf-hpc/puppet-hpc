@@ -49,11 +49,11 @@ class profiles::consul::server {
   $bootstrap = size(hpc_get_hosts_by_profile('consul::server')) / 2 + 1
 
   class { '::consul':
-    packages        => $packages,
-    mode            => 'server',
-    binding         => $binding,
-    nodes           => $nodes,
-    bootstrap       => $bootstrap,
-    subservices     => $subservices
+    packages    => $packages,
+    mode        => 'server',
+    binding     => $binding,
+    nodes       => $nodes,
+    bootstrap   => $bootstrap,
+    subservices => $subservices
   }
 }
