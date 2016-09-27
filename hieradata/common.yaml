@@ -576,7 +576,7 @@ profiles::consul::server::subservices:
     check:
       id: 'apt_check'
       name: 'Local HTTP service check'
-      http: "http://localhost:%{hiera('apt::proxy_port')}/"
+      http: "http://localhost:%{hiera('apt::proxy_port')}/acng-report.html"
       interval: '10s'
       timeout: '1s'
   - name: 'tftp'
