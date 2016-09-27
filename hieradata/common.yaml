@@ -587,3 +587,20 @@ profiles::consul::server::subservices:
       script: '/usr/lib/nagios/plugins/check_procs -w 1: --command=in.tftpd'
       interval: '30s'
       timeout: '10s'
+  - name: 's3-system'
+    port: 7480
+    check:
+      id: 'rgw_s3_system_check'
+      name: 'Local Rados GW System S3 bucket check'
+      http: 'http://localhost:7480/'
+      interval: '10s'
+      timeout: '1s'
+  - name: 'rgw'
+    port: 7480
+    check:
+      id: 'rgw_check'
+      name: 'Local Rados GW service check'
+      http: 'http://localhost:7480/'
+      interval: '10s'
+      timeout: '1s'
+
