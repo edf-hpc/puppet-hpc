@@ -29,7 +29,7 @@ class profiles::consul::server {
   # roles specific YAML files but it means duplicating services definitions.
   # These services definitions are rather generic in our architecture, then it
   # is better to define them only once in common.yaml for all clusters.
-  $subservices = hiera('profiles::consul::server::subservices')
+  $subservices = hiera_array('profiles::consul::server::subservices')
 
   # The binding IP address is the IP address of the interface on the
   # administration network.
