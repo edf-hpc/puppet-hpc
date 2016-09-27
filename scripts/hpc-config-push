@@ -34,6 +34,9 @@ import logging
 logger = logging.getLogger(__name__)
 import tempfile
 import shutil
+import boto
+import boto.s3
+import boto.s3.connection
 
 class AppConf():
     """Runtime configuration class."""
@@ -47,7 +50,16 @@ class AppConf():
         self.version = None
 
         self.mode = None
+
+        ## Common parameters
         self.destination_root = None
+
+        ## S3 parameters
+        self.s3_access_key = None
+        self.s3_secret_key = None
+        self.s3_bucket_name = None
+        self.s3_host = None
+        self.s3_port = None
 
         # action
 
@@ -68,6 +80,7 @@ class AppConf():
         self.dir_hieradata_generic = None
         self.dir_hieradata_private = None
         self.dir_files_private = None
+
 
         self.dir_tmp = None
         self.dir_tmp_gen = None
@@ -93,6 +106,11 @@ class AppConf():
         logger.debug("- dir_hieradata_generic: %s", str(self.dir_hieradata_generic))
         logger.debug("- dir_hieradata_private: %s", str(self.dir_hieradata_private))
         logger.debug("- dir_files_private: %s", str(self.dir_files_private))
+        logger.debug("- s3_access_key: %s", str(self.s3_access_key))
+        logger.debug("- s3_secret_key: %s", str(self.s3_secret_key))
+        logger.debug("- s3_bucket_name: %s", str(self.s3_bucket_name))
+        logger.debug("- s3_port: %s", str(self.s3_port))
+        logger.debug("- s3_host: %s", str(self.s3_host))
 
     @property
     def archive(self):
@@ -119,6 +137,12 @@ def parse_conf():
        "version = latest\n"
        "mode = posix\n"
        "destination = /var/www/html/hpc-config\n"
+       "[s3]\n"
+       "access_key = XXXXXXXX\n"
+       "secret_key = YYYYYYYYYYYYYYYY\n"
+       "bucket_name = system\n"
+       "host = rgw.service.virtual\n"
+       "port = 7480\n"
        "[paths]\n"
        "tmp = /tmp/puppet-config-push\n"
        "puppethpc = puppet-hpc\n"
@@ -153,6 +177,11 @@ def parse_conf():
      conf.dir_hieradata_generic = parser.get('paths', 'hieradata_generic')
      conf.dir_hieradata_private = parser.get('paths', 'hieradata_private')
      conf.dir_files_private = parser.get('paths', 'files_private')
+     conf.s3_access_key = parser.get('s3', 'access_key')
+     conf.s3_secret_key = parser.get('s3', 'secret_key')
+     conf.s3_bucket_name = parser.get('s3', 'bucket_name')
+     conf.s3_host = parser.get('s3', 'host')
+     conf.s3_port = int(parser.get('s3', 'port'))
 
 def parse_args():
     """Parses CLI args, then set debug flag and configuration file path in
@@ -274,8 +303,8 @@ def _push_posix():
     logger.info("posix push: pushing data in %s", conf.destination)
 
     if not os.path.isdir(conf.destination):
-       logger.debug("posix push: create destination dir %s", conf.destination)
-       os.makedirs(conf.destination, exist_ok=True)
+        logger.debug("posix push: create destination dir %s", conf.destination)
+        os.makedirs(conf.destination, exist_ok=True)
 
     logger.debug("posix push: copying tarball")
     shutil.copy(conf.archive, conf.destination)
@@ -293,11 +322,110 @@ def _push_posix():
     shutil.copy(conf.conf_hiera, conf.destination)
     logger.debug("posix push: copying private facts")
     shutil.copy(conf.facts_private, conf.destination)
-    
+
+
+def _s3_upload(source_path, bucket, destination_path, clean=True):
+    logger.debug('Upload path: %s', source_path)
+    #max size in bytes before uploading in parts. between 1 and 5 GB recommended
+    max_size = 20 * 1000 * 1000
+    #size of parts when uploading in parts
+    part_size = 6 * 1000 * 1000
+
+    # List files to upload
+    upload_file_paths = []
+    if os.path.isfile(source_path):
+        relative_path = os.path.basename(source_path)
+        upload_file_paths.append(relative_path)
+    for (current_dir, subdirs, filenames) in os.walk(source_path):
+        for filename in filenames:
+            absolute_path = os.path.join(current_dir, filename)
+            # remove the source path and first /
+            relative_path = absolute_path[(len(source_path)+1):]
+            upload_file_paths.append(relative_path)
+
+    # Upload the files
+    for file_path in upload_file_paths:
+        # Determine file paths
+        if os.path.isfile(source_path):
+            source_file_path = source_path
+        else:
+            source_file_path = os.path.join(source_path, file_path)
+            logger.debug("Source file path is: %s (%s, %s)", source_file_path, source_path, file_path)
+        dest_file_path = os.path.join(destination_path, file_path)
+        logger.debug("Dest file path is: %s (%s, %s)", dest_file_path, destination_path, file_path)
+
+        # Create remote directory if necessary
+        dest_dir_name = os.path.dirname(dest_file_path) + "/"
+        dest_dir = bucket.get_key(dest_dir_name)
+        if dest_dir is None:
+            logger.debug("S3 upload: Creating directory %s", dest_dir_name)
+            dest_dir = bucket.new_key(dest_dir_name)
+            dest_dir.set_contents_from_string('', policy='public-read')
+  
+        # Determine upload method
+        filesize = os.path.getsize(source_file_path)
+        if filesize > max_size:
+            logger.debug("S3 upload: multipart upload for %s", file_path)
+            mp = bucket.initiate_multipart_upload(dest_file_path, policy='public-read')
+            fp = open(source_file_path, 'rb')
+            fp_num = 0
+            while fp.tell() < filesize:
+                fp_num += 1
+                logger.debug("S3 upload: uploading part %i", fp_num)
+                mp.upload_part_from_file(fp, fp_num, size=part_size)
+
+            mp.complete_upload()
+        else:
+            logger.debug("S3 upload: singlepart upload for %s", file_path)
+            k = boto.s3.key.Key(bucket)
+            k.key = dest_file_path
+            bytes_written = k.set_contents_from_filename(source_file_path, policy='public-read')
+            logger.debug("S3 upload: %d/%d bytes written for %s", 
+                bytes_written, filesize, file_path)
+
+
+def _push_s3():
+    logger.info("S3 push: pushing data in bucket %s", conf.s3_bucket_name)
+
+    conn = boto.connect_s3(
+        aws_access_key_id=conf.s3_access_key,
+        aws_secret_access_key=conf.s3_secret_key,
+        host=conf.s3_host,
+        port=conf.s3_port,
+        is_secure=False,
+        calling_format=boto.s3.connection.OrdinaryCallingFormat(),
+    )
+    bucket = conn.get_bucket(conf.s3_bucket_name)
+    bucket.set_acl('public-read')
+
+    logger.debug("S3 push: Cleaning destination %s", conf.destination)
+    keys = bucket.list(prefix=conf.destination)
+    counter = 0
+    for key in keys:
+        key.delete()
+        counter += 1
+    logger.debug("S3 push: Deleted %s keys", counter)
+
+    logger.debug("S3 push: copying tarball")
+    _s3_upload(conf.archive, bucket, conf.destination)
+
+    logger.debug("S3 push: copying private files")
+    dir_files = os.path.join(conf.destination, 'files')
+    _s3_upload(conf.dir_files_private, bucket, dir_files)
+    logger.debug("S3 push: copying puppet conf")
+    _s3_upload(conf.conf_puppet, bucket, conf.destination)
+    logger.debug("S3 push: copying hiera conf")
+    _s3_upload(conf.conf_hiera, bucket, conf.destination)
+    logger.debug("S3 push: copying private facts")
+    _s3_upload(conf.facts_private, bucket, conf.destination)
+
+
 def push():
 
     if conf.mode == 'posix':
         _push_posix()
+    elif conf.mode == 's3':
+        _push_s3()
     else:
         logger.error("unsupported push mode %s", conf.mode)
         sys.exit(1)
