@@ -268,9 +268,7 @@ mariadb::galera_conf_options:
 slurm::dbd::config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-  SlurmUser:         "%{hiera('profiles::jobsched::user')}"
   StorageHost:       'localhost'
-  StorageUser:       'slurm'
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 slurm::dbd::db_options:
   db:
