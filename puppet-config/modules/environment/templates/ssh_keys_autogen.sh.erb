@@ -15,11 +15,7 @@ SSH_KEY_LENGTH="<%= @autogen_key_length %>"
 SSH_KEY_NAME="id_${SSH_KEY_TYPE}_${SSH_KEY_LENGTH}_${CLUSTER}"
 SSH_KEY_PATH="${HOME}/.ssh/${SSH_KEY_NAME}"
 
-if ! test -d $HOME; then
-        exit 0
-fi
-
-if [ "`id -u`" -ne 0 ] && grep -q $USERS_GROUP <(id -Gn $USER) ; then
+if test -d ${HOME} && [ "`id -u`" -ne 0 ] && grep -q $USERS_GROUP <(id -Gn $USER) ; then
         if [ ! -f ${SSH_KEY_PATH} ]
         then
                 echo "Generating a new SSH key for $CLUSTER internal use"
