@@ -357,10 +357,13 @@ def _s3_upload(source_path, bucket, destination_path, clean=True):
         # Create remote directory if necessary
         dest_dir_name = os.path.dirname(dest_file_path) + "/"
         dest_dir = bucket.get_key(dest_dir_name)
-        if dest_dir is None:
+        while dest_dir is None:
             logger.debug("S3 upload: Creating directory %s", dest_dir_name)
             dest_dir = bucket.new_key(dest_dir_name)
             dest_dir.set_contents_from_string('', policy='public-read')
+            # Lookup parent
+            dest_dir_name = os.path.dirname(dest_dir_name[:-1]) + "/"
+            dest_dir = bucket.get_key(dest_dir_name)
   
         # Determine upload method
         filesize = os.path.getsize(source_file_path)
