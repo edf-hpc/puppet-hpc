@@ -66,7 +66,7 @@ class slurm::params {
       comment => 'The cryptographic signature tool to be used in the creation of job step credentials',
     },
     'Include' => {
-      'value'   => "${config_dir}/partitions.conf",
+      'value'   => $partitions_file,
       'comment' => 'If a line begins with the word \'Include\' followed by whitespace and then a file name, that file will be included inline with the current configuration file',
     },
   }
