@@ -22,7 +22,6 @@ class profiles::http::slurmweb {
 
   ## Hiera lookups
 
-  $slurm_user     = hiera('profiles::jobsched::user')
   $config_options = hiera_hash('profiles::http::slurmweb::config_options')
   # Pass config options as a class parameter
 
@@ -32,7 +31,6 @@ class profiles::http::slurmweb {
 
   class { '::slurmweb':
     config_options => $config_options,
-    slurm_user     => $slurm_user,
   }
 
 }
