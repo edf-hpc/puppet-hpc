@@ -222,12 +222,6 @@ profiles::jobsched::slurm_config_options:
   JobAcctGatherFrequency:
     value:   "60"
     comment: "A value of zero disables real the periodic job sampling and provides accounting information only on job termination. "
-  SlurmctldDebug:
-    value:   "3"
-    comment: "The level of detail to provide slurmctld daemon's logs. Values from 0 to 9 are legal"
-  SlurmdDebug:
-    value:   "3"
-    comment: "The level of detail to provide slurmd daemon's logs. Values from 0 to 9 are legal"
   ReturnToService:
     value:   "2"
     comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
