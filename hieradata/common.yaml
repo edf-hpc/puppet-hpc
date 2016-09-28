@@ -204,7 +204,7 @@ profiles::jobsched::slurm_config_options:
     value:   "proctrack/cgroup"
     comment: "Identifies the plugin to be used for process tracking"
   PriorityType:
-    value:   "priority/basic"
+    value:   "priority/multifactor"
     comment: "This specifies the plugin to be used in establishing a jobs scheduling priority. Supported values are 'priority/basic' and 'priority/multifactor'"
   AccountingStorageType:
     value:   "accounting_storage/slurmdbd"
