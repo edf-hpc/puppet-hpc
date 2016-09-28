@@ -46,6 +46,10 @@ class slurm (
   validate_array($partitions_options)
   validate_bool($enable_generic_scripts)
 
+  # Merge into $_config_options:
+  #  $::slurm::params::config_options_defaults
+  #  $::slurm::params::config_options_generic_scripts [if $enable_generic_scripts]
+  #  $config_options
 
   if $enable_generic_scripts {
     $_config_options_scripts = deep_merge(
@@ -57,7 +61,6 @@ class slurm (
   }
 
   $_config_options = deep_merge($_config_options_scripts, $config_options)
-
 
   class { '::slurm::config': }
 }
