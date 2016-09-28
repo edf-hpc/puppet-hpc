@@ -227,7 +227,8 @@ profiles::jobsched::slurm_config_options:
     comment: "Controls when a DOWN node will be returned to service. 1 = A DOWN node will become available for use upon registration with a valid configuration only if it was set DOWN due to being non-responsive"
 
 ##### Slurm DBD database
-galera_base_name:             "%{hiera('cluster_prefix')}%{::my_db_server}"
+db_primary_server:      "%{hiera('cluster_prefix')}%{::my_db_server}1"
+db_secondary_server:    "%{hiera('cluster_prefix')}%{::my_db_server}2"
 mariadb::galera_conf_options:
   mysqld:
     binlog_format:            'ROW'
@@ -238,12 +239,13 @@ mariadb::galera_conf_options:
     bind-address:             '0.0.0.0'
     wsrep_provider:           '/usr/lib/galera/libgalera_smm.so'
     wsrep_cluster_name:       '"galera_cluster"'
-    wsrep_cluster_address:    "\"gcomm://%{hiera('galera_base_name')}1,%{hiera('galera_base_name')}2\""
+    wsrep_cluster_address:    "\"gcomm://%{hiera('db_primary_server')},%{hiera('db_secondary_server')}\""
     wsrep_sst_method:         'rsync'
 slurm::dbd::config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
-  StorageHost:       'localhost'
+  StorageHost:       "%{hiera('db_primary_server')}"
+  StorageBackupHost: "%{hiera('db_secondary_server')}"
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 slurm::dbd::db_options:
   db:
