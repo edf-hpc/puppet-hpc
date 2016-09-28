@@ -247,8 +247,6 @@ slurm::dbd::config_options:
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 slurm::dbd::db_options:
   db:
-    hosts:       'localhost'
-    user:        'debian-sys-maint'
     password:    "%{hiera('mariadb::mysql_root_pwd')}"
   passwords:
     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
