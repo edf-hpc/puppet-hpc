@@ -44,10 +44,27 @@ class slurm::dbd::params {
     'StoragePass'       => 'password',
   }
 
+  case $::osfamily {
+    'RedHat': {
+      $db_client_file = '/etc/mysql/my.cnf'
+      $dbbackup_enable = true
+      $db_user = 'root'
+    }
+    'Debian': {
+      $db_client_file = '/etc/mysql/debian.cnf'
+      $db_backup_enable = true
+      $db_user = 'debian-sys-maint'
+    }
+    default: {
+      $db_backup_enable = false
+      $db_user = 'root'
+    }
+  }
+
   $db_options_defaults = {
     'db' => {
       'hosts'    => 'localhost',
-      'user'     => 'root',
+      'user'     => $db_user,
       'password' => 'password',
     },
     'passwords' => {
@@ -58,20 +75,6 @@ class slurm::dbd::params {
       'controllers' => '',
       'admins'      => '',
     },
-  }
-
-  case $::osfamily {
-    'RedHat': {
-      $db_client_file = '/etc/mysql/my.cnf'
-      $dbbackup_enable = true
-    }
-    'Debian': {
-      $db_client_file = '/etc/mysql/debian.cnf'
-      $db_backup_enable = true
-    }
-    default: {
-      $db_backup_enable = false
-    }
   }
 
   $db_backup_options_defaults = {
