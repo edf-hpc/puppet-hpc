@@ -1,3 +1,12 @@
+hpc-config (0.5) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * scripts h-c-a coding style
+  * scripts h-c-a Set some headers and do a proper http request
+  * scripts h-c-push Add S3 support
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Wed, 28 Sep 2016 10:10:16 +0200
+
 hpc-config (0.4) calibre9; urgency=medium
 
   [ Thomas Hamel ]
