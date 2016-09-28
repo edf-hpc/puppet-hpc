@@ -33,6 +33,7 @@ class slurm::dbd (
   $db_file                = $::slurm::dbd::params::db_file,
   $db_options             = {},
   $db_manage              = $::slurm::dbd::params::db_manage,
+  $db_setup_exec          = $::slurm::dbd::params::db_setup_exec,
   $db_backup_script       = $::slurm::dbd::params::db_backup_script,
   $db_backup_source       = $::slurm::dbd::params::db_backup_source,
   $db_backup_file         = $::slurm::dbd::params::db_backup_file,
@@ -58,6 +59,7 @@ class slurm::dbd (
     validate_absolute_path($config_file)
     validate_hash($config_options)
     validate_absolute_path($db_file)
+    validate_absolute_path($db_setup_exec)
     validate_hash($db_options)
     validate_bool($db_backup_enable)
 
