@@ -90,6 +90,7 @@ class slurm::dbd::params {
     'RedHat': {
       $packages_manage = true
       $packages        = ['slurm-slurmdbd']
+      $db_manage = false
     }
     'Debian': {
       $packages_manage = true
@@ -97,6 +98,10 @@ class slurm::dbd::params {
         'slurmdbd',
         'slurm-llnl-setup-mysql',
       ]
+      # The DB can be managed automatically on debian thanks to a script
+      # provided by slurm-llnl-setup-mysql package. It is not yet possible on
+      # other distros.
+      $db_manage = true
     }
     default: {
       $packages_manage = false

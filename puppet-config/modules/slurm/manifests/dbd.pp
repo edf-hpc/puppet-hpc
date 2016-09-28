@@ -32,6 +32,7 @@ class slurm::dbd (
   $config_options         = {},
   $db_file                = $::slurm::dbd::params::db_file,
   $db_options             = {},
+  $db_manage              = $::slurm::dbd::params::db_manage,
   $db_backup_script       = $::slurm::dbd::params::db_backup_script,
   $db_backup_source       = $::slurm::dbd::params::db_backup_source,
   $db_backup_file         = $::slurm::dbd::params::db_backup_file,
@@ -50,6 +51,7 @@ class slurm::dbd (
   validate_bool($config_manage)
   validate_bool($packages_manage)
   validate_bool($service_manage)
+  validate_bool($db_manage)
 
   if $config_manage {
 
