@@ -146,21 +146,12 @@ profiles::jobsched::slurm_config_options:
   DisableRootJobs:
     value:   "YES"
     comment: "If set to 'YES' then user root will be prevented from running any jobs"
-  CacheGroups:
-    value:   "0"
-    comment: "If set to 1 the slurmd daemon will cache /etc/groups entries. This can improve performance for highly parallel jobs"
   GroupUpdateForce:
     value:   "1"
     comment: "If set to 1 then information about which users are members of groups allowed to use a partition will be updated periodically"
-  GroupUpdateTime:
-    value:   "600"
-    comment: "Controls how frequently information about which users are members of groups allowed to use a partition will be updated"
   UsePAM:
     value:   "1"
     comment: "If set to 1 authentication by PAM will be enabled"
-  SwitchType:
-    value:   "switch/none"
-    comment: "Identifies the type of switch or interconnect used for application communications. Acceptable values include 'switch/none' and 'switch/elan'"
   TreeWidth:
     value:   "600"
     comment: "Slurmd daemons use a virtual tree network for communications. IMPORTANT: configure TreeWidth to a number at least as large as the maximum node count!!"
@@ -170,9 +161,6 @@ profiles::jobsched::slurm_config_options:
   HealthCheckInterval:
     value:   "300"
     comment: "The interval in seconds between executions of HealthCheckProgram. If value is zero execution will be disabled"
-  InactiveLimit:
-    value:   "0"
-    comment: "IMPORTANT : Script /usr/local/sbin/slurm_srun_prolog.visu require set up this value to zero"
   MessageTimeout:
     value:   "30"
     comment: "Time permitted for a round-trip communication to complete in seconds"
@@ -188,9 +176,6 @@ profiles::jobsched::slurm_config_options:
   SlurmdTimeout:
     value:   "120"
     comment: "The interval in seconds that the SLURM controller waits for slurmd to respond before configuring that node's state to DOWN"
-  SchedulerType:
-    value:   "sched/backfill"
-    comment: "sched/wiki or sched/wiki2: for the Wiki interface to the Maui Schedule"
   SelectType:
     value:   "select/cons_res"
     comment: "select/cons_res: The resources within a node are individually allocated as consumable resources. Note that whole nodes can be allocated to jobs for selected partitions by using the Shared=Exclusive option. Defines specific subsystems which should provide more detailed event logging. Valid subsystems available today (with more to come) include:"
