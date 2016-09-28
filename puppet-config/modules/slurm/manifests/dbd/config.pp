@@ -27,9 +27,11 @@ class slurm::dbd::config inherits slurm::dbd {
       data  => $::slurm::dbd::_db_options,
     }
 
-    exec { '/usr/sbin/slurm-mysql-setup create':
-      unless  => '/usr/sbin/slurm-mysql-setup check',
-      require => Hpclib::Print_Config[ $::slurm::dbd::db_file ],
+    if $::slurm::dbd::db_manage {
+      exec { '/usr/sbin/slurm-mysql-setup create':
+        unless  => '/usr/sbin/slurm-mysql-setup check',
+        require => Hpclib::Print_Config[ $::slurm::dbd::db_file ],
+      }
     }
 
     if $::slurm::dbd::db_backup_enable {
