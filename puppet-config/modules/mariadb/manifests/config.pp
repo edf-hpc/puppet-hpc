@@ -44,7 +44,7 @@ class mariadb::config {
     }
 
     hpclib::print_config { $mariadb::galera_conf_file :
-      data  => $mariadb::galera_conf_options,
+      data  => $mariadb::_galera_conf_options,
       style => 'ini',
     }
 
