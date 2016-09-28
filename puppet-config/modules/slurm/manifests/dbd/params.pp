@@ -32,7 +32,6 @@ class slurm::dbd::params {
 
   $config_options_defaults = {
     'DbdHost'           => 'localhost',
-    'DbdBackupHost'     => '',
     'DbdPort'           => '6819',
     'SlurmUser'         => 'slurm',
     'DebugLevel'        => '3',
