@@ -1,3 +1,12 @@
+hpc-config (0.6) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * debian Add dependency on python3-boto (S3 lib) for push
+  * scripts h-c-apply Clean source and skip environment if null source
+  * scripts h-c-push On S3 make sure all directories are created
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Wed, 28 Sep 2016 11:35:49 +0200
+
 hpc-config (0.5) calibre9; urgency=medium
 
   [ Thomas Hamel ]
