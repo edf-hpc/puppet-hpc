@@ -133,12 +133,11 @@ munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 profiles::jobsched::user:  'slurm'
 slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
 slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
-slurm_cluster_name:        "%{hiera('cluster_name')}"
 slurmd_user:               'root'
 slurm::exec::enable_cgroup: true
 profiles::jobsched::slurm_config_options:
   ClusterName: 
-    value:   "%{hiera('slurm_cluster_name')}"
+    value:   "%{hiera('cluster_name')}"
     comment: "The name by which this SLURM managed cluster is known in the accounting database"
   ControlMachine:
     value:   "%{hiera('slurm_primary_server')}"
