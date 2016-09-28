@@ -222,7 +222,7 @@ def get_keys(source):
         logging.info(
             "Keys source is undefined. Skipping retrieval of keys.")
         return
-    keys_url = '/'.join([source, KEYS_ARCHIVE_NAME])
+    keys_url = '/'.join([source.rstrip('/'), KEYS_ARCHIVE_NAME])
     keys_path = os.path.join(KEYS_BASE_PATH, 'keys')
     logging.info("Getting secure keys from %s", keys_url)
     if os.path.isdir(keys_path):
@@ -237,7 +237,7 @@ def get_hiera_conf(source, environment, version='latest'):
             "Source is undefined. Skipping retrieval of Hiera config.")
         return
     hiera_conf_url = '/'.join([
-        source,
+        source.rstrip('/'),
         environment,
         version,
         HIERA_CONF_ARCHIVE_NAME
@@ -253,7 +253,7 @@ def get_facts_conf(source, environment, version='latest'):
         logging.info("Source is undefined. Skipping retrieval of Facts.")
         return
     facts_conf_url = '/'.join([
-        source,
+        source.rstrip('/'),
         environment,
         version,
         FACTS_CONF_ARCHIVE_NAME
@@ -271,7 +271,7 @@ def get_puppet_conf(source, environment, version='latest'):
             "Source is undefined. Skipping retrieval of Puppet Config.")
         return
     puppet_conf_url = '/'.join([
-        source,
+        source.rstrip('/'),
         environment,
         version,
         PUPPET_CONF_ARCHIVE_NAME
@@ -286,8 +286,12 @@ def get_puppet_conf(source, environment, version='latest'):
 
 
 def get_puppet_environment(source, environment, version='latest'):
+    if source is None:
+        logging.info(
+            "Source is undefined. Skipping retrieval of Puppet Environment.")
+        return
     env_url = '/'.join([
-        source,
+        source.rstrip('/'),
         environment,
         version,
         PUPPET_ENV_ARCHIVE_NAME
