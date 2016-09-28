@@ -598,4 +598,18 @@ profiles::consul::server::subservices:
       http: 'http://localhost:7480/'
       interval: '10s'
       timeout: '1s'
+  - name: 'secret'
+    check:
+      id: 'http_secret_check'
+      name: 'Local HTTP secret check'
+      http: "http://localhost:%{hiera('profiles::http::secret::port')}/"
+      interval: '10s'
+      timeout: '1s'
+  - name: 'web-boot'
+    check:
+      id: 'http_boot_check'
+      name: 'Local HTTP bootsystem check'
+      http: "http://localhost:%{hiera('profiles::bootsystem::http_port')}/"
+      interval: '10s'
+      timeout: '1s'
 
