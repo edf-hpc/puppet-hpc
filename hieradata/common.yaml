@@ -564,7 +564,6 @@ profiles::consul::server::packages:
   - monitoring-plugins-basic
 profiles::consul::server::subservices:
   - name: 'http'
-    port: 80
     check:
       id: 'http_check'
       name: 'Local HTTP service check'
@@ -572,7 +571,6 @@ profiles::consul::server::subservices:
       interval: '10s'
       timeout: '1s'
   - name: 'apt'
-    port: 3142
     check:
       id: 'apt_check'
       name: 'Local HTTP service check'
@@ -580,7 +578,6 @@ profiles::consul::server::subservices:
       interval: '10s'
       timeout: '1s'
   - name: 'tftp'
-    port: 69
     check:
       id: 'tftpd_check'
       name: 'Local TFTPD service check'
@@ -588,7 +585,6 @@ profiles::consul::server::subservices:
       interval: '30s'
       timeout: '10s'
   - name: 's3-system'
-    port: 7480
     check:
       id: 'rgw_s3_system_check'
       name: 'Local Rados GW System S3 bucket check'
@@ -596,7 +592,6 @@ profiles::consul::server::subservices:
       interval: '10s'
       timeout: '1s'
   - name: 'rgw'
-    port: 7480
     check:
       id: 'rgw_check'
       name: 'Local Rados GW service check'
