@@ -130,7 +130,6 @@ munge::auth_key_source: "%{hiera('private_files_dir')}/munge/munge.key.enc"
 munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 
 ###### SLURM
-profiles::jobsched::user:  'slurm'
 slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
 slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 slurm::exec::enable_cgroup: true
@@ -144,9 +143,6 @@ profiles::jobsched::slurm_config_options:
   BackupController:
     value:   "%{hiera('slurm_secondary_server')}"
     comment: "Machine where SLURM control functions are to be executed if ControlMachine fails"
-  SlurmUser:
-    value:   "%{hiera('profiles::jobsched::user')}"
-    comment: "The name of the user that the slurmctld daemon executes as"
   DisableRootJobs:
     value:   "YES"
     comment: "If set to 'YES' then user root will be prevented from running any jobs"
