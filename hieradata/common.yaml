@@ -229,9 +229,9 @@ profiles::jobsched::slurm_config_options:
 ##### Slurm DBD database
 db_primary_server:      "%{hiera('cluster_prefix')}%{::my_db_server}1"
 db_secondary_server:    "%{hiera('cluster_prefix')}%{::my_db_server}2"
-mariadb::galera_conf_options:
-  mysqld:
-    wsrep_cluster_address:    "\"gcomm://%{hiera('db_primary_server')},%{hiera('db_secondary_server')}\""
+mariadb::nodes:
+ - "%{hiera('db_primary_server')}"
+ - "%{hiera('db_secondary_server')}"
 slurm::dbd::config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
