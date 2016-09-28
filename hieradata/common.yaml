@@ -133,7 +133,6 @@ munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 profiles::jobsched::user:  'slurm'
 slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
 slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
-slurmd_user:               'root'
 slurm::exec::enable_cgroup: true
 profiles::jobsched::slurm_config_options:
   ClusterName: 
@@ -148,9 +147,6 @@ profiles::jobsched::slurm_config_options:
   SlurmUser:
     value:   "%{hiera('profiles::jobsched::user')}"
     comment: "The name of the user that the slurmctld daemon executes as"
-  SlurmdUser:
-    value:   "%{hiera('slurmd_user')}"
-    comment: "The name of the user that the slurmd daemon executes as"
   DisableRootJobs:
     value:   "YES"
     comment: "If set to 'YES' then user root will be prevented from running any jobs"
