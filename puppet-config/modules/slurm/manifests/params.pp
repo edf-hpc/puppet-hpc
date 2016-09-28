@@ -37,14 +37,6 @@ class slurm::params {
       value   => 'slurm',
       comment => 'The name of the user that the slurmctld daemon executes as',
     },
-    'SlurmctldPort' => {
-      value   => '6817',
-      comment => 'The port number that the SLURM controller, slurmctld, listens to for work',
-    },
-    'SlurmdPort' => {
-      value   => '6818',
-      comment => 'The port number that the SLURM compute node daemon, slurmd, listens to for work. SlurmctldPort and SlurmdPort must be different',
-    },
     'SlurmctldPidFile' => {
       value   => '/var/run/slurm-llnl/slurmctld.pid',
       comment => 'File into which the slurmctld daemon may write its process id',
@@ -52,10 +44,6 @@ class slurm::params {
     'SlurmdPidFile' => {
       value   => '/var/run/slurm-llnl/slurmd.pid',
       comment => 'File into which the slurmd daemon may write its process id',
-    },
-    'SlurmdSpoolDir' => {
-      value   => '/var/spool/slurmd',
-      comment => 'Directory (local file system) into which the slurmd daemons state information and batch job script information are written',
     },
     'AuthType' => {
       value   => 'auth/munge',
