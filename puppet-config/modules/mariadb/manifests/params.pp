@@ -18,6 +18,7 @@ class mariadb::params {
   $config_manage     = true
   $service_enable    = true
   $service_ensure    = 'running'
+  $nodes             = [ 'localhost' ]
 
   ### Package ###
   $package_ensure    = 'present'
@@ -66,7 +67,6 @@ class mariadb::params {
           'bind-address'             => '0.0.0.0',
           'wsrep_provider'           => '/usr/lib/galera/libgalera_smm.so',
           'wsrep_cluster_name'       => '"galera_cluster"',
-          'wsrep_cluster_address'    => '"gcomm://server_primary,server_secondary"',
           'wsrep_sst_method'         => 'rsync',
         }
       }

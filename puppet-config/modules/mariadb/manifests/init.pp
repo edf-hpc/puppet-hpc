@@ -28,10 +28,9 @@ class mariadb (
   $service_ensure       = $mariadb::params::service_ensure,
   $service_enable       = $mariadb::params::service_enable,
   $service_name         = $mariadb::params::service_name,
+  $nodes                = $mariadb::params::nodes,
   $mysql_root_pwd,
 ) inherits mariadb::params {
-
-
 
   ### Validate params ###
   validate_bool($package_manage)
@@ -52,8 +51,24 @@ class mariadb (
     validate_hash($mysql_conf_options)
 
     validate_hash($galera_conf_options)
-    $_galera_conf_options = deep_merge($::mariadb::params::galera_conf_options,
-                                       $galera_conf_options)
+    validate_array($nodes)
+
+    # Merge the hash from params.pp, the hash in class parameter and the hash
+    # with the wresp address into $_galera_conf_options
+
+    $_galera_conf_options_wo_addr = deep_merge($::mariadb::params::galera_conf_options,
+                                               $galera_conf_options)
+
+    # build a small temporary hash to add the wresp cluster address in
+    # $_galera_conf_options hash.
+    $_galera_conf_options_addr = {
+        mysqld => {
+          wsrep_cluster_address => sprintf( '"gcomm://%s"', join($nodes, ','))
+        }
+    }
+
+    $_galera_conf_options = deep_merge($_galera_conf_options_wo_addr,
+                                       $_galera_conf_options_addr)
   }
 
   if $service_manage {
