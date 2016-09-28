@@ -52,20 +52,26 @@ class slurm::dbd (
   validate_bool($service_manage)
 
   if $config_manage {
+
     validate_absolute_path($config_file)
     validate_hash($config_options)
     validate_absolute_path($db_file)
     validate_hash($db_options)
     validate_bool($db_backup_enable)
+
     $_config_options = deep_merge($::slurm::dbd::params::config_options_defaults, $config_options)
     $_db_options = deep_merge($::slurm::dbd::params::db_options_defaults, $db_options)
+
     if $db_backup_enable {
+
       validate_absolute_path($db_backup_script)
       validate_absolute_path($db_backup_file)
       validate_string($db_backup_source)
       validate_hash($db_options)
+
       $_db_backup_options = deep_merge($::slurm::dbd::params::db_backup_options_defaults, $db_backup_options)
     }
+
   }
 
   if $packages_manage {
