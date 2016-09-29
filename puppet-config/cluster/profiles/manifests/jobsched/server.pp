@@ -56,19 +56,26 @@
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
 class profiles::jobsched::server {
-  # Install slurm and munge
+
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys')
+  $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
+
   class { '::slurm':
     config_options => $slurm_config_options
   }
+
   include ::slurm::dbd
   include ::slurm::ctld
   include ::munge
-  include ::ceph::fsmount
+
+  class { '::ceph::posix::client':
+    keys   => $ceph_keys,
+    mounts => $ceph_mounts,
+  }
 
   Class['::slurm'] -> Class['::slurm::ctld']
-  Class['::ceph::fsmount'] -> Class['::slurm::ctld']
-
+  Class['::ceph::posix::client'] -> Class['::slurm::ctld']
   Class['::munge::service'] -> Class['::slurm::dbd::service'] -> Class['::slurm::ctld::service']
 
   package{ [
