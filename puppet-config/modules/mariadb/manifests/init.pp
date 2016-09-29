@@ -77,9 +77,15 @@ class mariadb (
     validate_string($service_ensure)
   }
 
+  # One particularity of this module is that config is deployed _before_
+  # packages (::config before ::install). The debian packages extract the
+  # debian-sys-maint password from debian.cnf, otherwise the password is
+  # generated randomly. We need this password to be similar on all mariadb
+  # nodes then this file must be present before the package installation.
+
   anchor { 'mariadb::begin': } ->
-  class { '::mariadb::install': } ->
   class { '::mariadb::config': } ->
+  class { '::mariadb::install': } ->
   class { '::mariadb::service': } ->
   anchor { 'mariadb::end': }
 }
