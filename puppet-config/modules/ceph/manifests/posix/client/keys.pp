@@ -13,16 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ceph::fsmount::mount inherits ceph::fsmount {
+class ceph::posix::client::keys inherits ceph::posix::client {
 
-  if $::ceph::fsmount::mount_manage {
+  create_resources(::ceph::posix::key,
+                   $::ceph::posix::client::keys)
 
-    mount { $::ceph::fsmount::mount_point:
-      ensure  => mounted,
-      fstype  => 'ceph',
-      device  => $::ceph::fsmount::_device,
-      options => $::ceph::fsmount::_options,
-    }
-
-  }
 }

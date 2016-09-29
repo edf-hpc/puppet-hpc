@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2016 EDF S.A.                                           #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,11 +13,31 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ceph::fsmount::install inherits ceph::fsmount {
+# Mount a POSIX Ceph FS using kernel module
+#
+# @param servers    Array of Ceph MON servers
+# @param device     Directory to mount on the server
+# @param mountpoint Local mount point
+# @param user       Name of RADOS user
+# @param key        Name of the secret key file inside the keys directory
+define ceph::posix::mount (
+  $servers    = [ 'localhost' ],
+  $device     = '/',
+  $mountpoint = '/mnt',
+  $user       = 'admin',
+  $key,
+){
 
-  if $::ceph::fsmount::packages_manage {
-    package { $::ceph::fsmount::packages:
-      ensure => $::ceph::fsmount::packages_ensure,
-    }
+  $_keyfile = "${::ceph::posix::client::keys_dir}/${key}.key"
+
+  $_device = sprintf("%s:%s", join($servers, ','), $device)
+  $_options = sprintf("name=%s,secretfile=%s", $user, $_keyfile)
+
+  mount { $mountpoint:
+    ensure  => mounted,
+    fstype  => 'ceph',
+    device  => $_device,
+    options => $_options,
   }
+
 }

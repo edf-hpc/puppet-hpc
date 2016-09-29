@@ -13,22 +13,32 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ceph::fsmount::params {
+class ceph::posix::client (
+  $packages        = $::ceph::posix::client::params::packages,
+  $packages_ensure = $::ceph::posix::client::params::packages_ensure,
+  $packages_manage = $::ceph::posix::client::params::packages_manage,
+  $keys_dir        = $::ceph::posix::client::params::keys_dir,
+  $keys_owner      = $::ceph::posix::client::params::keys_owner,
+  $keys_group      = $::ceph::posix::client::params::keys_group,
+  $keys_mode       = $::ceph::posix::client::params::keys_mode,
+  $keys,
+  $mounts,
+) inherits ceph::posix::client::params {
 
-  $packages        = [ 'ceph-fs-common' ]
-  $packages_manage = true
-  $packages_ensure = 'installed'
+  validate_array($packages)
+  validate_string($packages_ensure)
+  validate_bool($packages_manage)
+  validate_absolute_path($keys_dir)
+  validate_string($keys_owner)
+  validate_string($keys_group)
+  validate_integer($keys_mode)
+  validate_hash($keys)
+  validate_hash($mounts)
 
-  $config_manage = true
-  $key_file      = '/etc/ceph/ceph.keyring'
-  $key_owner     = 'root'
-  $key_group     = 'root'
-  $key_mode      = 0640
-
-  $mount_manage  = true
-  $mount_device  = '/'
-  $mount_point   = '/mnt'
-  $mount_user    = 'admin'
-  $mon_servers   = [ 'localhost' ]
+  anchor { 'ceph::posix::client::begin': } ->
+  class { '::ceph::posix::client::install': } ->
+  class { '::ceph::posix::client::keys': } ->
+  class { '::ceph::posix::client::mounts': } ->
+  anchor { 'ceph::posix::client::end': }
 
 }

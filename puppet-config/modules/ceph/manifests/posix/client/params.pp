@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2016 EDF S.A.                                           #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,24 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ceph::fsmount::config inherits ceph::fsmount {
+class ceph::posix::client::params {
 
-  if $::ceph::fsmount::config_manage {
+  $packages        = [ 'ceph-fs-common' ]
+  $packages_manage = true
+  $packages_ensure = 'installed'
 
-    file { $::ceph::fsmount::_key_dir:
-      ensure => directory,
-      owner  => $::ceph::fsmount::key_owner,
-      group  => $::ceph::fsmount::key_group,
-      mode   => 0755,
-    }
+  $keys_dir      = '/etc/ceph'
+  $keys_owner    = 'root'
+  $keys_group    = 'root'
+  $keys_mode     = 0640
 
-    file { $::ceph::fsmount::key_file:
-      content => $::ceph::fsmount::key,
-      owner   => $::ceph::fsmount::key_owner,
-      group   => $::ceph::fsmount::key_group,
-      mode    => $::ceph::fsmount::key_mode,
-      require => File[$::ceph::fsmount::_key_dir],
-    }
-
-  }
 }
