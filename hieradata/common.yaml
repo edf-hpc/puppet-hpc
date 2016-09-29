@@ -132,6 +132,7 @@ munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 ###### SLURM
 slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
 slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
+slurm_state_save_loc:      "/var/spool/slurmctld"
 slurm::exec::enable_cgroup: true
 profiles::jobsched::slurm_config_options:
   ClusterName: 
@@ -182,6 +183,9 @@ profiles::jobsched::slurm_config_options:
   SelectTypeParameters:
     value:   "CR_CPU_Memory"
     comment: ""
+  StateSaveLocation:
+    value:   "%{hiera('slurm_state_save_loc')}"
+    comment: 'Fully qualified pathname of a directory into which the Slurm controller, slurmctld, saves its state.'
   PropagateResourceLimits:
     value:   "NONE"
     comment: "The following limit names are supported by SLURM: ALL NONE AS CORE CPU DATA FSIZE MEMLOCK NOFILE NPROC RSS STACK. A list of comma separated resource limit names to exclude"
