@@ -64,8 +64,10 @@ class profiles::jobsched::server {
   include ::slurm::dbd
   include ::slurm::ctld
   include ::munge
+  include ::ceph::fsmount
 
   Class['::slurm'] -> Class['::slurm::ctld']
+  Class['::ceph::fsmount'] -> Class['::slurm::ctld']
 
   Class['::munge::service'] -> Class['::slurm::dbd::service'] -> Class['::slurm::ctld::service']
 
