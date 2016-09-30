@@ -25,73 +25,25 @@ class slurm::params {
   $enable_generic_scripts = true
 
   $config_options_defaults = {
-    'ClusterName' => {
-      value   => 'mycluster',
-      comment => 'The name by which this SLURM managed cluster is known in the accounting database',
-    },
-    'ControlMachine' => {
-      value   => 'localhost',
-      comment => 'Hostname of the machine where SLURM control functions are executed',
-    },
-    'SlurmUser' => {
-      value   => 'slurm',
-      comment => 'The name of the user that the slurmctld daemon executes as',
-    },
-    'SlurmctldPidFile' => {
-      value   => '/var/run/slurm-llnl/slurmctld.pid',
-      comment => 'File into which the slurmctld daemon may write its process id',
-    },
-    'SlurmdPidFile' => {
-      value   => '/var/run/slurm-llnl/slurmd.pid',
-      comment => 'File into which the slurmd daemon may write its process id',
-    },
-    'AuthType' => {
-      value   => 'auth/munge',
-      comment => 'The authentication method for communications between SLURM components',
-    },
-    'CryptoType' => {
-      value   => 'crypto/munge',
-      comment => 'The cryptographic signature tool to be used in the creation of job step credentials',
-    },
-    'Include' => {
-      value   => $partitions_file,
-      comment => 'If a line begins with the word \'Include\' followed by whitespace and then a file name, that file will be included inline with the current configuration file',
-    },
+    'ClusterName'      => 'mycluster',
+    'ControlMachine'   => 'localhost',
+    'SlurmUser'        => 'slurm',
+    'SlurmctldPidFile' => '/var/run/slurm-llnl/slurmctld.pid',
+    'SlurmdPidFile'    => '/var/run/slurm-llnl/slurmd.pid',
+    'AuthType'         => 'auth/munge',
+    'CryptoType'       => 'crypto/munge',
+    'Include'          => $partitions_file,
   }
 
   $config_options_generic_scripts = {
-    'Prolog' => {
-      value   => "${scripts_dir}/Prolog.sh",
-      comment => 'Script executed at job step initiation on that node',
-    },
-    'PrologSlurmctld' => {
-      value   => "${scripts_dir}/PrologSlurmctld.sh",
-      comment => 'Script executed at job allocation',
-    },
-    'TaskProlog' => {
-      value   => "${scripts_dir}/TaskProlog.sh",
-      comment => 'Script executed at job step initiation by user invoking srun command',
-    },
-    'SrunProlog' => {
-      value   => "${scripts_dir}/SrunProlog.sh",
-      comment => 'Script executed at job step initiation by user invoking sbatch command',
-    },
-    'Epilog' => {
-      value   =>"${scripts_dir}/Epilog.sh",
-      comment => 'Script executed at job termination',
-    },
-    'EpilogSlurmctld' => {
-      value   => "${scripts_dir}/EpilogSlurmctld.sh",
-      comment => 'Script executed at job termination by',
-    },
-    'TaskEpilog' => {
-      value   => "${scripts_dir}/TaskEpilog.sh",
-      comment => 'Script executed at completion job step by user invoking sbatch command',
-    },
-    'SrunEpilog' => {
-      value   => "${scripts_dir}/SrunEpilog.sh",
-      comment => 'Script executed at completion job step by user invoking srun command',
-    },
+    'Prolog'          => "${scripts_dir}/Prolog.sh",
+    'PrologSlurmctld' => "${scripts_dir}/PrologSlurmctld.sh",
+    'TaskProlog'      => "${scripts_dir}/TaskProlog.sh",
+    'SrunProlog'      => "${scripts_dir}/SrunProlog.sh",
+    'Epilog'          => "${scripts_dir}/Epilog.sh",
+    'EpilogSlurmctld' => "${scripts_dir}/EpilogSlurmctld.sh",
+    'TaskEpilog'      => "${scripts_dir}/TaskEpilog.sh",
+    'SrunEpilog'      => "${scripts_dir}/SrunEpilog.sh",
   }
 
   $partitions_options = [
