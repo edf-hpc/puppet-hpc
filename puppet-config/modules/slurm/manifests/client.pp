@@ -33,6 +33,5 @@ class slurm::client (
 
   anchor { 'slurm::client::begin': } ->
   class { '::slurm::client::install': } ->
-  class { '::slurm::client::config': } ->
   anchor { 'slurm::client::end': }
 }
