@@ -38,10 +38,13 @@ class profiles::jobsched::exec {
   # Install slurm and munge
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
   class { '::slurm':
-    config_options => $slurm_config_options
+    config_options => $slurm_config_options,
   }
   include ::munge
-  include ::slurm::exec
+  $cgroup_options = hiera_hash('profiles::jobsched::exec::cgroup_options')
+  class { '::slurm::exec':
+    cgroup_options => $cgroup_options,
+  }
   Class['::slurm'] -> Class['::slurm::exec']
   Class['::munge::service'] -> Class['::slurm::exec::service']
 
