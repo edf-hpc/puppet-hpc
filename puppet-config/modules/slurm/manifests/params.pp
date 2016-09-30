@@ -54,43 +54,43 @@ class slurm::params {
       comment => 'The cryptographic signature tool to be used in the creation of job step credentials',
     },
     'Include' => {
-      'value'   => $partitions_file,
-      'comment' => 'If a line begins with the word \'Include\' followed by whitespace and then a file name, that file will be included inline with the current configuration file',
+      value   => $partitions_file,
+      comment => 'If a line begins with the word \'Include\' followed by whitespace and then a file name, that file will be included inline with the current configuration file',
     },
   }
 
   $config_options_generic_scripts = {
     'Prolog' => {
-      'value'   => "${scripts_dir}/Prolog.sh",
-      'comment' => 'Script executed at job step initiation on that node',
+      value   => "${scripts_dir}/Prolog.sh",
+      comment => 'Script executed at job step initiation on that node',
     },
     'PrologSlurmctld' => {
-      'value'   => "${scripts_dir}/PrologSlurmctld.sh",
-      'comment' => 'Script executed at job allocation',
+      value   => "${scripts_dir}/PrologSlurmctld.sh",
+      comment => 'Script executed at job allocation',
     },
     'TaskProlog' => {
-      'value'  => "${scripts_dir}/TaskProlog.sh",
-      'comment'=> 'Script executed at job step initiation by user invoking srun command',
+      value   => "${scripts_dir}/TaskProlog.sh",
+      comment => 'Script executed at job step initiation by user invoking srun command',
     },
     'SrunProlog' => {
-      'value'   => "${scripts_dir}/SrunProlog.sh",
-      'comment' => 'Script executed at job step initiation by user invoking sbatch command',
+      value   => "${scripts_dir}/SrunProlog.sh",
+      comment => 'Script executed at job step initiation by user invoking sbatch command',
     },
     'Epilog' => {
-      'value'   =>"${scripts_dir}/Epilog.sh",
-      'comment' => 'Script executed at job termination',
+      value   =>"${scripts_dir}/Epilog.sh",
+      comment => 'Script executed at job termination',
     },
     'EpilogSlurmctld' => {
-      'value'   => "${scripts_dir}/EpilogSlurmctld.sh",
-      'comment' => 'Script executed at job termination by',
+      value   => "${scripts_dir}/EpilogSlurmctld.sh",
+      comment => 'Script executed at job termination by',
     },
     'TaskEpilog' => {
-      'value'   => "${scripts_dir}/TaskEpilog.sh",
-      'comment' => 'Script executed at completion job step by user invoking sbatch command',
+      value   => "${scripts_dir}/TaskEpilog.sh",
+      comment => 'Script executed at completion job step by user invoking sbatch command',
     },
     'SrunEpilog' => {
-      'value'   => "${scripts_dir}/SrunEpilog.sh",
-      'comment' => 'Script executed at completion job step by user invoking srun command',
+      value   => "${scripts_dir}/SrunEpilog.sh",
+      comment => 'Script executed at completion job step by user invoking srun command',
     },
   }
 
