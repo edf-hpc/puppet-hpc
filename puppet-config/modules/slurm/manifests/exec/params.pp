@@ -48,7 +48,7 @@ class slurm::exec::params {
   $cgroup_relfreezer_file  = "${cgroup_rel_dir}/release_freezer"
   $cgroup_relmem_file      = "${cgroup_rel_dir}/release_memory"
   $cgroup_options_defaults = {
-    'CgroupAutomount'       => 'yes',
+    'CgroupAutomount'       => 'no',
     'CgroupReleaseAgentDir' => $cgroup_rel_dir,
     'ConstrainCores'        => 'no',
     'ConstrainRAMspace'     => 'no',
