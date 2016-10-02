@@ -74,6 +74,9 @@ define openssh::client::identity (
   )
 
   if $ensure == 'present' {
+    # Create the directory
+    ensure_resource(file, dirname($config_file), { ensure => directory })
+
     # Generate the public key
     exec { "openssh_client_update_public_key_${name}":
       path        => '/bin:/usr/bin:/sbin:/usr/sbin',
