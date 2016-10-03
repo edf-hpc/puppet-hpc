@@ -17,7 +17,8 @@ class hpc_ha (
   $default_notify_script = $::hpc_ha::params::default_notify_script,
   $vips                  = undef,
   $vip_notify_scripts    = undef,
-  $vservs                = undef
+  $vservs                = undef,
+  $options               = $::hpc_ha::params::options,
 ) inherits hpc_ha::params {
   include keepalived
 

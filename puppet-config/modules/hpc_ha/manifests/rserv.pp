@@ -19,13 +19,14 @@ define hpc_ha::rserv (
   $options    = undef,
   $real_hosts = {},
   $real_host  = undef,
+  $network,
 ) {
 
   $_name = regsubst($name, '[:\/\n]', '')
 
   validate_integer($port)
 
-  if $host {
+  if $real_host {
     $host = $real_host
   } else {
     $host = $real_hosts[$_name]
@@ -35,6 +36,7 @@ define hpc_ha::rserv (
   if $real_server_ip_address == '' {
     fail("Could not find an IP address in hostfile for host '${host}'")
   }
+
   validate_ip_address($real_server_ip_address)
 
   ::keepalived::lvs::real_server { $_name:

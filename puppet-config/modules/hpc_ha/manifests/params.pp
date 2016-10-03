@@ -15,4 +15,7 @@
 
 class hpc_ha::params {
   $default_notify_script = '/usr/local/bin/hpc_ha_notify.sh'
+  $delay_loop = '5'
+  $persistence_timeout = '600'
+
 }

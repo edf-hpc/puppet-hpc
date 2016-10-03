@@ -128,8 +128,44 @@ def get_host_vip_notify_scripts(hostname)
 end
 
 def get_host_vservs(hostname)
-  # FIXME: yeah!
-  return nil
+  
+  # This function returns a hash that could be given in parameters of:
+  #   create_resources(hpc_ha::vservs, $result)
+
+  host_vservs = Hash.new
+
+  # Find prefix for construct real hostname, for example if VIP is on "wan" real hostname isn't fbfront1 but wanfbfront1
+  net_topology = Facter.value(:net_topology)
+
+  # Iterate over all VIPs found in hiera. For each of them, if hostname is
+  # member, add to host_vips
+  all_vservs = get_vips()
+  all_vservs.each do |vservs_group, vservs_items|
+
+    members = hpc_nodeset_expand(vservs_items['members'])
+    $network_type = vservs_items['network']
+
+    if members.include?(hostname)
+      new_vservs = Hash.new
+      # The items in this hash must correspond to the parameters of the
+      # hpc_ha::vserv class
+      new_vservs['vip_name'] = vservs_group
+      new_vservs['ip_address'] = vservs_items['ip']
+      new_vservs['port'] = vservs_items['port']
+      new_vservs['real_server_hosts'] = members
+      new_vservs['delay_loop'] = vservs_items['delay_loop']
+      new_vservs['persistence_timeout'] = vservs_items['persistence_timeout']
+      new_vservs['protocol'] = vservs_items['protocol']
+      new_vservs['options'] = Hash.new
+      new_vservs['options'] = vservs_items['options']
+      new_vservs['network'] = vservs_items['network']
+      new_vservs['prefixes'] = net_topology[$network_type]['prefixes']
+      host_vservs[vservs_group] = new_vservs
+    end
+  end
+
+  return nil unless host_vservs.length
+  return host_vservs
 end
 
 def hpc_ha_vips()
@@ -146,3 +182,4 @@ def hpc_ha_vservs()
   hostname = Facter.value(:hostname)
   return get_host_vservs(hostname)
 end
+
