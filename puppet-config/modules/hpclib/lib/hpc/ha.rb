@@ -104,7 +104,6 @@ def get_host_vip_notify_scripts(hostname)
   #   create_resources(hpc_ha::vip_notify_script, $result)
 
   host_vip_notify_scripts = Hash.new
-  prefix = get_cluster_prefix()
 
   # Iterate over all VIPs found in hiera. For each of them, if hostname is
   # member, add to host_vips
@@ -112,7 +111,7 @@ def get_host_vip_notify_scripts(hostname)
   all_vips.each do |vip_group, vip_items|
 
     members = hpc_nodeset_expand(vip_items['members'])
-    if members.include?(hostname)
+    if members.include?(hostname) and vip_items.key?('notify')
 
       new_script = Hash.new
       # The items in this hash must correspond to the parameters of the
