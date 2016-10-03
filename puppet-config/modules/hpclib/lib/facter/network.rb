@@ -145,6 +145,12 @@ if !vips.nil? and vips.length > 0
 end
 
 ### Add facters ###
+Facter.add(:net_topology) do
+  setcode do
+    net_topology
+  end
+end
+
 Facter.add(:netconfig) do
   setcode do
     netconfig
@@ -180,3 +186,9 @@ Facter.add(:mynet_topology) do
     mynet_topology
   end
 end
+
+#Facter.add(:masternetwork) do
+#  setcode do
+#    masternetwork
+#  end
+#end

@@ -24,7 +24,6 @@ class profiles::ha::base {
   class { '::hpc_ha':
     vips               => $vips,
     vip_notify_scripts => $vip_notify_scripts,
-    vservs             => $vservs
+    vservs             => $vservs,
   }
-
 }
