@@ -14,6 +14,24 @@
 ##########################################################################
 
 class slurm::params {
+
+  ### Package ###
+  $packages_ensure = 'present'
+  case $::osfamily {
+    'RedHat': {
+      $packages_manage = true
+      # The slurm RPM package provides all client and daemons binaries.
+      $packages = ['slurm']
+    }
+    'Debian': {
+      $packages_manage = true
+      $packages = [ 'slurm-client' ]
+    }
+    default: {
+      $packages_manage = false
+    }
+  }
+
   ### Configuration ###
   $bin_dir         = '/usr/lib/slurm'
   $config_dir      = '/etc/slurm-llnl'

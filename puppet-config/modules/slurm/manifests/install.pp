@@ -13,21 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurm::client::params {
+class slurm::install inherits slurm {
 
-  ### Package ###
-  $packages_ensure    = 'present'
-  case $::osfamily {
-    'RedHat': {
-      $packages_manage = true
-      $packages_name   = ['slurm-sview']
-    }
-    'Debian': {
-      $packages_manage = true
-      $packages_name   = ['sview']
-    }
-    default: {
-      $packages_manage = false
+  if $::slurm::packages_manage {
+    package { $::slurm::packages:
+      ensure => $::slurm::packages_ensure,
     }
   }
 }
