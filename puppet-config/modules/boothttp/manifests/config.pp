@@ -13,9 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-#
 class boothttp::config inherits boothttp {
 
-  create_resources(boothttp::printconfig, $boothttp::supported_os)
+  create_resources(boothttp::printconfig, $::boothttp::supported_os)
 
+  hpclib::print_config { $::boothttp::menu_config :
+    style   => 'yaml',
+    data    => $::boothttp::menu_config_options,
+    mode    => 0644,
+    require => File[$::boothttp::install::menu_file],
+  }
 }

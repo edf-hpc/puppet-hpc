@@ -30,6 +30,8 @@ class boothttp (
   $archives        = $::boothttp::params::archives,
   $supported_os    = $::boothttp::params::supported_os,
   $install_options = $::boothttp::params::install_options,
+  $menu_config     = $::boothttp::params::menu_config,
+  $menu_config_options,
 
 ) inherits boothttp::params {
 
@@ -38,6 +40,9 @@ class boothttp (
   validate_hash($hpc_files)
   validate_hash($archives)
   validate_hash($supported_os)
+  validate_string($menu_config)
+  validate_hash($menu_config_options)
+  
 
   anchor { 'boothttp::begin': } ->
   class { '::boothttp::install': } ->

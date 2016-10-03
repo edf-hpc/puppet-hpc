@@ -21,7 +21,8 @@ class boothttp::params {
 
   # Files and directories that can be downloaded by HTTP
   $config_dir_http = "${config_dir}/http"
-  $menu_source     = "${config_dir_source}/bootmenu.rb"
+  $menu_source     = "${config_dir_source}/bootmenu.py"
+  $menu_config     = "${config_dir_source}/bootmenu.yaml"
 
   $hpc_files = {}
   $archives  = {}
