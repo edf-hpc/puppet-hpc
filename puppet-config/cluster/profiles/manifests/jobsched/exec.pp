@@ -48,11 +48,6 @@ class profiles::jobsched::exec {
   Class['::slurm'] -> Class['::slurm::exec']
   Class['::munge::service'] -> Class['::slurm::exec::service']
 
-  package{ [
-    'slurm-llnl-generic-scripts-plugin',
-  ]: }
-
-
   # Restrict access to execution nodes
   include ::pam
   include ::pam::slurm

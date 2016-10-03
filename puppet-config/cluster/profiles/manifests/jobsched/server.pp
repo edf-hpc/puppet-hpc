@@ -78,7 +78,4 @@ class profiles::jobsched::server {
   Class['::ceph::posix::client'] -> Class['::slurm::ctld']
   Class['::munge::service'] -> Class['::slurm::dbd::service'] -> Class['::slurm::ctld::service']
 
-  package{ [
-    'slurm-llnl-generic-scripts-plugin',
-  ]: }
 }

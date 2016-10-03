@@ -36,8 +36,4 @@ class profiles::jobsched::submit {
     config_options => $slurm_config_options
   }
   include ::munge
-
-  package{ [
-    'slurm-llnl-generic-scripts-plugin',
-  ]: }
 }
