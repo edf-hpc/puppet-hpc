@@ -49,7 +49,7 @@ define libvirt::pool (
     command     => "/usr/bin/virsh pool-start ${name}",
     refreshonly => true,
     subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh net-info ${name} | tr -d ' ' | grep 'Active:yes'"
+    unless      => "/usr/bin/virsh pool-info ${name} | tr -d ' ' | grep 'State:running'"
   }
 
   exec { "virsh_pool_autostart_${name}":
