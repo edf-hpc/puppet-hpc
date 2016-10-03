@@ -258,6 +258,10 @@ def get_facts_conf(source, environment, version='latest'):
         version,
         FACTS_CONF_ARCHIVE_NAME
     ])
+    parent_dir = os.path.dirname(FACTS_CONF_PATH)
+    if not os.path.isdir(parent_dir):
+        logging.debug("Creating parent directory %s", parent_dir)
+        os.makedirs(parent_dir, 0o755)
     logging.info("Getting Facts config from %s", facts_conf_url)
     if os.path.exists(FACTS_CONF_PATH):
         os.remove(FACTS_CONF_PATH)
