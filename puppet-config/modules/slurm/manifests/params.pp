@@ -25,7 +25,10 @@ class slurm::params {
     }
     'Debian': {
       $packages_manage = true
-      $packages = [ 'slurm-client' ]
+      $packages = [
+        'slurm-client',
+        'slurm-llnl-generic-scripts-plugin',
+      ]
     }
     default: {
       $packages_manage = false
