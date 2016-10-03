@@ -13,15 +13,39 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class libvirt::config inherits libvirt {
+define libvirt::secret (
+  $uuid,
+  $value,
+  $type = 'ceph',
+){
+  validate_string($type)
+  validate_string($value)
+  validate_string($uuid)
+  
+  $xml_path = "/var/lib/puppet/libvirt/libvirt_secret_${name}.xml"
 
-  hpclib::print_config { $::libvirt::config_file :
-    style  => 'keyval',
-    data   => $::libvirt::_config_options,
-    notify => Class['::libvirt::service'],
+  ensure_resource(file, '/var/lib/puppet/libvirt', { 'ensure' => 'directory'})
+
+  file { $xml_path:
+    ensure  => present,
+    content => template('libvirt/secret.erb'),
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
   }
 
-  Libvirt::Secret <| |> ->
-  Libvirt::Pool <| |>
-  Libvirt::Network <| |>
+  exec { "virsh_secret_define_${name}":
+    command     => "/usr/bin/virsh secret-define --file ${xml_path}",
+    refreshonly => true,
+    subscribe   => File[$xml_path],
+    unless      => "/usr/bin/virsh secret-dumpxml ${uuid}",
+    before      => Exec["virsh_secret_setvalue_${name}"],
+  }
+
+  exec { "virsh_secret_setvalue_${name}":
+    command     => "/usr/bin/virsh secret-set-value --secret=${uuid} --base64=${value}",
+    refreshonly => true,
+    subscribe   => File[$xml_path],
+  }
+
 }
