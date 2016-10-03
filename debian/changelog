@@ -1,3 +1,10 @@
+hpc-config (0.7) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * scripts h-c-apply Create parent directory for fact file
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Mon, 03 Oct 2016 13:57:33 +0200
+
 hpc-config (0.6) calibre9; urgency=medium
 
   [ Thomas Hamel ]
