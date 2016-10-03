@@ -145,6 +145,10 @@ def get_host_vservs(hostname)
     members = hpc_nodeset_expand(vservs_items['members'])
     $network_type = vservs_items['network']
 
+    if(vservs_items['port'] == nil || vservs_items['protocol'] == nil)
+      return nil
+    end
+
     if members.include?(hostname)
       new_vservs = Hash.new
       # The items in this hash must correspond to the parameters of the
