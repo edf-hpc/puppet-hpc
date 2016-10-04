@@ -84,6 +84,27 @@ class slurm::dbd::params {
     'DBMAINCONF'           => $db_client_file,
   }
 
+  $sync_enable      = true
+  $sync_conf_file   = '/etc/slurm-llnl/sync-accounts.conf'
+  $sync_exec        = '/usr/sbin/slurm-sync-accounts'
+  $sync_cron_user   = 'root'
+  $sync_cron_hour   = 2
+  $sync_cron_minute = 0
+  $sync_pkg_cron    = '/etc/cron.d/slurm-llnl-sync-accounts'
+  $sync_pkg_cron_ensure = absent
+
+  $sync_options_defaults = {
+    main => {
+      org     => 'org',
+      cluster => 'cluster',
+      group   => 'users',
+      policy  => 'global_account',
+    },
+    global_account => {
+      name    => 'users',
+      desc    => 'all users account',
+    },
+  }
 
   ### Package ###
   $packages_ensure    = 'present'
@@ -98,6 +119,7 @@ class slurm::dbd::params {
       $packages        = [
         'slurmdbd',
         'slurm-llnl-setup-mysql',
+        'slurm-llnl-sync-accounts',
       ]
       # The DB can be managed automatically on debian thanks to a script
       # provided by slurm-llnl-setup-mysql package. It is not yet possible on

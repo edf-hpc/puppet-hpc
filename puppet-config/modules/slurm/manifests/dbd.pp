@@ -38,6 +38,16 @@ class slurm::dbd (
   $db_backup_source       = $::slurm::dbd::params::db_backup_source,
   $db_backup_file         = $::slurm::dbd::params::db_backup_file,
   $db_backup_options      = {},
+  $sync_enable            = $::slurm::dbd::params::sync_enable,
+  $sync_conf_file         = $::slurm::dbd::params::sync_conf_file,
+  $sync_options           = {},
+  $sync_conf_file         = $::slurm::dbd::params::sync_conf_file,
+  $sync_exec              = $::slurm::dbd::params::sync_exec,
+  $sync_cron_user         = $::slurm::dbd::params::sync_cron_user,
+  $sync_cron_hour         = $::slurm::dbd::params::sync_cron_hour,
+  $sync_cron_minute       = $::slurm::dbd::params::sync_cron_minute,
+  $sync_pkg_cron          = $::slurm::dbd::params::sync_pkg_cron,
+  $sync_pkg_cron_ensure   = $::slurm::dbd::params::sync_pkg_cron_ensure,
   $packages_manage        = $::slurm::dbd::params::packages_manage,
   $packages               = $::slurm::dbd::params::packages,
   $packages_ensure        = $::slurm::dbd::params::packages_ensure,
@@ -53,6 +63,7 @@ class slurm::dbd (
   validate_bool($packages_manage)
   validate_bool($service_manage)
   validate_bool($db_manage)
+  validate_bool($sync_enable)
 
   if $config_manage {
 
@@ -76,6 +87,18 @@ class slurm::dbd (
       $_db_backup_options = deep_merge($::slurm::dbd::params::db_backup_options_defaults, $db_backup_options)
     }
 
+    if $sync_enable {
+      validate_absolute_path($sync_conf_file)
+      validate_hash($sync_options)
+      validate_absolute_path($sync_exec)
+      validate_string($sync_cron_user)
+      validate_integer($sync_cron_hour)
+      validate_integer($sync_cron_minute)
+      validate_absolute_path($sync_pkg_cron)
+      validate_string($sync_pkg_cron_ensure)
+
+      $_sync_options = deep_merge($::slurm::dbd::params::sync_options_defaults, $sync_options)
+    }
   }
 
   if $packages_manage {
