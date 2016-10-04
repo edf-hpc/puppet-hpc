@@ -142,18 +142,17 @@ def get_host_vservs(hostname)
   all_vservs.each do |vservs_group, vservs_items|
 
     members = hpc_nodeset_expand(vservs_items['members'])
-    $network_type = vservs_items['network']
+    network_type = vservs_items['network']
+    netmask = net_topology[network_type]['prefix_length']
+    ip = vservs_items['ip']
+    ip2 = "#{ip}#{netmask}"
 
-    if(vservs_items['port'] == nil || vservs_items['protocol'] == nil)
-      return nil
-    end
-
-    if members.include?(hostname)
+    if members.include?(hostname) and vservs_items.key?('port')
       new_vservs = Hash.new
       # The items in this hash must correspond to the parameters of the
       # hpc_ha::vserv class
       new_vservs['vip_name'] = vservs_group
-      new_vservs['ip_address'] = vservs_items['ip']
+      new_vservs['ip_address'] = ip2
       new_vservs['port'] = vservs_items['port']
       new_vservs['real_server_hosts'] = members
       new_vservs['delay_loop'] = vservs_items['delay_loop']
@@ -162,7 +161,7 @@ def get_host_vservs(hostname)
       new_vservs['options'] = Hash.new
       new_vservs['options'] = vservs_items['options']
       new_vservs['network'] = vservs_items['network']
-      new_vservs['prefixes'] = net_topology[$network_type]['prefixes']
+      new_vservs['prefixes'] = net_topology[network_type]['prefixes']
       host_vservs[vservs_group] = new_vservs
     end
   end
