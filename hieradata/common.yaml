@@ -190,6 +190,15 @@ slurm::dbd::db_options:
     controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
     admins:      "%{hiera('cluster_prefix')}admin1"
 
+
+profiles::jobsched::server::sync_options:
+  main:
+    cluster: "%{hiera('cluster_name')}"
+    group:   "%{hiera('user_group')}"
+
+profiles::jobsched::server::sync_cron_hour_primary: 2
+profiles::jobsched::server::sync_cron_hour_secondary: 14
+
 ##### NHC
 profiles::warewulf_nhc::config_options:
   rm:
