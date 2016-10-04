@@ -28,6 +28,17 @@ class slurm::ctld::config inherits slurm::ctld {
       file { $::slurm::ctld::submit_lua_file:
         source => $::slurm::ctld::submit_lua_source,
       }
+
+      hpclib::print_config { $::slurm::ctld::submit_lua_conf:
+        style    => 'keyval',
+        comments => '--',
+        data     => $::slurm::ctld::_submit_lua_options,
+      }
+
+      exec { 'gen-qos-conf':
+        command => $::slurm::ctld::submit_qos_exec,
+        creates => $::slurm::ctld::submit_qos_conf,
+      }
     }
 
     if $::slurm::ctld::enable_wckeys {
