@@ -33,11 +33,16 @@ define ceph::posix::mount (
   $_device = sprintf("%s:%s", join($servers, ','), $device)
   $_options = sprintf("name=%s,secretfile=%s", $user, $_keyfile)
 
+  file { $mountpoint:
+    ensure => directory,
+  }
+
   mount { $mountpoint:
     ensure  => mounted,
     fstype  => 'ceph',
     device  => $_device,
     options => $_options,
+    require => File[$mountpoint],
   }
 
 }
