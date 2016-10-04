@@ -62,6 +62,10 @@ class slurm::ctld (
   $enable_wckeys     = $::slurm::ctld::params::enable_wckeys,
   $submit_lua_file   = $::slurm::ctld::params::submit_lua_file,
   $submit_lua_source = $::slurm::ctld::params::submit_lua_source,
+  $submit_lua_conf   = $::slurm::ctld::params::submit_lua_conf,
+  $submit_lua_cores  = $::slurm::ctld::params::submit_lua_cores,
+  $submit_qos_exec   = $::slurm::ctld::params::submit_qos_exec,
+  $submit_qos_conf   = $::slurm::ctld::params::submit_qos_conf,
   $topology_file     = $::slurm::ctld::params::topology_file,
   $topology_options  = $::slurm::ctld::params::topology_options,
   $packages_manage   = $::slurm::ctld::params::packages_manage,
@@ -90,6 +94,15 @@ class slurm::ctld (
     if $enable_lua {
       validate_absolute_path($submit_lua_file)
       validate_string($submit_lua_source)
+      validate_absolute_path($submit_lua_conf)
+      validate_integer($submit_lua_cores)
+      # Generate lua conf hash for print_config with
+      # submit_lua_cores.
+      $_submit_lua_options = {
+        'CORES_PER_NODE' => "${submit_lua_cores}",
+      }
+      validate_absolute_path($submit_qos_exec)
+      validate_absolute_path($submit_qos_conf)
     }
     if $enable_topology {
       validate_array($topology_options)
