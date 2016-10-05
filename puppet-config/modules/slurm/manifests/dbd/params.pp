@@ -78,7 +78,7 @@ class slurm::dbd::params {
   }
 
   $db_backup_options_defaults = {
-    'BKDIR'                => '/var/lib/slurmdbd-backup',
+    'BKDIR'                => '/var/backups/slurmdbd',
     'ACCTDB'               => 'slurm_acct_db',
     'DBMAINCONF'           => $db_client_file,
   }
