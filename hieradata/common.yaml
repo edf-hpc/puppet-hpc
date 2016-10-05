@@ -174,7 +174,7 @@ db_secondary_server:    "%{hiera('cluster_prefix')}%{::my_db_server}2"
 mariadb::nodes:
  - "%{hiera('db_primary_server')}"
  - "%{hiera('db_secondary_server')}"
-slurm::dbd::config_options:
+profiles::jobsched::server::slurmdbd_config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
   StorageHost:       "%{hiera('db_primary_server')}"
