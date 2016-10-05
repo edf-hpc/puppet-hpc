@@ -35,7 +35,6 @@ class slurm::dbd (
   $db_manage              = $::slurm::dbd::params::db_manage,
   $db_setup_exec          = $::slurm::dbd::params::db_setup_exec,
   $db_backup_script       = $::slurm::dbd::params::db_backup_script,
-  $db_backup_source       = $::slurm::dbd::params::db_backup_source,
   $db_backup_file         = $::slurm::dbd::params::db_backup_file,
   $db_backup_options      = {},
   $sync_enable            = $::slurm::dbd::params::sync_enable,
@@ -81,7 +80,6 @@ class slurm::dbd (
 
       validate_absolute_path($db_backup_script)
       validate_absolute_path($db_backup_file)
-      validate_string($db_backup_source)
       validate_hash($db_options)
 
       $_db_backup_options = deep_merge($::slurm::dbd::params::db_backup_options_defaults, $db_backup_options)
