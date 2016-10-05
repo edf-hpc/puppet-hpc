@@ -72,7 +72,9 @@ class profiles::jobsched::server {
   } else {
     $sync_cron_hour = hiera('profiles::jobsched::server::sync_cron_hour_secondary')
   }
+  $slurmdbd_config_options = hiera_hash('profiles::jobsched::server::slurmdbd_config_options')
   class { '::slurm::dbd':
+    config_options => $slurmdbd_config_options,
     sync_cron_hour => $sync_cron_hour,
     sync_options   => $sync_options,
   }
