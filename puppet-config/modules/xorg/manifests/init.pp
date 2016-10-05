@@ -40,18 +40,18 @@ class xorg (
 
   $_service_options = deep_merge($::xorg::params::service_options_defaults, $service_options)
 
-  if $driver == 'custom' and
-      $config_content == undef and
-      $config_source == undef {
-    fail('For driver custom, you should provide a config_content or a config_source')
-  }
-
   case $driver {
     'auto': {
       $config_ensure  = 'absent'
       $_config_content = undef
     }
     'custom': {
+      # A configuration is required with custom driver, then fail is undef
+      if $config_content == undef and
+         $config_source == undef {
+        fail('For driver custom, you should provide a config_content or a config_source')
+      }
+
       $config_ensure  = 'present'
       $_config_content = $config_content
     }
