@@ -22,4 +22,24 @@ class slurm::dbd::install inherits slurm::dbd {
     }
 
   }
+
+  # To create the archive directory, we extract its path from the slurmdbd
+  # configuration hash. This hash only exists if dbd::config_manage is true,
+  # hence this test.
+  if $::slurm::dbd::config_manage {
+
+    $_archive_dir = $::slurm::dbd::_config_options['ArchiveDir']
+    $_slurm_user = $::slurm::dbd::_config_options['SlurmUser']
+
+    # If the ArchiveDir is not defined in slurmdbd configuration, do nothing.
+
+    if $_archive_dir != undef {
+      file { $_archive_dir:
+        ensure => directory,
+        owner  => $_slurm_user,
+        group  => $_slurm_user,
+        mode   => 0755,
+      }
+    }
+  }
 }
