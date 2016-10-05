@@ -14,7 +14,7 @@
 ##########################################################################
 
 class xorg::config inherits xorg {
-  # usually /etc/systemd/system/xorg.service
+
   hpclib::systemd_service { $::xorg::service:
     target => $::xorg::service_file,
     config => $::xorg::_service_options,
@@ -43,7 +43,6 @@ class xorg::config inherits xorg {
     }
   }
 
-  # usually /etc/X11/xorg.conf
   file { $::xorg::config_file:
     ensure  => $_file_ensure,
     content => $_file_content,
