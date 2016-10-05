@@ -20,32 +20,9 @@ class xorg::config inherits xorg {
     config => $::xorg::_service_options,
   }
 
-  case $::xorg::driver {
-    'auto': {
-      $_file_ensure  = 'absent'
-      $_file_content = undef
-    }
-    'custom': {
-      $_file_ensure  = 'present'
-      $_file_content = $::xorg::config_content
-    }
-    'nvidia': {
-      $_file_ensure = 'present'
-      # Default to the module template if none is provided
-      if $::xorg::config_content == undef and $::xorg::config_source == undef {
-        $_file_content = template('xorg/xorg.nvidia.conf.erb')
-      } else  {
-        $_file_content = $::xorg::config_content
-      }
-    }
-    default: {
-      fail("Unsupported xorg driver '${::xorg::driver}', should be: 'auto', 'custom' or 'nvidia'.")
-    }
-  }
-
   file { $::xorg::config_file:
-    ensure  => $_file_ensure,
-    content => $_file_content,
+    ensure  => $::xorg::config_ensure,
+    content => $::xorg::_config_content,
     source  => $::xorg::config_source,
   }
 
