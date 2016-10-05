@@ -22,20 +22,20 @@ class xorg::config inherits xorg {
 
   case $::xorg::driver {
     'auto': {
-      $file_ensure  = 'absent'
-      $file_content = undef
+      $_file_ensure  = 'absent'
+      $_file_content = undef
     }
     'custom': {
-      $file_ensure  = 'present'
-      $file_content = $::xorg::config_content
+      $_file_ensure  = 'present'
+      $_file_content = $::xorg::config_content
     }
     'nvidia': {
-      $file_ensure = 'present'
+      $_file_ensure = 'present'
       # Default to the module template if none is provided
       if $::xorg::config_content == undef and $::xorg::config_source == undef {
-        $file_content = template('xorg/xorg.nvidia.conf.erb')
+        $_file_content = template('xorg/xorg.nvidia.conf.erb')
       } else  {
-        $file_content = $::xorg::config_content
+        $_file_content = $::xorg::config_content
       }
     }
     default: {
@@ -45,8 +45,8 @@ class xorg::config inherits xorg {
 
   # usually /etc/X11/xorg.conf
   file { $::xorg::config_file:
-    ensure  => $::xorg::file_ensure,
-    content => $::xorg::file_content,
+    ensure  => $_file_ensure,
+    content => $_file_content,
     source  => $::xorg::config_source,
   }
 
