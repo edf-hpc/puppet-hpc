@@ -43,7 +43,7 @@ class slurm::dbd::config inherits slurm::dbd {
 
       hpclib::print_config { $::slurm::dbd::db_backup_file :
         style => 'keyval',
-        data  => $::slurm::dbd::db_backup_options,
+        data  => $::slurm::dbd::_db_backup_options,
       }
 
       cron { 'dbbackup':
