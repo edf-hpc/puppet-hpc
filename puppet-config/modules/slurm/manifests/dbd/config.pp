@@ -37,7 +37,7 @@ class slurm::dbd::config inherits slurm::dbd {
     if $::slurm::dbd::db_backup_enable {
 
       file { $::slurm::dbd::db_backup_script :
-        source => $::slurm::dbd::db_backup_src,
+        source => $::slurm::dbd::db_backup_source,
         mode   => '0755',
       }
 
