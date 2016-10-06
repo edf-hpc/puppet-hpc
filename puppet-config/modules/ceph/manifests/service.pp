@@ -14,7 +14,9 @@
 ##########################################################################
 
 class ceph::service inherits ceph {
-  service { $::ceph::service :
+  $services += [ "ceph-osd@${::ceph::osd_config[$::hostname]['id']}" ]
+
+  service { $services :
     ensure => $::ceph::service_ensure,
     enable => $::ceph::service_enable,
   }

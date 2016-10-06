@@ -15,6 +15,21 @@
 
 class ceph::config inherits ceph {
 
+  if has_key($::ceph::osd_config, $::hostname) {
+    $ceph_id = $::ceph::osd_config[$::hostname]['id']
+    $mountpoint = "${::ceph::osd_path}/${::ceph::ceph_cluster_name}-${ceph_id}"
+    file { $mountpoint:
+      ensure  => 'directory',
+    }
+
+    mount { $mountpoint :
+      ensure   => 'mounted',
+      device   => $::ceph::osd_config[$::hostname]['device'],
+      fstype   => auto,
+      require  => File[$mountpoint],
+    }
+  }
+
   hpclib::print_config { $::ceph::config_file :
     style     => 'ini',
     data      => $::ceph::_config_options,
