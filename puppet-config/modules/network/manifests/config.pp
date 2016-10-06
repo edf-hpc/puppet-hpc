@@ -34,7 +34,7 @@ class network::config inherits network {
       style           => 'keyval',
       data            => $::network::irqbalance_options,
       upper_case_keys => true,
-      notify          => Service[$::network::irqbalance_service]
+      notify          => Service[$::network::irqbalance_service],
     }
   }
 

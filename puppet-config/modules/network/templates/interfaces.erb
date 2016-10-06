@@ -30,6 +30,8 @@
 <% bondcfg   = scope['::network::bonding_options'] -%>
 <% bridgecfg = scope['::network::bridge_options'] -%>
 <% routnet   = scope['::network::routednet'] -%>
+<% ib_mtu    = scope['::network::ib_mtu'] -%>
+<% ib_mode   = scope['::network::ib_mode'] -%>
 <% network_gw_set = String.new -%>
 <% bndprim = String.new -%>
 <% bndmode = String.new -%>
@@ -105,6 +107,12 @@ iface <%= card %> inet manual
     <%- else -%>
     # clean dhclient
     pre-up pkill -e -f "^dhclient.*$IFACE" || true
+    <%- end -%>
+    <%- if card.include?("ib") -%>
+    # Set mode
+    pre-up echo <%= ib_mode %> > /sys/class/net/ib0/mode || true
+    # Set mtu on ib cards
+    pre-up ip link set <%= card %> mtu <%= ib_mtu %>
     <%- end -%>
     post-up ip addr add <%= ipadd %> dev $IFACE || true
     pre-down ip addr del <%= ipadd %> dev $IFACE

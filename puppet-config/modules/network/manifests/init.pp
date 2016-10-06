@@ -88,6 +88,8 @@ class network (
   $opa_packages                = $::network::params::opa_packages,
   $mlx4load                    = $::network::params::mlx4load,
   $irqbalance_options          = $::network::params::irqbalance_options,
+  $ib_mtu                      = $::network::params::ib_mtu,
+  $ib_mode                     = $::network::params::ib_mode,
   $ib_options                  = {},
   $packages                    = [],
 ) inherits network::params {
@@ -119,6 +121,9 @@ class network (
   validate_hash($irqbalance_options)
   validate_hash($bonding_options)
   validate_hash($bridge_options)
+
+  validate_integer($ib_mtu)
+  validate_string($ib_mode)
 
   # Bring all the package sources together
   validate_array($ib_packages)
