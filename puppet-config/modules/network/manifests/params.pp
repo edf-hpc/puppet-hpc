@@ -21,6 +21,8 @@ class network::params {
   $opa_enable        = false
   $ib_udev_rule_file = '/etc/udev/rules.d/50-infiniband-permissions.rules'
   $ib_file           = '/etc/infiniband/openib.conf'
+  $ib_mtu            = '65520'
+  $ib_mode           = 'connected'
   case $::osfamily {
     'Debian': {
       ## Hostname
@@ -75,7 +77,7 @@ class network::params {
       $hostname_augeas_path   = '/files/etc/sysconfig/network'
       $hostname_augeas_change = "set HOSTNAME ${::hostname}"
       ## IRQBalance
-      $irqbalance_config      = "/etc/sysconfig/irqbalance"
+      $irqbalance_config      = '/etc/sysconfig/irqbalance'
       ## Interfaces
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
