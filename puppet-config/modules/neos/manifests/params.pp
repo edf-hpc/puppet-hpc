@@ -20,7 +20,7 @@ class neos::params {
   ]
   $packages_ensure = 'installed'
 
-  $config_file = '/etc/neos.conf'
+  $config_file = '/etc/neos/neos.conf'
   $config_options_default = {
     'cluster' => {
       'name' => 'mycluster'
