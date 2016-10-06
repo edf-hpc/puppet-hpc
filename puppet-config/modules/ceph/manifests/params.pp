@@ -15,13 +15,15 @@
 
 class ceph::params {
   #### Module variables
-  $packages        = ['ceph', 'ceph-deploy']
+  $packages        = ['ceph', 'ceph-deploy', 'radosgw']
   $packages_ensure = installed
-  $service         = 'ceph'
+  $services        = ['ceph', 'radosgw']
   $service_ensure  = running
   $service_enable  = true
   $config_path     = '/etc/ceph'
   $config_file     = "$config_path/ceph.conf"
+  $ceph_cluster_name = 'ceph'
+  $osd_path        = '/var/lib/ceph/osd'
 
   #### Keyrings
   $client_admin_keyring = "$config_path/ceph.client.admin.keyring"
