@@ -14,19 +14,13 @@
 ##########################################################################
 
 class nvidia (
-  $packages         = $::nvidia::params::packages,
-  $packages_ensure  = $::nvidia::params::packages_ensure,
-  $modprobe_file    = $::nvidia::params::modprobe_file,
-  $device_uid_num   = $::nvidia::params::device_uid_num,
-  $device_gid_num   = $::nvidia::params::device_gid_num,
-  $device_file_mode = $::nvidia::params::device_file_mode,
+  $packages             = $::nvidia::params::packages,
+  $packages_ensure      = $::nvidia::params::packages_ensure,
+  $modprobe_file        = $::nvidia::params::modprobe_file,
 ) inherits nvidia::params {
   validate_array($packages)
   validate_string($packages_ensure)
   validate_absolute_path($modprobe_file)
-  validate_integer($device_uid_num)
-  validate_integer($device_gid_num)
-  validate_string($device_file_mode)
 
   anchor { 'nvidia::begin': } ->
   class { '::nvidia::install': } ->

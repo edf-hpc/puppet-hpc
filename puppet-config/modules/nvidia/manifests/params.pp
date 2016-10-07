@@ -19,11 +19,6 @@ class nvidia::params {
   ]
   $packages_ensure = 'installed'
 
-  $device_uid_num = '0'
-  # video on debian
-  $device_gid_num = '44'
-  $device_file_mode = '0660'
-
   $modprobe_file = '/etc/modprobe.d/nvidia-kernel-common.conf'
 }
 

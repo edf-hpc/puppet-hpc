@@ -21,9 +21,9 @@
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>
 #####################################################################
 alias char-major-195* nvidia
-options nvidia NVreg_DeviceFileUID=<%= @device_file_uid_num%>
-options nvidia NVreg_DeviceFileGID=<%=  @device_file_gid_num %>
-options nvidia NVreg_DeviceFileMode=<%= @device_file_mode %>
+#options nvidia NVreg_DeviceFileUID=0
+#options nvidia NVreg_DeviceFileGID=44
+#options nvidia NVreg_DeviceFileMode=0660
 # To enable FastWrites and Sidebus addressing, uncomment these lines
 # options nvidia NVreg_EnableAGPSBA=1
 # options nvidia NVreg_EnableAGPFW=1
