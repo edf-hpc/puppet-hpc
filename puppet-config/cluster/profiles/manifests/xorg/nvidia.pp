@@ -13,10 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Setup a local xorg server with nvidia
+# Install Xorg and nvidia drivers
+#
+# ## Hiera
+# - `profiles::xorg::instances` (`hiera_hash`) Instance to pass 
+#                               to `xorg::instance`
 class profiles::xorg::nvidia {
   class { '::nvidia': } ->
-  class { '::xorg':
-    driver => 'nvidia'
-  }
+  class { '::xorg':}
+
+  $instances = hiera_hash('profiles::xorg::instances')
+  create_resources(xorg::instance, $instances)
+
 }
