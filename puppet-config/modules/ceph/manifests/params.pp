@@ -17,7 +17,7 @@ class ceph::params {
   #### Module variables
   $packages        = ['ceph', 'ceph-deploy', 'radosgw']
   $packages_ensure = installed
-  $services        = ['ceph', 'radosgw']
+  $services        = ['ceph']
   $service_ensure  = running
   $service_enable  = true
   $config_path     = '/etc/ceph'
@@ -31,6 +31,17 @@ class ceph::params {
   $bootstrap_osd_keyring = "$config_path/ceph.bootstrap-osd.keyring"
   $bootstrap_rgw_keyring = "$config_path/ceph.bootstrap-rgw.keyring"
   $mon_keyring = "$config_path/ceph.mon.keyring"
+
+  #### Services
+  $mds_meta_service = "/lib/systemd/system/ceph-mds@.service"
+  $osd_meta_service = "/lib/systemd/system/ceph-osd@.service"
+  $mon_meta_service = "/lib/systemd/system/ceph-mon@.service"
+  $rgw_meta_service = "/lib/systemd/system/ceph-rgw@.service"
+
+  $mds_service = "/etc/systemd/system/ceph-mds.target.wants/ceph-mds@${::hostname}.cluster.service"
+  $mon_service = "/etc/systemd/system/ceph-mon.target.wants/ceph-mon@${::hostname}.service"
+  $osd_service = "/etc/systemd/system/ceph-osd.target.wants/ceph-osd@%s.service"
+  $rgw_service = "/etc/systemd/system/ceph-radosgw.target.wants/ceph-radosgw@rgw.${::hostname}.cluster.service"
 
   #### Default values
   $config_options_defaults = {

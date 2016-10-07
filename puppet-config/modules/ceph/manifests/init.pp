@@ -25,6 +25,9 @@ class ceph (
   $ceph_cluster_name = $::ceph::params::ceph_cluster_name,
   $osd_path        = $::ceph::params::osd_path,
   $osd_config      = {},
+  $mon_config      = [],
+  $mds_config      = [],
+  $rgw_config      = [],
 ) inherits ceph::params {
 
   validate_array($packages)
@@ -38,6 +41,9 @@ class ceph (
   validate_string($ceph_cluster_name)
   validate_string($osd_path)
   validate_hash($osd_config)
+  validate_array($mon_config)
+  validate_array($mds_config)
+  validate_array($rgw_config)
 
   $_config_options = merge ($::ceph::params::config_options_defaults, $config_options)
 
