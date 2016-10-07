@@ -41,8 +41,7 @@ define hpclib::systemd_meta_service(
     require     => File[$service],
   }
 
-  $unit_a = split($service_name, '.service$')
-  $unit_name = $unit_a[0]
+  $unit_name = delete($service_name, '.service')
   service { $unit_name :
     ensure  => $ensure,
     enable  => $enable,
