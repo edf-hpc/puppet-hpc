@@ -14,12 +14,13 @@
 ##########################################################################
 
 class carboncrelay (
-  $service         = $::carboncrelay::params::service,
-  $service_ensure  = $::carboncrelay::params::service_ensure,
-  $service_enable  = $::carboncrelay::params::service_enable,
-  $packages        = $::carboncrelay::params::packages,
-  $packages_ensure = $::carboncrelay::params::packages_ensure,
-  $config_file     = $::carboncrelay::params::config_file,
+  $service          = $::carboncrelay::params::service,
+  $service_ensure   = $::carboncrelay::params::service_ensure,
+  $service_enable   = $::carboncrelay::params::service_enable,
+  $packages         = $::carboncrelay::params::packages,
+  $packages_ensure  = $::carboncrelay::params::packages_ensure,
+  $config_file      = $::carboncrelay::params::config_file,
+  $service_override = {},
 ) inherits carboncrelay::params {
   validate_string($service)
   validate_string($service_ensure)
@@ -27,6 +28,9 @@ class carboncrelay (
   validate_array($packages)
   validate_string($packages_ensure)
   validate_absolute_path($config_file)
+  validate_hash($service_override)
+
+  $_service_override = deep_merge($::carboncrelay::params::service_override_defaults, $service_override)
 
   anchor { 'carboncrelay::begin': } ->
   class { '::carboncrelay::install': } ->

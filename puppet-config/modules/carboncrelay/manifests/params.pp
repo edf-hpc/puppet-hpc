@@ -17,6 +17,14 @@ class carboncrelay::params {
   $service = 'carbon-c-relay'
   $service_ensure = 'running'
   $service_enable = true
+
+  $service_override_defaults = {
+    'Service' => {
+      'LimitNOFILE' => '8192'
+    }
+  }
+
+
   $packages = [
     'carbon-c-relay'
   ]

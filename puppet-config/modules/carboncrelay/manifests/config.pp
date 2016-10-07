@@ -14,6 +14,25 @@
 ##########################################################################
 
 class carboncrelay::config inherits carboncrelay {
+  $service_dir = "/etc/systemd/system/${::carboncrelay::service}.service.d"
+  $service_override_file = "${service_dir}/override.conf"
+
+  file { $service_dir:
+    ensure => directory,
+  }
+
+  hpclib::print_config { $service_override_file:
+    style  => 'ini',
+    data   => $::carboncrelay::_service_override,
+    notify => Exec['carboncrelay_systemctl_daemon_reload'],
+  }
+
+  exec { 'carboncrelay_systemctl_daemon_reload':
+    refreshonly => true,
+    command     => '/bin/systemctl daemon-reload',
+    notify      => Class['::carboncrelay::service'],
+  }
+
   concat { $::carboncrelay::config_file:
     ensure => present,
     notify => Class['::carboncrelay::service'],
