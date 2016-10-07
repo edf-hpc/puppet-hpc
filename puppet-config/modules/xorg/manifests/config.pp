@@ -20,11 +20,5 @@ class xorg::config inherits xorg {
     config => $::xorg::_service_options,
   }
 
-  file { $::xorg::config_file:
-    ensure  => $::xorg::config_ensure,
-    content => $::xorg::_config_content,
-    source  => $::xorg::config_source,
-  }
-
 }
 
