@@ -14,18 +14,16 @@
 ##########################################################################
 
 class xorg::params {
-  $service = 'xorg'
-  $service_ensure = 'running'
-  $service_enable = true
+  $service = 'xorg@'
   $service_file = "/etc/systemd/system/${service}.service"
   $service_options_defaults = {
     'Unit'    => {
-      'Description' => 'Standalone X.org server (no display manager)',
+      'Description' => 'Standalone X.org server instance %I (no display manager)',
       'After'       => 'local-fs.target',
     },
     'Service' => {
       'Type'        => 'simple',
-      'ExecStart'   => '/usr/bin/Xorg',
+      'ExecStart'   => '/usr/bin/Xorg -config /etc/X11/xorg%i.conf -sharevts :%i',
     },
     'Install' => {
       'WantedBy'    => 'multi-user.target',
@@ -37,10 +35,5 @@ class xorg::params {
   ]
   $packages_ensure = 'installed'
 
-  $config_file = '/etc/X11/xorg.conf'
-
-  $bus_id = 'auto'
-  # auto, nvidia
-  $driver = 'auto'
 }
 
