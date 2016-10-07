@@ -16,12 +16,16 @@
 class ceph (
   $packages        = $::ceph::params::packages,
   $packages_ensure = $::ceph::params::packages_ensure,
+  $ceph_user       = $::ceph::params::ceph_user,
   $services        = $::ceph::params::services,
   $service_ensure  = $::ceph::params::service_ensure,
   $service_enable  = $::ceph::params::service_enable,
   $config_file     = $::ceph::params::config_file,
   $config_options  = {},
   $keyrings        = {},
+  $mds_keyring     = {},
+  $osd_keyring     = {},
+  $rgw_client_keyring = {},
   $ceph_cluster_name = $::ceph::params::ceph_cluster_name,
   $osd_path        = $::ceph::params::osd_path,
   $osd_config      = {},
@@ -32,12 +36,16 @@ class ceph (
 
   validate_array($packages)
   validate_string($packages_ensure)
+  validate_string($ceph_user)
   validate_string($service)
   validate_string($service_ensure)
   validate_bool($service_enable)
   validate_absolute_path($config_file)
   validate_hash($config_options)
   validate_hash($keyrings)
+  validate_hash($mds_keyring)
+  validate_hash($osd_keyring)
+  validate_hash($rgw_client_keyring)
   validate_string($ceph_cluster_name)
   validate_string($osd_path)
   validate_hash($osd_config)

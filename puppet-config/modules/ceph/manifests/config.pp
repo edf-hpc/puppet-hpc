@@ -32,38 +32,91 @@ class ceph::config inherits ceph {
 
   hpclib::print_config { $::ceph::config_file :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::_config_options,
     notify    => Class['::ceph::service'],
   }
 
   hpclib::print_config { $::ceph::mon_keyring :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::keyrings['ceph.mon.keyring'],
     notify    => Class['::ceph::service'],
   }
 
   hpclib::print_config { $::ceph::client_admin_keyring :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::keyrings['client.admin.keyring'],
     notify    => Class['::ceph::service'],
   }
 
   hpclib::print_config { $::ceph::bootstrap_mds_keyring :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::keyrings['ceph.bootstrap-mds.keyring'],
     notify    => Class['::ceph::service'],
   }
 
   hpclib::print_config { $::ceph::bootstrap_osd_keyring :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::keyrings['ceph.bootstrap-osd.keyring'],
     notify    => Class['::ceph::service'],
   }
 
   hpclib::print_config { $::ceph::bootstrap_rgw_keyring :
     style     => 'ini',
+    separator => ' = ',
+    owner     => $::ceph::ceph_user,
+    mode      => '0600',
     data      => $::ceph::keyrings['ceph.bootstrap-rgw.keyring'],
     notify    => Class['::ceph::service'],
+  }
+
+  if $::hostname in $::ceph::mds_keyring {
+    hpclib::print_config { $::ceph::mds_keyring_file :
+      style     => 'ini',
+      separator => ' = ',
+      owner     => $::ceph::ceph_user,
+      mode      => '0600',
+      data      => $::ceph::mds_keyring[$::hostname],
+      notify    => Class['::ceph::service'],
+    }
+  }
+
+  if $::hostname in $::ceph::osd_config {
+    $osd_keyring_file = sprintf($::ceph::osd_keyring_file, $::ceph::osd_config[$::hostname]['id'] )
+    $osd_keyring_data = { "osd.${::ceph::osd_config[$::hostname]['id']}" => { 'key' => $::ceph::osd_config[$::hostname]['key']  } }
+    hpclib::print_config { $osd_keyring_file :
+      style     => 'ini',
+      separator => ' = ',
+      owner     => $::ceph::ceph_user,
+      mode      => '0600',
+      data      => $osd_keyring_data,
+      notify    => Class['::ceph::service'],
+    }
+  }
+
+  if $::hostname in $::ceph::rgw_client_keyring {
+    hpclib::print_config { $::ceph::rgw_keyring_file :
+      style     => 'ini',
+      separator => ' = ',
+      owner     => $::ceph::ceph_user,
+      mode      => '0600',
+      data      => $::ceph::rgw_client_keyring[$::hostname],
+      notify    => Class['::ceph::service'],
+    }
   }
 
 }
