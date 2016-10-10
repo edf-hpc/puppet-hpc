@@ -47,6 +47,10 @@ class iscdhcp::params {
       # is available and it fails. This is the less horrible workaround that
       # has been found so far.
       'Restart'         => 'on-failure',
+      # The default is 100ms, if an interface is not up, it will fail
+      # repeateadly and hit rate limiting. With this setting it will retry
+      # indefinitely.
+      'RestartSec'      => '5s',
     },
     'Install' => {
       'WantedBy'        => 'multi-user.target',
