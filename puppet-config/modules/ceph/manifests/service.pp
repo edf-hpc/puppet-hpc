@@ -18,41 +18,45 @@ class ceph::service inherits ceph {
 
   if has_key($::ceph::osd_config, $::hostname) {
     $osd = sprintf($::ceph::osd_service, $::ceph::osd_config[$::hostname]['id'])
-    $b_osd = basename($osd)
-    hpclib::systemd_meta_service { $b_osd :
-      service => $osd,
-      source  => $::ceph::osd_meta_service,
-      ensure  => $::ceph::service_ensure,
+    exec { $osd :
+      command => "/bin/systemctl enable $osd",
+      unless  => "/bin/systemctl is-enabled $osd",
+    }
+    service { $osd :
+      ensure => $::ceph::service_ensure,
       enable => $::ceph::service_enable,
     }
   }
 
   if $::hostname in $::ceph::mds_config {
-    $b_mds = basename($::ceph::mds_service)
-    hpclib::systemd_meta_service { $b_mds :
-      service => $::ceph::mds_service,
-      source  => $::ceph::mds_meta_service,
-      ensure  => $::ceph::service_ensure,
+    exec { $::ceph::mds_service :
+      command => "/bin/systemctl enable $::ceph::mds_service",
+      unless  => "/bin/systemctl is-enabled $::ceph::mds_service",
+    }
+    service { $::ceph::mds_service :
+      ensure => $::ceph::service_ensure,
       enable => $::ceph::service_enable,
     }
   }
 
   if $::hostname in $::ceph::mon_config {
-    $b_mon = basename($::ceph::mon_service)
-    hpclib::systemd_meta_service { $b_mon :
-      service => $::ceph::mon_service,
-      source  => $::ceph::mon_meta_service,
-      ensure  => $::ceph::service_ensure,
+    exec { $::ceph::mon_service :
+      command => "/bin/systemctl enable $::ceph::mon_service",
+      unless  => "/bin/systemctl is-enabled $::ceph::mon_service",
+    }
+    service { $::ceph::mon_service :
+      ensure => $::ceph::service_ensure,
       enable => $::ceph::service_enable,
     }
   }
 
   if $::hostname in $::ceph::rgw_config {
-    $b_rgw = basename($::ceph::rgw_service)
-    hpclib::systemd_meta_service { $b_rgw :
-      service => $::ceph::rgw_service,
-      source  => $::ceph::rgw_meta_service,
-      ensure  => $::ceph::service_ensure,
+    exec { $::ceph::rgw_service :
+      command => "/bin/systemctl enable $::ceph::rgw_service",
+      unless  => "/bin/systemctl is-enabled $::ceph::rgw_service",
+    }
+    service { $::ceph::rgw_service :
+      ensure => $::ceph::service_ensure,
       enable => $::ceph::service_enable,
     }
   }

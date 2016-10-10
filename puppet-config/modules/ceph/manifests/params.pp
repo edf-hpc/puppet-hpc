@@ -40,15 +40,10 @@ class ceph::params {
   $rgw_keyring_file = "$ceph_path/radosgw/${ceph_cluster_name}-rgw.${::hostname}.cluster/keyring"
 
   #### Services
-  $mds_meta_service = "/lib/systemd/system/ceph-mds@.service"
-  $osd_meta_service = "/lib/systemd/system/ceph-osd@.service"
-  $mon_meta_service = "/lib/systemd/system/ceph-mon@.service"
-  $rgw_meta_service = "/lib/systemd/system/ceph-rgw@.service"
-
-  $mds_service = "/etc/systemd/system/ceph-mds.target.wants/ceph-mds@${::hostname}.cluster.service"
-  $mon_service = "/etc/systemd/system/ceph-mon.target.wants/ceph-mon@${::hostname}.service"
-  $osd_service = "/etc/systemd/system/ceph-osd.target.wants/ceph-osd@%s.service"
-  $rgw_service = "/etc/systemd/system/ceph-radosgw.target.wants/ceph-radosgw@rgw.${::hostname}.cluster.service"
+  $mds_service = "ceph-mds@${::hostname}.cluster.service"
+  $mon_service = "ceph-mon@${::hostname}.service"
+  $osd_service = "ceph-osd@%s.service"
+  $rgw_service = "ceph-radosgw@rgw.${::hostname}.cluster.service"
 
   #### Default values
   $config_options_defaults = {
