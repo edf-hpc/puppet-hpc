@@ -37,7 +37,7 @@ class ceph (
   validate_array($packages)
   validate_string($packages_ensure)
   validate_string($ceph_user)
-  validate_string($service)
+  validate_array($services)
   validate_string($service_ensure)
   validate_bool($service_enable)
   validate_absolute_path($config_file)
