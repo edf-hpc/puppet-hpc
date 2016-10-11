@@ -88,7 +88,7 @@ class environment::params {
     },
   }
 
-  $autogen_key_type       = 'rsa'
-  $autogen_key_length     = '1024'
-  $authorized_users_group = 'users'
+  $autogen_key_type        = 'rsa'
+  $autogen_key_length      = '1024'
+  $authorized_users_groups = [ 'users' ]
 }

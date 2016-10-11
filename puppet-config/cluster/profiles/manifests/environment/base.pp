@@ -17,20 +17,20 @@
 #
 # ## Hiera
 # * `cluster_name`
-# * `profiles::environment::authorized_users_group`
+# * `user_groups`
 # * `profiles::environment::motd_content` (`hiera_hash`)
 class profiles::environment::base {
 
   ## Hiera lookups
 
-  $motd_content           = hiera_hash('profiles::environment::motd_content')
-  $cluster                = hiera('cluster_name')
-  $authorized_users_group = hiera('profiles::environment::authorized_users_group')
+  $motd_content = hiera_hash('profiles::environment::motd_content')
+  $cluster      = hiera('cluster_name')
+  $users_groups = hiera_array('user_groups')
 
   # Pass config options as a class parameter
   class { '::environment':
-    motd_content           => $motd_content,
-    cluster                => $cluster,
-    authorized_users_group => $authorized_users_group,
+    motd_content            => $motd_content,
+    cluster                 => $cluster,
+    authorized_users_groups => join($users_groups,' ')
   }
 }
