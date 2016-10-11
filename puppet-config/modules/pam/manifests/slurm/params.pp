@@ -15,10 +15,10 @@
 
 class pam::slurm::params {
 
-  $packages_ensure    = 'present'
-  $packages           = ['libpam-slurm']
-  $pamauthupdate_file = '/usr/share/pam-configs/slurm'
-  $exec               = "/bin/sed -i 's/account.*\\[.*\\].*pam_slurm.so/account\\trequired\\tpam_slurm.so/g' ${pamauthupdate_file}"
-  $condition          = "/bin/grep -q 'account.*\\[.*\\].*pam_slurm' ${pamauthupdate_file}"
+  $packages_manage = true
+  $packages_ensure = 'present'
+  $packages        = ['libpam-slurm']
+  $preseed         = '/var/local/libpam-slurm.preseed'
+  $module_enable   = true
 
 }
