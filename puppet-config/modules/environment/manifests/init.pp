@@ -17,7 +17,7 @@ class environment (
   $service_user_session         = $environment::params::service_user_session,
   $service_user_session_options = $environment::params::service_user_session_options,
   $motd_content                 = $environment::params::motd_content,
-  $authorized_users_group       = $environment::params::authorized_users_group,
+  $authorized_users_groups      = $environment::params::authorized_users_groups,
   $autogen_key_type             = $environment::params::autogen_key_type,
   $autogen_key_length           = $environment::params::autogen_key_length,
   $cluster,

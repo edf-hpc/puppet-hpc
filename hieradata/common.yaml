@@ -57,10 +57,6 @@ openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
 openssh::client::root_key_enc:        "%{hiera('private_files_dir')}/rootkeys/id_rsa_root.enc"
 openssh::client::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
 
-
-##### Environment
-profiles::environment::authorized_users_group: "%{hiera('user_group')}"
-
 ##### Codes packages
 codes::packages:
   - "%{hiera('cluster_name')}-hpc-%{puppet_role}"

@@ -9,13 +9,25 @@
 #####################################################################
 
 CLUSTER="<%= @cluster %>"
-USERS_GROUP="<%= @authorized_users_group %>"
+USERS_GROUPS="<%= @authorized_users_groups %>"
 SSH_KEY_TYPE="<%= @autogen_key_type %>"
 SSH_KEY_LENGTH="<%= @autogen_key_length %>"
 SSH_KEY_NAME="id_${SSH_KEY_TYPE}_${SSH_KEY_LENGTH}_${CLUSTER}"
 SSH_KEY_PATH="${HOME}/.ssh/${SSH_KEY_NAME}"
+unset USEROK
 
-if test -d ${HOME} && [ "`id -u`" -ne 0 ] && grep -q $USERS_GROUP <(id -Gn $USER) ; then
+for group in $USERS_GROUPS ; do
+        if [ -d ${HOME} ] && [ "`id -u`" -ne 0 ] && grep -q $group <(id -Gn $USER)
+        then
+              USEROK=1
+              break
+        else
+              unset USEROK
+        fi
+done
+
+if [ $USEROK ]
+then
         if [ ! -f ${SSH_KEY_PATH} ]
         then
                 echo "Generating a new SSH key for $CLUSTER internal use"
