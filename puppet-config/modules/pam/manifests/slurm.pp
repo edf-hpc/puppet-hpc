@@ -21,23 +21,22 @@
 #                         'present)
 # @param packages         List of packages to install
 class pam::slurm (
-  $condition          = $pam::slurm::params::condition,
-  $exec               = $pam::slurm::params::exec,
-  $pamauthupdate_file = $pam::slurm::params::pamauthupdate_file,
-  $packages_ensure    = $pam::slurm::params::packages_ensure,
+  $packages_manage    = $pam::slurm::params::packages_manage,
   $packages           = $pam::slurm::params::packages,
+  $packages_ensure    = $pam::slurm::params::packages_ensure,
+  $preseed            = $pam::slurm::params::preseed,
+  $module_enable      = $pam::slurm::params::module_enable,
 ) inherits pam::slurm::params {
   require ::pam
 
-  validate_string($condition)
-  validate_string($exec)
-  validate_absolute_path($pamauthupdate_file)
-  validate_string($packages_ensure)
+  validate_bool($packages_manage)
   validate_array($packages)
+  validate_string($packages_ensure)
+  validate_absolute_path($preseed)
+  validate_bool($module_enable)
 
   anchor { 'pam::slurm::begin': } ->
   class { '::pam::slurm::install': } ->
-  class { '::pam::slurm::config': } ->
   anchor { 'pam::slurm::end': }
 
 }

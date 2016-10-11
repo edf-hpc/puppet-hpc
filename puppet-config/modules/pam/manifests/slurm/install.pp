@@ -15,8 +15,28 @@
 
 class pam::slurm::install inherits pam::slurm {
 
-  package { $::pam::slurm::packages:
-    ensure => $::pam::slurm::packages_ensure,
+  if $::pam::slurm::packages_manage {
+
+    case $::osfamily {
+
+      'Debian': {
+        file { $::pam::slurm::preseed:
+          content => template('pam/libpam-slurm.preseed.erb'),
+          mode    => 0644,
+        }
+        package { $::pam::slurm::packages:
+          ensure       => $::pam::slurm::packages_ensure,
+          responsefile => $::pam::slurm::preseed,
+          require      => File[$::pam::slurm::preseed],
+        }
+      }
+
+      default: {
+        fail("Unsupported OS Family '${::osfamily}', should be: 'Debian'.")
+      }
+
+    }
+
   }
 
 }
