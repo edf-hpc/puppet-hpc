@@ -27,13 +27,13 @@ class clara::params {
   $keyring_source = 'puppet:///modules/clara/cluster_keyring.secret.gpg.enc'
 
   $password_file            = '/etc/clara/master_password'
-  $password_options_default = {
+  $password_options_defaults = {
     'ASUPASSWD'   => 'password',
     'IMMUSER'     => 'USERID',
     'IMMPASSWORD' => 'password',
   }
 
-  $common_options_default = {
+  $common_options_defaults = {
     'master_passwd_file'    => {
       comment => 'File: Contains the usernames and passwords needed by the scripts',
       value   => $password_file,
@@ -52,7 +52,7 @@ class clara::params {
     },
   }
 
-  $repo_options_default =  {
+  $repo_options_defaults =  {
     'clustername'    => {
       comment => 'String: Name of your cluster or project.',
       value   => 'HPCCluster',
@@ -83,7 +83,7 @@ class clara::params {
     }
   }
 
-  $ipmi_options_default = {
+  $ipmi_options_defaults = {
     'conmand'               => {
       comment                 => '',
       value                   => 'localhost',
@@ -98,7 +98,7 @@ class clara::params {
     },
   }
 
-  $images_options_default = {
+  $images_options_defaults = {
     'files_to_remove'      => {
       comment => 'List: Files to be removed from the image',
       value   => '/etc/udev/rules.d/70-persistent-net.rules,/root/.bash_history,/etc/hostname',
@@ -113,7 +113,7 @@ class clara::params {
     },
   }
 
-  $p2p_options_default = {
+  $p2p_options_defaults = {
     'seeders'          => {
       comment => 'Nodeset: list of host seeding',
       value   => '',
@@ -152,7 +152,7 @@ class clara::params {
     },
   }
 
-  $build_options_default = {
+  $build_options_defaults = {
     'target_dists'   => {
       comment => 'List: Possible distributions, it is a list of pairs long name and short name',
       value   => 'calibre7:c7,calibre8:c8,calibre9:c9',
