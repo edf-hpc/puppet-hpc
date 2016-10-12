@@ -77,13 +77,13 @@ class clara (
   validate_hash($build_options)
   validate_hash($slurm_options)
 
-  $_common_options = deep_merge($::clara::params::common_options_default, $common_options)
-  $_repo_options   = deep_merge($::clara::params::repo_options_default,   $repo_options)
-  $_ipmi_options   = deep_merge($::clara::params::ipmi_options_default,   $ipmi_options)
-  $_images_options = deep_merge($::clara::params::images_options_default, $images_options)
-  $_p2p_options    = deep_merge($::clara::params::p2p_options_default,    $p2p_options)
-  $_build_options  = deep_merge($::clara::params::build_options_default,  $build_options)
-  $_slurm_options  = deep_merge($::clara::params::slurm_options_default,  $slurm_options)
+  $_common_options = deep_merge($::clara::params::common_options_defaults, $common_options)
+  $_repo_options   = deep_merge($::clara::params::repo_options_defaults,   $repo_options)
+  $_ipmi_options   = deep_merge($::clara::params::ipmi_options_defaults,   $ipmi_options)
+  $_images_options = deep_merge($::clara::params::images_options_defaults, $images_options)
+  $_p2p_options    = deep_merge($::clara::params::p2p_options_defaults,    $p2p_options)
+  $_build_options  = deep_merge($::clara::params::build_options_defaults,  $build_options)
+  $_slurm_options  = deep_merge($::clara::params::slurm_options_defaults,  $slurm_options)
 
   $generic_config_options = {
     'common' => $::clara::_common_options,
