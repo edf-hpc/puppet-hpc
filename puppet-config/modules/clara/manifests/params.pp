@@ -163,11 +163,30 @@ class clara::params {
     },
   }
 
-  $slurm_options_default = {
+  $slurm_options_defaults = {
     'script_slurm_health' => {
       comment => 'File: A script to be run to check the nodes\' health',
       value   => '/usr/sbin/nhc',
     },
+  }
+
+
+  $virt_file = '/etc/clara/virt.ini'
+  $virt_options_defaults = {
+    'nodegroup:default' => {
+      'default' => 'true',
+      'nodes'   => 'localhost',
+    },
+    'pool:default' => {
+      'vol_pattern' => '{vm_name}_{vol_role}.qcow2',
+    },
+    'template:default' => {
+      'default'                  => 'true',
+      'xml'                      => 'default.xml',
+      'vol_roles'                => 'system',
+      'vol_role_system_capacity' => '60000000000',
+      'networks'                 => 'administration',
+    }
   }
 
 }

@@ -24,6 +24,11 @@ class clara::config inherits clara {
     data  => $::clara::_config_options,
   }
 
+  hpclib::print_config{ $::clara::virt_file:
+    style => 'ini',
+    data  => $::clara::_virt_options,
+  }
+
   hpclib::print_config{ $::clara::password_file:
     style  => 'keyval',
     data   => $::clara::_password_options,
@@ -37,6 +42,8 @@ class clara::config inherits clara {
     mode    => '0600',
     owner   => 'root',
   }
+
+  create_resources(hpclib::hpc_file, $::clara::virt_tpl_hpc_files)
 
 }
 
