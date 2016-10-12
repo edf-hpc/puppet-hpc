@@ -40,24 +40,30 @@
 #                         in a hash, merged with default values
 # @param slurm_options    Content of the whole `config.ini` in a hash,
 #                         merged with previous parameters
+# @param virt_file        Virt options file path (`virt.ini`)
+# @param virt_options     Content of the `virt_file` in a hash
+# @param virt_tpl_hpc_files Template files to create (resources to define with hpclib::hpc_files)
 class clara (
-  $packages         = $::clara::params::packages,
-  $packages_ensure  = $::clara::params::packages_ensure,
-  $config_file      = $::clara::params::config_file,
-  $repos_file       = $::clara::params::repos_file,
-  $repos_options    = $::clara::params::repos_options,
-  $keyring_file     = $::clara::params::keyring_file,
-  $keyring_source   = $::clara::params::keyring_source,
-  $password_file    = $::clara::params::password_file,
-  $password_options = {},
-  $common_options   = {},
-  $repo_options     = {},
-  $ipmi_options     = {},
-  $images_options   = {},
-  $p2p_options      = {},
-  $build_options    = {},
-  $slurm_options    = {},
-  $config_options   = {},
+  $packages           = $::clara::params::packages,
+  $packages_ensure    = $::clara::params::packages_ensure,
+  $config_file        = $::clara::params::config_file,
+  $repos_file         = $::clara::params::repos_file,
+  $repos_options      = $::clara::params::repos_options,
+  $keyring_file       = $::clara::params::keyring_file,
+  $keyring_source     = $::clara::params::keyring_source,
+  $password_file      = $::clara::params::password_file,
+  $password_options   = {},
+  $common_options     = {},
+  $repo_options       = {},
+  $ipmi_options       = {},
+  $images_options     = {},
+  $p2p_options        = {},
+  $build_options      = {},
+  $slurm_options      = {},
+  $config_options     = {},
+  $virt_file          = $::clara::params::virt_file,
+  $virt_options       = {},
+  $virt_tpl_hpc_files = {},
 ) inherits clara::params {
   validate_array($packages)
   validate_string($packages_ensure)
@@ -76,6 +82,9 @@ class clara (
   validate_hash($p2p_options)
   validate_hash($build_options)
   validate_hash($slurm_options)
+  validate_absolute_path($virt_file)
+  validate_hash($virt_options)
+  validate_hash($virt_tpl_hpc_files)
 
   $_common_options = deep_merge($::clara::params::common_options_defaults, $common_options)
   $_repo_options   = deep_merge($::clara::params::repo_options_defaults,   $repo_options)
@@ -84,6 +93,7 @@ class clara (
   $_p2p_options    = deep_merge($::clara::params::p2p_options_defaults,    $p2p_options)
   $_build_options  = deep_merge($::clara::params::build_options_defaults,  $build_options)
   $_slurm_options  = deep_merge($::clara::params::slurm_options_defaults,  $slurm_options)
+  $_virt_options   = deep_merge($::clara::params::virt_options_defaults,   $virt_options)
 
   $generic_config_options = {
     'common' => $::clara::_common_options,
