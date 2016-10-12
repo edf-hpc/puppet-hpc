@@ -48,6 +48,11 @@ class profiles::cluster::common {
     Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
 
+  # Disable the Puppet agent
+  class { '::puppet':
+    stage     => 'first',    
+  }
+
   # Create /var/lib/calibre or equivalent
   $libcalibre_path = hiera('libcalibre')
   file { $libcalibre_path:
