@@ -487,7 +487,7 @@ profiles::consul::server::subservices:
     check:
       id: 'tftpd_check'
       name: 'Local TFTPD service check'
-      script: '/usr/lib/nagios/plugins/check_procs -w 1: --command=in.tftpd'
+      script: '/usr/lib/nagios/plugins/check_procs -c 1: --command=in.tftpd'
       interval: '30s'
       timeout: '10s'
   - name: 's3-system'
