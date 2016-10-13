@@ -43,4 +43,11 @@ class gpfs::client::config inherits gpfs::client {
   }
   create_resources(file,$gpfs_cl_files,$gpfs_cl_files_def)
 
+  ssh_authorized_key { "gpfs_${::gpfs::client::cluster}" :
+    ensure => 'present',
+    key    => $::gpfs::client::public_key,
+    type   => 'ssh-rsa',
+    user   => 'root',
+  }
+
 }
