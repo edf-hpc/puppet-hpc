@@ -20,7 +20,7 @@ class pam::limits::params {
 
   # For Debian
   $pam_service = 'common-session'
-  $module      = 'pam_access.so'
+  $module      = 'pam_limits.so'
   $type        = 'session'
   $control     = 'required'
   $position    = 'after #comment[ . = "end of pam-auth-update config" ]'
