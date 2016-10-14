@@ -23,6 +23,7 @@
 # * `profiles::bootsystem::http_dir`
 # * `profiles::bootsystem::http_port`
 # * `profiles::bootsystem::supported_os`
+# * `profiles::bootsystem::boot_params`
 #
 # ## Relevant Autolookups
 # * `boothttp::menu_source`
@@ -41,20 +42,18 @@ class profiles::bootsystem::server {
     config_options     => $tftp_config_options,
   }
 
-  # Install files necessary for boot
-  $config_dir_ftp     = hiera('profiles::bootsystem::tftp_dir')
-
   class { '::boottftp':
-    config_dir_ftp     => $config_dir_ftp,
   }
 
-  $config_dir_http = hiera('profiles::bootsystem::http_dir')
-  $supported_os    = hiera('profiles::bootsystem::supported_os')
+  $config_dir_http     = hiera('profiles::bootsystem::http_dir')
+  $supported_os        = hiera('profiles::bootsystem::supported_os')
+  $menu_config_options = hiera('profiles::bootsystem::boot_params')
 
   class { '::boothttp':
-    config_dir_http => $config_dir_http,
-    supported_os    => $supported_os,
-    virtual_address => $virtual_address,
+    config_dir_http     => $config_dir_http,
+    supported_os        => $supported_os,
+    virtual_address     => $virtual_address,
+    menu_config_options => $menu_config_options,
   }
 
   $port = hiera('profiles::bootsystem::http_port')

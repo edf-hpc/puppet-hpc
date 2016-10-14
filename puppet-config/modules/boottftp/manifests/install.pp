@@ -15,20 +15,9 @@
 
 class boottftp::install inherits boottftp {
 
-  ensure_resource('file',[$boottftp::config_dir_ftp],{'ensure' => 'directory'})
+  ensure_resource('file',[$boottftp::tftp_dir],{'ensure' => 'directory'})
 
-  $boot_files = {
-    "${boottftp::ipxe_efi_file}" => {
-      content      => hpc_source_file($boottftp::ipxe_efi_source),
-      validate_cmd => "test -d `dirname ${boottftp::ipxe_efi_file}`",
-    },
-    "${boottftp::ipxe_legacy_file}" => {
-      content      => hpc_source_file($boottftp::ipxe_legacy_source),
-      validate_cmd => "test -d `dirname ${boottftp::ipxe_legacy_file}`",
-    },
-  }
-
-  create_resources(file,$boot_files)
+  create_resources(hpclib::hpc_file, $::boottftp::hpc_files)
 
 }
 

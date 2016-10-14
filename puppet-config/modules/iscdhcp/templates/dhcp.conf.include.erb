@@ -1,22 +1,36 @@
 #################################
-<% require 'ipaddr' -%>
+<%- require 'ipaddr' -%>
+<%- require 'hpc/nodeset' -%>
 next-server <%= @my_address %>;
-if exists user-class and option user-class = "iPXE" {
-  filename "<%= @bootmenu_url %>";
-} else {
-  filename <%= @ipxebin %>;
-}
-<% dhcpnodes = Hash.new -%>
-<% range = @pool['range'].split(" ") -%>
-<% iplow = IPAddr.new(range[0]).to_i -%>
-<% iphigh = IPAddr.new(range[1]).to_i -%>
-<%= 'group {' %>
-<% @dhcp_config.each do | key, value| -%>
+<%- range = @pool['range'].split(" ") -%>
+<%- iplow = IPAddr.new(range[0]).to_i -%>
+<%- iphigh = IPAddr.new(range[1]).to_i -%>
+<%- boot_params_expand = Hash.new -%>
+<%- @boot_params.each do |nodesrange, options| -%>
+  <%- nodes = hpc_nodeset_expand(nodesrange) -%>
+  <%- boot_params_expand[nodes] = options -%>
+<%- end -%>
+group {
+<%- @dhcp_config.each do | key, value| -%>
+  <%- ipxe = String.new -%>
+  <%- ipxe = 'bootloader.bin' -%>
+  <%- boot_params_expand.each do |nodes, options| -%>
+    <%- if nodes.include?(key) -%>
+      <%- ipxe = options['ipxebin']  -%>
+    <%- end -%>
+  <%- end -%>
   <%- if (iplow..iphigh)===IPAddr.new(value['ipaddress']).to_i -%>
   <%= 'host '+key+' {' %>
-    <%= 'hardware ethernet '+value['macaddress']+';' %>
-    <%= 'fixed-address '+value['ipaddress']+';' %>
-  <%= '}' %>
+      <%= 'hardware ethernet '+value['macaddress']+';' %>
+      <%= 'fixed-address '+value['ipaddress']+';' %>
+      <%- if @tftp -%>
+      <%= 'if exists user-class and option user-class = "iPXE" {' %>
+        <%= 'filename "'+@bootmenu_url+'";' %>
+      <%= '} else {' %>
+        <%= 'filename "'+ipxe+'";' %>
+      <%= '}' %>
+    <%- end -%>
+  <%= '}'%>
   <%- end -%>
-<% end -%>
-<%= '}' %>
+<%- end -%>
+<%= '}' -%>

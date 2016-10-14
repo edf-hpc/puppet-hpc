@@ -15,23 +15,16 @@
 
 # Installs ipxe boot files in a directory
 #
-# @param config_dir_ftp     Target directory for boot files
-# @param ipxe_efi_source    Source URL for IPXE EFI file
-# @param ipxe_legacy_source Source URL for IPXE legacy (non EFI) file
+# @param tftp_dir Directory whare to place ipxe binaries
+# @param hpc_files Hash containing the ipxe binaries to install with their sources
+
 class boottftp (
-
-  $config_dir_ftp                  = $ipxe::params::config_dir_ftp,
-  $ipxe_efi_source                 = $ipxe::params::ipxe_efi_source,
-  $ipxe_legacy_source              = $ipxe::params::ipxe_legacy_source,
-
+  $tftp_dir  = $::boottftp::params::tftp_dir,
+  $hpc_files = $::boottftp::params::hpc_files,
 ) inherits boottftp::params {
-
-  validate_absolute_path($config_dir_ftp)
-  validate_string($ipxe_efi_source)
-  validate_string($ipxe_legacy_source)
-
-  $ipxe_efi_file                   = "${config_dir_ftp}/ipxe.efi"
-  $ipxe_legacy_file                = "${config_dir_ftp}/ipxe.legacy"
+  
+  validate_string($tftp_dir)
+  validate_hash($hpc_files)
 
   anchor { 'boottftp::begin': } ->
   class { '::boottftp::install': } ->

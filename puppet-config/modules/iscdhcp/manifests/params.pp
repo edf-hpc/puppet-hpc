@@ -56,5 +56,4 @@ class iscdhcp::params {
       'WantedBy'        => 'multi-user.target',
     },
   }
-
 }
