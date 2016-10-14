@@ -33,6 +33,7 @@ class iscdhcp (
   $service_ensure             = $iscdhcp::params::service_ensure,
   $systemd_config_file        = $iscdhcp::params::systemd_config_file,
   $systemd_config_options     = $iscdhcp::params::systemd_config_options,
+  $boot_params,
 ) inherits iscdhcp::params {
 
   validate_string($my_address)
@@ -52,6 +53,7 @@ class iscdhcp (
   validate_string($service_ensure)
   validate_absolute_path($systemd_config_file)
   validate_hash($systemd_config_options)
+  validate_hash($boot_params)
 
   anchor { 'iscdhcp::begin': } ->
   class { '::iscdhcp::install': } ->
