@@ -29,6 +29,7 @@ class profiles::otherfs::mounts {
   $to_mount = hiera_hash('profiles::otherfs::to_mount')
 
   # Mount all the specified directories
+  debug("File systems to mount: ${to_mount}")
   create_resources('mount', $to_mount)
 
 }
