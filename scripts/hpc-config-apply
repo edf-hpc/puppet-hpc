@@ -14,6 +14,9 @@ import shutil
 
 LOCALE = 'C.UTF-8'
 
+DEFAULT_TMPDIR = '/tmp'
+DEFAULT_ENVIRONMENT = 'production'
+
 PUPPET_ENV_ARCHIVE_NAME = 'puppet-config-environment.tar.xz'
 PUPPET_ENV_BASE_PATH = '/etc/puppet/environments'
 
@@ -66,7 +69,7 @@ def get_parameters():
 
     # First get the environment
     env = get_parameter(
-        'environment', 'production', {}, default_section, args)
+        'environment', DEFAULT_ENVIRONMENT, {}, default_section, args)
     params['environment'] = env
 
     # Find the environment section
@@ -74,6 +77,14 @@ def get_parameters():
         env_section = {}
     else:
         env_section = config[env]
+
+    # Search params with defaults
+    if 'TMPDIR' in os.environ.keys():
+        default_tmpdir = os.environ['TMPDIR']
+    else:
+        default_tmpdir = DEFAULT_TMPDIR
+    params['tmpdir'] = get_parameter(
+        'tmpdir', default_tmpdir, env_section, default_section, args)
 
     # Search other strings params
     for param_name in ['source', 'keys_source', 'deploy_step']:
@@ -110,6 +121,10 @@ def parse_args():
     parser.add_argument('--environment', '-e',
                         dest='environment',
                         nargs='?', help='Environment name')
+
+    parser.add_argument('--tmpdir', '-t',
+                        dest='tmpdir',
+                        nargs='?', help='Change TMPDIR env for puppet run.')
 
     parser.add_argument('--deploy-step', '-d',
                         dest='deploy_step',
@@ -310,7 +325,7 @@ def get_puppet_environment(source, environment, version='latest'):
     return
 
 
-def puppet_apply(environment, deploy_step, verbosity=0):
+def puppet_apply(environment, deploy_step, verbosity=0, tmpdir=None):
     logging.info("Applying puppet configuration.")
 
     if verbosity >= 3:
@@ -325,10 +340,19 @@ def puppet_apply(environment, deploy_step, verbosity=0):
     manifests_path = os.path.join(
         PUPPET_ENV_BASE_PATH, environment, 'manifests', 'cluster.pp')
 
-    subprocess.call(['/usr/bin/puppet', 'apply'] + apply_options + [
-        '--environment', environment,
-        manifests_path
-    ])
+    env_vars = os.environ.copy()
+    if tmpdir is not None:
+        logging.debug("Set TMPDIR for puppet run to: '%s'", tmpdir)
+        env_vars['TMPDIR'] = tmpdir
+
+    # environment is puppet environment
+    # env_vars is process environment variables
+    subprocess.call(
+        ['/usr/bin/puppet', 'apply'] + \
+        apply_options + \
+        ['--environment', environment, manifests_path],
+        env=env_vars
+    )
     return
 
 if __name__ == "__main__":
@@ -353,5 +377,6 @@ if __name__ == "__main__":
     puppet_apply(
         params['environment'],
         params['deploy_step'],
-        params['verbosity']
+        params['verbosity'],
+        params['tmpdir']
     )
