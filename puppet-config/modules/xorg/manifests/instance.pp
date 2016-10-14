@@ -95,6 +95,10 @@ define xorg::instance (
     require => Class['xorg::config'],
   }
 
+  # The service creates socker in /tmp
+  # it should be started only after the mount
+  # point for /tmp has been handled if it exists
+  Mount <| name == '/tmp' |> ->
   service { $service:
     ensure    => $service_ensure,
     enable    => $service_enable,
