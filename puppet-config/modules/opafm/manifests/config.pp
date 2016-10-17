@@ -13,18 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opafm::params {
-  #### Module variables
-  $packages        = ['opa-fm', 'opa-fastfabric']
-  $packages_ensure = installed
-  $service         = 'opafm'
-  $service_ensure  = running
-  $service_enable  = true
-
-  $config_file     = '/etc/opa/opafm.xml'
-
-  $fe_enable       = true
-  $fe_sslsecurity      = false
-  $fe_hpc_source   = undef
-
+class opafm::config inherits opafm {
+  if $::opafm::config_source {
+    hpclib::hpc_file { $::opafm::config_file:
+      ensure => present,
+      source => $::opafm::config_source,
+    }
+  } else {
+    $fe_enable      = $::opafm::fe_enable
+    $fe_sslsecurity = $::opafm::fe_sslsecurity
+    file { $::opafm::config_file:
+      ensure  => present,
+      content => template('opafm/opafm.xml.erb'),
+    }
+  }
 }
+
