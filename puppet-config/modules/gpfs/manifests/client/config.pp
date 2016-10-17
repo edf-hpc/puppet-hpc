@@ -16,7 +16,7 @@
 #
 class gpfs::client::config inherits gpfs::client {
 
-  file { $gpfs::cl_config_dir :
+  file { $gpfs::client::cl_config_dir :
     ensure           => 'directory'
   }
 
