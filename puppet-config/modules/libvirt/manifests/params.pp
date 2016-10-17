@@ -17,7 +17,7 @@ class libvirt::params {
   #### Module variables
   $packages        = [
     'ebtables',
-    'dnsmasq',
+    'dnsmasq-base',
     'libvirt-bin',
     'libvirt-daemon',
     'netcat-openbsd',
