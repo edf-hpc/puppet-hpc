@@ -1,32 +1,40 @@
-MAIN=PuppetHPCConfiguration.asc
+GENERATOR=/usr/lib/asciidoctor/scibian/exec/gen-base-guide
+TEMPLATE=/usr/share/asciidoctor/scibian/guide
+DOCTYPE=book
+SRC=main.asc
+REF=src/references.asc
+NAME=$(shell $(GENERATOR) --doc-name)
 
-DOT=$(shell find . -name '*.dot')
-GRAPH_PUPPET=$(patsubst %.dot,%.png,$(DOT))
-SVG=$(shell find . -name '*.svg')
-PICS=$(patsubst %.svg,%.png,$(SVG))
+IMG_DIR=img
+IMG_SVG=$(wildcard $(IMG_DIR)/*.svg)
+IMG_PDF=$(patsubst %.svg,%.pdf,$(IMG_SVG))
+IMG_PNG=$(patsubst %.svg,%.png,$(IMG_SVG))
 
 all: html pdf
 
-html: PuppetHPCConfiguration.html
+html: $(NAME).html
 
-%.png: %.svg
-	inkscape --export-dpi=200 --export-png=$@ -D $<
+$(NAME).html: base.asc $(SRC) $(IMG_PNG) $(REF)
+	asciidoctor --doctype $(DOCTYPE) --attribute data-uri --backend html5 --out-file $@ $(SRC)
 
-%.png: %.dot
-	dot -Tpng -o$@ $^
+pdf: $(NAME).pdf
 
-.PHONY: PuppetHPCConfiguration.html
-PuppetHPCConfiguration.html: $(PICS) $(GRAPH_PUPPET)
-	asciidoctor -a data-uri -d book -b html5 -o $@ $(@:.html=.asc)
+base.asc: metadata.yaml
+	$(GENERATOR) --render-base
 
-pdf: PuppetHPCConfiguration.pdf
+$(REF):
+	scripts/gen-ref.rb
 
-.PHONY: PuppetHPCConfiguration.pdf
-PuppetHPCConfiguration.pdf: $(PICS) $(GRAPH_PUPPET)
-	asciidoctor -d book -T backend-edf-latex -o $(@:.pdf=.tex) $(@:.pdf=.asc)
+$(NAME).pdf: base.asc $(SRC) $(IMG_PDF) $(REF)
+	asciidoctor --doctype $(DOCTYPE) --template-dir $(TEMPLATE) --backend latex --out-file $(@:.pdf=.tex) base.asc
 	rubber --pdf $(@:.pdf=.tex)
+
+$(IMG_DIR)/%.pdf: **/%.svg
+	inkscape --export-pdf=$@ -D $<
+
+$(IMG_DIR)/%.png: **/%.svg
+	inkscape --export-png=$@ -D $<
 
 clean:
 	-rubber --clean $(MAIN:.asc=.tex)
-	-rm -f *.html *.tex *.pdf $(wildcard $(GRAPH_PUPPET) $(PICS))
-
+	-rm -f *.html *.tex *.pdf base.asc $(IMG_PDF) $(IMG_PNG) $(NAME).*
