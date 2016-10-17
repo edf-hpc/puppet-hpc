@@ -25,7 +25,7 @@ class ceph::config inherits ceph {
     mount { $mountpoint :
       ensure   => 'mounted',
       device   => $::ceph::osd_config[$::hostname]['device'],
-      fstype   => auto,
+      fstype   => 'xfs',
       require  => File[$mountpoint],
     }
   }
