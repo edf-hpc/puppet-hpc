@@ -1,3 +1,13 @@
+hpc-config (0.8) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * scripts h-c-apply permit to set TMPDIR for puppet run
+  * scripts h-c-push Add warnings when dirs are missing
+  * scripts h-c-push Fix indent width
+  * scripts h-c-apply Fail on HTTP status >= 400 (fixes #49)
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Tue, 18 Oct 2016 11:02:31 +0200
+
 hpc-config (0.7) calibre9; urgency=medium
 
   [ Thomas Hamel ]
