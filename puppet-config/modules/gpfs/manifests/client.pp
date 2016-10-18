@@ -25,8 +25,6 @@ class gpfs::client (
   $cl_config_src      = $gpfs::params::cl_config_src,
   $cl_key             = $gpfs::params::cl_key,
   $cl_key_src         = $gpfs::params::cl_key_src,
-  $cl_perf            = $gpfs::params::cl_perf,
-  $cl_perf_src        = $gpfs::params::cl_perf_src,
   $cluster            = $gpfs::params::cluster,
   $public_key,
 ) inherits gpfs::params {
@@ -41,8 +39,6 @@ class gpfs::client (
   validate_string($cl_config_src)
   validate_absolute_path($cl_key)
   validate_string($cl_key_src)
-  validate_absolute_path($cl_perf)
-  validate_string($cl_perf_src)
   validate_string($cluster)
   validate_string($public_key)
 
