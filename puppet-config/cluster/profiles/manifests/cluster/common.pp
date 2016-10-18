@@ -22,6 +22,9 @@
 #                                    as defined by `apt::source`
 # * `profiles::cluster::apt_confs` (`hiera_hash`) APT configs as defined by
 #                                  `apt::conf`
+# ## Relevant Autolookup
+# * `fusioninventory::config_options`  Parameters used to build config file for FusionInventory Agent
+# * `fusioninventory::default_options` Parameters used to build default file for FusionInventory Agent
 class profiles::cluster::common {
   # Setup staging
   stage { 'first': }
@@ -50,13 +53,17 @@ class profiles::cluster::common {
 
   # Disable the Puppet agent
   class { '::puppet':
-    stage     => 'first',    
+    stage     => 'first',
   }
 
   # Create /var/lib/calibre or equivalent
   $libcalibre_path = hiera('libcalibre')
   file { $libcalibre_path:
     ensure => directory
+  }
+
+  # Install FusionInventory Agent
+  class { '::fusioninventory':
   }
 
 }
