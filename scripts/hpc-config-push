@@ -128,60 +128,60 @@ class AppConf():
 conf = AppConf()  # global runtime configuration object
 
 def parse_conf():
-     """Parse configuration file and set runtime configuration accordingly.
-        Here are defined default configuration file parameters."""
-     defaults = StringIO(
-       "[global]\n"
-       "cluster = unknown\n"
-       "environment = production\n"
-       "version = latest\n"
-       "mode = posix\n"
-       "destination = /var/www/html/hpc-config\n"
-       "[s3]\n"
-       "access_key = XXXXXXXX\n"
-       "secret_key = YYYYYYYYYYYYYYYY\n"
-       "bucket_name = system\n"
-       "host = rgw.service.virtual\n"
-       "port = 7480\n"
-       "[paths]\n"
-       "tmp = /tmp/puppet-config-push\n"
-       "puppethpc = puppet-hpc\n"
-       "privatedata = hpc-privatedata\n"
-       "puppet_conf = ${privatedata}/puppet-config/${global:cluster}/puppet.conf\n"
-       "hiera_conf = ${privatedata}/puppet-config/${global:cluster}/hiera.yaml\n"
-       "facts_private = ${privatedata}/puppet-config/${global:cluster}/hpc-config-facts.yaml\n"
-       "modules_generic = ${puppethpc}/puppet-config/cluster,${puppethpc}/puppet-config/modules,/usr/share/puppet/modules\n"
-       "modules_private = ${privatedata}/puppet-config/${global:cluster}/modules\n"
-       "manifests_generic = ${puppethpc}/puppet-config/manifests\n"
-       "manifests_private = ${privatedata}/puppet-config/${global:cluster}/manifests\n"
-       "hieradata_generic = ${puppethpc}/hieradata\n"
-       "hieradata_private = ${privatedata}/hieradata\n"
-       "files_private = ${privatedata}/files/${global:cluster}\n")
-     parser = configparser.ConfigParser()
-     parser._interpolation = configparser.ExtendedInterpolation()
-     parser.readfp(defaults)
-     parser.read(conf.conf_file)
-     conf.cluster = parser.get('global', 'cluster')
-     conf.environment = parser.get('global', 'environment')
-     conf.version = parser.get('global', 'version')
-     conf.mode = parser.get('global', 'mode')
-     conf.destination_root = parser.get('global', 'destination')
-     conf.dir_tmp = parser.get('paths', 'tmp')
-     conf.conf_puppet = parser.get('paths', 'puppet_conf')
-     conf.conf_hiera = parser.get('paths', 'hiera_conf')
-     conf.facts_private = parser.get('paths', 'facts_private')
-     conf.dir_modules_generic = parser.get('paths', 'modules_generic').split(',')
-     conf.dir_modules_private = parser.get('paths', 'modules_private')
-     conf.dir_manifests_generic = parser.get('paths', 'manifests_generic')
-     conf.dir_manifests_private = parser.get('paths', 'manifests_private')
-     conf.dir_hieradata_generic = parser.get('paths', 'hieradata_generic')
-     conf.dir_hieradata_private = parser.get('paths', 'hieradata_private')
-     conf.dir_files_private = parser.get('paths', 'files_private')
-     conf.s3_access_key = parser.get('s3', 'access_key')
-     conf.s3_secret_key = parser.get('s3', 'secret_key')
-     conf.s3_bucket_name = parser.get('s3', 'bucket_name')
-     conf.s3_host = parser.get('s3', 'host')
-     conf.s3_port = int(parser.get('s3', 'port'))
+    """Parse configuration file and set runtime configuration accordingly.
+       Here are defined default configuration file parameters."""
+    defaults = StringIO(
+      "[global]\n"
+      "cluster = unknown\n"
+      "environment = production\n"
+      "version = latest\n"
+      "mode = posix\n"
+      "destination = /var/www/html/hpc-config\n"
+      "[s3]\n"
+      "access_key = XXXXXXXX\n"
+      "secret_key = YYYYYYYYYYYYYYYY\n"
+      "bucket_name = system\n"
+      "host = rgw.service.virtual\n"
+      "port = 7480\n"
+      "[paths]\n"
+      "tmp = /tmp/puppet-config-push\n"
+      "puppethpc = puppet-hpc\n"
+      "privatedata = hpc-privatedata\n"
+      "puppet_conf = ${privatedata}/puppet-config/${global:cluster}/puppet.conf\n"
+      "hiera_conf = ${privatedata}/puppet-config/${global:cluster}/hiera.yaml\n"
+      "facts_private = ${privatedata}/puppet-config/${global:cluster}/hpc-config-facts.yaml\n"
+      "modules_generic = ${puppethpc}/puppet-config/cluster,${puppethpc}/puppet-config/modules,/usr/share/puppet/modules\n"
+      "modules_private = ${privatedata}/puppet-config/${global:cluster}/modules\n"
+      "manifests_generic = ${puppethpc}/puppet-config/manifests\n"
+      "manifests_private = ${privatedata}/puppet-config/${global:cluster}/manifests\n"
+      "hieradata_generic = ${puppethpc}/hieradata\n"
+      "hieradata_private = ${privatedata}/hieradata\n"
+      "files_private = ${privatedata}/files/${global:cluster}\n")
+    parser = configparser.ConfigParser()
+    parser._interpolation = configparser.ExtendedInterpolation()
+    parser.readfp(defaults)
+    parser.read(conf.conf_file)
+    conf.cluster = parser.get('global', 'cluster')
+    conf.environment = parser.get('global', 'environment')
+    conf.version = parser.get('global', 'version')
+    conf.mode = parser.get('global', 'mode')
+    conf.destination_root = parser.get('global', 'destination')
+    conf.dir_tmp = parser.get('paths', 'tmp')
+    conf.conf_puppet = parser.get('paths', 'puppet_conf')
+    conf.conf_hiera = parser.get('paths', 'hiera_conf')
+    conf.facts_private = parser.get('paths', 'facts_private')
+    conf.dir_modules_generic = parser.get('paths', 'modules_generic').split(',')
+    conf.dir_modules_private = parser.get('paths', 'modules_private')
+    conf.dir_manifests_generic = parser.get('paths', 'manifests_generic')
+    conf.dir_manifests_private = parser.get('paths', 'manifests_private')
+    conf.dir_hieradata_generic = parser.get('paths', 'hieradata_generic')
+    conf.dir_hieradata_private = parser.get('paths', 'hieradata_private')
+    conf.dir_files_private = parser.get('paths', 'files_private')
+    conf.s3_access_key = parser.get('s3', 'access_key')
+    conf.s3_secret_key = parser.get('s3', 'secret_key')
+    conf.s3_bucket_name = parser.get('s3', 'bucket_name')
+    conf.s3_host = parser.get('s3', 'host')
+    conf.s3_port = int(parser.get('s3', 'port'))
 
 def parse_args():
     """Parses CLI args, then set debug flag and configuration file path in
