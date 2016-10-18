@@ -90,8 +90,8 @@ class gpfs::params {
     '/var/mmfs/ssl/stage',
   ]
   $cl_config          = '/var/mmfs/gen/mmsdrfs'
-  $cl_config_src      = ''
+  $cl_config_src      = 'gpfs/mmsdrfs.enc'
   $cl_key             = '/var/mmfs/ssl/stage/genkeyData1'
-  $cl_key_src         = ''
+  $cl_key_src         = 'gpfs/genkeyData1.enc'
 
 }
