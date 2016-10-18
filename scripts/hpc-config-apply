@@ -193,6 +193,10 @@ def http_get_file(url, root_source_port=False):
     }
     http.request('GET', parsed_url.path, headers=headers)
     response = http.getresponse()
+
+    if response.status >= 400:
+        raise RuntimeError("Bad HTTP Status (%s), reason: %s" % \
+                           (response.status, response.reason))
     data = response.read()
     source_file = io.BytesIO(data)
     http.close()
