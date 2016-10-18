@@ -57,6 +57,5 @@ class postfix::params {
     unknown_local_recipient_reject_code => '550',
     mailbox_command                     => 'procmail -a "$EXTENSION"',
     default_transport                   => 'error',
-    relay_transport                     => 'error',
   }
 }
