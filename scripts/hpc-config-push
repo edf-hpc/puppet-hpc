@@ -260,32 +260,50 @@ def build_tarball():
 
             logger.debug("adding generic modules dir %s: %s", modulesdir, str(new_modules))
             tar.add(modulesdir, arcname=os.path.join(conf.environment, 'modules_generic'))
+        else:
+            logger.warning("Configured generic modules dir is missing: '%s'",
+                           modulesdir)
 
     # private modules
     if os.path.exists(conf.dir_modules_private) and \
        os.path.isdir(conf.dir_modules_private):
         logger.debug("adding private modules dir %s", conf.dir_modules_private)
         tar.add(conf.dir_modules_private, arcname=os.path.join(conf.environment, 'modules_private'))
+    else:
+        logger.warning("Configured private modules dir is missing: '%s'",
+                       conf.dir_modules_private)
     # generic manifests
     if os.path.exists(conf.dir_manifests_generic) and \
        os.path.isdir(conf.dir_manifests_generic):
         logger.debug("adding generic manifests dir %s", conf.dir_manifests_generic)
         tar.add(conf.dir_manifests_generic, arcname=os.path.join(conf.environment, 'manifests'))
+    else:
+        logger.warning("Configured generic manifests dir is missing: '%s'",
+                       conf.dir_manifests_generic)
     # private manifests
     if os.path.exists(conf.dir_manifests_private) and \
        os.path.isdir(conf.dir_manifests_private):
         logger.debug("adding private manifests dir %s", conf.dir_manifests_private)
         tar.add(conf.dir_manifests_private, arcname=os.path.join(conf.environment, 'manifests'))
+    else:
+        logger.warning("Configured private manifests dir is missing: '%s'",
+                       conf.dir_manifests_private)
     # generic hieradata
     if os.path.exists(conf.dir_hieradata_generic) and \
        os.path.isdir(conf.dir_hieradata_generic):
         logger.debug("adding generic hieradata dir %s", conf.dir_hieradata_generic)
         tar.add(conf.dir_hieradata_generic, arcname=os.path.join(conf.environment, 'hieradata', 'generic'))
+    else:
+        logger.warning("Configured generic hieradata dir is missing: '%s'",
+                       conf.dir_hieradata_generic)
     # private hieradata
     if os.path.exists(conf.dir_hieradata_private) and \
        os.path.isdir(conf.dir_hieradata_private):
         logger.debug("adding private hieradata dir %s", conf.dir_hieradata_private)
         tar.add(conf.dir_hieradata_private, arcname=os.path.join(conf.environment, 'hieradata', 'private'))
+    else:
+        logger.warning("Configured private hieradata dir is missing: '%s'",
+                       conf.dir_hieradata_private)
 
     logger.debug("adding environment conf")
     tar.add(conf.conf_environment_gen, arcname=os.path.join(conf.environment, conf.conf_environment))
