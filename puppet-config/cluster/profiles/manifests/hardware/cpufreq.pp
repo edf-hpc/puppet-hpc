@@ -16,5 +16,5 @@
 # Activate cpu frequency scaling
 #
 class profiles::hardware::cpufreq {
-  include ::cpufreq
+  include ::pstate
 }
