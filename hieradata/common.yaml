@@ -35,13 +35,13 @@ profiles::ntp::client::site_servers:
 
 ##### SSMTP
 profiles::ssmtp::config_options:
-  mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}1"
-  rewritedomain: "%{hiera('cluster_name')}.%{hiera('domain')}"
+  mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
+  rewritedomain: "%{::hostname}.%{hiera('domain')}"
 
 ##### POSTFIX
 profiles::postfix::relay::config_options:
   myhostname:          "%{hostname}"
-  mydomain:            "%{hiera('cluster_name')}.%{hiera('domain')}"
+  mydomain:            "%{hiera('domain')}"
 
 ##### TFTP
 profiles::tftp::server::tftp_opts:
