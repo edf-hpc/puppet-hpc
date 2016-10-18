@@ -93,7 +93,5 @@ class gpfs::params {
   $cl_config_src      = ''
   $cl_key             = '/var/mmfs/ssl/stage/genkeyData1'
   $cl_key_src         = ''
-  $cl_perf            = '/usr/lpp/mmfs/samples/perf'
-  $cl_perf_src        = ''
 
 }
