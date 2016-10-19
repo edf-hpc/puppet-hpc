@@ -148,7 +148,7 @@ class profiles::auth::client {
       auth_provider                  => 'krb5',
     }
     class { '::kerberos':
-      config_options    => $krb5_options,
+      config_options => $krb5_options,
     }
   }
   else {
@@ -158,9 +158,9 @@ class profiles::auth::client {
   }
 
   $sssd_options = {
-    sssd => $sssd_options_general,
-    nss  => $sssd_options_nss,
-    pam  => $sssd_options_pam,
+    sssd                => $sssd_options_general,
+    nss                 => $sssd_options_nss,
+    pam                 => $sssd_options_pam,
     "domain/${cluster}" => merge($sssd_options_domain,$sssd_options_domain_kerberos_opts),
   }
 
