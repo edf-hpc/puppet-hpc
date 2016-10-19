@@ -22,12 +22,11 @@
 #####################################################################
 <% # Import Hash Table  -%>
 <% dns_options = @zone_options -%>
-zone "<%= @local_domain -%>" IN {
-        type <%= dns_options['type'] -%>;
-        file "<%= dns_options['file'] -%>";
-};
+
+<% if not @virtual_domain.nil? %>
 zone "<%= @virtual_domain -%>" IN {
   type forward;
   forward only;
   forwarders { 127.0.0.1 port 8600; };
 };
+<% end %>

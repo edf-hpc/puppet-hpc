@@ -13,10 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class dns (
-  $domain = '',
-  $local_domain = '',
-){
-  validate_string($local_domain)
-  validate_string($domain)
+class dns::server::service inherits dns::server {
+
+  if $::dns::server::manage_services {
+
+    service { $::dns::server::services:
+      ensure => $::dns::server::services_ensure,
+    }
+
+  }
+
 }

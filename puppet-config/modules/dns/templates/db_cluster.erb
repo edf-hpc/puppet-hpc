@@ -23,6 +23,7 @@
 <% # Import Hash Table  -%>
 <% clzonedef = @zone_defaults -%>
 $TTL     <%= clzonedef['TTL'] %>
+$ORIGIN  <%= @origin %>
 @       IN      SOA     localhost. root.localhost. (
 <% clzonedef.map do | key,value | -%>
         <%- unless value.empty? or key == 'TTL' then -%>
@@ -30,11 +31,6 @@ $TTL     <%= clzonedef['TTL'] %>
         <%- end -%>
 <% end %>)
 
-;
-@       IN      NS      <%= @hostname+"."+@local_domain%>.
-@       IN      A       127.0.0.1
-<% @hostfile.sort.map do | name,address | -%>
-        <%- unless address.empty? then -%>
-<%= name+"		IN	A	"+address %>
-        <%- end -%>
+<% @entries.each do |entry| -%>
+<%= entry['owner'].ljust(20) + entry['proto'].ljust(5) + ' ' + entry['type'].ljust(5) + ' ' + entry['data'] %>
 <% end %>
