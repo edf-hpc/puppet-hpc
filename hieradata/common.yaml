@@ -186,8 +186,8 @@ slurm::dbd::db_options:
     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
   hosts:
-    controllers: "%{hiera('slurm_primary_server')},%{hiera('slurm_secondary_server')}"
-    admins:      "%{hiera('cluster_prefix')}admin1"
+    controllers: "%{hiera('slurm_primary_server')}.%{hiera('local_domain')},%{hiera('slurm_secondary_server')}.%{hiera('local_domain')}"
+    admins:      "%{hiera('cluster_prefix')}admin1.%{hiera('local_domain')}"
 
 
 profiles::jobsched::server::sync_options:
