@@ -31,7 +31,7 @@ define ceph::posix::mount (
   $_keyfile = "${::ceph::posix::client::keys_dir}/${key}.key"
 
   $_device = sprintf("%s:%s", join($servers, ','), $device)
-  $_options = sprintf("name=%s,secretfile=%s", $user, $_keyfile)
+  $_options = sprintf("name=%s,secretfile=%s,_netdev", $user, $_keyfile)
 
   file { $mountpoint:
     ensure => directory,
