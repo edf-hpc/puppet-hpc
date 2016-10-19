@@ -132,30 +132,25 @@ def get_networks_reverse_zones(nets_topo)
 
   nets_topo.each do |net_name, params|
 
-    # skip allloc
-    if net_name != 'allloc'
+    addr = params['ipnetwork']
+    # get cidr prefix length w/o leading slash and convert to int
+    prefix = params['prefix_length'][1..-1].to_i
+    # round the prefix to its first lower factor of 8. ex: 20 -> 16
+    prefix -= prefix % 8
+    cidr = "#{addr}/#{prefix}"
+    ipnet = IPAddr.new(cidr)
 
-      addr = params['ipnetwork']
-      # get cidr prefix length w/o leading slash and convert to int
-      prefix = params['prefix_length'][1..-1].to_i
-      # round the prefix to its first lower factor of 8. ex: 20 -> 16
-      prefix -= prefix % 8
-      cidr = "#{addr}/#{prefix}"
-      ipnet = IPAddr.new(cidr)
-
-      # Check if network is not already included in any other networks
-      add_network = true
+    # Check if network is not already included in any other networks
+    add_network = true
+    networks.each do |network|
+      add_network = false if network.include?(ipnet)
+    end
+    if add_network
+      # Check if new network includes existing network. If yes, remove them.
       networks.each do |network|
-        add_network = false if network.include?(ipnet)
+        networks.delete(network) if ipnet.include?(network)
       end
-      if add_network
-        # Check if new network includes existing network. If yes, remove them.
-        networks.each do |network|
-          networks.delete(network) if ipnet.include?(network)
-        end
-        networks << ipnet
-      end
-
+      networks << ipnet
     end
 
   end
