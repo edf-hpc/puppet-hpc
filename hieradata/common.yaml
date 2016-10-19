@@ -33,6 +33,9 @@ profiles::ntp::client::site_preferred_servers:
 profiles::ntp::client::site_servers:
   - "%{hiera('cluster_prefix')}%{::my_ntp_server}2"
 
+##### DNS
+dns::server::virtual_domain: "%{hiera('virtual_domain')}"
+
 ##### SSMTP
 profiles::ssmtp::config_options:
   mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
