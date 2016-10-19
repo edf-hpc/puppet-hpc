@@ -59,6 +59,48 @@ class IPAddr
       nil
     end
   end
+
+  def subnets
+    if prefix < 16
+      STDERR.puts "Unable to calc /24 subnets on networks with cidr prefix #{prefix} < 16"
+      return []
+    elsif prefix >= 24
+      return [ self ]
+    end
+
+    begin_addr_i = (@addr & @mask_addr)
+
+    case @family
+    when Socket::AF_INET
+      end_addr_i = (@addr | (IN4MASK ^ @mask_addr))
+    when Socket::AF_INET6
+      end_addr_i = (@addr | (IN6MASK ^ @mask_addr))
+    else
+      raise "unsupported address family"
+    end
+
+    begin_addr = clone.set(begin_addr_i, @family)
+    end_addr = clone.set(end_addr_i, @family)
+
+    # FIXME: Starting from here, the logic really sucks and only works on ipv4
+    # networks whose CIDR prefix is between 16 and 24.
+
+    subnets_a = Array.new()
+
+    network_number = begin_addr.to_s.split('.')[0..1]
+
+    first_subnet = begin_addr.to_s.split('.')[2].to_i
+    last_subnet  = end_addr.to_s.split('.')[2].to_i
+
+    (first_subnet..last_subnet).each do |subnet_idx|
+      subnet_s = [network_number, subnet_idx, '0'].flatten.join('.')
+      subnet = IPAddr.new("#{subnet_s}/24")
+      subnets_a << subnet
+    end
+
+    return subnets_a
+
+  end
 end
 
 class DNSEntry
@@ -134,42 +176,39 @@ def get_networks_reverse_zones(nets_topo)
 
     addr = params['ipnetwork']
     # get cidr prefix length w/o leading slash and convert to int
-    prefix = params['prefix_length'][1..-1].to_i
-    # round the prefix to its first lower factor of 8. ex: 20 -> 16
-    prefix -= prefix % 8
+    prefix = params['prefix_length'][1..-1]
     cidr = "#{addr}/#{prefix}"
     ipnet = IPAddr.new(cidr)
+    # get all /24 subnets of this network
+    subnets = ipnet.subnets
 
-    # Check if network is not already included in any other networks
-    add_network = true
-    networks.each do |network|
-      add_network = false if network.include?(ipnet)
-    end
-    if add_network
-      # Check if new network includes existing network. If yes, remove them.
+    subnets.each do |subnet|
+      # Check if network is not already included in any other networks
+      add_network = true
       networks.each do |network|
-        networks.delete(network) if ipnet.include?(network)
+        add_network = false if network.include?(subnet)
       end
-      networks << ipnet
+      networks << subnet if add_network
     end
 
   end
-
   return networks 
 
 end
 
 # Returns the reverse zone name corresponding to an ipaddr. Ex:
 #    192.168.0.0/16 -> 168.192.in-addr.arpa
+#    192.168.3.1/24 - 1.168.192.in-addr.arpa
 def get_reverse_zone_name(ip)
-  leading_null = ip.prefix / 8
+  leading_null = (32 - ip.prefix) / 8
   return ip.reverse.split('.')[leading_null..-1].join('.')
 end
 
 # Returns the reverse zone entry owner inside the network. Ex:
 #    ip = 192.168.1.3 and net = 192.168.0.0/16 -> 3.1
+#    ip = 192.168.1.3 and net = 192.168.1.0/24 -> 3
 def get_reverse_zone_owner(ip, net)
-  trailing_bytes = net.prefix / 8
+  trailing_bytes = (32 - net.prefix) / 8
   return ip.to_s.split('.').reverse[0..trailing_bytes-1].join('.')
 end
 
