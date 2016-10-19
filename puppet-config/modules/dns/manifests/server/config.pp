@@ -13,23 +13,28 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class dns::client (
-  $header      = $::dns::client::params::header,
-  $domain      = $::dns::client::params::domain,
-  $search      = $::dns::client::params::search,
-  $options     = $::dns::client::params::options,
-  $nameservers = $::dns::client::params::nameservers,
-  $config_file = $::dns::client::params::config_file,
-) inherits dns::client::params {
+class dns::server::config inherits dns::server {
 
-  validate_string($header)
-  validate_string($domain)
-  validate_string($search)
-  validate_array($nameservers)
-  validate_absolute_path($config_file)
+  if $::dns::server::manage_config {
 
-  anchor { 'dns::client::begin': } ->
-  class { '::dns::client::config': } ->
-  anchor { 'dns::client::end': }
+    file { $::dns::server::config_file:
+      content => template('dns/named_conf_options.erb'),
+      notify  => Service[$::dns::server::services],
+    }
 
+    concat { $::dns::server::local_file:
+      mode   => 0644,
+      owner  => 'root',
+      group  => 'root',
+      notify => Service[$::dns::server::services],
+    }
+
+    concat::fragment { 'conf_local_header':
+      target  => $::dns::server::local_file,
+      content => template('dns/named_conf_local.erb'),
+    }
+
+    create_resources(dns::server::zone, $::dns::server::zones)
+
+  }
 }

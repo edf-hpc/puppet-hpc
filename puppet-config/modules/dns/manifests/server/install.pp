@@ -13,23 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class dns::client (
-  $header      = $::dns::client::params::header,
-  $domain      = $::dns::client::params::domain,
-  $search      = $::dns::client::params::search,
-  $options     = $::dns::client::params::options,
-  $nameservers = $::dns::client::params::nameservers,
-  $config_file = $::dns::client::params::config_file,
-) inherits dns::client::params {
+class dns::server::install inherits dns::server {
 
-  validate_string($header)
-  validate_string($domain)
-  validate_string($search)
-  validate_array($nameservers)
-  validate_absolute_path($config_file)
-
-  anchor { 'dns::client::begin': } ->
-  class { '::dns::client::config': } ->
-  anchor { 'dns::client::end': }
-
+  if $::dns::server::manage_packages {
+    package { $::dns::server::packages:
+      ensure => $::dns::server::packages_ensure,
+    }
+  }
 }

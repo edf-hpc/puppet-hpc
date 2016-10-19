@@ -14,58 +14,42 @@
 ##########################################################################
 
 class dns::server (
-  $packages        = $::dns::params::server_packages,
-  $service         = $::dns::params::server_service,
-  $config_file     = $::dns::params::server_config_file,
-  $local_file      = $::dns::params::server_local_file,
-  $zone_file       = $::dns::params::server_zone_file,
-  $zone_options    = $::dns::params::zone_options,
-  $zone_defaults   = $::dns::params::zone_defaults,
-  $local_domain,
-  $virtual_domain,
-  $domain,
+  $manage_packages = $::dns::server::params::manage_packages,
+  $packages        = $::dns::server::params::packages,
+  $packages_ensure = $::dns::server::params::packages_ensure,
+  $manage_services = $::dns::server::params::manage_services,
+  $services        = $::dns::server::params::services,
+  $services_ensure = $::dns::server::params::services_ensure,
+  $config_dir      = $::dns::server::params::config_dir,
+  $config_file     = $::dns::server::params::config_file,
+  $local_file      = $::dns::server::params::local_file,
+  $zone_defaults   = $::dns::server::params::zone_defaults,
+  $virtual_domain  = $::dns::server::params::virtual_domain,
   $config_options  = {},
-) inherits dns::params {
+  $zones           = {},
+) inherits dns::server::params {
 
+  validate_bool($manage_packages)
   validate_array($packages)
-  validate_string($service)
-  validate_string($domain)
-  validate_string($local_domain)
-  validate_string($virtual_domain)
+  validate_string($packages_ensure)
+  validate_bool($manage_services)
+  validate_array($services)
+  validate_string($services_ensure)
+  validate_absolute_path($config_dir)
   validate_absolute_path($config_file)
-  validate_hash($config_options)
   validate_absolute_path($local_file)
-  validate_absolute_path($zone_file)
-  validate_hash($zone_options)
   validate_hash($zone_defaults)
+  validate_hash($config_options)
+  validate_hash($zones)
 
-  $_config_options = merge($::dns::params::config_options_default, $config_options)
-
-  package { $packages: }
-
-  service { $service:
-    ensure    => running,
-    require   => Package[$packages],
-    subscribe => [
-      File[$config_file],
-      File[$local_file],
-      File[$zone_file],
-    ],
+  if $manage_config {
+    $_config_options = merge($::dns::server::params::config_options_default, $config_options)
   }
 
-  file { $config_file:
-    content => template('dns/named_conf_options.erb'),
-    require => Package[$packages], 
-  }
-
-  file { $local_file:
-    content => template('dns/named_conf_local.erb'),
-    require => Package[$packages], 
-  }
-
-  file { $zone_file:
-    content => template('dns/db_cluster.erb'),
-    require => Package[$packages], 
-  }
+  anchor { 'dns::server::begin': } ->
+  class { '::dns::server::install': } ->
+  class { '::dns::server::config': } ->
+  class { '::dns::server::service': } ->
+  anchor { 'dns::server::end': }
 
 }
