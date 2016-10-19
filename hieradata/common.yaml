@@ -24,7 +24,8 @@ ntp::driftfile: '/var/lib/ntp/ntp.drift'
 # localhost IPv6 addresses in restrict
 ntp::restrict: 
   - 'default kod notrap nomodify nopeer'
-  - "%{hiera('net::allloc::ipnetwork')} mask %{hiera('net::allloc::netmask')} notrap nomodify"
+  - "%{hiera('net::administration::ipnetwork')} mask %{hiera('net::administration::netmask')} notrap nomodify"
+  - "%{hiera('net::management::ipnetwork')} mask %{hiera('net::management::netmask')} notrap nomodify"
   - '127.0.0.1'
 profiles::ntp::srv_opts:
   NTPD_OPTS: "'-4 -g'"
