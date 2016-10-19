@@ -16,7 +16,7 @@
 class nfs::service inherits nfs {
 
   service { $::nfs::service:
-    ensure => $::nfs::service_ensure,
+    ensure    => $::nfs::service_ensure,
   }
 
 }
