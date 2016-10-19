@@ -30,10 +30,14 @@ class dns::server::params {
 
   # Default values
   $config_options_default = {
-    'directory'         => '/var/cache/bind',
-    'auth-nxdomain'     => 'no',
-    'listen-on-v6'      => 'none',
-    'dnssec-validation' => 'auto',
+    'directory'          => '/var/cache/bind',
+    'auth-nxdomain'      => 'no',
+    'listen-on-v6'       => 'none',
+    'dnssec-validation'  => 'auto',
+    # By default if recursion is enabled, bind will activate default
+    # empty reverse dns zones. We don't want those. It should be true
+    # only if the upstream dns server is a public internet one.
+    'empty-zones-enable' => 'no',
   }
 
   $zone_defaults = {

@@ -30,4 +30,7 @@ options {
   auth-nxdomain <%= dns_options['auth-nxdomain'] -%>;    # conform to RFC1035
   listen-on-v6 { <%= dns_options['listen-on-v6'] -%>; };
   listen-on { <%= dns_options['listen-on'].join('; ') -%>; };
+
+  # Default reverse empty zones may be created
+  empty-zones-enable <%= dns_options['empty-zones-enable'] -%>;
 };
