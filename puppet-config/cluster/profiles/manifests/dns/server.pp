@@ -21,9 +21,10 @@ class profiles::dns::server {
 
   ## Hiera lookups
   $config_options = hiera_hash('profiles::dns::server::config_options')
-
+  $zones = hpc_dns_zones()
   # Pass config options as a class parameter
   class { '::dns::server':
     config_options => $config_options,
+    zones          => $zones,
   }
 }
