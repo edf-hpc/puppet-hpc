@@ -21,6 +21,7 @@ class mariadb (
   $galera_conf_file     = $mariadb::params::galera_conf_file,
   $mysql_conf_options   = $mariadb::params::mysql_conf_options,
   $galera_conf_options  = {},
+  $disable_log_error    = $mariadb::params::disable_log_error,
   $package_manage       = $mariadb::params::package_manage,
   $package_ensure       = $mariadb::params::package_ensure,
   $package_name         = $mariadb::params::package_name,
@@ -49,8 +50,8 @@ class mariadb (
     validate_absolute_path($main_conf_file)
     validate_absolute_path($galera_conf_file)
     validate_hash($mysql_conf_options)
-
     validate_hash($galera_conf_options)
+    validate_bool($disable_log_error)
     validate_array($nodes)
 
     # Merge the hash from params.pp, the hash in class parameter and the hash

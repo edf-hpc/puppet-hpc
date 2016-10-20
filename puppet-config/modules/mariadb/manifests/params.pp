@@ -40,6 +40,7 @@ class mariadb::params {
       $service_name         = 'mysql'
       $galera_conf_file     = "${galera_dir_path}/galera.cnf"
       $galera_conf_tmpl     = 'db/galera.erb'
+      $disable_log_error    = true
       $mysql_conf_options   = {
         'client'              => {
           'host'                => 'localhost',
