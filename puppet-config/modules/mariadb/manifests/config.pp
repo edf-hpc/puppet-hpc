@@ -43,6 +43,20 @@ class mariadb::config {
       require => File[$mariadb::conf_dir_path],
     }
 
+    # This is required in scibian packages to make sure mysqld_safe script will
+    # redirect all logs to syslog and launch mysqld asynchronously with wait
+    # bash internal command. This way, mysqld_safe script can properly trap
+    # SIGTERM signal sent by systemd on service stop.
+    if $mariadb::disable_log_error {
+      # make sure the log_error parameter is commented-out
+      file_line { 'disable-mysql-log-error':
+        ensure => present,
+        path   => '/etc/mysql/my.cnf',
+        line   => "#log_error = /var/log/mysql/error.log",
+        match  => "^.*log_error",
+      }
+    }
+
     hpclib::print_config { $mariadb::galera_conf_file :
       data  => $mariadb::_galera_conf_options,
       style => 'ini',
