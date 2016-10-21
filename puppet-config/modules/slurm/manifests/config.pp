@@ -31,4 +31,8 @@ class slurm::config {
     data  => $::slurm::partitions_options,
   }
 
+  hpclib::print_config { $::slurm::gres_file:
+    style => 'linebyline',
+    data  => $::slurm::gres_options,
+  }
 }
