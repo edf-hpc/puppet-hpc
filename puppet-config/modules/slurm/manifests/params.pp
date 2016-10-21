@@ -42,6 +42,7 @@ class slurm::params {
   $scripts_dir     = "${bin_dir}/generic-scripts"
   $config_file     = "${config_dir}/slurm.conf"
   $partitions_file = "${config_dir}/partitions.conf"
+  $gres_file       = "${config_dir}/gres.conf"
 
   $enable_generic_scripts = true
 

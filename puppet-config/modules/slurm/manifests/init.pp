@@ -37,8 +37,10 @@ class slurm (
   $scripts_dir            = $::slurm::params::scripts_dir,
   $config_file            = $::slurm::params::config_file,
   $partitions_file        = $::slurm::params::partitions_file,
+  $gres_file              = $::slurm::params::gres_file,
   $config_options         = {},
   $partitions_options     = $::slurm::params::partitions_options,
+  $gres_options           = {},
   $enable_generic_scripts = $::slurm::params::enable_generic_scripts,
 ) inherits slurm::params {
 
@@ -57,6 +59,7 @@ class slurm (
   validate_absolute_path($partitions_file)
   validate_hash($config_options)
   validate_array($partitions_options)
+  validate_array($gres_options)
   validate_bool($enable_generic_scripts)
 
   # Merge into $_config_options:

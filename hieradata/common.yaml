@@ -167,6 +167,7 @@ profiles::jobsched::slurm_config_options:
   JobAcctGatherType:           "jobacct_gather/linux"
   JobAcctGatherFrequency:      "60"
   ReturnToService:             "2"
+  GresTypes:                   "gpu"
 
 ##### Slurm DBD database
 db_primary_server:      "%{hiera('cluster_prefix')}%{::my_db_server}1"
