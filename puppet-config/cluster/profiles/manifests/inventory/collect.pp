@@ -20,7 +20,7 @@
 # * `local_domain`
 #
 # ## Relevant Autolookups
-# 
+#
 class profiles::inventory::collect {
 
   $prefix          = hiera('cluster_prefix')
