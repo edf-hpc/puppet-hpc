@@ -29,7 +29,7 @@
 #                            `stopped` (default: running)
 # @param service_enable      Service started at boot (default: true)
 # @param service             Name of the service
-# @param cluster             Name of the cluster for comment (default: 
+# @param cluster             Name of the cluster for comment (default:
 #                            'cluster')
 # @param root_public_key     String of the RSA public key
 # @param hostkeys_source_dir Base URL to fetch the source keys (default:
