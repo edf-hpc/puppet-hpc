@@ -16,7 +16,7 @@
 # Install Xorg and nvidia drivers
 #
 # ## Hiera
-# - `profiles::xorg::instances` (`hiera_hash`) Instance to pass 
+# - `profiles::xorg::instances` (`hiera_hash`) Instance to pass
 #                               to `xorg::instance`
 class profiles::xorg::nvidia {
   class { '::nvidia': } ->
