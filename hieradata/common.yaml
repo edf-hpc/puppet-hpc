@@ -56,10 +56,24 @@ profiles::openssh::server::config_augeas:
   - 'set MaxStartups 8192'
   - 'set PermitRootLogin yes'
   - 'set X11UseLocalhost no'
+
 openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
 openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
-openssh::client::root_key_enc:        "%{hiera('private_files_dir')}/rootkeys/id_rsa_root.enc"
-openssh::client::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
+
+profiles::openssh::client::config_augeas:
+  - 'set StrictHostKeyChecking no'
+  # If a users connects with GSS (kerberos) credentials will be passed on
+  # the session. This is usefull when connecting from a frontend node to 
+  # a compute or graphical node.
+  - 'set GSSAPIDelegateCredentials yes'
+  - 'set GSSAPIRenewalForcesRekey yes'
+
+profiles::openssh::client::identities:
+  '/root/.ssh/id_rsa_root':
+    key_enc:        "%{hiera('private_files_dir')}/rootkeys/id_rsa_root.enc"
+    config_file:    '/root/.ssh/config'
+    host:           '*'
+    decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 
 ##### Codes packages
 codes::packages:
