@@ -13,6 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure a Virtual IP address configured with VRRP
+#
+# This resource relies on keepalived.
+#
+# @param net_id Network ID (wan, administration...) of the network where
+#         this VIP will be.
+# @param ip_address IPv4 address of VIP
+# @param router_id Unique integer for this VIP, it should be unique on the
+#         the L2 segment. Cluster sharing an external network should not
+#         use the same ids.
+# @param auth_secret Secret shared between the routers to authenticate the 
+#         origin.
+# @param master Is this node the master for this vip
+# @param prority Integer giving the priority of this node for this vip
+# @param prefix Prefix for the name of the instance
+# @param notify_script Configure a notify script (default: false)
+# @param advert_int Interval between advertisement (heartbeat) (default:
+#         1s)
 define hpc_ha::vip (
   $net_id,
   $ip_address,
@@ -22,6 +40,7 @@ define hpc_ha::vip (
   $priority,
   $prefix = '',
   $notify_script = false,
+  $advert_int = undef,
 ) {
 
   validate_string($net_id)
@@ -29,6 +48,10 @@ define hpc_ha::vip (
   validate_ip_address($ip_address)
   validate_integer($router_id)
   validate_string($auth_secret)
+
+  if $advert_int {
+    validate_integer($advert_int)
+  }
 
   if ! $::mynet_topology[$net_id] {
     $mynet_names = keys($::mynet_topology)
@@ -79,6 +102,7 @@ define hpc_ha::vip (
     auth_pass         => $auth_secret,
     virtual_ipaddress => [ $ip_address ],
     notify_script     => $_notify_script,
+    advert_int        => $advert_int,
   }
 
   # disable martian logging since normal with VLAN with multiple IP networks

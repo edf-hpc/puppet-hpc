@@ -90,6 +90,9 @@ def get_host_vips(hostname)
       new_vip['ip_address'] = vip_items['ip']
       new_vip['auth_secret'] = vip_items['secret']
       new_vip['notify_script'] = vip_items.key?('notify')
+      if vip_items.key?('advert_int')
+        new_vip['advert_int'] = vip_items['advert_int']
+      end
 
       host_vips[vip_group] = new_vip
     end
