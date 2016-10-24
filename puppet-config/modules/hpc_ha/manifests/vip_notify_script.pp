@@ -26,7 +26,7 @@ define hpc_ha::vip_notify_script (
   }
   else {
     $real_content = hpc_source_file($source)
-  } 
+  }
 
   $_name = regsubst($name, '[:\/\n]', '')
 
