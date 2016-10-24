@@ -35,6 +35,7 @@ Profiles are grouped by sections:
 * *dhcp*, DHCP service
 * *dns*, DNS client and server
 * *environment*, environment for users
+* *filesystem*, create directories, symlinks, mounts...
 * *firewall*, firewall (Shorewall)
 * *ftp*, FTP service (ProFTPd)
 * *gpfs*, IBM GPFS (Spectrum Scaler) service
