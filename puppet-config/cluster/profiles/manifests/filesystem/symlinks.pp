@@ -13,23 +13,32 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Configure other File System mounts
+# Create symbolic links accross the filesystem from hiera
 #
-# This profile lets you define file system mounts in hiera. It only
-# defines the mounts and does not handle creating the mount points.
 #
-# NFS mounts should be handled by `profiles::nfs::mounts`.
+# Links are defined with a hash of the form:
+#
+# ```
+#   '<source_path>':
+#     target: '<target_path>'
+# ```
+#
+# This profiles is reserved for symlinks created by the system
+# administrator. Other profiles or module should create their own
+# symlinks directly.
 #
 # ## Hiera
-# * `profiles::otherfs::to_mount` (`hiera_hash`) Hash with the puppet
-#                                 `mount` resources to create.
-class profiles::otherfs::mounts {
+# * `profiles::filesystem::symlinks` (`hiera_hash`) Hash with the links
+#       to create.
+class profiles::filesystem::symlinks {
 
   # Hiera lookups
-  $to_mount = hiera_hash('profiles::otherfs::to_mount')
+  $links = hiera_hash('profiles::filesystem::symlinks')
 
-  # Mount all the specified directories
-  debug("File systems to mount: ${to_mount}")
-  create_resources('mount', $to_mount)
+  $defaults = {
+    'ensure' => 'link'
+  }
+
+  create_resources('file', $links, $defaults)
 
 }
