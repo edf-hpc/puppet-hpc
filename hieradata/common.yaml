@@ -407,7 +407,7 @@ clara::password_options:
   ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
 
 ##### Ftp
-proftpd::user_home: "%{hiera('admin_dir')}/restricted/ftp"
+proftpd::user_home: "/srv/ftp"
 
 ##### APT config
 apt::always_apt_update:    true
