@@ -22,6 +22,7 @@ class conman (
   $logrotate       = $::conman::params::logrotate,
   $server_options  = {},
   $global_options  = {},
+  $service_override = {},
 ) inherits conman::params {
   validate_array($packages)
   validate_bool($packages_ensure)
@@ -29,6 +30,7 @@ class conman (
   validate_string($service_ensure)
   validate_bool($service_enable)
   validate_bool($logrotate)
+  validate_hash($service_override)
 
   validate_hash($server_options)
   if $server_options['logdir'] {
@@ -41,6 +43,8 @@ class conman (
 
   validate_hash($global_options)
   $_global_options = merge($::conman::params::global_options_default, $global_options)
+
+  $_service_override = deep_merge($::conman::params::service_override_defaults, $service_override)
 
   anchor { 'conman::begin': } ->
   class { '::conman::install': } ->
