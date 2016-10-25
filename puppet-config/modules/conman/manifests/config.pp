@@ -14,6 +14,25 @@
 ##########################################################################
 
 class conman::config inherits conman {
+  $service_dir = "/etc/systemd/system/${::conman::service}.service.d"
+  $service_override_file = "${service_dir}/override.conf"
+
+  file { $service_dir:
+    ensure => directory,
+  }
+
+  hpclib::print_config { $service_override_file:
+    style  => 'ini',
+    data   => $::conman::_service_override,
+    notify => Exec['conman_systemctl_daemon_reload'],
+  }
+
+  exec { 'conman_systemctl_daemon_reload':
+    refreshonly => true,
+    command     => '/bin/systemctl daemon-reload',
+    notify      => Class['::conman::service'],
+  }
+
   # Config file
   concat { '/etc/conman.conf':
     ensure => present,

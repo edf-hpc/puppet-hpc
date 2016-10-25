@@ -21,6 +21,12 @@ class conman::params {
   $service_enable  = true
   $logrotate       = true
 
+  $service_override_defaults = {
+    'Service' => {
+      'LimitNOFILE' => '8192'
+    }
+  }
+
   $server_options_default = {
     'logdir'    => '/var/log/conman',
     'pidfile'   => '/var/run/conmand.pid',
