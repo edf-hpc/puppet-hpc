@@ -21,4 +21,10 @@ class nfs::config inherits nfs {
     data     => $::nfs::_idmapd_options,
   }
 
+  hpclib::print_config { $::nfs::default_file :
+    style    => 'keyval',
+    comments => '#',
+    data     => $::nfs::_default_options,
+  }
+
 }
