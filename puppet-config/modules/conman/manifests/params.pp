@@ -36,7 +36,7 @@ class conman::params {
 
   $global_options_default = {
     'logopts'  => 'lock,sanitize,timestamp',
-    'log'      => '%n/console.log',
+    'log'      => '%N/console.log',
     'seropts'  => '115200,8n1',
     'ipmiopts' => 'U:admin,P:admin',
   }
