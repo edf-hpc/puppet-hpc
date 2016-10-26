@@ -23,14 +23,16 @@ class profiles::nfs::mounts {
   # Hiera lookups
   $to_mount = hiera_hash('profiles::nfs::to_mount')
 
-  # Initialize nfs_client
-  include ::nfs
-
   # If kerberos is enabled it should be configured before starting
   # nfs-common.
   $enable_kerberos = hiera('profiles::auth::client::enable_kerberos')
   if $enable_kerberos {
     Class['kerberos::config'] ~> Class['nfs::service']
+  }
+
+  # Initialize nfs_client
+  class{ 'nfs':
+    enable_gssd => $enable_kerberos
   }
 
   # Mount all the specified directories
