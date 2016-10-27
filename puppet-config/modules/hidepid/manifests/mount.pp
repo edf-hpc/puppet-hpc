@@ -23,9 +23,9 @@ define hidepid::mount (
 ) {
   # Define the proper options 
   if $gid == '' {
-    $options = "remount,rw,hidepid=${hidepid}"
+    $options = "defaults,hidepid=${hidepid}"
   } else {
-    $options = "remount,rw,hidepid=${hidepid},gid=${gid}"
+    $options = "defaults,hidepid=${hidepid},gid=${gid}"
   }
 
   # Remount /proc with the proper options
