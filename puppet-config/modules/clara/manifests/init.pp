@@ -64,6 +64,8 @@ class clara (
   $virt_file          = $::clara::params::virt_file,
   $virt_options       = {},
   $virt_tpl_hpc_files = {},
+  $live_dirs          = $::clara::params::live_dirs_defaults,
+  $live_files          = $::clara::params::live_files_defaults,
 ) inherits clara::params {
   validate_array($packages)
   validate_string($packages_ensure)
@@ -85,6 +87,8 @@ class clara (
   validate_absolute_path($virt_file)
   validate_hash($virt_options)
   validate_hash($virt_tpl_hpc_files)
+  validate_hash($live_dirs)
+  validate_hash($live_files)
 
   $_common_options = deep_merge($::clara::params::common_options_defaults, $common_options)
   $_repo_options   = deep_merge($::clara::params::repo_options_defaults,   $repo_options)
