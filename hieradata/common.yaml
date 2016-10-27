@@ -470,7 +470,7 @@ profiles::http::slurmweb::config_options:
       value:   "@%{hiera('admin_group')}"
 
 ##### Logs
-profiles::log::client::remote_type:   'repl'
+profiles::log::client::remote_type:   'relp'
 profiles::log::client::log_local:     true
 profiles::log::client::server:        "%{hiera('cluster_prefix')}%{::my_log_server}"
 profiles::log::client::port:          '20514'

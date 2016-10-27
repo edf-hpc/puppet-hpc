@@ -31,9 +31,9 @@ class profiles::log::client {
 
   # Pass config options as a class parameter
   class { '::rsyslog::client':
-  remote_type               => $remote_type,
-  log_local                 => $log_local,
-  server                    => $server,
-  port                      => $port,
+    remote_type => $remote_type,
+    log_local   => $log_local,
+    server      => $server,
+    port        => $port,
   }
 }
