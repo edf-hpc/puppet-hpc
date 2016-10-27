@@ -189,5 +189,7 @@ class clara::params {
     }
   }
 
-}
+  $live_dirs_defaults = { }
+  $live_files_defaults = { }
 
+}
