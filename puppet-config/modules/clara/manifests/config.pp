@@ -46,7 +46,7 @@ class clara::config inherits clara {
   create_resources(hpclib::hpc_file, $::clara::virt_tpl_hpc_files)
 
   create_resources(file, $::clara::live_dirs)
-  create_resources(file, $::clara::live_files)
+  create_resources(hpclib::hpc_file, $::clara::live_files)
 
 }
 
