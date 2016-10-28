@@ -19,13 +19,13 @@ class profiles::environment::userspace {
 
   ## Hide processes from other users
   ## Hiera lookups
-  $gid      = hiera('profiles::environment::userspace::gid') 
+  $gid      = hiera('profiles::environment::userspace::gid')
   $hidepid  = hiera('profiles::environment::userspace::hidepid')
   
   class { '::hidepid':
     gid     => $gid,
     hidepid => $hidepid,
     stage   => 'last',
-  }  
+  }
 
 }
