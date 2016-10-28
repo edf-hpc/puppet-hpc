@@ -25,6 +25,7 @@ class profiles::environment::userspace {
   class { '::hidepid':
     gid     => $gid,
     hidepid => $hidepid,
+    stage   => 'last',
   }  
 
 }
