@@ -23,7 +23,7 @@ class hidepid (
   validate_string($hidepid)
   validate_string($gid)
 
-  # Define the proper options 
+  # Define the proper options
   if $gid == '' {
     $options = "hidepid=${hidepid}"
   } else {
