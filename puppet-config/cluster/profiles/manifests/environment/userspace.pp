@@ -19,8 +19,12 @@ class profiles::environment::userspace {
 
   ## Hide processes from other users
   ## Hiera lookups
-  $to_mount = hiera_hash('profiles::environment::userspace::proc_hidepid')
+  $gid      = hiera('profiles::environment::userspace::gid') 
+  $hidepid  = hiera('profiles::environment::userspace::hidepid')
   
-  create_resources('::hidepid::mount', $to_mount)
+  class { '::hidepid':
+    gid     => $gid,
+    hidepid => $hidepid,
+  }  
 
 }
