@@ -13,31 +13,11 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Hide processes from other users by remounting /proc with hipepid option
-#
-# @param hidepid Value of the hidepid option (0, 1 or 2)
-# @param gid     A group allowed to gather information on all processes 
-define hidepid::mount (
-  $hidepid = '2',
-  $gid     = '',
-) {
-  # Define the proper options 
-  if $gid == '' {
-    $options = "defaults,hidepid=${hidepid}"
-  } else {
-    $options = "defaults,hidepid=${hidepid},gid=${gid}"
+class hidepid::install inherits hidepid {
+
+  hpclib::systemd_service { $::hidepid::systemd_service_file :
+    target => $::hidepid::systemd_service_file,
+    config => $::hidepid::systemd_service_file_options,
   }
 
-  # Remount /proc with the proper options
-  mount { '/proc':
-    ensure   => 'mounted',
-    device   => 'proc',
-    fstype   => 'proc',
-    options  => $options,
-    atboot   => true,
-    remounts => true,
-    pass     => 0,
-    dump     => 0,
-  }
 }
-
