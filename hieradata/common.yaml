@@ -469,6 +469,76 @@ profiles::http::slurmweb::config_options:
       comment: ''
       value:   "@%{hiera('admin_group')}"
 
+##### Monitoring
+
+monitoring_master: "monitoring-master.${hiera('domain')}"
+monitoring_server_primary: "%{hiera('cluster_prefix')}%{::my_monitoring_server}1.%{hiera('domain')}"
+monitoring_server_secondary: "%{hiera('cluster_prefix')}%{::my_monitoring_server}2.%{hiera('domain')}"
+
+icinga2::crt_host_src: "%{hiera('private_files_dir')}/icinga2/%{::fqdn}.crt"
+icinga2::key_host_src: "%{hiera('private_files_dir')}/icinga2/%{::fqdn}.key.enc"
+icinga2::crt_ca_src: "%{hiera('private_files_dir')}/icinga2/ca.crt"
+icinga2::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
+
+profiles::monitoring::server::features:
+  - api
+  - livestatus
+
+profiles::monitoring::agent::features:
+  - api
+
+profiles::monitoring::features_conf:
+  api:
+    accept_config: true
+    accept_commands: true
+
+profiles::monitoring::server::endpoints:
+  "%{hiera('monitoring_master')}": {}
+  "%{hiera('monitoring_server_primary')}":
+    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}1.%{hiera('local_domain')}"
+  "%{hiera('monitoring_server_secondary')}":
+    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}2.%{hiera('local_domain')}"
+
+profiles::monitoring::server::zones:
+  master:
+    endpoints:
+      - "%{hiera('monitoring_master')}"
+  "%{hiera('cluster_name')}":
+    parent: 'master'
+    endpoints:
+      - "%{hiera('monitoring_server_primary')}"
+      - "%{hiera('monitoring_server_secondary')}"
+
+profiles::monitoring::agent::ext:endpoints:
+  "%{::fqdn}":
+    host: "%{::fqdn}"
+  "%{hiera('monitoring_master')}": {}
+
+profiles::monitoring::agent::ext::zones:
+  master:
+    endpoints:
+      - "%{hiera('monitoring_master')}"
+  "%{::fqdn}":
+    parent: 'master'
+    endpoints:
+      - "%{::fqdn}"
+
+profiles::monitoring::agent::int::endpoints:
+  "%{::fqdn}":
+    host: "%{::fqdn}"
+  "%{hiera('monitoring_server_primary')}": {}
+  "%{hiera('monitoring_server_secondary')}": {}
+
+profiles::monitoring::agent::int::zones:
+  "%{hiera('cluster_name')}":
+    endpoints:
+      - "%{hiera('monitoring_server_primary')}"
+      - "%{hiera('monitoring_server_secondary')}"
+  "%{::fqdn}":
+    parent: "%{hiera('cluster_name')}"
+    endpoints:
+      - "%{::fqdn}"
+
 ##### Logs
 profiles::log::client::remote_type:   'relp'
 profiles::log::client::log_local:     true
