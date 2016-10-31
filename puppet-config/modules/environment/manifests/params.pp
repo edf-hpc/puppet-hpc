@@ -35,6 +35,8 @@ class environment::params {
   $ps1_profilescript_src            = 'puppet:///modules/environment/001_PS1.sh'
   $ssh_autogenkeys_script           = 'ssh_keys_autogen.sh'
   $ssh_autogenkeys_script_tpl       = 'environment/ssh_keys_autogen.sh.erb'
+  $psm2_script                      = '002_psm2.sh'
+  $psm2_script_src                  = 'puppet:///modules/environment/002_psm2.sh'
   $files_defaults                   = {
     'ensure' => 'present',
     'owner'  => 'root',
@@ -60,6 +62,10 @@ class environment::params {
     "${ps1_profilescript}"            => {
       path    => "${profiles_directory}/${ps1_profilescript}",
       source  => $ps1_profilescript_src,
+    },
+    "${psm2_script}"                  => {
+      path    => "${profiles_directory}/${psm2_script}",
+      source  => $psm2_script_src,
     },
   }
 
