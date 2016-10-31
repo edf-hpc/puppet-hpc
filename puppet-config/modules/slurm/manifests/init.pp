@@ -20,16 +20,29 @@
 # and the parameter `$config_options`. The value in `$config_options` has
 # always the highest priority.
 #
+# = Network Topology
+#
+# The network topology file is activated if the `$enable_topology` is
+# true. The content of the file should be provided line by line as the
+# `$topology_options` parameter
+#
+# @param enable_topology   Enable the topology configuration file
+#                          (default: true)
 # @param packages_manage   Let this class installs the packages
 # @param packages_ensure   Install mode (`latest` or `present`) for the
 #                          packages (default: `present`)
 # @param packages          Array of packages names
+# @param topology_file     Destination of the network topology file
+# @param topology_options  Content of the topology file (line array)
 # @param enable_generic_scripts Configure Prolog/Epilog paths from
 #                               `slurm-llnl-generic-scripts` (default:
 #                               true)
 class slurm (
   $packages_manage        = $::slurm::params::packages_manage,
   $packages_ensure        = $::slurm::params::packages_ensure,
+  $enable_topology        = $::slurm::params::enable_topology,
+  $topology_file          = $::slurm::params::topology_file,
+  $topology_options       = $::slurm::params::topology_options,
   $packages               = $::slurm::params::packages,
   $bin_dir                = $::slurm::params::bin_dir,
   $config_dir             = $::slurm::params::config_dir,
@@ -51,6 +64,12 @@ class slurm (
     validate_array($packages)
   }
 
+  validate_bool($enable_topology)
+  if $enable_topology {
+    validate_array($topology_options)
+  }
+
+  validate_absolute_path($topology_file)
   validate_absolute_path($bin_dir)
   validate_absolute_path($config_dir)
   validate_absolute_path($logs_dir)

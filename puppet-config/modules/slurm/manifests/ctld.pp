@@ -28,23 +28,13 @@
 # distribution and from the package `slurm-llnl-submit-plugin` on Debian
 # and derivative distributions.
 #
-# = Network Topology
-#
-# The network topology file is activated if the `$enable_topology` is
-# true. The content of the file should be provided line by line as the
-# `$topology_options` parameter
-#
 # @param config_manage     Write the configuration files (default: true)
-# @param enable_topology   Enable the topology configuration file
-#                          (default: true)
 # @param enable_lua        Enable the lua job submit script
 #                          (default: true)
 # @param enable_wckeys     Enable the WCkeys check (NOT IMPLEMENTED)
 # @param submit_lua_file   Destination path of the lua submit script
 # @param submit_lua_source Source of the file, package on Debian and
 #                          module on Redhat
-# @param topology_file     Destination of the network topology file
-# @param topology_options  Content of the topology file (line array)
 # @param packages_manage   Let this class installs the packages
 # @param packages_ensure   Install mode (`latest` or `present`) for the
 #                          packages (default: `present`)
@@ -57,7 +47,6 @@
 # @param service           Name of the service
 class slurm::ctld (
   $config_manage     = $::slurm::ctld::params::config_manage,
-  $enable_topology   = $::slurm::ctld::params::enable_topology,
   $enable_lua        = $::slurm::ctld::params::enable_lua,
   $enable_wckeys     = $::slurm::ctld::params::enable_wckeys,
   $submit_lua_file   = $::slurm::ctld::params::submit_lua_file,
@@ -66,8 +55,6 @@ class slurm::ctld (
   $submit_lua_cores  = $::slurm::ctld::params::submit_lua_cores,
   $submit_qos_exec   = $::slurm::ctld::params::submit_qos_exec,
   $submit_qos_conf   = $::slurm::ctld::params::submit_qos_conf,
-  $topology_file     = $::slurm::ctld::params::topology_file,
-  $topology_options  = $::slurm::ctld::params::topology_options,
   $packages_manage   = $::slurm::ctld::params::packages_manage,
   $packages_ensure   = $::slurm::ctld::params::packages_ensure,
   $packages          = $::slurm::ctld::params::packages,
@@ -88,9 +75,7 @@ class slurm::ctld (
   }
 
   if $config_manage {
-    validate_bool($enable_topology)
     validate_bool($enable_lua)
-    validate_absolute_path($topology_file)
     if $enable_lua {
       validate_absolute_path($submit_lua_file)
       validate_string($submit_lua_source)
@@ -103,9 +88,6 @@ class slurm::ctld (
       }
       validate_absolute_path($submit_qos_exec)
       validate_absolute_path($submit_qos_conf)
-    }
-    if $enable_topology {
-      validate_array($topology_options)
     }
   }
 

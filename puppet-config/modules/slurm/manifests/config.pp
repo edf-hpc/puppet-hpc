@@ -20,6 +20,13 @@ class slurm::config {
   ensure_resource('file', $slurm::logs_dir,    {'ensure' => 'directory', mode => '0755' })
   ensure_resource('file', $slurm::scripts_dir, {'ensure' => 'directory', mode => '0755' })
 
+  if $::slurm::enable_topology {
+    hpclib::print_config { $::slurm::topology_file:
+      style => 'linebyline',
+      data  => $::slurm::topology_options,
+    }
+  }
+
   hpclib::print_config { $::slurm::config_file:
     style      => 'keyval',
     data       => $::slurm::_config_options,
