@@ -21,9 +21,11 @@ class profiles::environment::lmod {
 
   ## Hiera lookups
   $config_options = hiera_array('profiles::environment::lmod::config_options', [])
+  $rootdirmodules = hiera_array('profiles::environment::lmod::rootdirmodules', [])
 
   # Pass config options as a class parameter
   class { '::lmod':
     config_options => $config_options,
+    rootdirmodules => $rootdirmodules,
   }
 }
