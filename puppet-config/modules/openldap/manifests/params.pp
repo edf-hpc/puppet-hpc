@@ -38,4 +38,11 @@ class openldap::params {
   $ldif_directory   = '/tmp'
   $directory_source = 'puppet:///modules/openldap'
   $decrypt_passwd   = 'password'
+
+  $service_override_defaults = {
+    'Service' => {
+      'LimitNOFILE' => '8192'
+    }
+  }
+
 }
