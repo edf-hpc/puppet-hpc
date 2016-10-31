@@ -15,6 +15,25 @@
 
 class openldap::config inherits openldap {
 
+  $service_dir = "/etc/systemd/system/${::openldap::service}.service.d"
+  $service_override_file = "${service_dir}/override.conf"
+
+  file { $service_dir:
+    ensure => directory,
+  }
+
+  hpclib::print_config { $service_override_file:
+    style  => 'ini',
+    data   => $::openldap::_service_override,
+    notify => Exec['openldap_systemctl_daemon_reload'],
+  }
+
+  exec { 'openldap_systemctl_daemon_reload':
+    refreshonly => true,
+    command     => '/bin/systemctl daemon-reload',
+    notify      => Class['::openldap::service'],
+  }
+
   hpclib::print_config { $::openldap::default_file :
     style   => 'keyval',
     data    => $::openldap::default_options,

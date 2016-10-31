@@ -19,6 +19,7 @@ class openldap (
   $default_file               = $openldap::params::default_file,
   $default_options            = $openldap::params::default_options,
   $decrypt_passwd             = $openldap::params::decrypt_passwd,
+  $service_override           = {},
   $cluster                    = '',
 ) inherits openldap::params {
 
@@ -26,6 +27,9 @@ class openldap (
   validate_string($packages_ensure)
   validate_absolute_path($default_file)
   validate_hash($default_options)
+  validate_hash($service_override)
+
+  $_service_override = deep_merge($::openldap::params::service_override_defaults, $service_override)
 
   anchor { 'openldap::begin': } ->
   class { '::openldap::install': } ->
