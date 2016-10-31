@@ -15,6 +15,8 @@
 
 class slurm::params {
 
+  $enable_topology = true
+
   ### Package ###
   $packages_ensure = 'present'
   case $::osfamily {
@@ -43,6 +45,11 @@ class slurm::params {
   $config_file     = "${config_dir}/slurm.conf"
   $partitions_file = "${config_dir}/partitions.conf"
   $gres_file       = "${config_dir}/gres.conf"
+
+  $topology_file   = "${config_dir}/topology.conf"
+  $topology_options = [
+    'SwitchName=switch1 Nodes=localhost',
+  ]
 
   $enable_generic_scripts = true
 

@@ -17,13 +17,6 @@ class slurm::ctld::config inherits slurm::ctld {
 
   if $::slurm::ctld::config_manage {
 
-    if $::slurm::ctld::enable_topology {
-      hpclib::print_config { $::slurm::ctld::topology_file:
-        style => 'linebyline',
-        data  => $::slurm::ctld::topology_options,
-      }
-    }
-
     if $::slurm::ctld::enable_lua {
       file { $::slurm::ctld::submit_lua_file:
         source => $::slurm::ctld::submit_lua_source,

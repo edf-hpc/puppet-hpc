@@ -17,7 +17,6 @@ class slurm::ctld::params {
   require ::slurm
 
   $enable_lua      = true
-  $enable_topology = true
   $enable_wckeys   = false
 
   ### Service ###
@@ -29,17 +28,12 @@ class slurm::ctld::params {
 
   ### Configuration ###
   $config_manage   = true
-  $topology_file   = "${::slurm::config_dir}/topology.conf"
   $submit_lua_file = "${::slurm::config_dir}/job_submit.lua"
   $submit_lua_conf = "${::slurm::config_dir}/job_submit.conf"
   $submit_lua_cores = 1
 
   $submit_qos_exec = '/usr/sbin/slurm-gen-qos-conf'
   $submit_qos_conf = "${::slurm::config_dir}/qos.conf"
-
-  $topology_options = [
-    'SwitchName=switch1 Nodes=localhost',
-  ]
 
   ### Package & Configuration ###
   $packages_ensure    = 'present'
