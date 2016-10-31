@@ -316,6 +316,12 @@ profiles::clara::repos:
     server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
     mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
     archs:       'amd64'
+  'calibre9-applis':
+    suite_name:  'calibre9'
+    mirror_dir:  'calibre-applis'
+    server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
+    archs:       'amd64'
   #Suites Calibre 8
   'wheezy':
     suite_name:  'wheezy'
