@@ -14,38 +14,27 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# This function tranforms an array into a hash with empty values. Eg:
-#
-# hpc_atoh([ 'a', 'b', 'c' ])
-#
-#   returns:
-#
-# { 'a': {},
-#   'b': {},
-#   'c': {} }
+require('hpc/hmap')
 
-def hpc_atoh(array)
-  result = Hash.new()
-  array.each do |value|
-    result[value] = Hash.new()
+# @return transform the array into hash with empty values
+Puppet::Parser::Functions::newfunction(
+  :hpc_atoh,
+  :type  => :rvalue,
+  :arity => -1,
+  :doc   =>
+    "Transform an array into a hash with empty values"
+) do |args|
+
+  array = args[0]
+  result = hpc_atoh(array)
+
+  begin
+    result
+  rescue Puppet::ParseError => internal_error
+    if internal_error.original.nil?
+      raise internal_error
+    else
+      raise internal_error.original
+    end
   end
-  return result
-end
-
-# This function tranforms a hash of keys/values into a hash of hashes. Eg:
-#
-# hpc_hmap({ 'a': 1, 'b': 2, 'c': 3 }, 'value')
-#
-#   returns:
-#
-# { 'a': { 'value': 1 },
-#   'b': { 'value': 2 },
-#   'c': { 'value': 3 }}
-
-def hpc_hmap(hash, key)
-  result = Hash.new()
-  hash.each do |xkey, value|
-    result[xkey] = { key => value }
-  end
-  return result
 end
