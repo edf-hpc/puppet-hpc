@@ -216,30 +216,30 @@ profiles::jobsched::server::sync_cron_hour_secondary: 14
 
 ##### NHC
 profiles::warewulf_nhc::config_options:
-  rm:
-    comment: 'Explicitly instruct NHC to assume the Resource Manager'
-    nodes:   '*'
-    command: 'export NHC_RM=slurm'
-  mark:
-    comment: 'Do not mark nodes offline'
-    nodes:   '*'
-    command: 'export MARK_OFFLINE=1'
-  debug:
-    comment: 'Activate debugging mode'
-    nodes:   '*'
-    command: 'export DEBUG=0'
-  watchdog:
-    comment: 'Set watchdog timer to 15 seconds'
-    nodes:   '*'
-    command: 'export TIMEOUT=15'
-  check:
-    comment: 'In out-of-band contexts, enable all checks'
-    nodes:   '*'
-    command: 'export NHC_CHECK_ALL=1'
-  verbose:
+  00_verbose:
     comment: 'Run verbosely'
     nodes:   '*'
     command: 'export VERBOSE=1'
+  00_debug:
+    comment: 'Activate debugging mode'
+    nodes:   '*'
+    command: 'export DEBUG=0'
+  00_watchdog:
+    comment: 'Set watchdog timer to 15 seconds'
+    nodes:   '*'
+    command: 'export TIMEOUT=15'
+  00_rm:
+    comment: 'Explicitly instruct NHC to assume the Resource Manager'
+    nodes:   '*'
+    command: 'export NHC_RM=slurm'
+  00_mark:
+    comment: 'Do not mark nodes offline'
+    nodes:   '*'
+    command: 'export MARK_OFFLINE=1'
+  00_check:
+    comment: 'In out-of-band contexts, enable all checks'
+    nodes:   '*'
+    command: 'export NHC_CHECK_ALL=1'
   eth0:
     comment: 'Checks for an active ethernet interface named "eth0."'
     nodes:   '*'
