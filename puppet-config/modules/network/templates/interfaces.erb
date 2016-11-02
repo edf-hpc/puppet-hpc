@@ -112,7 +112,7 @@ iface <%= card %> inet manual
     # Set mode
     pre-up echo <%= ib_mode %> > /sys/class/net/$IFACE/mode || true
     # Set mtu on ib cards
-    pre-up ip link set $IFACE mtu <%= ib_mtu %>
+    pre-up ip link set $IFACE mtu <%= ib_mtu %> || true
     <%- end -%>
     post-up ip addr add <%= ipadd %> dev $IFACE || true
     pre-down ip addr del <%= ipadd %> dev $IFACE
