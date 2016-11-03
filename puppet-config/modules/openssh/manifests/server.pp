@@ -76,11 +76,14 @@ class openssh::server (
   validate_absolute_path($hostkeys_dir)
   validate_string($hostkeys_source_dir)
 
+
   anchor { 'openssh::server::begin': } ->
   class { '::openssh::server::install': } ->
   class { '::openssh::server::config': } ->
   class { '::openssh::server::keys': } ~>
   class { '::openssh::server::service': } ->
   anchor { 'openssh::server::end': }
+
+  Class['::openssh::server::config'] ~> Class['::openssh::server::service']
 
 }
