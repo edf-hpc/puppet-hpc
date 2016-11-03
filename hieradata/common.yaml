@@ -158,7 +158,6 @@ profiles::jobsched::slurm_config_options:
   TreeWidth:                   "600"
   HealthCheckProgram:          "/usr/sbin/nhc"
   HealthCheckInterval:         "300"
-  MessageTimeout:              "30"
   ResvOverRun:                 "10"
   MaxJobCount:                 "5000"
   SlurmctldTimeout:            "60"
