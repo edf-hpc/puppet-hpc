@@ -30,6 +30,7 @@ class slurm::params {
       $packages = [
         'slurm-client',
         'slurm-llnl-generic-scripts-plugin',
+        'slurm-wlm-spank-plugin-oom-score-adj',
       ]
     }
     default: {
