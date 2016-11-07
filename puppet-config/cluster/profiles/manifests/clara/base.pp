@@ -17,6 +17,9 @@
 #
 # ## Hiera
 # * `profiles::clara::repos`
+
+include certificates
+
 class profiles::clara::base {
   class { '::clara':
     repos_options => hiera_hash('profiles::clara::repos'),
