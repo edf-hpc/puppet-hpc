@@ -61,6 +61,7 @@ class clara (
   $build_options      = {},
   $slurm_options      = {},
   $config_options     = {},
+  $chroot_options     = {},
   $virt_file          = $::clara::params::virt_file,
   $virt_options       = {},
   $virt_tpl_hpc_files = {},
@@ -89,6 +90,7 @@ class clara (
   validate_hash($virt_tpl_hpc_files)
   validate_hash($live_dirs)
   validate_hash($live_files)
+  validate_hash($chroot_options)
 
   $_common_options = deep_merge($::clara::params::common_options_defaults, $common_options)
   $_repo_options   = deep_merge($::clara::params::repo_options_defaults,   $repo_options)
@@ -97,6 +99,7 @@ class clara (
   $_p2p_options    = deep_merge($::clara::params::p2p_options_defaults,    $p2p_options)
   $_build_options  = deep_merge($::clara::params::build_options_defaults,  $build_options)
   $_slurm_options  = deep_merge($::clara::params::slurm_options_defaults,  $slurm_options)
+  $_chroot_options = deep_merge($::clara::params::chroot_options_defaults, $chroot_options)
   $_virt_options   = deep_merge($::clara::params::virt_options_defaults,   $virt_options)
 
   $generic_config_options = {
@@ -107,6 +110,7 @@ class clara (
     'p2p'    => $::clara::_p2p_options,
     'build'  => $::clara::_build_options,
     'slurm'  => $::clara::_slurm_options,
+    'chroot' => $::clara::_chroot_options,
   }
 
   $_config_options = merge($generic_config_options, $config_options)

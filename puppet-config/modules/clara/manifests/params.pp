@@ -170,6 +170,21 @@ class clara::params {
     },
   }
 
+  $chroot_options_defaults = {
+    'files_to_remove'      => {
+      comment => 'List: Files to be removed from the chroot',
+      value   => '/etc/udev/rules.d/70-persistent-net.rules,/root/.bash_history,/etc/hostname',
+    },
+    'etc_hosts'            => {
+      comment => 'List: contains the list of host we want to add to /etc/hosts',
+      value   => '',
+    },
+    'extra_packages_image' => {
+      comment => 'List: Extra packages we want to add in the chroot',
+      value   => '',
+    },
+  }
+
 
   $virt_file = '/etc/clara/virt.ini'
   $virt_options_defaults = {
