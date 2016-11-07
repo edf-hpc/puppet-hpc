@@ -21,6 +21,9 @@ class icinga2::install inherits icinga2 {
       package { $::icinga2::packages:
         ensure => $::icinga2::packages_ensure,
       }
+      $packages_resources = Package[$::icinga2::packages]
+    } else {
+      $packages_resources = []
     }
 
     # certificate are usefull only if api feature is enable in conf
@@ -35,6 +38,7 @@ class icinga2::install inherits icinga2 {
                      $::icinga2::key_host_src,
                      $::icinga2::decrypt_passwd
                    ),
+        require => $packages_resources,
       }
 
       file { $::icinga2::crt_host:
@@ -42,6 +46,7 @@ class icinga2::install inherits icinga2 {
         owner   => $::icinga2::user,
         group   => $::icinga2::user,
         mode    => '0644',
+        require => $packages_resources,
       }
 
       file { $::icinga2::crt_ca:
@@ -49,6 +54,7 @@ class icinga2::install inherits icinga2 {
         owner   => $::icinga2::user,
         group   => $::icinga2::user,
         mode    => '0644',
+        require => $packages_resources,
       }
 
     }
