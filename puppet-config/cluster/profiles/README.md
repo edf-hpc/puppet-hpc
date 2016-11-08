@@ -41,6 +41,7 @@ Profiles are grouped by sections:
 * *gpfs*, IBM GPFS (Spectrum Scaler) service
 * *ha*, High Availability tools
 * *hardware*, Hardware tools and tuning
+* *hpcstats*, HPCStats
 * *http*, Web server (Apache)
 * *jobsched*, Job scheduler (SLURM)
 * *log*, System log management
