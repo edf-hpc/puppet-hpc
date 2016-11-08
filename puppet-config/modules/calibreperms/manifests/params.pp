@@ -19,13 +19,4 @@ class calibreperms::params {
   $packages_ensure = 'latest'
   $packages        = ['calibre-permissions']
 
-  #### Defaults values
-  case $::osfamily {
-    'Debian': {
-      $config_file    = '/usr/share/calibre/permissions/cluster.uri'
-    }
-    default: {
-      fail("Unsupported OS Family '${::osfamily}'")
-    }
-  }
 }
