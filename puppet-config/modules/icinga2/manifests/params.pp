@@ -17,7 +17,9 @@ class icinga2::params {
 
   $install_manage  = true
   $packages_manage = true
-  $packages        = ['icinga2', 'monitoring-plugins-basic']
+  $packages        = ['icinga2',
+                      'monitoring-plugins-basic',
+                      'monitoring-plugins-hpc']
   $packages_ensure = 'latest'
   $services_manage = true
   $services        = ['icinga2']
