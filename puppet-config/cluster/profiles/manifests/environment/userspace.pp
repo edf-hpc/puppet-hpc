@@ -21,7 +21,7 @@ class profiles::environment::userspace {
   ## Hiera lookups
   $gid      = hiera('profiles::environment::userspace::gid')
   $hidepid  = hiera('profiles::environment::userspace::hidepid')
-  
+
   class { '::hidepid':
     gid     => $gid,
     hidepid => $hidepid,
