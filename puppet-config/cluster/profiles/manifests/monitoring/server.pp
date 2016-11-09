@@ -19,11 +19,13 @@ class profiles::monitoring::server {
   $features_conf = hiera_hash('profiles::monitoring::features_conf', {})
   $zones         = hiera_hash('profiles::monitoring::server::zones', {})
   $endpoints     = hiera_hash('profiles::monitoring::server::endpoints', {})
+  $idents        = hiera_hash('profiles::monitoring::server::idents', {})
 
   class { '::icinga2':
     features      => $features,
     features_conf => $features_conf,
     zones         => $zones,
     endpoints     => $endpoints,
+    idents        => $idents,
   }
 }
