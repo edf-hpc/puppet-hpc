@@ -26,7 +26,7 @@ define icinga2::feature () {
   if dig($::icinga2::_features_conf, [$name]) {
 
     $_template = "icinga2/${name}.erb"
-    $_feature_conf = "${features_avail_dir}/${name}.conf"
+    $_feature_conf = "${::icinga2::features_avail_dir}/${name}.conf"
 
     file { $_feature_conf:
       content => template($_template),
