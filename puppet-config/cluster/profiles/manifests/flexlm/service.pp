@@ -13,13 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class flexlm::params {
+# Intel license server
+#
+class profiles::flexlm::service {
 
-  $service_ensure = 'running'
-  $service_enable = true
-  $service_name = 'lmgrd'
-  $packages = [ 'flexlm' ]
-
-  $license_path    = '/opt/flexlm/server.lic'
+  class { flexlm : }
 
 }
