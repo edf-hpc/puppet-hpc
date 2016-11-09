@@ -44,14 +44,27 @@ class flexlm (
   validate_string($service_ensure)
   validate_bool($service_enable)
 
+  $license_dir = dirname($license_path)
+
+  exec { "Create $license_dir":
+    creates => $license_dir,
+    command => "mkdir -p $license_dir",
+    path => $::path
+  } -> file { $license_dir : }
+
   file { $license_path :
-    content  => decrypt($license_path_src, $decrypt_passwd)
+    content => decrypt($license_path_src, $decrypt_passwd),
+    require => File[$license_dir],
+  }
+
+  package { $packages :
+    ensure => installed
   }
 
   service { $service_name :
     ensure  => $service_ensure,
     enable  => $service_enable,
-    require => File[$license_path],
+    require => [File[$license_path],Package[$packages]],
   }
 
 }
