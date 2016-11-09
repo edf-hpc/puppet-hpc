@@ -15,7 +15,8 @@
 
 class nvidia::params {
   $packages = [
-    'nvidia-driver'
+    'nvidia-driver',
+    "nvidia-kernel-${::kernelrelease}",
   ]
   $packages_ensure = 'installed'
 
