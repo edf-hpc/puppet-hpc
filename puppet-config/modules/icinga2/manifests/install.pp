@@ -58,5 +58,8 @@ class icinga2::install inherits icinga2 {
       }
 
     }
+
+    create_resources(icinga2::ident, hpc_hmap($::icinga2::idents, 'src'))
+
   }
 }
