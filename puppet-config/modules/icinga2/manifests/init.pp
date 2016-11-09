@@ -37,6 +37,8 @@ class icinga2 (
   $features_avail_dir  = $::icinga2::params::features_avail_dir,
   $features_enable_dir = $::icinga2::params::features_enable_dir,
   $features_conf       = {},
+  $ident_dir           = $::icinga2::params::ident_dir,
+  $idents              = $::icinga2::params::idents,
   $crt_host_src,
   $key_host_src,
   $crt_ca_src,
@@ -51,6 +53,8 @@ class icinga2 (
   if $install_manage and $packages_manage {
     validate_array($packages)
     validate_string($packages_ensure)
+    validate_absolute_path($ident_dir)
+    validate_hash($idents)
   }
 
   if $services_manage {

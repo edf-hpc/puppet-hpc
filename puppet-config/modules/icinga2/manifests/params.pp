@@ -55,6 +55,9 @@ class icinga2::params {
     }
   }
 
+  $ident_dir = '/var/lib/icinga2/idents'
+  $idents    = {}
+
   # There is not any sane and secure possible default values for the following
   # params so it is better to not define them in this class.
   #   $crt_host_src
