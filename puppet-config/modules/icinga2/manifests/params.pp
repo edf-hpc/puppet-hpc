@@ -19,7 +19,7 @@ class icinga2::params {
   $packages_manage = true
   $packages        = ['icinga2',
                       'monitoring-plugins-basic',
-                      'monitoring-plugins-hpc']
+                      'monitoring-plugins-hpc-agent']
   $packages_ensure = 'latest'
   $services_manage = true
   $services        = ['icinga2']
