@@ -30,4 +30,8 @@ class profiles::monitoring::server {
     endpoints     => $endpoints,
     idents        => $idents,
   }
+
+  include '::nscang::server'
+  include '::nscang::client'
+
 }
