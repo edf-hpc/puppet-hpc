@@ -56,6 +56,14 @@ profiles::openssh::server::config_augeas:
   - 'set MaxStartups 8192'
   - 'set PermitRootLogin yes'
   - 'set X11UseLocalhost no'
+  - 'set KexAlgorithms/1 curve25519-sha256@libssh.org'
+  - 'set KexAlgorithms/2 ecdh-sha2-nistp256'
+  - 'set KexAlgorithms/3 ecdh-sha2-nistp384'
+  - 'set KexAlgorithms/4 ecdh-sha2-nistp521'
+  - 'set KexAlgorithms/5 diffie-hellman-group-exchange-sha256'
+  - 'set KexAlgorithms/6 diffie-hellman-group14-sha1'
+  - 'set KexAlgorithms/7 diffie-hellman-group-exchange-sha1'
+  - 'set KexAlgorithms/8 diffie-hellman-group1-sha1'
 
 openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
 openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
