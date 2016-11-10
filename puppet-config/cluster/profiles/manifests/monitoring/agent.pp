@@ -33,4 +33,7 @@ class profiles::monitoring::agent {
     zones         => $zones,
     endpoints     => $endpoints,
   }
+
+  include '::nscang::client'
+
 }
