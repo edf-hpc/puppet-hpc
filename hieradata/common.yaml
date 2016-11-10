@@ -489,9 +489,16 @@ icinga2::key_host_src: "%{hiera('private_files_dir')}/icinga2/certs/%{::hostname
 icinga2::crt_ca_src: "%{hiera('private_files_dir')}/icinga2/certs/ca.crt"
 icinga2::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 
+profiles::monitoring::server::packages:
+  - 'icinga2'
+  - 'monitoring-plugins-basic'
+  - 'monitoring-plugins-hpc-agent'
+  - 'monitoring-plugins-hpc-server'
+
 profiles::monitoring::server::features:
   - api
   - livestatus
+  - command
 
 profiles::monitoring::agent::features:
   - api
