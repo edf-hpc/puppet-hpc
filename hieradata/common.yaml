@@ -555,6 +555,16 @@ profiles::monitoring::agent::int::zones:
     endpoints:
       - "%{::fqdn}"
 
+nscang_password: "CHANGEME"
+nscang_identity: "%{hiera('cluster_name')}-agent-checker"
+
+nscang::server::identity: "%{hiera('nscang_identity')}"
+nscang::server::password: "%{hiera('nscang_password')}"
+
+nscang::client::server: "%{hiera('cluster_prefix')}%{::my_monitoring_server}.%{hiera('local_domain')}"
+nscang::client::identity: "%{hiera('nscang_identity')}"
+nscang::client::password: "%{hiera('nscang_password')}"
+
 ##### Logs
 profiles::log::client::remote_type:   'relp'
 profiles::log::client::log_local:     true
