@@ -15,6 +15,7 @@
 
 class profiles::monitoring::server {
 
+  $packages      = hiera_array('profiles::monitoring::server::packages', [])
   $features      = hiera_array('profiles::monitoring::server::features', [])
   $features_conf = hiera_hash('profiles::monitoring::features_conf', {})
   $zones         = hiera_hash('profiles::monitoring::server::zones', {})
@@ -22,6 +23,7 @@ class profiles::monitoring::server {
   $idents        = hiera_hash('profiles::monitoring::server::idents', {})
 
   class { '::icinga2':
+    packages      => $packages,
     features      => $features,
     features_conf => $features_conf,
     zones         => $zones,
