@@ -484,8 +484,8 @@ monitoring_master: "monitoring-master.${hiera('domain')}"
 monitoring_server_primary: "%{hiera('cluster_prefix')}%{::my_monitoring_server}1.%{hiera('domain')}"
 monitoring_server_secondary: "%{hiera('cluster_prefix')}%{::my_monitoring_server}2.%{hiera('domain')}"
 
-icinga2::crt_host_src: "%{hiera('private_files_dir')}/icinga2/certs/%{::fqdn}.crt"
-icinga2::key_host_src: "%{hiera('private_files_dir')}/icinga2/certs/%{::fqdn}.key.enc"
+icinga2::crt_host_src: "%{hiera('private_files_dir')}/icinga2/certs/%{::hostname}.crt"
+icinga2::key_host_src: "%{hiera('private_files_dir')}/icinga2/certs/%{::hostname}.key.enc"
 icinga2::crt_ca_src: "%{hiera('private_files_dir')}/icinga2/certs/ca.crt"
 icinga2::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 
