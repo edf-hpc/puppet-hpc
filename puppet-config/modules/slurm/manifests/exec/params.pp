@@ -50,8 +50,9 @@ class slurm::exec::params {
   $cgroup_options_defaults = {
     'CgroupAutomount'       => 'no',
     'CgroupReleaseAgentDir' => $cgroup_rel_dir,
-    'ConstrainCores'        => 'no',
+    'ConstrainCores'        => 'yes',
     'ConstrainRAMspace'     => 'no',
+    'TaskAffinity'          => 'yes',
   }
 
 
