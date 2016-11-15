@@ -47,5 +47,11 @@ class hpc_ha::install inherits hpc_ha {
     refreshonly => true,
     require     => Class['keepalived::install'],
   }
+
+  hpclib::systemd_service { $hpc_ha::systemd_config_file :
+    target => $hpc_ha::systemd_config_file,
+    config => $hpc_ha::systemd_config_options,
+  }
+
 }
 
