@@ -30,7 +30,9 @@ class slurm::ctld::params {
   $config_manage   = true
   $submit_lua_file = "${::slurm::config_dir}/job_submit.lua"
   $submit_lua_conf = "${::slurm::config_dir}/job_submit.conf"
-  $submit_lua_cores = 1
+  $submit_lua_options = {
+    'CORES_PER_NODE' => 1,
+  }
 
   $submit_qos_exec = '/usr/sbin/slurm-gen-qos-conf'
   $submit_qos_conf = "${::slurm::config_dir}/qos.conf"

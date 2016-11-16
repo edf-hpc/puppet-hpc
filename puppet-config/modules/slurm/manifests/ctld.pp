@@ -46,22 +46,22 @@
 # @param service_enable    Service started at boot (default: true)
 # @param service           Name of the service
 class slurm::ctld (
-  $config_manage     = $::slurm::ctld::params::config_manage,
-  $enable_lua        = $::slurm::ctld::params::enable_lua,
-  $enable_wckeys     = $::slurm::ctld::params::enable_wckeys,
-  $submit_lua_file   = $::slurm::ctld::params::submit_lua_file,
-  $submit_lua_source = $::slurm::ctld::params::submit_lua_source,
-  $submit_lua_conf   = $::slurm::ctld::params::submit_lua_conf,
-  $submit_lua_cores  = $::slurm::ctld::params::submit_lua_cores,
-  $submit_qos_exec   = $::slurm::ctld::params::submit_qos_exec,
-  $submit_qos_conf   = $::slurm::ctld::params::submit_qos_conf,
-  $packages_manage   = $::slurm::ctld::params::packages_manage,
-  $packages_ensure   = $::slurm::ctld::params::packages_ensure,
-  $packages          = $::slurm::ctld::params::packages,
-  $service_manage    = $::slurm::ctld::params::service_manage,
-  $service_ensure    = $::slurm::ctld::params::service_ensure,
-  $service_enable    = $::slurm::ctld::params::service_enable,
-  $service           = $::slurm::ctld::params::service,
+  $config_manage      = $::slurm::ctld::params::config_manage,
+  $enable_lua         = $::slurm::ctld::params::enable_lua,
+  $enable_wckeys      = $::slurm::ctld::params::enable_wckeys,
+  $submit_lua_file    = $::slurm::ctld::params::submit_lua_file,
+  $submit_lua_source  = $::slurm::ctld::params::submit_lua_source,
+  $submit_lua_conf    = $::slurm::ctld::params::submit_lua_conf,
+  $submit_lua_options = {},
+  $submit_qos_exec    = $::slurm::ctld::params::submit_qos_exec,
+  $submit_qos_conf    = $::slurm::ctld::params::submit_qos_conf,
+  $packages_manage    = $::slurm::ctld::params::packages_manage,
+  $packages_ensure    = $::slurm::ctld::params::packages_ensure,
+  $packages           = $::slurm::ctld::params::packages,
+  $service_manage     = $::slurm::ctld::params::service_manage,
+  $service_ensure     = $::slurm::ctld::params::service_ensure,
+  $service_enable     = $::slurm::ctld::params::service_enable,
+  $service            = $::slurm::ctld::params::service,
 ) inherits slurm::ctld::params {
 
   ### Validate params ###
@@ -80,14 +80,11 @@ class slurm::ctld (
       validate_absolute_path($submit_lua_file)
       validate_string($submit_lua_source)
       validate_absolute_path($submit_lua_conf)
-      validate_integer($submit_lua_cores)
-      # Generate lua conf hash for print_config with
-      # submit_lua_cores.
-      $_submit_lua_options = {
-        'CORES_PER_NODE' => "${submit_lua_cores}",
-      }
+      validate_hash($submit_lua_options)
       validate_absolute_path($submit_qos_exec)
       validate_absolute_path($submit_qos_conf)
+      $_submit_lua_options = deep_merge($::slurm::ctld::params::slurm_lua_options,
+                                        $submit_lua_options)
     }
   }
 
