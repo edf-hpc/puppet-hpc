@@ -17,7 +17,7 @@ class slurm::ctld::params {
   require ::slurm
 
   $enable_lua      = true
-  $enable_wckeys   = false
+  $enable_wckeys   = true
 
   ### Service ###
   $service_enable = true
@@ -36,6 +36,14 @@ class slurm::ctld::params {
 
   $submit_qos_exec = '/usr/sbin/slurm-gen-qos-conf'
   $submit_qos_conf = "${::slurm::config_dir}/qos.conf"
+
+  $wckeysctl_file = '/etc/default/wckeysctl'
+  $wckeysctl_options = {
+    'SACCTMGR' => "/usr/bin/sacctmgr",
+    'DB_NAME' => "slurm_acct_db",
+    'SLURMDB_FILE' => "/etc/slurm-llnl/slurmdbd.conf",
+  }
+
 
   ### Package & Configuration ###
   $packages_ensure    = 'present'

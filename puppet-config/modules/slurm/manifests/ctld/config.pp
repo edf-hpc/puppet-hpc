@@ -35,8 +35,13 @@ class slurm::ctld::config inherits slurm::ctld {
     }
 
     if $::slurm::ctld::enable_wckeys {
-      # Work in progress
-    }
 
+      hpclib::print_config { $::slurm::ctld::wckeysctl_file:
+        style     => 'keyval',
+        separator => '=',
+        data      => $::slurm::ctld::_wckeysctl_options,
+      }
+      create_resources(hpclib::hpc_file, $::slurm::ctld::wckeys_data_files)
+    }
   }
 }
