@@ -68,6 +68,7 @@ class network (
   $hostname_augeas_change      = $::network::params::hostname_augeas_change,
   $bonding_packages            = $::network::params::bonding_packages,
   $bonding_options             = $::network::params::bonding_options,
+  $bridge_packages             = $::network::params::bridge_packages,
   $bridge_options              = $::network::params::bridge_options,
   $config_file                 = $::network::params::config_file,
   $systemd_tmpfile             = $::network::params::systemd_tmpfile,
@@ -129,13 +130,15 @@ class network (
   validate_array($ib_packages)
   validate_array($opa_packages)
   validate_array($bonding_packages)
+  validate_array($bridge_packages)
   validate_array($packages)
+  $_base_packages = concat($bonding_packages, $bridge_packages)
   if $ib_enable {
-    $ibbonding_packages = concat($ib_packages, $bonding_packages)
+    $ibbonding_packages = concat($ib_packages, $_base_packages)
   } elsif $opa_enable {
-    $ibbonding_packages = concat($opa_packages, $bonding_packages)
+    $ibbonding_packages = concat($opa_packages, $_base_packages)
   } else {
-    $ibbonding_packages = $bonding_packages
+    $ibbonding_packages = $_base_packages
   }
   $_packages = concat($ibbonding_packages, $packages)
 
