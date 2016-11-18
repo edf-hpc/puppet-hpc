@@ -22,6 +22,11 @@ class boothttp::install inherits boothttp {
   ensure_resource('file',$boothttp::config_dir_http,{'ensure' => 'directory'})
   ensure_resource('file',$menu_dir,{'ensure' => 'directory'})
 
+  $_menu_config_dir = dirname($::boothttp::menu_config)
+  ensure_resource('file',
+                  $_menu_config_dir,
+                  {'ensure' => 'directory'})
+
   file { $menu_file:
     content => hpc_source_file($::boothttp::menu_source),
     mode    => '0755',
