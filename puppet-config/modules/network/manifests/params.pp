@@ -33,6 +33,7 @@ class network::params {
       ## Interfaces
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
+      $bridge_packages  = ['bridge-utils']
       $ib_packages      = [
         'ibverbs-utils',
         'infiniband-diags',
@@ -81,6 +82,7 @@ class network::params {
       ## Interfaces
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
+      $bridge_packages  = []
       $ib_packages      = [
         'ar_mgr',
         'bupc',
