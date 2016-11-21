@@ -64,6 +64,9 @@ profiles::openssh::server::config_augeas:
   - 'set KexAlgorithms/6 diffie-hellman-group14-sha1'
   - 'set KexAlgorithms/7 diffie-hellman-group-exchange-sha1'
   - 'set KexAlgorithms/8 diffie-hellman-group1-sha1'
+  - 'set AcceptEnv/1 LANG'
+  - 'set AcceptEnv/2 LC_*'
+  - 'set AcceptEnv/3 SLURM_*'
 
 openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
 openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
@@ -75,6 +78,9 @@ profiles::openssh::client::config_augeas:
   # a compute or graphical node.
   - 'set GSSAPIDelegateCredentials yes'
   - 'set GSSAPIRenewalForcesRekey yes'
+  - 'set SendEnv/1 LANG'
+  - 'set SendEnv/2 LC_*'
+  - 'set SendEnv/3 SLURM_*'
 
 profiles::openssh::client::identities:
   '/root/.ssh/id_rsa_root':
