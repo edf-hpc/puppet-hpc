@@ -21,9 +21,17 @@ class conman::params {
   $service_enable  = true
   $logrotate       = true
 
+  # By default override some systemd service parameters for conman daemon:
+  # - set high nofile limit because conman daemon opens a lot of FD (2 x node)
+  #   with freeipmi library.
+  # - define PID file because, on debian, the service is started through a SYSV
+  #   init script and, in this case, systemd is not able to track the main
+  #   service process (to know whether it has properly started and detect when
+  #   it crashes) without this option.
   $service_override_defaults = {
     'Service' => {
-      'LimitNOFILE' => '8192'
+      'LimitNOFILE' => '8192',
+      'PIDFile'     => '/var/run/conmand.pid',
     }
   }
 
