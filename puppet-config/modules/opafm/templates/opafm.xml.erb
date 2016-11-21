@@ -828,7 +828,8 @@
     <!-- values less than 8192 are treated as Megabytes -->
     <!-- This sets the linux core dump soft ulimit for the FM.  Hard ulimit -->
     <!-- for root user on system must be appropriately set to permit this. -->
-    <CoreDumpLimit>0</CoreDumpLimit>
+    <!-- Default CoreDumpLimit is 2 GB -->
+    <CoreDumpLimit>2G</CoreDumpLimit>
     <!-- Directory for Host FM core files -->
     <!-- Actual core filenames will be controlled by linux kernel config. -->
     <!-- The parent directory (/var/crash in default) must be pre-created. -->
@@ -1272,7 +1273,8 @@
     <!--     overall Buffer memory that will be guaranteed to be shared -->
     <!--     among a port's VLs (provided that the port supports -->
     <!---    shared memory). If not specified, defaults to 0. -->
-    <!-- DedicatedVLMemMulti is an integer multiplier that can increase the -->
+    <!-- DedicatedVLMemMulti is an integer multiplier in the -->
+    <!--     range, 0 to 255 that can increase the -->
     <!--     amount of dedicated memory per VL.  It is specified in -->
     <!--     multiples of MTUs for that VL. -->
     <!--     If not specified, defaults to 1. -->
@@ -1555,7 +1557,8 @@
     <!-- **************** Fabric Sweep **************************** -->
     <!-- The SM sweeps immediately upon fabric changes based on traps from -->
     <!-- the switches.  Since traps can be lost, the SM also has a slow -->
-    <!-- periodic sweep at SweepInterval to verify fabric config. -->
+    <!-- periodic sweep at SweepInterval to verify fabric config. This -->
+    <!-- interval can be zero (do not sweep) or between 3 and 86400 seconds. -->
     <SweepInterval>300</SweepInterval> <!-- max seconds between sweeps -->
     <IgnoreTraps>0</IgnoreTraps> <!-- don't sweep nor log when traps occur -->
     <!-- The SM waits up to RespTimeout milliseconds for responses. -->
@@ -1905,8 +1908,8 @@
     <!-- LinkErrorRecovery errors must occur before the PMA will -->
     <!-- include them in the ErrorCounterSummary. -->
     <Resolution>
-        <LocalLinkIntegrity>8000000</LocalLinkIntegrity>
-        <LinkErrorRecovery>100000</LinkErrorRecovery>
+        <LocalLinkIntegrity>10000</LocalLinkIntegrity>
+        <LinkErrorRecovery>1024</LinkErrorRecovery>
     </Resolution>
 
     <!-- This controls when the PM clears PMA Error counters -->
