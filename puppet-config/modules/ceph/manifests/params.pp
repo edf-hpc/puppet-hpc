@@ -15,7 +15,14 @@
 
 class ceph::params {
   #### Module variables
-  $packages        = ['ceph', 'ceph-deploy', 'radosgw']
+  $packages        = [
+    'ceph',
+    'ceph-deploy',
+    'ceph-mds',
+    'ceph-mon',
+    'ceph-osd',
+    'radosgw',
+  ]
   $packages_ensure = installed
   $ceph_user       = 'ceph'
   $services        = ['ceph']
