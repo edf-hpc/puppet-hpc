@@ -37,6 +37,8 @@ class opafm (
   $config_source   = $::opafm::params::config_hpc_source,
   $fe_enable       = $::opafm::params::fe_enable,
   $fe_sslsecurity  = $::opafm::params::fe_sslsecurity,
+  $devicegroups    = $::opafm::params::devicegroups,
+  $pmportgroups    = $::opafm::params::pmportgroups,
 ) inherits opafm::params {
 
   validate_array($packages)
@@ -48,7 +50,8 @@ class opafm (
   validate_string($config_source)
   validate_bool($fe_enable)
   validate_bool($fe_sslsecurity)
-  
+  validate_hash($devicegroups)
+  validate_hash($pmportgroups)
 
   anchor { 'opafm::begin': } ->
   class { '::opafm::install': } ->
