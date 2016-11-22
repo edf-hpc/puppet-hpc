@@ -60,4 +60,6 @@ class ceph (
   class { '::ceph::config': } ->
   class { '::ceph::service': } ->
   anchor { 'ceph::end': }
+
+  Class['::ceph::config'] -> Ceph::Posix::Mount <||>
 }
