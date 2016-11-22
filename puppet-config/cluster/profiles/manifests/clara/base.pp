@@ -24,7 +24,7 @@
 
 class profiles::clara::base {
 
-  # Hiera lookups 
+  # Hiera lookups
   $directory_source       = hiera('profiles::clara::ssl_directory_source')
   $certificates_directory = hiera('profiles::clara::certificates_directory')
   $certificate_file       = hiera('profiles::clara::certificate_file')
