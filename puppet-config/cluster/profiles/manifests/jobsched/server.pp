@@ -62,7 +62,7 @@
 class profiles::jobsched::server {
 
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
-  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', undef)
+  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', {})
   $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
 
   class { '::slurm':
