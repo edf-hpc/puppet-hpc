@@ -67,7 +67,7 @@ class profiles::jobsched::server {
 
   $sync_options = hiera_hash('profiles::jobsched::server::sync_options')
   $slurm_primary = hiera('slurm_primary_server')
-  if $hostname == $slurm_primary {
+  if $::hostname == $slurm_primary {
     $sync_cron_hour = hiera('profiles::jobsched::server::sync_cron_hour_primary')
   } else {
     $sync_cron_hour = hiera('profiles::jobsched::server::sync_cron_hour_secondary')
