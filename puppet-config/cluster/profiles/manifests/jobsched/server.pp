@@ -55,10 +55,14 @@
 #
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
+# * profiles::jobsched::server::ceph::keys (`hiera_hash`) Keys to define on this
+#         node for CephFS kernel mounts
+# * profiles::jobsched::server::ceph::mounts (`hiera_hash`) Mounts to use for
+#         CephFS space
 class profiles::jobsched::server {
 
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
-  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys')
+  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', undef)
   $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
 
   class { '::slurm':
