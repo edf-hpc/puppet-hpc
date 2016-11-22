@@ -449,6 +449,17 @@
       <IncludeGroup>AllSWE0s</IncludeGroup>
     </DeviceGroup>
 
+    <!-- Devicegroups added by puppet -->
+    <%- @devicegroups.each do | devicegroup, content | -%>
+    <!-- <%=content['comment']%> -->
+    <DeviceGroup>
+      <Name><%=devicegroup%></Name>
+      <%- content['nodeguids'].each do | uid | -%>
+      <%= '<NodeGUID>'+uid+'</NodeGUID>'%>
+      <%- end -%>
+    </DeviceGroup>
+    <%- end -%>
+
     <!-- Group for all nodes matching wild carded NodeDesc -->
     <DeviceGroup>
       <Name>Rack1DG</Name>
@@ -806,6 +817,16 @@
       <Monitor>Rack1DG</Monitor>
       <Enable>0</Enable>
     </PmPortGroup>
+
+    <!-- PmPortGroups added by puppet-->
+    <%- @pmportgroups.each do | portgroup, content | -%>
+    <PmPortGroup>
+      <Name><%=portgroup%></Name>
+      <Monitor><%=content['monitor']%></Monitor>
+      <Enable><%=content['enable']%></Enable>
+    </PmPortGroup>
+    <%- end -%>
+
   </PmPortGroups>
 
   <!-- Shared Common config, applies to all components: SM, PM and FE -->
