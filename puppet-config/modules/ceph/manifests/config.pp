@@ -15,22 +15,6 @@
 
 class ceph::config inherits ceph {
 
-  if has_key($::ceph::osd_config, $::hostname) {
-    $ceph_id = $::ceph::osd_config[$::hostname]['id']
-    $mountpoint = "${::ceph::osd_path}/${::ceph::ceph_cluster_name}-${ceph_id}"
-    file { $mountpoint:
-      ensure  => 'directory',
-    }
-
-    mount { $mountpoint :
-      ensure  => 'mounted',
-      device  => $::ceph::osd_config[$::hostname]['device'],
-      fstype  => 'xfs',
-      options => 'defaults,nofail',
-      require => File[$mountpoint],
-    }
-  }
-
   hpclib::print_config { $::ceph::config_file :
     style     => 'ini',
     separator => ' = ',
@@ -101,8 +85,22 @@ class ceph::config inherits ceph {
   }
 
   if $::hostname in $::ceph::osd_config {
-    $osd_keyring_file = sprintf($::ceph::osd_keyring_file, $::ceph::osd_config[$::hostname]['id'] )
-    $osd_keyring_data = { "osd.${::ceph::osd_config[$::hostname]['id']}" => { 'key' => $::ceph::osd_config[$::hostname]['key']  } }
+    $ceph_id = $::ceph::osd_config[$::hostname]['id']
+    $mountpoint = "${::ceph::osd_path}/${::ceph::ceph_cluster_name}-${ceph_id}"
+    file { $mountpoint:
+      ensure  => 'directory',
+    }
+
+    mount { $mountpoint :
+      ensure  => 'mounted',
+      device  => $::ceph::osd_config[$::hostname]['device'],
+      fstype  => 'xfs',
+      options => 'defaults,nofail',
+      require => File[$mountpoint],
+    }
+
+    $osd_keyring_file = sprintf($::ceph::osd_keyring_file, $ceph_id )
+    $osd_keyring_data = { "osd.${ceph_id}" => { 'key' => $::ceph::osd_config[$::hostname]['key'] } }
     hpclib::print_config { $osd_keyring_file :
       style     => 'ini',
       separator => ' = ',
@@ -110,6 +108,7 @@ class ceph::config inherits ceph {
       mode      => '0600',
       data      => $osd_keyring_data,
       notify    => Class['::ceph::service'],
+      require   => Mount[$mountpoint]
     }
   }
 
