@@ -21,7 +21,7 @@ class ceph::posix::client (
   $keys_owner      = $::ceph::posix::client::params::keys_owner,
   $keys_group      = $::ceph::posix::client::params::keys_group,
   $keys_mode       = $::ceph::posix::client::params::keys_mode,
-  $keys,
+  $keys            = $::ceph::posix::client::params::keys,
   $mounts,
 ) inherits ceph::posix::client::params {
 

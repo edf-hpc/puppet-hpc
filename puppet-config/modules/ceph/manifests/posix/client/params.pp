@@ -15,7 +15,10 @@
 
 class ceph::posix::client::params {
 
-  $packages        = [ 'ceph-fs-common' ]
+  $packages        = [
+    'ceph-fs-common',
+    'ceph-fuse',
+  ]
   $packages_manage = true
   $packages_ensure = 'installed'
 
@@ -23,5 +26,6 @@ class ceph::posix::client::params {
   $keys_owner    = 'root'
   $keys_group    = 'root'
   $keys_mode     = 0640
+  $keys          = {}
 
 }
