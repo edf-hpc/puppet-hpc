@@ -86,6 +86,10 @@ class ceph::config inherits ceph {
   }
 
   if $::hostname in $::ceph::mds_keyring {
+    $mds_keyring_dir = dirname($::ceph::mds_keyring_file)
+    file { $mds_keyring_dir:
+      ensure => directory,
+    }
     hpclib::print_config { $::ceph::mds_keyring_file :
       style     => 'ini',
       separator => ' = ',
@@ -110,6 +114,10 @@ class ceph::config inherits ceph {
   }
 
   if $::hostname in $::ceph::rgw_client_keyring {
+    $rgw_keyring_dir = dirname($::ceph::rgw_keyring_file)
+    file { $rgw_keyring_dir:
+      ensure => directory,
+    }
     hpclib::print_config { $::ceph::rgw_keyring_file :
       style     => 'ini',
       separator => ' = ',
