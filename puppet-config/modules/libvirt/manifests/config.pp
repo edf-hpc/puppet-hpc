@@ -20,8 +20,4 @@ class libvirt::config inherits libvirt {
     data   => $::libvirt::_config_options,
     notify => Class['::libvirt::service'],
   }
-
-  Libvirt::Secret <| |> ->
-  Libvirt::Pool <| |>
-  Libvirt::Network <| |>
 }
