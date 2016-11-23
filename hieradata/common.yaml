@@ -36,6 +36,9 @@ profiles::ntp::client::site_servers:
 
 ##### DNS
 dns::server::virtual_domain: "%{hiera('virtual_domain')}"
+dns::client::options:
+  - rotate
+  - timeout:1
 
 ##### SSMTP
 profiles::ssmtp::config_options:
