@@ -38,4 +38,7 @@ class libvirt (
   class { '::libvirt::config': } ->
   class { '::libvirt::service': } ->
   anchor { 'libvirt::end': }
+
+  Class['::libvirt::service'] -> Libvirt::Secret <| |> -> Libvirt::Pool <| |>
+  Class['::libvirt::service'] -> Libvirt::Network <| |>
 }
