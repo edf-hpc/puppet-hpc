@@ -25,6 +25,7 @@ class dns::client (
   validate_string($header)
   validate_string($domain)
   validate_string($search)
+  validate_array($options)
   validate_array($nameservers)
   validate_absolute_path($config_file)
 
