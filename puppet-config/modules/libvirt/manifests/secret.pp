@@ -35,17 +35,16 @@ define libvirt::secret (
   }
 
   exec { "virsh_secret_define_${name}":
-    command     => "/usr/bin/virsh secret-define --file ${xml_path}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh secret-dumpxml ${uuid}",
-    before      => Exec["virsh_secret_setvalue_${name}"],
+    command   => "/usr/bin/virsh secret-define --file ${xml_path}",
+    subscribe => File[$xml_path],
+    unless    => "/usr/bin/virsh secret-dumpxml ${uuid}",
+    before    => Exec["virsh_secret_setvalue_${name}"],
   }
 
   exec { "virsh_secret_setvalue_${name}":
-    command     => "/usr/bin/virsh secret-set-value --secret=${uuid} --base64=${value}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
+    command   => "/usr/bin/virsh secret-set-value --secret=${uuid} --base64=${value}",
+    unless    => "/usr/bin/virsh secret-get-value --secret=${uuid}",
+    subscribe => File[$xml_path],
   }
 
 }

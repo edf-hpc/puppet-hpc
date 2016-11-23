@@ -35,21 +35,19 @@ define libvirt::pool (
   }
 
   exec { "virsh_pool_define_${name}":
-    command     => "/usr/bin/virsh pool-define --file ${xml_path}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh pool-info ${name}",
-    before      => [
+    command   => "/usr/bin/virsh pool-define --file ${xml_path}",
+    subscribe => File[$xml_path],
+    unless    => "/usr/bin/virsh pool-info ${name}",
+    before    => [
       Exec["virsh_pool_start_${name}"],
       Exec["virsh_pool_autostart_${name}"]
     ]
   }
 
   exec { "virsh_pool_start_${name}":
-    command     => "/usr/bin/virsh pool-start ${name}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh pool-info ${name} | tr -d ' ' | grep 'State:running'"
+    command   => "/usr/bin/virsh pool-start ${name}",
+    subscribe => File[$xml_path],
+    unless    => "/usr/bin/virsh pool-info ${name} | tr -d ' ' | grep 'State:running'"
   }
 
   exec { "virsh_pool_autostart_${name}":
