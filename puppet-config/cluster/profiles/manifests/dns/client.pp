@@ -23,7 +23,7 @@ class profiles::dns::client {
 
   ## Hiera lookups
 
-  $nameservers  = hiera_array('profiles::dns::client::nameservers')
+  $nameservers  = fqdn_rotate(hiera_array('profiles::dns::client::nameservers'))
   $search       = hiera('profiles::dns::client::search')
   $domain       = hiera('domain')
 
