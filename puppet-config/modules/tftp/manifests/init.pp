@@ -14,12 +14,13 @@
 ##########################################################################
 
 class tftp (
-  $package_ensure    = $::tftp::params::package_ensure,
-  $packages          = $::tftp::params::packages,
-  $service_ensure    = $::tftp::params::service_ensure,
-  $service           = $::tftp::params::service,
-  $config_file       = $::tftp::params::config_file,
-  $config_options    = $::tftp::params::config_options,
+  $package_ensure   = $::tftp::params::package_ensure,
+  $packages         = $::tftp::params::packages,
+  $service_ensure   = $::tftp::params::service_ensure,
+  $service          = $::tftp::params::service,
+  $config_file      = $::tftp::params::config_file,
+  $config_options   = $::tftp::params::config_options,
+  $service_override = {},
 
 ) inherits tftp::params {
 
@@ -29,6 +30,9 @@ class tftp (
   validate_string($service_ensure)
   validate_absolute_path($config_file)
   validate_hash($config_options)
+  validate_hash($service_override)
+
+  $_service_override = deep_merge($::tftp::params::service_override_defaults, $service_override)
 
   anchor { 'tftp::begin': } ->
   class { '::tftp::install': } ->
