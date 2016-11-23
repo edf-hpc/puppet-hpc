@@ -18,6 +18,14 @@ class tftp::params {
   ### Module variables ###
   $package_ensure    = 'present'
   $service_ensure    = 'running'
+  $service_override_defaults = {
+    'Service' => {
+      # Wait a bit before retrying to start, this wait for interfaces taking
+      # some time to start.
+      'Restart'    => 'on-failure',
+      'RestartSec' => '5s',
+    }
+  }
 
   case $::osfamily {
     'RedHat': {
