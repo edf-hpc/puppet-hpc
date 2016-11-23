@@ -33,21 +33,19 @@ define libvirt::network (
   }
 
   exec { "virsh_net_define_${name}":
-    command     => "/usr/bin/virsh net-define --file ${xml_path}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh net-info ${name}",
-    before      => [
+    command   => "/usr/bin/virsh net-define --file ${xml_path}",
+    subscribe => File[$xml_path],
+    unless    => "/usr/bin/virsh net-info ${name}",
+    before    => [
       Exec["virsh_net_start_${name}"],
       Exec["virsh_net_autostart_${name}"]
     ]
   }
 
   exec { "virsh_net_start_${name}":
-    command     => "/usr/bin/virsh net-start ${name}",
-    refreshonly => true,
-    subscribe   => File[$xml_path],
-    unless      => "/usr/bin/virsh net-info ${name} | tr -d ' ' | grep 'Active:yes'"
+    command   => "/usr/bin/virsh net-start ${name}",
+    subscribe => File[$xml_path],
+    unless    => "/usr/bin/virsh net-info ${name} | tr -d ' ' | grep 'Active:yes'"
   }
 
   exec { "virsh_net_autostart_${name}":
