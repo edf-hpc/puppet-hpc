@@ -23,22 +23,26 @@ class pam::mkhomedir::config inherits pam::mkhomedir {
     subscribe => Package[$::pam::mkhomedir::packages]
   }
 
-  augeas { "pam_mkhomedir_common_session":
-    context => "/files/etc/pam.d/common-session",
-    onlyif => 'match *[module="pam_python.so"] size == 0',
-    changes => [
-      "set *[module = 'pam_mkhomedir_calibre.so']/module 'pam_python.so'",
-      "set *[module = 'pam_python.so']/argument[1] '$::pam::mkhomedir::mkhomedir_file'",
-    ],
-  }
+  pam { 'pam_mkhomedir_common_session':
+    ensure    => present,
+    provider  => augeas,
+    service   => 'common-session',
+    type      => 'session',
+    control   => 'required',
+    module    => 'pam_python.so',
+    arguments => $::pam::mkhomedir::mkhomedir_file,
+    position  => 'after #comment[ . = "end of pam-auth-update config" ]',
+}
 
-  augeas { "pam_mkhomedir_common_session_noninteractive":
-    context => "/files/etc/pam.d/common-session-noninteractive",
-    onlyif => 'match *[module="pam_python.so"] size == 0',
-    changes => [
-      "set *[module = 'pam_mkhomedir_calibre.so']/module 'pam_python.so'",
-      "set *[module = 'pam_python.so']/argument[1] '$::pam::mkhomedir::mkhomedir_file'",
-    ],
+  pam {'"pam_mkhomedir_common_session_noninteractive':
+    ensure    => present,
+    provider  => augeas,
+    service   => 'common-session-noninteractive',
+    type      => 'session',
+    control   => 'required',
+    module    => 'pam_python.so',
+    arguments => $::pam::mkhomedir::mkhomedir_file,
+    position  => 'after #comment[ . = "end of pam-auth-update config" ]',
   }
 
 }
