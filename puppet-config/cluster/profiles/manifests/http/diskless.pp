@@ -17,7 +17,7 @@
 #
 # ## Hiera
 # * `cluster_prefix`
-# * `local_domain`
+# * `domain`
 # * `website_dir`
 # * `profiles::http::log_level`
 # * `profiles::http::diskless::port`
@@ -31,12 +31,12 @@ class profiles::http::diskless {
   $port           = hiera('profiles::http::diskless::port')
   $docroot        = hiera('profiles::http::diskless::docroot')
   $cluster_prefix = hiera('cluster_prefix')
-  $local_domain   = hiera('local_domain')
+  $domain         = hiera('domain')
 
   include apache
 
   $servername = "${cluster_prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${local_domain}"]
+  $serveraliases = ["${servername}.${domain}"]
 
   # Pass config options as a class parameter
   apache::vhost { "${servername}_diskless":

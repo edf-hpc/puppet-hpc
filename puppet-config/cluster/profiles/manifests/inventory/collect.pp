@@ -17,16 +17,16 @@
 #
 # ## Hiera
 # * `cluster_prefix`
-# * `local_domain`
+# * `domain`
 #
 # ## Relevant Autolookups
 #
 class profiles::inventory::collect {
 
-  $prefix          = hiera('cluster_prefix')
-  $local_domain    = hiera('local_domain')
-  $servername = "${prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${local_domain}"]
+  $prefix        = hiera('cluster_prefix')
+  $domain        = hiera('domain')
+  $servername    = "${prefix}${::puppet_role}"
+  $serveraliases = ["${servername}.${domain}"]
 
   class { '::apache' :
     mpm_module => 'prefork',

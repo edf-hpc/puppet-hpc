@@ -3,7 +3,6 @@
 cluster_name:             'mycluster'
 cluster_prefix:           'my'
 domain:                   'hpc.example.com'
-local_domain:             'cluster'
 virtual_domain:           'virtual'
 cluster_repo_originator:  'TeamHPC'
 cluster_repo_gpg_key:     '01234567'
@@ -226,8 +225,8 @@ slurm::dbd::db_options:
     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
   hosts:
-    controllers: "%{hiera('slurm_primary_server')}.%{hiera('local_domain')},%{hiera('slurm_secondary_server')}.%{hiera('local_domain')}"
-    admins:      "%{hiera('cluster_prefix')}admin1.%{hiera('local_domain')}"
+    controllers: "%{hiera('slurm_primary_server')}.%{hiera('domain')},%{hiera('slurm_secondary_server')}.%{hiera('domain')}"
+    admins:      "%{hiera('cluster_prefix')}admin1.%{hiera('domain')}"
 
 
 profiles::jobsched::server::sync_options:
@@ -536,9 +535,9 @@ profiles::monitoring::features_conf:
 profiles::monitoring::server::endpoints:
   "%{hiera('monitoring_master')}": {}
   "%{hiera('monitoring_server_primary')}":
-    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}1.%{hiera('local_domain')}"
+    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}1.%{hiera('domain')}"
   "%{hiera('monitoring_server_secondary')}":
-    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}2.%{hiera('local_domain')}"
+    host: "%{hiera('cluster_prefix')}%{::my_monitoring_server}2.%{hiera('domain')}"
 
 profiles::monitoring::server::zones:
   master:
@@ -586,7 +585,7 @@ nscang_identity: "%{hiera('cluster_name')}-agent-checker"
 nscang::server::identity: "%{hiera('nscang_identity')}"
 nscang::server::password: "%{hiera('nscang_password')}"
 
-nscang::client::server: "%{hiera('cluster_prefix')}%{::my_monitoring_server}.%{hiera('local_domain')}"
+nscang::client::server: "%{hiera('cluster_prefix')}%{::my_monitoring_server}.%{hiera('domain')}"
 nscang::client::identity: "%{hiera('nscang_identity')}"
 nscang::client::password: "%{hiera('nscang_password')}"
 

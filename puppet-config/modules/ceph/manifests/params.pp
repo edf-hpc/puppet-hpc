@@ -43,14 +43,14 @@ class ceph::params {
   $bootstrap_rgw_keyring = "${config_path}/ceph.bootstrap-rgw.keyring"
   $mon_keyring = "${config_path}/ceph.mon.keyring"
   $osd_keyring_file = "${ceph_path}/osd/${ceph_cluster_name}-%s/keyring"
-  $mds_keyring_file = "${ceph_path}/mds/${ceph_cluster_name}-${::hostname}.cluster/keyring"
-  $rgw_keyring_file = "${ceph_path}/radosgw/${ceph_cluster_name}-rgw.${::hostname}.cluster/keyring"
+  $mds_keyring_file = "${ceph_path}/mds/${ceph_cluster_name}-${::hostname}/keyring"
+  $rgw_keyring_file = "${ceph_path}/radosgw/${ceph_cluster_name}-rgw.${::hostname}/keyring"
 
   #### Services
-  $mds_service = "ceph-mds@${::hostname}.cluster"
+  $mds_service = "ceph-mds@${::hostname}"
   $mon_service = "ceph-mon@${::hostname}"
   $osd_service = 'ceph-osd@%s'
-  $rgw_service = "ceph-radosgw@rgw.${::hostname}.cluster"
+  $rgw_service = "ceph-radosgw@rgw.${::hostname}"
 
   #### Default values
   $config_options_defaults = {

@@ -30,7 +30,7 @@
 # ## Hiera
 # * `cluster_prefix`
 # * `website_dir`
-# * `local_domain`
+# * `domain`
 # * `profiles::http::log_level`
 # * `profiles::http::secret::port`
 # * `profiles::http::secret::docroot`
@@ -48,12 +48,12 @@ class profiles::http::secret {
   $keys_enc       = hiera('profiles::http::secret::keys_enc')
   $keys_password  = hiera('profiles::http::secret::keys_password')
   $cluster_prefix = hiera('cluster_prefix')
-  $local_domain   = hiera('local_domain')
+  $domain         = hiera('domain')
 
   include apache
 
   $servername = "${cluster_prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${local_domain}"]
+  $serveraliases = ["${servername}.${domain}"]
 
   file { "${docroot}/keys.tar.xz":
     ensure  => present,
