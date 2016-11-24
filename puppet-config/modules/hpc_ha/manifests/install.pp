@@ -25,6 +25,8 @@ class hpc_ha::install inherits hpc_ha {
   file { $::hpc_ha::default_notify_script:
     ensure => present,
     source => 'puppet:///modules/hpc_ha/hpc_ha_notify_script.sh',
+    owner  => 'root',
+    group  => 'root',
     mode   => '0755',
   }
 
@@ -38,6 +40,8 @@ class hpc_ha::install inherits hpc_ha {
   file { "${sysd_ifup_drop_dir}/before_keepalived.conf":
     ensure => present,
     source => 'puppet:///modules/hpc_ha/before_keepalived.conf',
+    owner  => 'root',
+    group  => 'root',
     notify => Exec['hpc_ha_sysd_daemon_reload'],
   }
 
