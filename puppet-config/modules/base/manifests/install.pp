@@ -13,16 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class codes (
-  $packages_ensure  = $codes::params::packages_ensure,
-  $packages,
-) inherits codes::params {
+class base::install inherits base {
 
-  validate_array($packages)
-  validate_string($packages_ensure)
-
-  anchor { 'codes::begin': } ->
-  class { '::codes::install': } ->
-  anchor { 'codes::end': }
+  package { $::base::packages :
+    ensure => $::base::packages_ensure,
+  }
 
 }
