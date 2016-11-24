@@ -371,13 +371,22 @@ def puppet_apply(environment, deploy_step, verbosity=0, dry_run=False, tmpdir=No
 
     # environment is puppet environment
     # env_vars is process environment variables
-    subprocess.call(
+    actual_code = subprocess.call(
         ['/usr/bin/puppet', 'apply'] + \
         apply_options + \
         ['--environment', environment, manifests_path],
         env=env_vars
     )
-    return
+
+    # With puppet, code 2 is special and means, action performed
+    # without error, so we change that to 0
+    if actual_code == 2:
+        logging.info("Puppet return code is 2, so returning success")
+        code = 0
+    else:
+        code = actual_code
+    logging.info("Final return code for puppet apply is: %s", code)
+    return code
 
 if __name__ == "__main__":
     locale.setlocale(locale.LC_ALL, LOCALE)
