@@ -1,5 +1,6 @@
 [Unit]
 Description=Apply the HPC Configuration to this node
+After=network-online.target
 
 [Service]
 Type=oneshot
