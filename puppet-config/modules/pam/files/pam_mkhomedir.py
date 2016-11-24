@@ -9,6 +9,7 @@
 # - acl
 
 import pwd
+from pwd import getpwnam
 import grp
 import os
 from os.path import exists
@@ -28,6 +29,9 @@ def debug(fmt, *args):
 
 def create_user_dir(pamh, basedir, user):
   userdir = os.path.join(basedir, user)
+  uid = pwd.getpwnam(user).pw_uid
+  maingid = pwd.getpwnam(user).pw_gid
+
 
   if exists(userdir):
     if not os.path.isdir(userdir):
@@ -42,6 +46,11 @@ def create_user_dir(pamh, basedir, user):
     # Create user tree by copying content of /etc/skel
     debug ("-> shutil.copytree %s" % userdir)
     shutil.copytree(skel_dir + "/.", userdir, True)
+    for root, dirs, files in os.walk(userdir):
+        for d in dirs:
+            os.chown(os.path.join(root, d), uid, maingid)
+        for f in files:
+            os.chown(os.path.join(root, f), uid, maingid)
     debug ("<- shutil.copytree %s" % userdir)
     # Userdir
     debug ("-> userdir chmod %s" % userdir)
