@@ -15,13 +15,22 @@
 
 # Install the environment necessary for any node in the userspace
 #
+# ## Hiera
+# * `profiles::environment::userspace::packages`
+# * `profiles::environment::userspace::gid`
+# * `profiles::environment::userspace::hidepid`
 class profiles::environment::userspace {
 
-  ## Hide processes from other users
   ## Hiera lookups
+  $packages = hiera_array('profiles::environment::userspace::packages', [])
   $gid      = hiera('profiles::environment::userspace::gid')
   $hidepid  = hiera('profiles::environment::userspace::hidepid')
 
+  class { '::base':
+    packages => $packages,
+  }
+
+  ## Hide processes from other users
   class { '::hidepid':
     gid     => $gid,
     hidepid => $hidepid,

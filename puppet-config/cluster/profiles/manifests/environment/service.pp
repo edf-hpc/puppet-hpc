@@ -13,12 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Installs computing codes
+# Install the environment necessary for any service node
 #
 # ## Hiera
-# * `codes::packages`
-class profiles::environment::codes {
+# * `profiles::environment::service::packages`
+class profiles::environment::service {
 
-  class { '::codes': }
+  $packages = hiera_array('profiles::environment::service::packages', [])
+
+  class { '::base':
+    packages => $packages,
+  }
 
 }
