@@ -154,8 +154,8 @@ def get_hiera(key)
                        $options[:resolution_type])
 end
 
-def get_local_domain()
-  return get_hiera('local_domain')
+def get_domain()
+  return get_hiera('domain')
 end
 
 def get_master_network()
@@ -235,16 +235,16 @@ end
 
 def hpc_dns_zones()
 
-  local_domain = get_local_domain()
-  local_zone = DNSZone.new(local_domain)
+  domain = get_domain()
+  local_zone = DNSZone.new(domain)
   reverse_zones = Array.new
 
   net_topo = get_network_topology()
   networks = get_networks_reverse_zones(net_topo)
 
-  # add NS to local zone
+  # add NS to zone
   hostname = Facter.value(:hostname)
-  fqdn = "#{hostname}.#{local_domain}."
+  fqdn = "#{hostname}.#{domain}."
   local_zone.add_entry('@', 'IN', 'NS', fqdn)
   local_zone.add_entry('@', 'IN', 'A', '127.0.0.1')
 
@@ -268,12 +268,12 @@ def hpc_dns_zones()
       hostname = params['hostname']
       ip = IPAddr.new(params['IP'])
       # On the WAN network, take the FQDN of the node instead of its
-      # hostname+local_domain for the reverse in order to get same response
+      # hostname+domain for the reverse in order to get same response
       # with DNS servers inside and outside the cluster.
       if network == 'wan'
         fqdn = "#{details['fqdn']}."
       else
-        fqdn = "#{hostname}.#{local_domain}."
+        fqdn = "#{hostname}.#{domain}."
       end
       add_entries(local_zone, reverse_zones, hostname, fqdn, ip)
     end
@@ -286,7 +286,7 @@ def hpc_dns_zones()
   vips.each do |vip, params|
     hostname = params['hostname']
     ip = IPAddr.new(params['ip'])
-    fqdn = "#{hostname}.#{local_domain}."
+    fqdn = "#{hostname}.#{domain}."
     add_entries(local_zone, reverse_zones, hostname, fqdn, ip)
   end
 

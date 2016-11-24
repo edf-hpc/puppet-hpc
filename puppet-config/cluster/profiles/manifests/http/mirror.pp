@@ -17,7 +17,7 @@
 #
 # ## Hiera
 # * `cluster_prefix`
-# * `local_domain`
+# * `domain`
 # * `website_dir`
 # * `profiles::http::error_log_file`
 # * `profiles::http::log_level`
@@ -39,14 +39,14 @@ class profiles::http::mirror {
   $scriptalias    = hiera('profiles::http::scriptalias')
   $website_dir    = hiera('website_dir')
   $cluster_prefix = hiera('cluster_prefix')
-  $local_domain   = hiera('local_domain')
+  $domain         = hiera('domain')
 
   include apache
 
   ensure_resource(file, $website_dir, { ensure => directory})
 
   $servername = "${cluster_prefix}${::my_http_mirror}"
-  $serveraliases = ["${servername}.${local_domain}"]
+  $serveraliases = ["${servername}.${domain}"]
 
   # Pass config options as a class parameter
   apache::vhost { $servername:
