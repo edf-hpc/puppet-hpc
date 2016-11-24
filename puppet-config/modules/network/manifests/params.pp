@@ -159,8 +159,11 @@ class network::params {
   }
   $ifup_hotplug_service_params = {
     'Unit'    => {
-      'Description'  => 'Mount all hotplug interfaces',
-      'After'        => 'network.target auditd.service',
+      'Description'         => 'Mount all hotplug interfaces',
+      'After'               => 'network.target auditd.service',
+      'Before'              => 'network-online.target',
+      # Remove dependency on basic.target
+      'DefaultDependencies' => 'no',
     },
     'Service' => {
       'Type'         => 'oneshot',
