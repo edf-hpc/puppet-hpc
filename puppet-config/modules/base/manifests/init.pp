@@ -13,9 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class codes::params {
+class base (
+  $packages_ensure  = $base::params::packages_ensure,
+  $packages,
+) inherits base::params {
 
-#### Module variables
+  validate_array($packages)
+  validate_string($packages_ensure)
 
-  $packages_ensure = 'latest'
+  anchor { 'base::begin': } ->
+  class { '::base::install': } ->
+  anchor { 'base::end': }
+
 }

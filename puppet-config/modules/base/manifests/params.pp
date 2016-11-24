@@ -13,10 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class codes::install inherits codes {
+class base::params {
 
-  package { $::codes::packages :
-    ensure => $::codes::packages_ensure,
-  }
+  $packages_ensure = 'latest'
 
 }
