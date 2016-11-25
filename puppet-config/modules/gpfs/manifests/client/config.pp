@@ -16,6 +16,26 @@
 #
 class gpfs::client::config inherits gpfs::client {
 
+  $service_dir = "/etc/systemd/system/${::gpfs::client::service}.service.d"
+  $service_override_file = "${service_dir}/override.conf"
+
+  file { $service_dir:
+    ensure => directory,
+  }
+
+  hpclib::print_config { $service_override_file:
+    style  => 'ini',
+    data   => $::gpfs::client::service_override_options,
+    notify => Exec['gpfsclient_systemctl_daemon_reload'],
+  }
+
+  exec { 'gpfsclient_systemctl_daemon_reload':
+    refreshonly => true,
+    command     => '/bin/systemctl daemon-reload',
+    notify      => Class['::gpfs::client::service'],
+  }
+
+
   file { $gpfs::client::cl_config_dir :
     ensure           => 'directory'
   }

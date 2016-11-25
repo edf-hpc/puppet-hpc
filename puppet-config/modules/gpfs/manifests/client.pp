@@ -15,17 +15,19 @@
 
 #
 class gpfs::client (
-  $cl_dir_mode        = $gpfs::params::cl_dir_mode,
-  $cl_file_mod        = $gpfs::params::cl_file_mode,
-  $cl_decrypt_passwd  = $gpfs::params::cl_decrypt_passwd,
-  $cl_packages        = $gpfs::params::cl_packages,
-  $cl_packages_ensure = $gpfs::params::cl_packages_ensure,
-  $cl_config_dir      = $gpfs::params::cl_config_dir,
-  $cl_config          = $gpfs::params::cl_config,
-  $cl_config_src      = $gpfs::params::cl_config_src,
-  $cl_key             = $gpfs::params::cl_key,
-  $cl_key_src         = $gpfs::params::cl_key_src,
-  $cluster            = $gpfs::params::cluster,
+  $cl_dir_mode              = $gpfs::params::cl_dir_mode,
+  $cl_file_mod              = $gpfs::params::cl_file_mode,
+  $cl_decrypt_passwd        = $gpfs::params::cl_decrypt_passwd,
+  $cl_packages              = $gpfs::params::cl_packages,
+  $cl_packages_ensure       = $gpfs::params::cl_packages_ensure,
+  $cl_config_dir            = $gpfs::params::cl_config_dir,
+  $cl_config                = $gpfs::params::cl_config,
+  $cl_config_src            = $gpfs::params::cl_config_src,
+  $cl_key                   = $gpfs::params::cl_key,
+  $cl_key_src               = $gpfs::params::cl_key_src,
+  $cluster                  = $gpfs::params::cluster,
+  $service                  = $gpfs::params::service,
+  $service_override_options = $gpfs::params::service_override_options,
   $public_key,
 ) inherits gpfs::params {
 
@@ -41,10 +43,13 @@ class gpfs::client (
   validate_string($cl_key_src)
   validate_string($cluster)
   validate_string($public_key)
+  validate_string($service)
+  validate_hash($service_override_options)
 
   anchor { 'gpfs::client::begin': } ->
   class { '::gpfs::client::install': } ->
   class { '::gpfs::client::config': } ->
+  class { '::gpfs::client::service': } ->
   anchor { 'gpfs::client::end': }
 
 }
