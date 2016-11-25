@@ -16,6 +16,11 @@
 #
 class boothttp::params {
 
+  $packages_ensure = 'installed'
+  $packages        = [
+    'python-yaml'
+  ]
+
   $config_dir        = '/public/'
   $config_dir_source = '/path/to/sources'
 
