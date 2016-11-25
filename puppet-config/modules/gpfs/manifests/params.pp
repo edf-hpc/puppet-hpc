@@ -94,4 +94,16 @@ class gpfs::params {
   $cl_key             = '/var/mmfs/ssl/stage/genkeyData1'
   $cl_key_src         = 'gpfs/genkeyData1.enc'
 
+
+  $service                  = 'gpfs'
+  $service_ensure  = running
+  $service_enable  = true
+  $service_override_options = {
+    'Service' => {
+      'ExecStartPre' => '/bin/true',
+      'Restart'      => 'on-failure',
+      'RestartSec'   => '5',
+    },
+  }
+
 }
