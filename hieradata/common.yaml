@@ -153,6 +153,14 @@ profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 ##### BOOTSYSTEM
 profiles::bootsystem::http_port:   '3138'
 
+##### HA
+
+# The keepalived public module wrongly set these service params to false in its
+# params.pp. As a workaround to this bug, we set the params with hiera
+# autolookups.
+keepalived::service_hasrestart: true
+keepalived::service_hasstatus: true
+
 ##### P2P
 profiles::p2p::tracker_path: "%{hiera('profiles::http::diskless::docroot')}"
 
