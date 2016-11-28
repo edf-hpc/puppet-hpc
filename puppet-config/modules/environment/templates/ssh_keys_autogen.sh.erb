@@ -38,7 +38,7 @@ then
                 fi
                 ssh-keygen -t $SSH_KEY_TYPE -b $SSH_KEY_LENGTH -C "$CLUSTER" -q -f $SSH_KEY_PATH -N ""
         fi
-        NB_KEYS=$(grep $(cut -f2 -d' ' ${SSH_KEY_PATH}.pub) $HOME/.ssh/authorized_keys | wc -l)
+        NB_KEYS=$(grep $(cut -f2 -d' ' ${SSH_KEY_PATH}.pub) $HOME/.ssh/authorized_keys 2>/dev/null | wc -l)
         if [ "$NB_KEYS" -lt 1 ]
         then
             cat ${SSH_KEY_PATH}.pub >> $HOME/.ssh/authorized_keys
