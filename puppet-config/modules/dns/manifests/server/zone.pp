@@ -31,7 +31,7 @@ define dns::server::zone (
 
   file { $db_file:
     content => template('dns/db_cluster.erb'),
-    mode    => 0644,
+    mode    => '0644',
     owner   => 'root',
     group   => 'root',
     notify  => Service[$::dns::server::services],

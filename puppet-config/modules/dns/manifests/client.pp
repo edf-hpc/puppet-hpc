@@ -13,6 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure the system DNS client (resolv.conf)
+#
+# This class writes a config file ('/etc/resolv.conf' by default) with the
+# the relevant options given in parameter. The default is empty.
+#
+# @param header Comment placed at the beggining of the `config_file` (
+#            default: '')
+# @param domain Main domain for the node, ignored if empty (default: '')
+# @param search Comma separated, domain search list, ignored if empty (
+#            default: '')
+# @param options List of parameters for the options line (default: [])
+# @param nameservers List of DNS servers (default: [])
+# @param config_file Configuration file path (default: '/etc/resolv.conf')
 class dns::client (
   $header      = $::dns::client::params::header,
   $domain      = $::dns::client::params::domain,
