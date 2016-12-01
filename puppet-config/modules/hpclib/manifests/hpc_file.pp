@@ -18,19 +18,22 @@
 # @param backup Save the file before it is replaced.
 # @param mode   Permissions mode of the file.
 # @param owner  User owner of the file.
+# @param group  Group owner of the file.
 # @param target Path of the file to write.
 # @param source Source(s) of the file (absolute path or URL), can be a
 #               a single value or an array of values
 define hpclib::hpc_file(
   $source,
-  $target          = $title,
-  $mode            = '0644',
-  $owner           = 'root',
-  $backup          = undef,
+  $target = $title,
+  $mode   = '0644',
+  $owner  = 'root',
+  $group  = 'root',
+  $backup = undef,
 ) {
 
   validate_string($mode)
   validate_string($owner)
+  validate_string($group)
   if $backup {
     validate_bool($backup)
   }
@@ -40,6 +43,7 @@ define hpclib::hpc_file(
     content => hpc_source_file($source),
     mode    => $mode,
     owner   => $owner,
+    group   => $group,
     backup  => $backup,
   }
 
