@@ -16,19 +16,16 @@
 # HTTP server for slurm-web API
 #
 # ## Hiera
-# * `profiles::jobsched::user`
-# * `profiles::http::slurmweb::config_options`
+# * `slurmweb::config_options`
 class profiles::http::slurmweb {
 
   ## Hiera lookups
 
-  $config_options = hiera_hash('profiles::http::slurmweb::config_options')
   # Pass config options as a class parameter
 
   include '::apache'
 
   class { '::slurmweb':
-    config_options => $config_options,
   }
 
 }
