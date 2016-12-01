@@ -13,6 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup Keepalive VIPs and supporting scripts
+#
+# This class permits to setup keepalive VIP and then attach scripts to the
+# state changes of these VIPs.
+#
+# @param default_notify_script A generic script path to be called by
+#           default for all VIPs
+# @param vips Hash describing `hpc_ha::vip` resources
+# @param vip_notify_scripts Hash describing `hpc_ha::vip_notify_script`
+#           resources
 class hpc_ha (
   $default_notify_script = $::hpc_ha::params::default_notify_script,
   $vips                  = undef,

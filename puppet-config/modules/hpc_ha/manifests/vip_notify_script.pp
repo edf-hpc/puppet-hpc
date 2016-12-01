@@ -13,6 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# A script to call when a VIP changes state
+#
+# `source` and `content` cannot both be undefined.
+#
+# @param vip_name Name of the `hpc_ha:vip` resource
+# @param ensure Target state of the script file (default: 'present')
+# @param source `hpc_source_file` location for the script file
+# @param content Content of the script file, takes precedence over `source`
+#           if both are provided.
 define hpc_ha::vip_notify_script (
   $vip_name,
   $ensure  = present,

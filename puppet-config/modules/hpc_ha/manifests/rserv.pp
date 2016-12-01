@@ -13,13 +13,34 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# A real server definition for the keepalived virtual server feature
+#
+# A real server is the backend of a virtual server. The real_hosts hash is
+# used to provide an association between the name of the resource and the
+# actual hostname to use
+#
+# Example:
+# ```
+# real_hosts => {
+#   'clservice1' => 'wanclservice1',
+#   'clservice2' => 'wanclservice2',
+#   'clservice3' => 'wanclservice3',
+# }
+# ```
+#
+# @param virtual_server IP address of the virtual server
+# @param port Port to check
+# @param network  DEPRECATED Unused
+# @param options Options to set on the check
+# @param real_hosts Hash of all the real hosts
+# @param real_host The real hostname to check
 define hpc_ha::rserv (
   $virtual_server,
   $port,
+  $network,
   $options    = undef,
   $real_hosts = {},
   $real_host  = undef,
-  $network,
 ) {
 
   $_name = regsubst($name, '[:\/\n]', '')

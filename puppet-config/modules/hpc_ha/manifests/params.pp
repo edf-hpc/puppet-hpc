@@ -21,16 +21,16 @@ class hpc_ha::params {
   $systemd_config_file        = "/etc/systemd/system/${service}.service"
   $systemd_config_options     = {
     'Unit'    => {
-      'Description'     => 'LVS and VRRP High Availability Monitor',
-      'After'           => 'syslog.target network.target',
+      'Description' => 'LVS and VRRP High Availability Monitor',
+      'After'       => 'syslog.target network.target',
     },
     'Service' => {
-      'Type'            => 'forking',
-      'KillMode'	=> 'process',
-      'ExecStart'       => "/usr/sbin/keepalived",
+      'Type'      => 'forking',
+      'KillMode'  => 'process',
+      'ExecStart' => '/usr/sbin/keepalived',
     },
     'Install' => {
-      'WantedBy'        => 'multi-user.target',
+      'WantedBy' => 'multi-user.target',
     },
   }
 }
