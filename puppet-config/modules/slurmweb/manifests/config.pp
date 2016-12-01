@@ -26,6 +26,10 @@ class slurmweb::config inherits slurmweb {
     mode   => '0644',
   }
 
+  file { $slurmweb::secret_file :
+    content => decrypt($slurmweb::secret_file_source,$slurmweb::decrypt_passwd),
+    mode    => '0400',
+    owner   => $::slurmweb::slurm_user,
   file { $::slurmweb::ssl_cert_file :
     source => $::slurmweb::ssl_cert_source,
     mode   => '0644',
