@@ -16,13 +16,13 @@
 class slurmweb::params {
 
   #### Module variables
-  $packages_ensure   = 'latest'
-  $packages          = ['slurm-web-restapi', 'redis-server']
-  $config_file       = '/etc/slurm-web/restapi.conf'
-  $racks_file        = '/etc/slurm-web/racks.xml'
-  $racks_file_source = 'puppet:///modules/slurmweb/racks.xml'
+  $packages_ensure = 'present'
+  $packages        = ['slurm-web-restapi', 'redis-server']
+  $config_file     = '/etc/slurm-web/restapi.conf'
   
   #### Defaults values
   $decrypt_password  = 'password'
   $slurm_user        = 'slurm'
+  $racks_file_source = 'puppet:///modules/slurmweb/racks.xml'
+
 }
