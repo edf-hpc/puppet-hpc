@@ -657,4 +657,6 @@ profiles::consul::server::subservices:
       http: "http://localhost:%{hiera('profiles::bootsystem::http_port')}/"
       interval: '10s'
       timeout: '1s'
-
+# Slurmweb
+slurmweb::racks_file:  '/etc/slurm-web/racks.xml'
+slurmweb::secret_file: '/etc/slurm-web/secret.key'
