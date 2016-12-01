@@ -21,8 +21,8 @@ class slurmweb::config inherits slurmweb {
     data     => $::slurmweb::config_options,
   }
 
-  file { $::slurmweb::racks_file :
-    source => $::slurmweb::racks_file_source,
+  hpclib::hpc_file { $slurmweb::racks_file :
+    source => $slurmweb::racks_file_source,
     mode   => '0644',
   }
 
@@ -30,19 +30,21 @@ class slurmweb::config inherits slurmweb {
     content => decrypt($slurmweb::secret_file_source,$slurmweb::decrypt_passwd),
     mode    => '0400',
     owner   => $::slurmweb::slurm_user,
-  file { $::slurmweb::ssl_cert_file :
-    source => $::slurmweb::ssl_cert_source,
+  }
+
+  hpclib::hpc_file { $slurmweb::ssl_cert_file :
+    source => $slurmweb::ssl_cert_source,
     mode   => '0644',
-    owner  => 'root',
-    group  => 'root',
+    owner  => 'www-data',
+    group  => 'www-data',
     notify => Apache::Vhost[$::hostname],
   }
 
-  file { $::slurmweb::ssl_key_file :
-    content => decrypt($::slurmweb::ssl_key_source,$::slurmweb::decrypt_passwd),
+  file { $slurmweb::ssl_key_file :
+    content => decrypt($slurmweb::ssl_key_source,$slurmweb::decrypt_passwd),
     mode    => '0400',
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'www-data',
+    group   => 'www-data',
     notify  => Apache::Vhost[$::hostname],
   }
 
