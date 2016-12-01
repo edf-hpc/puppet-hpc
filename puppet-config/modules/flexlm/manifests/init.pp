@@ -16,19 +16,15 @@
 # Set up a flexlm license manager for a specific vendor
 #
 # @param license_path     Absolute path of the license file
+# @param license_path_src Source of the encrypted license file (decrypt)
+# @param packages         Array of packages for the license server
+# @param decrypt_password Password to use to decrypt `license_path_src`
 # @param service_ensure   State of the service : `running` or `stopped`
 #                         (default: running)
 # @param service_enable   Whether the service should be enabled to start
 #                         at boot : `true`, `false`, `manual` or `mask`
 #                         (default: true)
-# @param binary_path      Absolute path of the license manager binary
-# @param vendor_name      Name of the vendor using flexlm
-# @param user             User that runs the flexlm service
-# @param user_home        Home of the user that runs the flexlm service
-# @param logfile          Absolute path of the flexlm log file
-# @param systemd_service  Absolute path of the flexlm service unit file
-# @param systemd_config   Hash that contains the configuration of the flexlm
-#                         service unit file
+
 class flexlm (
   $license_path     = $::flexlm::params::license_path,
   $license_path_src = '',
@@ -46,10 +42,10 @@ class flexlm (
 
   $license_dir = dirname($license_path)
 
-  exec { "Create $license_dir":
+  exec { "Create ${license_dir}":
     creates => $license_dir,
-    command => "mkdir -p $license_dir",
-    path => $::path
+    command => "mkdir -p ${license_dir}",
+    path    => $::path,
   } -> file { $license_dir : }
 
   file { $license_path :
@@ -61,7 +57,7 @@ class flexlm (
     ensure => installed
   }
 
-  service { $service_name :
+  service { $::flexlm::params::service_name :
     ensure  => $service_ensure,
     enable  => $service_enable,
     require => [File[$license_path],Package[$packages]],
