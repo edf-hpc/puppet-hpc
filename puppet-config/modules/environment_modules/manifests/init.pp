@@ -13,6 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install the "modules" command
+#
+# By default the options reads the sub-directories:
+# - ${rootdirmodules}/base
+# - ${rootdirmodules}/compiler
+# - ${rootdirmodules}/debugger
+# - ${rootdirmodules}/devel
+# - ${rootdirmodules}/mpi
+#
+# @param packages        Packages list.
+# @param packages_ensure Packages target state (`installed` or `latest`)
+# @param config_file     Absolute path of the configuration file (default:
+#                        depends of the distribution)
+# @param config_options  Content of the configuration file as an array
+#                        , see `hpclib::print_config`
+# @param rootdirmodules  Base directory path for modulefiles. (default:
+#                        depends of the distribution)
 class environment_modules (
   $packages        = $environment_modules::params::packages,
   $packages_ensure = $environment_modules::params::packages_ensure,
