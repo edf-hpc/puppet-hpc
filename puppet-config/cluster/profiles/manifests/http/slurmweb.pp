@@ -25,9 +25,7 @@ class profiles::http::slurmweb {
   $config_options = hiera_hash('profiles::http::slurmweb::config_options')
   # Pass config options as a class parameter
 
-  class { '::apache' :
-    mpm_module => 'event',
-  }
+  include '::apache'
 
   class { '::slurmweb':
     config_options => $config_options,
