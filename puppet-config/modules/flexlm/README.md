@@ -24,9 +24,7 @@ This module defines a type of resource called flexlm::service and that can be us
 
 ### What flexlm affects
 
-* The flexlm unit file for the specific vendor used by systemd
-* The user running the flexlm service
-* The log file of the flexlm service 
+Installs a flexlm server and sets up a license file.
 
 ### Setup Requirements
 
@@ -37,18 +35,12 @@ This module uses the module hpclib from edf-hpc.
 
 ## Usage
 
-* Include the class `flexlm::params`
-* Define a flexlm server for a vendor with the resource `flexlm::service`
-
+Include the class:
 ```
-  include flexlm::params
-  flexlm::service { 'intel':
-    binary_path     => $intel_binary_path,
-    license_path    => $intel_license_path,
-    vendor_name     => 'intel',
-    user_home       => $intel_user_home,
-    systemd_config  => $intel_systemd_config,
-    systemd_service => $intel_systemd_service,
+  class{ '::flexlm':
+    license_path     => '/opt/intel/server.lic',
+    license_path_src => 'http://server/intel/server.lic.enc',
+    decrypt_password => 'passw0rd' 
   }
 ```
 
