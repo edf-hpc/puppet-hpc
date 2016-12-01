@@ -23,7 +23,7 @@
 # @param router_id Unique integer for this VIP, it should be unique on the
 #         the L2 segment. Cluster sharing an external network should not
 #         use the same ids.
-# @param auth_secret Secret shared between the routers to authenticate the 
+# @param auth_secret Secret shared between the routers to authenticate the
 #         origin.
 # @param master Is this node the master for this vip
 # @param prority Integer giving the priority of this node for this vip

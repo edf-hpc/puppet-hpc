@@ -13,8 +13,36 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# add ip_address in define
-
+# Configure a Virtual Server
+#
+# # LoadBalancing algorithms
+#
+# ## Algorithm
+#
+# - `rr`: Round-Robin
+# - `lc`: Least-Connection
+#
+# ## Method
+#
+# - `DR`: Direct-Routing
+# - `NAT`: Network Address Translation
+# - `TUN`: Tunneling
+#
+# @param ip_address IP address of the virtual server
+# @param port Port the virtual server listens on
+# @param real_server_hosts Hosts with the real servers to check
+# @param prefixes Prefix to add to the real_server_hosts to known the
+#           hostnames to actually check
+# @param network DEPRECATED unused
+# @param options Options for the real server checks
+# @param lb_algo Load balancing algorithm (default: `rr`)
+# @param lb_kind Load balancing method (default: `DR`)
+# @param delay_loop Interval between checks in seconds
+# @param persistence_timeout Every reconnection inside this interval
+#           will use the same real server regardless of the load
+#           balancing algorithm
+# @param protocol 'UDP' or 'TCP' (default: 'TCP')
+# @param vip_name Name of the `hpc_ha::vip` resource
 define hpc_ha::vserv (
   $ip_address,
   $port,
