@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Conman client
+#
+# Installs and configure conman, but do not start the service. This gives
+# provides a working conman command.
 class hpc_conman::client {
   class { 'conman':
     service_ensure => stopped,

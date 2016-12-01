@@ -13,6 +13,17 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# Create all consoles for a role
+#
+# This resource will create all `hpc_conman::server::host_console` for the
+# machines having the role passed in the title of the resource.
+#
+# @param title The name of the role
+# @param type Console type, `ipmi` or `telnet`
+# @param console_prefix String to prefix to the hostname to get the console
+#           device hostname.
+# @param console_port Port to use on the console device
 define hpc_conman::server::role_consoles (
   $type,
   $console_prefix,
