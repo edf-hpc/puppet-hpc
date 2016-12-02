@@ -35,6 +35,7 @@ class gpfs::params {
         'gpfs.base',
         'gpfs.msg.en-us',
         'gpfs.lum',
+        'gpfs.gskit',
       ]
       case $::operatingsystemmajrelease {
         '8': {
