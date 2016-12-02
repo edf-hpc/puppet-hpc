@@ -13,6 +13,17 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# Load ipmi modules during boot
+#
+# Use the distribution method to automatically load a module on boot
+#
+# @param config_file Path of the file where the modules are added (
+#           default: depends on the distribution)
+# @param config_options Array listing the modules (default: depends on
+#           the distribution)
+# @param config_file_mode Default mode for `config_file`
+# @param config_file_template Which template to use for `config_file`
 class ipmi (
   $config_file          = $ipmi::params::config_file,
   $config_options       = $ipmi::params::config_options,

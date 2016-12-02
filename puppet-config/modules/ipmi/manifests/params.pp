@@ -22,13 +22,13 @@ class ipmi::params {
       $config_file          = '/etc/modules-load.d/ipmi.conf'
       $config_file_template = 'ipmi/modulesdeb.erb'
       $config_options       = [ 'ipmi_si', 'ipmi_devintf' ]
-      $config_file_mode     = 0644
+      $config_file_mode     = '0644'
     }
     'RedHat' : {
       $config_file          = '/etc/sysconfig/modules/ipmi.modules'
       $config_file_template = 'tuning/modulesrhel.erb'
       $config_options       = [ 'ipmi_devintf' ]
-      $config_file_mode     = 0750
+      $config_file_mode     = '0750'
     }
     default : {
       fail("${::osfamily} is not supported")
