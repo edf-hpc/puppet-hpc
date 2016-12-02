@@ -14,6 +14,93 @@
 ##########################################################################
 
 # Write the content of a data structure in a configuration file.
+# # Styles
+# ## entries
+#
+# For ``ini`` and ``keyval``, an entry is a structure that can have the following forms:
+#
+# **Direct string**:
+#
+# ```
+# "key" => "value"
+# ```
+#
+# If the separator is ``=``, it will be written as:
+#
+# ```
+# key=value
+# ```
+#
+# **Commented value**:
+#
+# ```
+# "somekey" => {
+#   "comment" => "Some Comment",
+#   "value"   => "somevalue",
+# }
+# ```
+#
+# If the separator is ``=``, it will be written as:
+#
+# ```
+# #Some Comment
+# somekey=somevalue
+# ```
+#
+# Comment can be undefined or ommited.
+#
+# ##``ini``:
+# ``data`` is a hash of sections pointing to an array of entries
+#
+# ```
+# "SectionA" => {
+#   "key1" => {
+#      "value"   => "a,b,c,d",
+#      "comment" => "Ordered letters",
+#    },
+#   "key2" => {
+#      "value"   => "1,2,3,4",
+#      "comment" => "Ordered numbers",
+#    }
+# },
+# "SectionB" => {
+#   "key1" => {
+#      "value"   => "a,c,d",
+#      "comment" => "Ordered letters",
+#   },
+#   "key3" => {
+#      "value"   => "1,2",
+#      "comment" => "Ordered numbers",
+#    },
+# }
+# ```
+#
+# If the separator is ``=``, it will be written as:
+#
+# ```ini
+# [SectionA]
+# #Ordered letters
+# key1=a,b,c,d
+# #Ordered numbers
+# key2=1,2,3,4
+#
+# [SectionB]
+# #Ordered letters
+# key1=a,c,d
+# #Ordered numbers
+# key3=1,2
+#
+# ```
+#
+# ##``keyval``:
+# ``data`` is a hash of entries.
+#
+# ##``linebyline``:
+# ``data`` is an array of lines dumped into the file
+#
+# ##``yaml``:
+# Dump the content of ``data`` as a YAML file.
+#
 #
 # @param backup          Save the file before it is replaced.
 # @param comments        Character to begin a comment line.

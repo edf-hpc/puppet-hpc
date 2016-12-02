@@ -56,102 +56,6 @@ found like:
 * Systemd tmpfiles
 * Sysctl settings
 
-### Defined types
-
-#### Defined type: `print_config`
-
-{file:hpclib/print_config hpclib::print_config
-
-
-##### Styles
-
-###### entries
-
-For ``ini`` and ``keyval``, an entry is a structure that can have the following forms:
-
-**Direct string**:
-
-```
-"key" => "value"
-```
-
-If the separator is ``=``, it will be written as:
-
-```
-key=value
-```
-
-**Commented value**:
-
-```
-"somekey" => { 
-  "comment" => "Some Comment",
-  "value"   => "somevalue",
-}
-```
-
-If the separator is ``=``, it will be written as:
-
-```
-#Some Comment
-somekey=somevalue
-```
-
-Comment can be undefined or ommited.
-
-#####``ini``:
-``data`` is a hash of sections pointing to an array of entries
-
-```
-"SectionA" => {
-  "key1" => {
-     "value"   => "a,b,c,d",
-     "comment" => "Ordered letters",
-   },
-  "key2" => {
-     "value"   => "1,2,3,4",
-     "comment" => "Ordered numbers",
-   }
-},
-"SectionB" => {
-  "key1" => {
-     "value"   => "a,c,d",
-     "comment" => "Ordered letters",
-  },
-  "key3" => {
-     "value"   => "1,2",
-     "comment" => "Ordered numbers",
-   },
-}
-```
-
-If the separator is ``=``, it will be written as:
-
-```ini
-[SectionA]
-#Ordered letters
-key1=a,b,c,d
-#Ordered numbers
-key2=1,2,3,4
-
-[SectionB]
-#Ordered letters
-key1=a,c,d
-#Ordered numbers
-key3=1,2
-
-```
-
-#####``keyval``:
-``data`` is a hash of entries.
-
-#####``linebyline``:
-``data`` is an array of lines dumped into the file
-
-#####``yaml``:
-Dump the content of ``data`` as a YAML file.
-
-
 ### Facts
 
 #### Fact: ``mycontext`` (context)
@@ -223,22 +127,39 @@ Example:
 
 #### Fact: `ifaces_target` (network)
 
+**DEPRECATED**
+
 #### Fact: `mymasternet` (network)
 
-Broken down master_network line for the current node.
+``master_network`` info for the current node.
 
 Example:
 
 ```
     mymasternet: 
-      - "52:54:00:07:5b:ac,52:54:00:d8:97:45,52:54:00:88:aa:38,52:54:00:8a:07:d3"
-      - "bond0,bond1,eth0,eth1,eth2,eth3"
-      - "genmisc1,genmisc,extgenmisc1,extgenmisc"
-      - "10.100.2.21,10.100.2.20,192.168.42.45,192.168.42.55"
-      - "255.255.248.0,255.255.255.0"
-      - "0@0@0"
-      - "0@0@0,0@1@0,1@2@1,1@3@1"
-      - "0@0,1@1,2@2,3@3"
+      fqdn: cladmin1.cluster.hpc.example.com
+      networks: 
+        administration: 
+          DHCP_MAC: "0d:bf:3d:a9:aa:02"
+          IP: "10.1.1.11"
+          device: bond1
+          hostname: cladmin1
+        lowlatency: 
+          IP: "10.1.2.11"
+          device: ib0
+          hostname: ibcladmin1
+        bmc: 
+          DHCP_MAC: "0d:bf:3d:a9:aa:05"
+          IP: "172.16.1.32"
+          hostname: wanbmccladmin1
+        management: 
+          IP: "10.1.0.211"
+          device: bond1
+          hostname: mgtcladmin1
+        wan: 
+          IP: "172.16.1.1"
+          device: bond2
+          hostname: wancladmin1
 ```
 
 #### Fact: `mynet_topology` (network)
@@ -289,7 +210,12 @@ Example:
 
 Roles are derived from the name of the node: ``<cluster_prefix><role><numerical_id>``. The ``cluster_prefix`` is read from hiera. If nothing matches, the role is ``default``. 
 
-#### Fact: `hostsby_role` (roles)
+#### Fact: `puppet_index` (roles)
+
+Index are derived from the name of the node: ``<cluster_prefix><role><numerical_id>``. The ``cluster_prefix`` is read from hiera. If nothing matches, the index is ``default``. 
+
+
+#### Fact: `hosts_by_role` (roles)
 
 Hash giving a list of hostnames by role, the source is the ``hostfile`` fact (see above). All host names matching the rule of ``puppet_role`` will be included, ``default`` role is not included.
 
@@ -314,10 +240,86 @@ Hash giving a list of hostnames by role, the source is the ``hostfile`` fact (se
 
 ### Functions
 
+Function are described more completely in the code comments.
+
+#### Function: `decrypt($target, $passwd)`
+
+Decrypts the file `$target` with key: `$passwd`.
+
+#### Function: `hpc_atoh($array)`
+
+Returns a hash with array values as keys.
+
+#### Function: `hpc_dns_zones()`
+
+Returns a hash describing `::dns::server::zones` resources for the current cluster.
+
 #### Function: `hpc_get_hosts_by_profile($profile)`
 
-This function returns an array with the hosts that have the profile given in
+Returns an array with the hosts that have the profile given in
 parameter.
+
+#### Function: `hpc_ha_vip_notify_scripts()`
+
+Returns a hash describing `::hpc_ha::vip_notify_script` resources for the current host.
+List comes from hiera.
+
+#### Function: `hpc_ha_vips()`
+
+Returns a hash describing `::hpc_ha::vip` resources for the current host. List
+comes from hiera.
+
+#### Function: `hpc_ha_vservs()`
+
+Returns a hash describing `::hpc_ha::vserv` resources for the current host. List
+comes from hiera.
+
+#### Function: `hpc_hmap($hash, $key)`
+
+Transforms a hash of value into a hash of hash. 
+
+```
+hpc_hmap({ 'a' => '0' }, 'K')
+```
+returns:
+
+```
+{"a"=>{"K"=>"0"}}
+```
+
+#### Function: `hpc_nodeset_expand($nodeset)`
+
+Transforms a ClusterShell nodeset into an array of hostnames.
+
+#### Function: `hpc_nodeset_fold($array)`
+
+Transforms an array of hostnames into a ClusterShell nodeset.
+
+#### Function: `hpc_roles_nodeset($roles)`
+
+Returns a hash where the keys are the roles passed as parameters and the
+values are the ClusterShell nodeset of all the machines having that role
+in the configuration.
+
+#### Function: `hpc_roles_single_nodeset($roles)`
+
+Returns a ClusterShell nodeset of all the machines having one of the roles
+given in the array in parameter.
+
+#### Function: `hpc_shorewall_interfaces()`
+
+Reads the `firewall_zone` parameter in the network topology definition and
+returns a hash of describing `::shorewall::interface` for the current host.
+
+#### Function: `hpc_source_file($source)`
+
+Returns the content of a file read from the source. The source can be:
+
+- An absolute file path
+- A relative file path refers to a module `files` directory (`<module>/<file_path>`)
+- An URL (`file://` or `http://`)
+
+If `$source` is an array, all sources are tried successively.
 
 ## Limitations
 

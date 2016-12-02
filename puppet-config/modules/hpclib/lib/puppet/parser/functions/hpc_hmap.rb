@@ -16,7 +16,7 @@
 
 require('hpc/hmap')
 
-# @return A hash of VIP hash for the current host
+# @return Transform a hash of values into a hash of hash
 Puppet::Parser::Functions::newfunction(
   :hpc_hmap,
   :type  => :rvalue,

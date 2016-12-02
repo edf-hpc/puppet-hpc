@@ -15,6 +15,11 @@
 
 # Create a file with an hpc_source_file content
 #
+# The source can be any source supported by the hpc_source_file function:
+# - path
+# - URL (http:// or file://)
+# - Relative path are module path (like the template function)
+#
 # @param backup Save the file before it is replaced.
 # @param mode   Permissions mode of the file.
 # @param owner  User owner of the file.

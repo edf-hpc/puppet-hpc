@@ -13,6 +13,32 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# create a systemd unit file
+#
+# A unit file is created, loaded in systemd and enabled
+#
+# ```
+# hpclib::systemd_service{ 'foo':
+#   target => '/etc/systemd/system/foo.service',
+#   config => {
+#     'Unit' => {
+#       'Description' => 'Fooing',
+#     },
+#     'Service' => {
+#       'Type'      => 'oneshot',
+#       'KillMode'  => 'process',
+#       'ExecStart' => '/usr/bin/foo',
+#     },
+#     'Install' => {
+#       'WantedBy' => 'multi-user.target',
+#     }
+#   }
+# }
+# ```
+#
+# @param target Absolute path of the unit file
+# @param config Hash representing the content of the unit file
+#
 define hpclib::systemd_service(
   $target,
   $config,
