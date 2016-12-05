@@ -39,7 +39,7 @@ This module sets up all the components of Slurm in different classes:
 
 ### Setup Requirements
 
-This modules needs a working authentication mechanism in the cluster. This
+This module needs a working authentication mechanism in the cluster. This
 system is usually `munge`. It should be setup on every node.
 
 The `dbd` class needs access to a MySQL database.
