@@ -13,7 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# File declaring a subnet pool included in the configuration
 #
+# An include file contains the actual MAC => IP address mapping.
+#
+# @param pool_name Name of the pool
+# @param subnet_name Name of the subnet
+# @param tftp Set filename parameter on these hosts
+# @param pool Hash with options for this pool
+# @param my_address IP address of this host for next-server parameter
+# @param bootmenu_url URL to set as filename for iPXE requests
+# @param ipxebin DEPRECATED
+# @param dhcp_config Hash giving the host, IP address, MAC address association
 define iscdhcp::include (
   $pool_name,
   $subnet_name,
