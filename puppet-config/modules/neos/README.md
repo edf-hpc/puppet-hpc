@@ -58,5 +58,5 @@ This module only supports Debian (no RedHat packaging for neos).
 
 ## Development
 
-Patches and issues can be submitted on github:
+Patches and issues can be submitted on GitHub:
 https://github.com/edf-hpc/puppet-hpc

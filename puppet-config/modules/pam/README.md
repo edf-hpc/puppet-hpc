@@ -58,5 +58,5 @@ Some modules do not supports Redhat:
 
 ## Development
 
-Patches and issues can be submitted on github:
+Patches and issues can be submitted on GitHub:
 https://github.com/edf-hpc/puppet-hpc

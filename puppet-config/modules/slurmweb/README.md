@@ -49,5 +49,5 @@ version of slurmweb. However it should operate with few modifications
 
 ## Development
 
-Patches and issues can be submitted on github:
+Patches and issues can be submitted on GitHub:
 https://github.com/edf-hpc/puppet-hpc
