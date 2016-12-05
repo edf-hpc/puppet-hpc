@@ -13,10 +13,34 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure ISC DHCP server
 #
+# @param my_address Current server IP Address
+# @param peer_address Synchronisation peer Address
+# @param bootmenu_url URL to use in the bootmenu entries
+# @param ipxebin DEPRECATED
+# @param includes Hash describing `::iscdhcp::include` resources to create
+# @param dhcp_config Default value for `dhcp_config` parameter of `includes`
+# @param packages List of packages to install
+# @param packages_ensure Target state for `packages`, `present` or `latest`
+#           (default: `present`)
+# @param config_file Path of the main configuration file (default:
+#           '/etc/dhcp/dhcpd.conf')
+# @param global_options Array of options set globally in the main configuration
+#           file.
+# @param sharednet Hash describing options for the shared net
+# @param default_file Path of the file giving default environment for the
+#         service (sysconfig or default).
+# @param default_options Content of `default_file` as an array of lines.
+# @param service Service Name
+# @param service_ensure Target state for the service (default: '')
+# @param systemd_config_file Systemd unit file path for the service
+# @param systemd_config_options Systemd unit file content for the service,
+#           this parameter is not merged with the default.
 class iscdhcp (
 
   $my_address,
+  $boot_params,
   $peer_address               = $iscdhcp::params::peer_address,
   $bootmenu_url               = $iscdhcp::params::bootmenu_url,
   $ipxebin                    = $iscdhcp::params::ipxebin,
@@ -33,7 +57,6 @@ class iscdhcp (
   $service_ensure             = $iscdhcp::params::service_ensure,
   $systemd_config_file        = $iscdhcp::params::systemd_config_file,
   $systemd_config_options     = $iscdhcp::params::systemd_config_options,
-  $boot_params,
 ) inherits iscdhcp::params {
 
   validate_string($my_address)
