@@ -13,6 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install certificates on nodes for LDAP
+#
+# @param directory_source         Directory where certificates are stored in puppet config (default: 'puppet:///modules/certificates')
+# @param certificates_directory   Directory where certificates are installed on node (default: '/etc/certificates')
+# @param certificate_file         Name of certificate file (.crt) (default: 'cluster.crt')
+# @param key_file                 Name of key file (.key) (default: 'cluster.key')
+# @param certificates_owner       Certificate's owner (default: 'root')
+# @param decrypt_passwd           Encoded password (default: 'password')
+
 class certificates (
   $directory_source       = $certificates::params::directory_source,
   $certificates_directory = $certificates::params::certificates_directory,
