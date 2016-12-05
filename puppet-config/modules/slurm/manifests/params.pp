@@ -31,6 +31,7 @@ class slurm::params {
         'slurm-client',
         'slurm-llnl-generic-scripts-plugin',
         'slurm-wlm-spank-plugin-oom-score-adj',
+        'slurm-wlm-spank-plugin-private-tmp',
       ]
     }
     default: {
