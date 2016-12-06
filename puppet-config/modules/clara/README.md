@@ -14,11 +14,11 @@
 
 ## Overview
 
-Install and configure clara. A Cluster administration tool.
+Install and configure Clara, a set of cluster administration tools.
 
 ## Module Description
 
-This module install clara and generate a usable configuration. 
+This module installs Clara and generates a usable configuration file.
 
 ## Setup
 
@@ -26,14 +26,13 @@ This module install clara and generate a usable configuration.
 
 ### Setup Requirements
 
-This module provides a default keyring, but it should be replaced by your own
-keyring.
+This module provides a default GPG key, but it should be replaced by your own
+key.
 
 ### Beginning with clara
 
-If you wish to use the local repositories feature, you must provide a keyring.
-The example below, show how the default keyring was generated (the
-passphrase used is `passphrase`):
+If you wish to use the local repositories feature, you must create a GPG key.
+The example below shows how to create a GPG key (the passphrase used is `passphrase`):
 
 ```
 LANG=C gpg --no-default-keyring --keyring puppet-config/modules/clara/files/cluster_keyring.gpg --secret-keyring puppet-config/modules/clara/files/cluster_keyring.secret.gpg --gen-key
@@ -103,7 +102,7 @@ Include the clara class.
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
+This module is mainly tested on Debian, but it is meant to also work with RHEL and
 derivatives.
 
 ## Development
