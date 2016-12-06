@@ -13,6 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Define a secret in libvirt
+#
+# Only supports type ceph
+#
+# @param title Name of the secret
+# @param uuid An UUID that will identify the secret
+# @param value Content of the secret
+# @param type Only 'ceph' is supported (default: ceph)
 define libvirt::secret (
   $uuid,
   $value,
@@ -21,7 +29,7 @@ define libvirt::secret (
   validate_string($type)
   validate_string($value)
   validate_string($uuid)
-  
+
   $xml_path = "/var/lib/puppet/libvirt/libvirt_secret_${name}.xml"
 
   ensure_resource(file, '/var/lib/puppet/libvirt', { 'ensure' => 'directory'})

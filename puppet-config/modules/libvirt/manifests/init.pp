@@ -13,6 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Configure libvirt daemon
+#
+# @param packages List of packages to install
+# @param packages_ensure Target state for packages (default: 'installed')
+# @param service Service name for libvirtd
+# @param service_ensure Target state for service (default: 'running')
+# @param service_enable Start service on boot (default: true)
+# @param config_file Path of main configuration file (default: '/etc/libvirt/libvirtd.conf')
+# @param config_options Hash with the content of `config_file`
 class libvirt (
   $packages        = $::libvirt::params::packages,
   $packages_ensure = $::libvirt::params::packages_ensure,
