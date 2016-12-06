@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="dev_config_push_apply.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective106" />
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         id="path4197"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.4) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path4212"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path4194"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mend"
+       style="overflow:visible;">
+      <path
+         id="path4218"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) rotate(180) translate(0,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-3"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-6"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-9"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-27"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-0"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="483.79273"
+     inkscape:cy="805.07937"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="995"
+     inkscape:window-x="0"
+     inkscape:window-y="29"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#3facac;fill-opacity:1;stroke:#368b92;stroke-width:0.9227438;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="378.70526"
+       height="244.11917"
+       x="218.24393"
+       y="26.098166"
+       rx="59.294052"
+       ry="0.37849343" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="239.40617"
+       y="52.311169"
+       id="text3755"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757"
+         x="239.40617"
+         y="52.311169"
+         style="font-size:24px">Central Storage</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="231.32494"
+       y="71.504059"
+       id="text3759"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761"
+         x="231.32494"
+         y="71.504059"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">&lt;env&gt;/&lt;version&gt;/puppet-config-environment.tar.xz</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="86.504059"
+         style="font-size:12px"
+         id="tspan3775">modules_generic</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="101.50406"
+         style="font-size:12px"
+         id="tspan3777">modules_private</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="116.50406"
+         style="font-size:12px"
+         id="tspan3779">hieradata/generic</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="131.50406"
+         style="font-size:12px"
+         id="tspan3781">hieradata/private</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="146.50406"
+         style="font-size:12px"
+         id="tspan3783">manifests</tspan><tspan
+         sodipodi:role="line"
+         x="231.32494"
+         y="161.50406"
+         style="font-size:12px"
+         id="tspan3763">environment.conf</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="234.35539"
+       y="179.631"
+       id="text3795"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3797"
+         x="234.35539"
+         y="179.631"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">&lt;env&gt;/&lt;version&gt;/files</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="233.65491"
+       y="194.80554"
+       id="text3795-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="233.65491"
+         y="194.80554"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3820">&lt;env&gt;/&lt;version&gt;/hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="233.65491"
+         y="209.80554"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3094">&lt;env&gt;/&lt;version&gt;/puppet.conf</tspan><tspan
+         sodipodi:role="line"
+         x="233.65491"
+         y="224.80554"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3096" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="233.46968"
+       y="226.2906"
+       id="text3795-3-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="233.46968"
+         y="226.2906"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3820-5">keys.tar.xz</tspan><tspan
+         sodipodi:role="line"
+         x="233.46968"
+         y="241.2906"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4138">keys/private_key.pkcs7.pem</tspan><tspan
+         sodipodi:role="line"
+         x="233.46968"
+         y="256.29059"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4140">keys/public_key.pkcs7.pem</tspan></text>
+    <rect
+       style="fill:#bb62cc;fill-opacity:1;stroke:#368b92;stroke-width:0.81625866999999985;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3845"
+       width="238.396"
+       height="245.02959"
+       x="-68.690376"
+       y="24.026892"
+       rx="59.294052"
+       ry="0.37647942" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-52.527931"
+       y="51.30101"
+       id="text3847"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3849"
+         x="-52.527931"
+         y="51.30101">Dev/Admin</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-56.756107"
+       y="66.333031"
+       id="text3759-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761-5"
+         x="-56.756107"
+         y="66.333031"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">Operating System</tspan><tspan
+         sodipodi:role="line"
+         x="-56.756107"
+         y="81.333031"
+         style="font-size:12px"
+         id="tspan3763-7">/usr/share/puppet/modules</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-56.530754"
+       y="101.6598"
+       id="text3759-3-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761-5-9"
+         x="-56.530754"
+         y="101.6598"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">puppet-hpc git</tspan><tspan
+         sodipodi:role="line"
+         x="-56.530754"
+         y="116.6598"
+         style="font-size:12px"
+         id="tspan3763-7-3">puppet-config/cluster</tspan><tspan
+         sodipodi:role="line"
+         x="-56.530754"
+         y="131.65979"
+         style="font-size:12px"
+         id="tspan3934">puppet-config/modules</tspan><tspan
+         sodipodi:role="line"
+         x="-56.530754"
+         y="146.65979"
+         style="font-size:12px"
+         id="tspan3936">puppet-config/modules_3rdparty</tspan><tspan
+         sodipodi:role="line"
+         x="-56.530754"
+         y="161.65979"
+         style="font-size:12px"
+         id="tspan3938">puppet-config/manifests</tspan><tspan
+         sodipodi:role="line"
+         x="-56.530754"
+         y="176.65979"
+         style="font-size:12px"
+         id="tspan3942">hieradata</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-56.219101"
+       y="195.05135"
+       id="text3759-3-0-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761-5-9-0"
+         x="-56.219101"
+         y="195.05135"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">hpc-privatedata git</tspan><tspan
+         sodipodi:role="line"
+         x="-56.219101"
+         y="210.05135"
+         style="font-size:12px"
+         id="tspan3942-8">hieradata</tspan><tspan
+         sodipodi:role="line"
+         x="-56.219101"
+         y="225.05135"
+         style="font-size:12px"
+         id="tspan3996">files</tspan><tspan
+         sodipodi:role="line"
+         x="-56.219101"
+         y="240.05135"
+         style="font-size:12px"
+         id="tspan3998">hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="-56.219101"
+         y="255.05135"
+         style="font-size:12px"
+         id="tspan3092">puppet.conf</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 108.43295,78.340538 117.48408,1.239487"
+       id="path4038"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 74.668985,113.27746 225.63167,82.192063"
+       id="path4040"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 85.087405,128.0726 225.53188,84.39094"
+       id="path4042"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 142.29844,144.59218 225.44259,86.528541"
+       id="path4044"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 93.576529,159.32606 228.30499,143.16361"
+       id="path4046"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 6.2849931,174.1212 c 6.0609149,0 130.4427369,-0.59173 130.4427369,-0.59173 l 90.43033,-60.60916"
+       id="path4048"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 4.4380023,207.93593 142.0341177,-0.0613 81.19101,-80.05458"
+       id="path4050"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m -21.213203,222.01679 167.979383,-0.29586 86.57906,-42.13055"
+       id="path4052"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 12.46846,237.11832 c 4.04061,0 134.39925,0.35714 134.39925,0.35714 l 84.87564,-43.93728"
+       id="path4054"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <rect
+       style="fill:#6b6db8;fill-opacity:1;stroke:#368b92;stroke-width:0.74219840999999998;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985-7"
+       width="244.53607"
+       height="244.58965"
+       x="639.84253"
+       y="25.64999"
+       rx="38.287121"
+       ry="0.37922284" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="656.1557"
+       y="55.41185"
+       id="text3755-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-2"
+         x="656.1557"
+         y="55.41185"
+         style="font-size:24px">Node</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="647.61731"
+       y="72.550102"
+       id="text3759-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3761-2"
+         x="647.61731"
+         y="72.550102"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold">/etc/puppet/environments/&lt;env&gt;</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="87.550102"
+         style="font-size:12px"
+         id="tspan3775-3">modules_generic</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="102.5501"
+         style="font-size:12px"
+         id="tspan3777-7">modules_private</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="117.5501"
+         style="font-size:12px"
+         id="tspan3779-5">hieradata/generic</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="132.55011"
+         style="font-size:12px"
+         id="tspan3781-9">hieradata/private</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="147.55009"
+         style="font-size:12px"
+         id="tspan3783-2">manifests</tspan><tspan
+         sodipodi:role="line"
+         x="647.61731"
+         y="162.55009"
+         style="font-size:12px"
+         id="tspan3763-2">environment.conf</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 342.85714,84.505039 c 300,-2.142857 303.49221,0.382524 303.49221,0.382524"
+       id="path4142"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 342.85714,112.36218 303.15301,1.42857"
+       id="path4146"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 339.28571,128.07647 306.42858,0.71428"
+       id="path4148"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 295,143.79075 351.19956,0.84427"
+       id="path4150"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 342.85714,158.07647 303.40555,1.97697"
+       id="path4152"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="647.17957"
+       y="228.91872"
+       id="text3795-3-7-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="647.17957"
+         y="228.91872"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3820-5-9">/etc/puppet/secure</tspan><tspan
+         sodipodi:role="line"
+         x="647.17957"
+         y="243.91872"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4138-7">keys/private_key.pkcs7.pem</tspan><tspan
+         sodipodi:role="line"
+         x="647.17957"
+         y="258.91873"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4140-3">keys/public_key.pkcs7.pem</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 401.50036,253.16313 242.74203,1.39268"
+       id="path4183"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="M 344.46202,97.768027 645.48748,98.77818"
+       id="path4185"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 404.28571,238.07647 239.64286,1.78571"
+       id="path4631"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="109.09647"
+       y="315.96097"
+       id="text4817"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4819"
+         x="109.09647"
+         y="315.96097"
+         style="font-size:16px">hpc-config-push</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:3,3;stroke-dashoffset:0"
+       d="m 189.90868,17.4609 0,277.28687"
+       id="path4821"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="545.22504"
+       y="315.30453"
+       id="text4817-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4819-1"
+         x="545.22504"
+         y="315.30453"
+         style="font-size:16px">hpc-config-apply</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:3, 3;stroke-dashoffset:0"
+       d="m 615.93569,17.814608 0,277.286872"
+       id="path4821-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 21.431412,250.0535 c 4.04061,0 134.399248,0.35714 134.399248,0.35714 l 73.44707,-41.79443"
+       id="path4054-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="648.75488"
+       y="178.89259"
+       id="text3795-3-7-8-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="178.89259"
+         style="font-size:12px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+         id="tspan3820-5-9-3">/etc/puppet</tspan><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="193.89259"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan4140-3-6">hiera.yaml</tspan><tspan
+         sodipodi:role="line"
+         x="648.75488"
+         y="208.89259"
+         style="font-size:12px;font-weight:normal;-inkscape-font-specification:Sans"
+         id="tspan3153">puppet.conf</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 438.59931,190.44025 207.69126,0.5484"
+       id="path4152-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 443.5993,206.15454 202.69126,0.36983"
+       id="path4152-1-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>
