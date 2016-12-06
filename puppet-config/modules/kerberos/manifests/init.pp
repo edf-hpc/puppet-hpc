@@ -13,6 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# Configure a kerberos client
+#
+# The encrypted keytab is downloaded from this source location:
+# `$keytab_source_dir/$hostname.krb5.keytab.enc`.
+#
+# @param config_file Path of the main kerberos config (default: '/etc/krb5.conf')
+# @param config_options Hash with the content of `config_file`
+# @param keytab_file Path of the local system keytab
+# @param keytab_source_dir Base location for the keytab source
+# @param decrypt_passwd Password to use to decrypt the keytab
+# @param packages List of packages to install
+# @param packages_ensure Target state of packages. (default: 'latest')
 class kerberos (
   $config_options,
   $packages          = $kerberos::params::packages,
