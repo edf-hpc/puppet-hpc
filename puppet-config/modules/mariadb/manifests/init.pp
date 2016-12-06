@@ -13,6 +13,25 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure mariadb/galera with clustering
+#
+# @param config_manage Puppet modules generate configuration (default: true)
+# @param mariadb_preseed_file Path of the preseed file for mariadb packages
+# @param mariadb_preseed_tmpl Template for mariadb packages preseed file
+# @param main_conf_file Path of main configuration file
+# @param galera_conf_file Path of galera configuration file
+# @param mysql_conf_options Hash with the content of `main_conf_file`
+# @param galera_conf_options Hash with the content of `galera_conf_file` (merged with defaults)
+# @param disable_log_error Disable local file error logging (default: true on debian)
+# @param package_manage Puppet module installs the packages (default: true)
+# @param package_ensure Target state for the packages (default: 'present')
+# @param package_name Array of names of packages to install
+# @param service_manage Puppet module manages the service state (default: true)
+# @param service_ensure Target state for the service (default: 'running')
+# @param service_enable Starts service on boot (default: true)
+# @param service_name Name of the service for mariadb
+# @param nodes Array of host names forming the galera cluster
+# @param mysql_root_pwd Initial password for root in the mariadb cluster
 class mariadb (
   $config_manage        = $mariadb::params::config_manage,
   $mariadb_preseed_file = $mariadb::params::mariadb_preseed_file,
@@ -57,8 +76,10 @@ class mariadb (
     # Merge the hash from params.pp, the hash in class parameter and the hash
     # with the wresp address into $_galera_conf_options
 
-    $_galera_conf_options_wo_addr = deep_merge($::mariadb::params::galera_conf_options,
-                                               $galera_conf_options)
+    $_galera_conf_options_wo_addr = deep_merge(
+      $::mariadb::params::galera_conf_options,
+      $galera_conf_options
+    )
 
     # build a small temporary hash to add the wresp cluster address in
     # $_galera_conf_options hash.
@@ -68,8 +89,10 @@ class mariadb (
         }
     }
 
-    $_galera_conf_options = deep_merge($_galera_conf_options_wo_addr,
-                                       $_galera_conf_options_addr)
+    $_galera_conf_options = deep_merge(
+      $_galera_conf_options_wo_addr,
+      $_galera_conf_options_addr
+    )
   }
 
   if $service_manage {
