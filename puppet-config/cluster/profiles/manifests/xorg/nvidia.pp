@@ -13,13 +13,17 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Install Xorg and nvidia drivers
+# Install Xorg with nvidia drivers
 #
 # ## Hiera
 # - `profiles::xorg::instances` (`hiera_hash`) Instance to pass
 #                               to `xorg::instance`
 class profiles::xorg::nvidia {
-  class { '::nvidia': } ->
+
+  # Make sure the xorg class is realized after the base packages are installed.
+  # The base module installs the scibian-hpc meta-packages which are supposed to
+  # depend on all the required packages for xorg to run on nvidia modules.
+  Package <| tag == 'base' |> ->
   class { '::xorg':}
 
   $instances = hiera_hash('profiles::xorg::instances')
