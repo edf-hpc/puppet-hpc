@@ -13,6 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Define a storage pool in libvirt
+#
+# Only rbd (Ceph Rados Block Device) is supported
+#
+# @param title Name of the pool in libvirt
+# @param hosts Array of hosts of the pool source (mon nodes for ceph)
+# @param auth Hash of authentication parameters
+# @param type Only 'rbd' is supported (default: 'rbd')
 define libvirt::pool (
   $hosts,
   $auth,
@@ -21,7 +29,7 @@ define libvirt::pool (
   validate_array($hosts)
   validate_hash($auth)
   validate_string($type)
-  
+
   $xml_path = "/var/lib/puppet/libvirt/libvirt_pool_${name}.xml"
 
   ensure_resource(file, '/var/lib/puppet/libvirt', { 'ensure' => 'directory'})
@@ -55,5 +63,5 @@ define libvirt::pool (
     refreshonly => true,
     subscribe   => File[$xml_path],
   }
-  
+
 }

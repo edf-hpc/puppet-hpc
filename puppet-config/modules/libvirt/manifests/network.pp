@@ -13,13 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Define a network in libvirt
+#
+# Only support bridge mode.
+#
+# @param title name of the network in libvirt
+# @param interface name of the interface to bridge
+# @param mode only 'bridge' is supported (default: 'bridge')
 define libvirt::network (
   $interface,
   $mode = 'bridge',
 ){
   validate_string($interface)
   validate_string($mode)
-  
+
   $xml_path = "/var/lib/puppet/libvirt/libvirt_network_${name}.xml"
 
   ensure_resource(file, '/var/lib/puppet/libvirt', { 'ensure' => 'directory'})
@@ -53,5 +60,5 @@ define libvirt::network (
     refreshonly => true,
     subscribe   => File[$xml_path],
   }
-  
+
 }
