@@ -13,20 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Installs and configure an Intel OmniPath Fabric Manager
+# Deploys Intel OPA Fabric Manager
 #
-# This class sets-up a default config file with some tweakable
-# parameters. If the file must be different, it can be provided whole
-# as an hpc_file source parameter.
-#
-# Fabric Executive (FE) is used by FM-GUI to connect to the Fabric Manager
-#
-#
-# @param fe_enable      Enables FE (default: true)
-# @param fe_sslsecurity FE uses TLS/SSL connections (default: false)
-# @param config_source  Source for a full config file, if not provided
-#                       a default template will be used. If provided,
-#                       `fe_enable` and `fe_sslsecurity` are ignored.
+# @param packages        Array of packages to install (default:
+#                        ['opa-fm', 'opa-fastfabric'])
+# @param packages_ensure Target state for the packages (default: 'installed')
+# @param service         Name of the service to manage (default:
+#                        'opafm')
+# @param service_ensure  Target state for the service (default: 'running')
+# @param service_enable  The service starts at boot time (default: true)
+# @param config_file     Absolute path to OPA FM XML configuration file
+#                        (default: '/etc/opa/opafm.xml')
+# @param config_source   Source URL for a full config file (default: undef)
+# @param fe_enable       Enables FE (default: true)
+# @param fe_sslsecurity  FE uses TLS/SSL connections (default: false)
+# @param devicegroups    Hash of device groups definitions (default: {})
+# @param pmportgroups    Hash of Performance Manager (PM) port groups
+#                        definitions (default: {})
 class opafm (
   $packages        = $::opafm::params::packages,
   $packages_ensure = $::opafm::params::packages_ensure,
