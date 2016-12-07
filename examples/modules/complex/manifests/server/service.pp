@@ -15,11 +15,11 @@
 
 class complex::server::service inherits complex::server {
 
-  if $::complex::server::services_manage {
+  if $::complex::server::service_manage {
 
-    service { $::complex::server::services:
-      ensure  => $::complex::server::services_ensure,
-      enable  => $::complex::server::services_enable,
+    service { $::complex::server::service_name:
+      ensure  => $::complex::server::service_ensure,
+      enable  => $::complex::server::service_enable,
     }
 
   }
