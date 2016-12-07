@@ -13,6 +13,21 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Deploys simple stuff.
+#
+# @param install_manage  Public class manages the installation (default: true)
+# @param packages        Array of packages to install (default:
+#                        ['simple-package'])
+# @param packages_manage Public class installs the packages (default: true)
+# @param packages_ensure Target state for the packages (default: 'latest')
+# @param services_manage Public class manages the services state (default:
+#                        true)
+# @param services        Array of services to manage (default:
+#                        ['simple-service'])
+# @param services_ensure Target state for the services (default: 'running')
+# @param services_enable The services start at boot time (default: true)
+# @param config_manage   Public class manages the configuration (default: true)
+
 class simple (
   $install_manage   = $::simple::params::install_manage,
   $packages_manage  = $::simple::params::packages_manage,
