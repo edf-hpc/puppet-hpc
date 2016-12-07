@@ -34,7 +34,7 @@ class opafm (
   $service_ensure  = $::opafm::params::service_ensure,
   $service_enable  = $::opafm::params::service_enable,
   $config_file     = $::opafm::params::config_file,
-  $config_source   = $::opafm::params::config_hpc_source,
+  $config_source   = $::opafm::params::config_source,
   $fe_enable       = $::opafm::params::fe_enable,
   $fe_sslsecurity  = $::opafm::params::fe_sslsecurity,
   $devicegroups    = $::opafm::params::devicegroups,

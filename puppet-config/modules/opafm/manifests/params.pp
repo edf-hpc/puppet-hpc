@@ -22,9 +22,11 @@ class opafm::params {
   $service_enable  = true
 
   $config_file     = '/etc/opa/opafm.xml'
+  $config_source   = undef
 
   $fe_enable       = true
-  $fe_sslsecurity      = false
-  $fe_hpc_source   = undef
+  $fe_sslsecurity  = false
+  $devicegroups    = {}
+  $pmportgroups    = {}
 
 }
