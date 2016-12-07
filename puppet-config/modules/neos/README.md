@@ -12,19 +12,16 @@
 5. [Limitations](#limitations)
 6. [Development](#development)
 
-## Overview
+
+## Module Description
 
 Install and configure neos. A tool to launch graphical environment in a slurm
 job.
-
-## Module Description
 
 The module installs the neos package on the execution and submit nodes. It can
 also generate a Paraview server file (`.pvsc`).
 
 ## Setup
-
-### What neos affects
 
 ### Setup Requirements
 
