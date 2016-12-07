@@ -13,6 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Deploys complex client stuff.
+#
+# @param install_manage  Public class manages the installation (default: true)
+# @param packages_manage Public class installs the packages (default: true)
+# @param packages        Array of packages to install (default:
+#                        ['complex-client-package'])
+# @param packages_ensure Target state for the packages (default: 'latest')
+# @param config_manage   Public class manages the configuration (default: true)
+# @param config_file     Absolute path to client configuration file  (default:
+#                        '/etc/complex/client.conf')
+# @param user            Name of client system user (default:
+#                        'complex-client-user')
+# @param password        Client password (no default)
 class complex::client (
   $install_manage      = $::complex::client::params::install_manage,
   $packages_manage     = $::complex::client::params::packages_manage,

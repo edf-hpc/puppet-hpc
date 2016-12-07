@@ -13,6 +13,25 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Deploys complex server stuff.
+#
+# @param install_manage  Public class manages the installation (default: true)
+# @param packages_manage Public class installs the packages (default: true)
+# @param packages        Array of packages to install (default:
+#                        ['complex-server-package'])
+# @param packages_ensure Target state for the packages (default: 'latest')
+# @param services_manage Public class manages the services state (default: true)
+# @param services        Array of services to manage (default:
+#                        ['complex-server-service'])
+# @param services_ensure Target state for the services (default: 'running')
+# @param services_enable The services start at boot time (default: true)
+# @param config_manage   Public class manages the configuration (default: true)
+# @param config_file     Absolute path to server configuration file  (default:
+#                        '/etc/complex/server.conf')
+# @param config_options  Hash of configuration default overrides (default: {})
+# @param user            Name of server system user (default:
+#                        'complex-server-user')
+# @param password        Server password (no default)
 class complex::server (
   $install_manage      = $::complex::server::params::install_manage,
   $packages_manage     = $::complex::server::params::packages_manage,

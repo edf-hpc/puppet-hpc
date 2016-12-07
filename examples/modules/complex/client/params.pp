@@ -17,7 +17,7 @@ class complex::client::params {
 
   $install_manage  = true
   $packages_manage = true
-  $packages        = ['complex-client-packages']
+  $packages        = ['complex-client-package']
   $packages_ensure = 'latest'
   $config_manage   = true
   $config_file     = '/etc/complex/client.conf'
