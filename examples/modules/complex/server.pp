@@ -24,6 +24,7 @@ class complex::server (
   $services_enable     = $::complex::server::params::services_enable,
   $config_manage       = $::complex::server::params::config_manage,
   $config_file         = $::complex::server::params::config_file,
+  $config_options      = {},
   $user                = $::complex::server::params::user,
   $password,
 ) inherits complex::server::params {
@@ -50,7 +51,11 @@ class complex::server (
 
   if $config_manage {
     validate_absolute_path($config_file)
+    validate_hash($config_options)
     validate_string($password)
+    $_config_options = deep_merge(
+      $config_options,
+      $::complex::server::params::config_options)
   }
 
   anchor { 'complex::server::begin': } ->

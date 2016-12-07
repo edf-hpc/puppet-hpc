@@ -17,11 +17,9 @@ class complex::server::config inherits complex::server {
 
   if $::complex::server::config_manage {
 
-    file { $::complex::server::config_file:
-      content => template('complex/server.erb'),
-      owner   => $::complex::server::user,
-      group   => $::complex::server::user,
-      mode    => 0600,
+    hpclib::print_config{ $::complex::server::config_file:
+      style      => 'keyval',
+      data       => $::complex::server::::_config_options,
     }
 
   }
