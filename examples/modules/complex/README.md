@@ -21,7 +21,7 @@ The module deploys complex client and server.
 ### What complex affects
 
 The module installs complex software in both client and server modes. It manages
-the configuration files and services.
+the configuration files and server service.
 
 ### Setup Requirements
 

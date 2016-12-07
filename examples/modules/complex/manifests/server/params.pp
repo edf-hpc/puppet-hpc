@@ -19,10 +19,10 @@ class complex::server::params {
   $packages_manage = true
   $packages        = ['complex-server-package']
   $packages_ensure = 'latest'
-  $services_manage = true
-  $services        = ['complex-server-service']
-  $services_ensure = 'running'
-  $services_enable = true
+  $service_manage  = true
+  $service_name    = 'complex-server-service'
+  $service_ensure  = 'running'
+  $service_enable  = true
   $config_manage   = true
   $config_file     = '/etc/complex/server.conf'
   $config_options  = {

@@ -15,11 +15,11 @@
 
 class simple::service inherits simple {
 
-  if $::simple::services_manage {
+  if $::simple::service_manage {
 
-    service { $::simple::services:
-      ensure  => $::simple::services_ensure,
-      enable  => $::simple::services_enable,
+    service { $::simple::service_name:
+      ensure  => $::simple::service_ensure,
+      enable  => $::simple::service_enable,
     }
 
   }

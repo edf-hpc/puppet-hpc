@@ -19,10 +19,10 @@ class simple::params {
   $packages_manage = true
   $packages        = ['simple-package']
   $packages_ensure = 'latest'
-  $services_manage = true
-  $services        = ['simple-service']
-  $services_ensure = 'running'
-  $services_enable = true
+  $service_manage  = true
+  $service_name    = 'simple-service'
+  $service_ensure  = 'running'
+  $service_enable  = true
   $config_manage   = true
 
 }

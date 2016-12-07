@@ -20,11 +20,11 @@
 # @param packages        Array of packages to install (default:
 #                        ['complex-server-package'])
 # @param packages_ensure Target state for the packages (default: 'latest')
-# @param services_manage Public class manages the services state (default: true)
-# @param services        Array of services to manage (default:
-#                        ['complex-server-service'])
-# @param services_ensure Target state for the services (default: 'running')
-# @param services_enable The services start at boot time (default: true)
+# @param service_manage  Public class manages the service state (default: true)
+# @param service_name    Name of the service to manage (default:
+#                        'complex-server-service')
+# @param service_ensure  Target state for the service (default: 'running')
+# @param service_enable  The service starts at boot time (default: true)
 # @param config_manage   Public class manages the configuration (default: true)
 # @param config_file     Absolute path to server configuration file  (default:
 #                        '/etc/complex/server.conf')
@@ -37,10 +37,10 @@ class complex::server (
   $packages_manage     = $::complex::server::params::packages_manage,
   $packages            = $::complex::server::params::packages,
   $packages_ensure     = $::complex::server::params::packages_ensure,
-  $services_manage     = $::complex::server::params::services_manage,
-  $services            = $::complex::server::params::services,
-  $services_ensure     = $::complex::server::params::services_ensure,
-  $services_enable     = $::complex::server::params::services_enable,
+  $service_manage      = $::complex::server::params::service_manage,
+  $service_name        = $::complex::server::params::service_name,
+  $service_ensure      = $::complex::server::params::service_ensure,
+  $service_enable      = $::complex::server::params::service_enable,
   $config_manage       = $::complex::server::params::config_manage,
   $config_file         = $::complex::server::params::config_file,
   $config_options      = {},
@@ -50,7 +50,7 @@ class complex::server (
 
   validate_bool($install_manage)
   validate_bool($packages_manage)
-  validate_bool($services_manage)
+  validate_bool($service_manage)
   validate_bool($config_manage)
 
   if $install_manage and $packages_manage {
@@ -58,10 +58,10 @@ class complex::server (
     validate_string($packages_ensure)
   }
 
-  if $services_manage {
-    validate_array($services)
-    validate_string($services_ensure)
-    validate_bool($services_enable)
+  if $service_manage {
+    validate_string($service_name)
+    validate_string($service_ensure)
+    validate_bool($service_enable)
   }
 
   if $install_manage or $config_manage {

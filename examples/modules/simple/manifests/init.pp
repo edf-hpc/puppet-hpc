@@ -20,12 +20,11 @@
 #                        ['simple-package'])
 # @param packages_manage Public class installs the packages (default: true)
 # @param packages_ensure Target state for the packages (default: 'latest')
-# @param services_manage Public class manages the services state (default:
-#                        true)
-# @param services        Array of services to manage (default:
-#                        ['simple-service'])
-# @param services_ensure Target state for the services (default: 'running')
-# @param services_enable The services start at boot time (default: true)
+# @param service_manage  Public class manages the service state (default: true)
+# @param service_name    Name of the service to manage (default:
+#                        'simple-service')
+# @param service_ensure  Target state for the service (default: 'running')
+# @param service_enable  The service starts at boot time (default: true)
 # @param config_manage   Public class manages the configuration (default: true)
 
 class simple (
@@ -33,15 +32,16 @@ class simple (
   $packages_manage  = $::simple::params::packages_manage,
   $packages         = $::simple::params::packages,
   $packages_ensure  = $::simple::params::packages_ensure,
-  $services_manage  = $::simple::params::services_manage,
-  $services         = $::simple::params::services,
-  $services_ensure  = $::simple::params::services_ensure,
-  $services_enable  = $::simple::params::services_enable,
+  $service_manage   = $::simple::params::service_manage,
+  $service_name     = $::simple::params::service_name,
+  $service_ensure   = $::simple::params::service_ensure,
+  $service_enable   = $::simple::params::service_enable,
   $config_manage    = $::simple::params::config_manage,
 ) inherits simple::params {
 
+  validate_bool($install_manage)
   validate_bool($packages_manage)
-  validate_bool($services_manage)
+  validate_bool($service_manage)
   validate_bool($config_manage)
 
   if $install_manage and $packages_manage {
@@ -49,10 +49,10 @@ class simple (
     validate_string($packages_ensure)
   }
 
-  if $services_manage {
-    validate_array($services)
-    validate_string($services_ensure)
-    validate_bool($services_enable)
+  if $service_manage {
+    validate_string($service_name)
+    validate_string($service_ensure)
+    validate_bool($service_enable)
   }
 
   anchor { 'simple::begin': } ->
