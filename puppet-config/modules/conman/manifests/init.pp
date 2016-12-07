@@ -13,6 +13,38 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install a Conman server and provides ressources to configure it.
+#
+# # Server options
+#
+# The parameter `server_options` hash is merged with some defaults.
+#   - 'logdir'    => '/var/log/conman'
+#   - 'pidfile'   => '/var/run/conmand.pid'
+#   - 'syslog'    => 'local1'
+#   - 'timestamp' => '5m'
+#
+# # Global options
+#
+# The parameter `global_options` hash is merged with some defaults.
+#   - 'logopts'  => 'lock,sanitize,timestamp'
+#   - 'log'      => '%N/console.log'
+#   - 'seropts'  => '115200,8n1'
+#   - 'ipmiopts' => 'U:admin,P:admin'
+#
+# These two hash defines the general parameters of the service and can be 
+# overrided parameter by parameter.
+# @param packages Package list
+# @param packages_ensure Should packages be installed, latest or absent.
+# @param service Service name (default: 'conman')
+# @param service_ensure Should the service run or be stopped (default: running)
+# @param service_enable Should the service be enabled (default: true)
+# @param logrotate Should the logs be rotated (default: true)
+# @param server_options Supplementary server parameters for conman service
+#             (default: {})
+# @param global_options Supplementary global parameters for conman service
+#             (default: {})
+# @param service_override Params to override systemd service parameters 
+#             (default: {})
 class conman (
   $packages        = $::conman::params::packages,
   $packages_ensure = $::conman::params::packages_ensure,
