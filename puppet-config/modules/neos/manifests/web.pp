@@ -14,6 +14,15 @@
 ##########################################################################
 
 # Generate a paraview `pvsc` file
+#
+# Content comes from a template, except if `paraview_source` or
+# `paraview_content` is provided. If both are provided, `paraview_content`
+# is used.
+#
+# @param apache_file Path of the apache configuration file
+# @param paraview_content Content of the pvsc file
+# @param paraview_source Source (`file` parameter) of the pvsc file
+# @param web_dir where the pvsc file is written
 class neos::web (
   $apache_file      = $::neos::params::web_apache_file,
   $paraview_content = undef,
