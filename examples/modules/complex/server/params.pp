@@ -25,6 +25,16 @@ class complex::server::params {
   $services_enable = true
   $config_manage   = true
   $config_file     = '/etc/complex/server.conf'
+  $config_options  = {
+    'section1' => {
+      'param1' => 'value1',
+      'param2' => 'value2',
+    },
+    'section2' => {
+      'param3' => 'value3',
+      'param4' => 'value4',
+    },
+  }
   $user            = 'complex-server-user'
 
   # There is not any sane and secure possible default values for the following
