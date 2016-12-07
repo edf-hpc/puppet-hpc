@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="Nouveau document 1">
+   sodipodi:docname="net_topology-master_network-corresponding.svg">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -123,7 +123,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -146,14 +146,14 @@
      id="layer2"
      inkscape:label="Calque">
     <rect
-       style="fill:#dbf6f3;fill-opacity:1;fill-rule:nonzero;stroke:#8797f1;stroke-width:1.10054696;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4.40218782, 1.10054696;stroke-dashoffset:0"
+       style="fill:#dbf6f3;fill-opacity:1;fill-rule:nonzero;stroke:#8797f1;stroke-width:1.00452816;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4.01811258, 1.00452815;stroke-dashoffset:0"
        id="rect2869"
-       width="370.99738"
-       height="336.35168"
-       x="7.2178478"
-       y="116.92913"
-       rx="69.504974"
-       ry="1.0790665" />
+       width="371.09341"
+       height="280.1485"
+       x="7.1698384"
+       y="116.88113"
+       rx="69.522957"
+       ry="0.89875823" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot2871"
@@ -200,7 +200,7 @@
        xml:space="preserve"
        id="flowRoot2818"
        style="font-size:14px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       transform="matrix(1.0220026,0,0,1.2988757,-119.85135,-13.571196)"><flowRegion
+       transform="matrix(1.0220026,0,0,1.0683276,-119.85135,9.8987206)"><flowRegion
          id="flowRegion2820"><rect
            id="rect2822"
            width="640.94482"
@@ -208,28 +208,28 @@
            x="132.8084"
            y="95.275589" /></flowRegion><flowPara
          id="flowPara2826"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">master_network: </flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">master_network: </flowPara><flowPara
          id="flowPara2858"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">  genmisc1:</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">  genmisc1:</flowPara><flowPara
          id="flowPara2828"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">    fqdn: 'genmisc1.somedomain'</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">    fqdn: 'genmisc1.somedomain'</flowPara><flowPara
          id="flowPara2830"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">    networks:</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">    networks:</flowPara><flowPara
          id="flowPara2832"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">      wan:</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">      wan:</flowPara><flowPara
          id="flowPara2834"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">        'IP':       '172.17.42.45'</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">        'IP':       '172.17.42.45'</flowPara><flowPara
          id="flowPara2836"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">        'device':   'bond1'</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">        'device':   'bond1'</flowPara><flowPara
          id="flowPara2838"
-         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:24.30234798px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">        'hostname': 'extgenmisc1'</flowPara><flowPara
+         style="font-size:24.30234718px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">        'hostname': 'extgenmisc1'</flowPara><flowPara
          id="flowPara2846">   ....  </flowPara><flowPara
          id="flowPara2848" /><flowPara
          id="flowPara2850" /><flowPara
          id="flowPara2852" /><flowPara
          id="flowPara2854" /></flowRoot>    <path
-       style="fill:none;stroke:#000000;stroke-width:9.02613640000000039;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow1Sstart);marker-end:url(#Arrow1Send);fill-opacity:1"
-       d="M 523.9817,175.9052 C 340.60492,313.18867 266.79033,292.05066 148.7217,290.36777"
+       style="fill:none;stroke:#000000;stroke-width:7.98865604;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow1Sstart);marker-end:url(#Arrow1Send)"
+       d="M 524.21716,178.60416 C 332.175,278.30963 254.87235,261.29916 131.22444,258.12158"
        id="path17850-0-2-7-5-0-0-1-6-0-8-1-67-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
