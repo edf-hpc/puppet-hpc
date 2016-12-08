@@ -27,8 +27,12 @@ def debug(fmt, *args):
   if debug_mode:
     syslog.syslog(fmt % args)
 
-def create_user_dir(pamh, basedir, user):
-  userdir = os.path.join(basedir, user)
+def create_user_dir(pamh, basedir, user, skel=False):
+  # Some user might have a personal directory that has not the same
+  # name as their username, we use the last directory of the 
+  # homedir entry ('/home/toto' -> 'toto')
+  userdir_basename = os.path.basename(pwd.getpwnam(user).pw_dir)
+  userdir = os.path.join(basedir, userdir_basename)
   uid = pwd.getpwnam(user).pw_uid
   maingid = pwd.getpwnam(user).pw_gid
 
