@@ -24,7 +24,7 @@ This module install certificates (.crt and .key) on nodes.
 
 ### What certificates affects
 
-LDAP will not work without certificate (sssd config and sssd.service)
+LDAP will not work without certificate (sssd config and sssd.service). It deploy certificate and key for LDAP.
 
 ### Setup Requirements
 
@@ -46,7 +46,7 @@ include certificates
 
 ## Limitations
 
-This module does not manage other certificate (like clara) only valid for ldap certificates.
+This module does not manage other certificate (like clara) only valid for LDAP certificates.
 
 ## Development
 
