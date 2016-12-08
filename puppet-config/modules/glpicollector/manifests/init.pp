@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install and configure the system to collect data from FusionInventory
+# agents and to push it to the GLPI server
+#
+# @param hpc_files	  Hash listing the scripts to install (Default: {})
 class glpicollector (
   $hpc_files = $glpicollector::params::hpc_files,
 ) inherits glpicollector::params {
