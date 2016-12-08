@@ -17,7 +17,7 @@ class munge::params {
 
 
   ### Service ###
-  $service_name      = 'munge'
+  $service           = 'munge'
   $service_enable    = true
   $service_ensure    = 'running'
   $service_manage    = true
@@ -33,18 +33,18 @@ class munge::params {
 
 
   ### Package ###
-  $package_ensure    = 'present'
+  $packages_ensure    = 'present'
   case $::osfamily {
     'RedHat': {
-      $package_manage =  true
-      $package_name = ['munge', 'slurm-munge']
+      $packages_manage =  true
+      $packages = ['munge', 'slurm-munge']
     }
     'Debian': {
-      $package_manage =  true
-      $package_name = ['munge']
+      $packages_manage =  true
+      $packages = ['munge']
     }
     default: {
-      $package_manage =  false
+      $packages_manage =  false
     }
   }
 }

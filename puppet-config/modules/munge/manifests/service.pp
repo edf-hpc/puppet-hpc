@@ -21,10 +21,10 @@ class munge::service {
       fail('service_ensure parameter must be running or stopped')
     }
 
-    service { $munge::service_name :
+    service { $munge::service :
       ensure => $munge::service_ensure,
       enable => $munge::service_enable,
-      name   => $munge::service_name,
+      name   => $munge::service,
     }
   }
 }

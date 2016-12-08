@@ -13,8 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install munge and setup a munge key
+#
+# @param packages 	  Package list
+# @param packages_ensure  Should packages be installed, latest or absent.
+# @param packages_manage  If install package or not (Debian and RedHat default: true, other: false)
+# @param service 	  Service name (default: munge)
+# @param service_ensure   Should the service run or be stopped (default: running)
+# @param service_enable   Should the service be enabled (default: true)
+# @param service_manage   Determine if service part must be managed or ignored by puppet (default: true)
+# @param auth_key_path    Key path (default: /etc/munge)
+# @param auth_key_mode    Mode on key file (default: 0400)
+# @param auth_key_name    Absolute path of key (default: `auth_key_path`/munge.key)
+# @param auth_key_owner   Owner of key (default: munge)
+# @param auth_key_source  Encrypted source key (default: munge/munge.key.enc)
+# @param decrypt_password Password to use to decrypt `auth_key_source`
+
 class munge (
-  $service_name      = $munge::params::service_name,
+  $service           = $munge::params::service,
   $service_enable    = $munge::params::service_enable,
   $service_ensure    = $munge::params::service_ensure,
   $service_manage    = $munge::params::service_manage,
@@ -24,14 +40,14 @@ class munge (
   $auth_key_owner    = $munge::params::auth_key_owner,
   $auth_key_source   = $munge::params::auth_key_source,
   $decrypt_passwd    = $munge::params::decrypt_passwd,
-  $package_ensure    = $munge::params::package_ensure,
-  $package_manage    = $munge::params::package_manage,
-  $package_name      = $munge::params::package_name,
+  $packages_ensure   = $munge::params::packages_ensure,
+  $packages_manage   = $munge::params::packages_manage,
+  $packages          = $munge::params::packages,
 ) inherits munge::params {
 
 
   ### Validate params ###
-  validate_string($service_name)
+  validate_string($service)
   validate_bool($service_enable)
   validate_string($service_ensure)
   validate_bool($service_manage)
@@ -40,9 +56,9 @@ class munge (
   validate_absolute_path($auth_key_name)
   validate_string($auth_key_owner)
   validate_string($auth_key_source)
-  validate_string($package_ensure)
-  validate_bool($package_manage)
-  if $package_manage { validate_array($package_name)}
+  validate_string($packages_ensure)
+  validate_bool($packages_manage)
+  if $packages_manage { validate_array($packages_name)}
 
   anchor { 'munge::begin': } ->
   class { '::munge::install': } ->
