@@ -15,10 +15,10 @@
 
 class munge::install {
 
-  if $munge::package_manage {
+  if $munge::packages_manage {
 
-    package { $munge::package_name:
-      ensure => $munge::package_ensure,
+    package { $munge::packages:
+      ensure => $munge::packages_ensure,
     }
   }
 }
