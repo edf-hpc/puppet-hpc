@@ -47,15 +47,22 @@ def create_user_dir(pamh, basedir, user, skel=False):
         syslog.syslog("Setting ACLs for user %s on %s failed!" % (user, userdir))
 
   if not exists(userdir):
-    # Create user tree by copying content of /etc/skel
-    debug ("-> shutil.copytree %s" % userdir)
-    shutil.copytree(skel_dir + "/.", userdir, True)
+    if skel:
+        # Create user tree by copying content of /etc/skel
+        debug ("-> shutil.copytree %s" % userdir)
+        shutil.copytree(skel_dir + "/.", userdir, True)
+        debug ("<- shutil.copytree %s" % userdir)
+    else:
+        debug ("-> mkdir %s" % userdir)
+        os.mkdir(userdir)
+        debug ("<- mkdir %s" % userdir)
+    debug ("-> recursive chown %s" % userdir)
     for root, dirs, files in os.walk(userdir):
         for d in dirs:
             os.chown(os.path.join(root, d), uid, maingid)
         for f in files:
             os.chown(os.path.join(root, f), uid, maingid)
-    debug ("<- shutil.copytree %s" % userdir)
+    debug ("<- recursive chown %s" % userdir)
     # Userdir
     debug ("-> userdir chmod %s" % userdir)
     os.chown(userdir, 0, 0)
@@ -96,8 +103,8 @@ def pam_sm_open_session(pamh, flags, argv):
     return pamh.PAM_SUCCESS
 
   try:
-    create_user_dir(pamh, home_dir, user)
-    create_user_dir(pamh, scratch_dir, user)
+    create_user_dir(pamh, home_dir, user, skel=True)
+    create_user_dir(pamh, scratch_dir, user, skel=False)
 
     pamh.env['SCRATCHDIR'] = os.path.join(scratch_dir, user)
 
