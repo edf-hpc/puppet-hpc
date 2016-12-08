@@ -15,10 +15,10 @@
 
 # Install munge and setup a munge key
 #
-# @param packages 	  Package list
+# @param packages     Package list
 # @param packages_ensure  Should packages be installed, latest or absent.
 # @param packages_manage  If install package or not (Debian and RedHat default: true, other: false)
-# @param service 	  Service name (default: munge)
+# @param service     Service name (default: munge)
 # @param service_ensure   Should the service run or be stopped (default: running)
 # @param service_enable   Should the service be enabled (default: true)
 # @param service_manage   Determine if service part must be managed or ignored by puppet (default: true)
@@ -58,7 +58,7 @@ class munge (
   validate_string($auth_key_source)
   validate_string($packages_ensure)
   validate_bool($packages_manage)
-  if $packages_manage { validate_array($packages_name)}
+  if $packages_manage { validate_array($packages)}
 
   anchor { 'munge::begin': } ->
   class { '::munge::install': } ->
