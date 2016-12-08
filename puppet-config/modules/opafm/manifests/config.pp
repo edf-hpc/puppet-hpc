@@ -27,5 +27,11 @@ class opafm::config inherits opafm {
       content => template('opafm/opafm.xml.erb'),
     }
   }
+
+  if $::opafm::switch_source {
+    hpclib::hpc_file { $::opafm::switch_file :
+      source => $::opafm::switch_source,
+    }
+  }
 }
 

@@ -30,6 +30,9 @@
 # @param devicegroups    Hash of device groups definitions (default: {})
 # @param pmportgroups    Hash of Performance Manager (PM) port groups
 #                        definitions (default: {})
+# @param switch_file     Absolute path to the switches list file
+#                        (default: '/etc/opa/switches')
+# @param switch_source   Source URL for switches file (default: undef)
 class opafm (
   $packages        = $::opafm::params::packages,
   $packages_ensure = $::opafm::params::packages_ensure,
@@ -42,6 +45,8 @@ class opafm (
   $fe_sslsecurity  = $::opafm::params::fe_sslsecurity,
   $devicegroups    = $::opafm::params::devicegroups,
   $pmportgroups    = $::opafm::params::pmportgroups,
+  $switch_file     = $::opafm::params::switch_file,
+  $switch_source   = $::opafm::params::switch_source,
 ) inherits opafm::params {
 
   validate_array($packages)
@@ -55,6 +60,11 @@ class opafm (
   validate_bool($fe_sslsecurity)
   validate_hash($devicegroups)
   validate_hash($pmportgroups)
+
+  if $switch_source {
+    validate_string($switch_source)
+    validate_absolute_path($switch_file)
+  }
 
   anchor { 'opafm::begin': } ->
   class { '::opafm::install': } ->

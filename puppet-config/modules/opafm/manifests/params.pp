@@ -29,4 +29,6 @@ class opafm::params {
   $devicegroups    = {}
   $pmportgroups    = {}
 
+  $switch_file     = '/etc/opa/switches'
+  $switch_source   = undef
 }
