@@ -33,7 +33,7 @@
 #
 # ## Bridge
 #
-# Bridges are configured by passing bridge options as a hash. If the 
+# Bridges are configured by passing bridge options as a hash. If the
 # bridged port does not exists in the netconfig fact, it will be added
 # automatically when the configuration is written.
 #
@@ -49,17 +49,40 @@
 #      'description': 'WAN network on service nodes'
 # ```
 #
-# @param ib_enable       Enable infiniband stack installation and
-#                        configuration
-# @param routednet       Direct routes for this host, array of triplets:
-#                        `<IP network address>@<network prefix length>@<device>`
-#                        (default: [])
-# @param mlx4load        Load the `mlx4` driver, 'yes'` or 'no'
-#                        (default: 'yes')
-# @param bonding_options Hash with the bonding configuration for this
-#                        host, see above (default: {})
-# @param bridge_options  Hash with the bridges configuration for this
-#                        host, see above (default: {})
+# @param defaultgw IP Address of the default gateway
+# @param fqdn Fully Qualified Domain Name of this host
+# @param routednet Direct routes for this host, array of triplets:
+#           `<IP network address>@<network prefix length>@<device>` (default: [])
+# @param hostname_augeas_path Augeas path of the file with the hostname
+# @param hostname_augeas_change Augeas rule to apply to change the hostname
+# @param bonding_packages List of packages to install to use bonding
+# @param bonding_options Hash with the bonding configuration for this host
+# @param bridge_packages List of packages to install to use bridges
+# @param bridge_options Hash with the bridges configuration for this host
+# @param config_file Path of the main network configuration file
+# @param systemd_tmpfile tmpfile config file path
+# @param systemd_tmpfile_options tmpfile config content as an array of line
+# @param ifup_hotplug_service ifup service name
+# @param ifup_hotplug_service_file ifup service unit file path
+# @param ifup_hotplug_service_link ifup service unit wants link path
+# @param ifup_hotplug_service_exec Command to ifup all hotplug interfaces
+# @param ifup_hotplug_service_params Content of the ifup service unit file
+# @param ifup_hotplug_services Hash with the definition of service resource
+#           for the ifup service
+# @param ifup_hotplug_files Hash with the definition of file resource for the
+#           ifup service wants link
+# @param ib_enable Enable infiniband stack installation and configuration (default: false)
+# @param opa_enable Enable the Intel OmniPath stack installation and configuration (default: false)
+# @param ib_udev_rule_file Path of the udev rule for Infiniband
+# @param ib_file Path of the infiniband stack config file
+# @param ib_rules udev rules for infiniband to place in `ib_udev_rule_file`
+# @param ib_packages List of packages for the Infiniband stack
+# @param opa_packages List of packages for the Intel OmniPath stack
+# @param mlx4load Load the `mlx4` driver, 'yes'` or 'no' (default: 'yes')
+# @param irqbalance_options Key/Value hash with the content of the irqbalance configuration
+# @param ib_mtu MTU for the IPoIB network
+# @param ib_mode Mode for IPoIB, 'connected' or 'datagram' (default: 'connected')
+# @param ib_options Key/Value hash with the content of `ib_file`
 class network (
   $defaultgw,
   $fqdn,
