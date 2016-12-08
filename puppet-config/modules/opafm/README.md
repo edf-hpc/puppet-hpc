@@ -55,14 +55,24 @@ switches. If the switches have been properly labelled with `opaswitchadmin`, the
 output is hopefully human-readable. Otherwise, ask the hardware vendor for the
 GUIDs.
 
+The module is also able to deploy an optional `switches` file which specifies
+the mapping between switches GUIDs and their names. The module expects an URL
+to the complete file, so the file must be prepared before using this feature of
+the module.
+
 ## Usage
 
-The `opafm` has only one public class. This public class can be instanciated in
-two main ways, either by giving in arguments:
+The `opafm` has only one public class. For managing the Fabric Manager XML
+configuration file, this public class can be instanciated in two main ways,
+either by giving in arguments:
 
 * Individual parameters of the OPA Fabric Manager configuration file. This way,
-  the configuration file is generated based on a template and the arguments values.
+  the configuration file is generated based on a template and the arguments
+  values.
 * The URL to a full OPA Fabric Manager XML configuration file.
+
+The URL to the switches mappings file is optional in argument. If not given, the
+public will just skip managing the resource.
 
 Here is an example of public class instanciation with individual parameters:
 
@@ -105,25 +115,30 @@ class { '::opafm':
       enable  => '1',
     },
   },
+  switch_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/switches',
 }
 
 ```
 
 With this class instanciation, the Fabric Engine will be enabled (typically for
 FM GUI) with SSL security enhancement. Three devices groups of switches are
-defined. All these groups are then assigned to PM groups.
+defined. All these groups are then assigned to PM groups. The switches file is
+also downloaded from the given URL and deployed without modification.
 
 To give URL to a full OPA Fabric Manager XML configuration file, use the
 `config_source` argument:
 
 ```
 class { '::opafm':
-  config_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opa/opafm.xml',
+  config_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/opafm.xml',
 }
 ```
 
+In this example, the `switch_source` argument is not set. The file resource will
+not be managed by the module.
+
 If the `config_source` argument is defined, its value takes precedence over the
-individual parameters.
+individual parameters of the Fabric Manager XML configuration file.
 
 ## Limitations
 
