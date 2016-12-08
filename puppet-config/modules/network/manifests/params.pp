@@ -29,7 +29,7 @@ class network::params {
       $hostname_augeas_path   = '/files/etc/hostname'
       $hostname_augeas_change = "set hostname ${::hostname}"
       ## IRQBalance
-      $irqbalance_config = "/etc/default/irqbalance"
+      $irqbalance_config = '/etc/default/irqbalance'
       ## Interfaces
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
