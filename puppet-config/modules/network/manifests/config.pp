@@ -36,6 +36,10 @@ class network::config inherits network {
       upper_case_keys => true,
       notify          => Service[$::network::irqbalance_service],
     }
+
+    ::systemd::modules_load { 'opa':
+      data => $::network::opa_kernel_modules
+    }
   }
 
   host { 'localhost':
