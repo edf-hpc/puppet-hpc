@@ -1,3 +1,9 @@
+hpc-config (0.10) calibre9; urgency=medium
+
+  * Install pre-built manpages.
+
+ -- Ana Guerrero <ana-externe.guerrero@edf.fr>  Fri, 09 Dec 2016 16:11:48 +0100
+
 hpc-config (0.9) calibre9; urgency=medium
 
   [ Thomas Hamel ]
