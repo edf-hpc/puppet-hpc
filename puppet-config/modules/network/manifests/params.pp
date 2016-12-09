@@ -72,6 +72,9 @@ class network::params {
         'rdmacm-utils',
         'rdma'
       ]
+      $opa_kernel_modules = [
+        'ib_ipoib',
+      ]
     }
     'Redhat': {
       ## Hostname
@@ -125,8 +128,8 @@ class network::params {
         'qperf',
         'rds-tools'
       ]
-      $opa_packages     = [
-      ]
+      $opa_packages     = []
+      $opa_kernel_modules = []
     }
     default: {
       fail("Unsupported OS Family: ${::osfamily}")

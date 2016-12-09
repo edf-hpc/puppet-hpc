@@ -78,6 +78,7 @@
 # @param ib_rules udev rules for infiniband to place in `ib_udev_rule_file`
 # @param ib_packages List of packages for the Infiniband stack
 # @param opa_packages List of packages for the Intel OmniPath stack
+# @param opa_kernel_modules Array of kernel modules to load during server boot
 # @param mlx4load Load the `mlx4` driver, 'yes'` or 'no' (default: 'yes')
 # @param irqbalance_options Key/Value hash with the content of the irqbalance configuration
 # @param ib_mtu MTU for the IPoIB network
@@ -110,6 +111,7 @@ class network (
   $ib_rules                    = $::network::params::ib_rules,
   $ib_packages                 = $::network::params::ib_packages,
   $opa_packages                = $::network::params::opa_packages,
+  $opa_kernel_modules          = $::network::params::opa_kernel_modules,
   $mlx4load                    = $::network::params::mlx4load,
   $irqbalance_options          = $::network::params::irqbalance_options,
   $ib_mtu                      = $::network::params::ib_mtu,
@@ -148,6 +150,8 @@ class network (
 
   validate_integer($ib_mtu)
   validate_string($ib_mode)
+
+  validate_array($opa_kernel_modules)
 
   # Bring all the package sources together
   validate_array($ib_packages)
