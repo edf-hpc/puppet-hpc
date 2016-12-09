@@ -6,12 +6,17 @@ hpc-config-apply - download and apply a puppet-hpc configuration
 
 # SYNOPSIS
 
-    hpc-config-apply
+    hpc-config-apply [-h] [--dry-run] [--config [CONFIG_FILE]]
+                     [--source [SOURCE]] [--environment [ENVIRONMENT]]
+                     [--tmpdir [TMPDIR]]
+                     [--deploy-step [{production,usbdisk}]]
+                     [--keys-source [KEYS_SOURCE]] [--tags [TAGS]]
+                     [--verbose]
 
 # DESCRIPTION
 
-hpc-config-apply downloads via http protocal and apply a puppet-hpc 
-configuration on a cluster node.
+hpc-config-apply downloads a Puppet configuration and all the related
+files via HTTP and applies this configuration on a cluster node.
 
 # OPTIONS
 
@@ -35,14 +40,13 @@ configuration on a cluster node.
 
 # CONFIGURATION FILE
 
-The default configuration file is installed at '/etc/hpc-config.conf' and it
-is a simple text file using the [INI file format](
-http://en.wikipedia.org/wiki/INI_file).
+The default configuration file is installed at `/etc/hpc-config.conf` and it
+is a simple text file using the [INI file format](http://en.wikipedia.org/wiki/INI_file).
 This file has a basic structure composed of sections, properties, and values.
 The lines starting with a semi-colon are commentaries and they're ignored.
 Each section describes an environment, the '[DEFAULT]' section is used when no
 environment is specified via the '-e' option.
-In each section, each option of the command line can bedefined (except 
+In each section, each option of the command line can be defined (except
 config file).
 Here is an example of a typical file with only a '[DEFAULT]' section:
 
@@ -53,11 +57,11 @@ Here is an example of a typical file with only a '[DEFAULT]' section:
 
 # EXAMPLES
 
-To simply apply the default puppet environment
+To simply apply the default puppet environment:
 
     hpc-config-apply
 
-To apply the 'test' environment in verbose mode
+To apply the 'test' environment in verbose mode:
 
     hpc-config-apply -v -e test
 
