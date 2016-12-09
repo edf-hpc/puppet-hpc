@@ -6,14 +6,15 @@ hpc-config-push - push puppet-hpc configuration into central storage
 
 # SYNOPSIS
 
-    hpc-config-push
+    hpc-config-push [-h] [-d] [-c [CONF]] [-e [ENVIRONMENT]] [-V [VERSION]]
+                    [--full-tmp-cleanup]
 
 # DESCRIPTION
 
-hpc-config-push pushes pushes a puppet-hpc configuration into a 
-central storage, to be used by hpc-config-apply on cluster nodes.
-It includes the puppet-hpc git repository, private data and files, and
-system packaged puppet modules.
+hpc-config-push makes available all the Puppet configuration into
+a shared central storage to be used by hpc-config-apply on cluster nodes.
+The pushed data includes the public puppet-hpc configuration, the
+private data and files and packaged Puppet modules.
 
 # OPTIONS
 
@@ -29,24 +30,28 @@ system packaged puppet modules.
 
 # DIRECTORY LAYOUT
 
-Source directories (git puppet-hpc and git hpc-privatedata), can be placed 
-anywhere on the Admin/Development machine. They should be in the same place
-though.
+The source directories to be pushed can be placed anywhere in the
+development machine as long as they are all at the same directory. The layout
+of this directory should be like in the example below:
 
-    * <SOME DIRECTORY>
-      * puppet-hpc (a git clone of the puppet-hpc repository)
-      * hpc-privatedata (a directory containing cluster specific data, 
-        frequently another git repository)
-        * hieradata
-        * files
+    some_directory/
+    ├── private-data
+    │   ├── files
+    │   └── hieradata
+    └── puppet-hpc
 
-The destination should be shared between the central storage servers. It must be 
-accessible as a simple POSIX filesystem, or via S3 Amazon API.
+`puppet-hpc` is a git checkout of the Generic Puppet Configuration for HPC Clusters
+you downloaded with this documentation.
+`private-data` is a directory containing all the specific data for your cluster.
+It's advised to also keep this in git and simply fetch a copy.
+
+The destination should be shared between all the central storage servers. It must be
+accessible as a simple POSIX file system or via the Amazon S3 API.
 
 # CONFIGURATION FILE
 
-The default configuration file is installed at '/etc/hpc-config/push.conf' and 
-it is a simple text file using the 
+The default configuration file is installed at `/etc/hpc-config/push.conf` and
+it is a simple text file using the
 [INI file format](http://en.wikipedia.org/wiki/INI_file).
 This file has a basic structure composed of sections, properties, and values.
 
@@ -59,7 +64,7 @@ The '[global]' section defines the defaults parameters used:
     destination = <default directory on central storage>
     mode = <push mode, can be s3 or posix>
 
-Then it can have an '[s3]' section:
+Optionally, it can include a '[s3]' section:
 
     [s3]
     access_key = <access key for s3>
@@ -68,45 +73,46 @@ Then it can have an '[s3]' section:
     host = <host where to push data>
     port = <port to use>
 
-And/Or a '[paths]' section:
+And/or a '[paths]' section:
 
     [paths]
-    tmp = <tmpdir where to build tarball> (default: /tmp/hpc-config-push)
-    puppethpc = <directory where to find puppet-hpc git repository> 
+    tmp = <tmp directory where to build the tarball> (default: /tmp/hpc-config-push)
+    puppethpc = <directory where to find the puppet-hpc git repository>
                 (default: puppet-hpc)
-    privatedata = <directory where to find privates data> 
+    privatedata = <directory where to find the private data>
                   (default: hpc-privatedata)
-    puppet_conf = <directory where to find pupet.conf file> (default:
-                  ${privatedata}/puppet-config/${global:cluster}/puppet.conf)
-    hiera_conf = <directory where to find pupet.conf file> (default: 
+    puppet_conf = <directory where to find puppet.conf file>
+                  (default: ${privatedata}/puppet-config/${global:cluster}/puppet.conf)
+    hiera_conf = <directory where to find the puppet.conf file> (default:
                  ${privatedata}/puppet-config/${global:cluster}/hiera.yaml)
     facts_private = ${privatedata}/puppet-config/${global:cluster}/hpc-config-facts.yaml
-    modules_generic = <directories where to find generic puppet modules>
+    modules_generic = <directories where to find the generic puppet modules>
                       (default: ${puppethpc}/puppet-config/cluster,
                        ${puppethpc}/puppet-config/modules,
-                       /usr/share/puppet/modules)
-    modules_private = <directories where to find private puppet modules> (default: 
-                      ${privatedata}/puppet-config/${global:cluster}/modules)
-    manifests_generic = <directory where to find generic manifests>
+                       /usr/share/puppet/modules )
+    modules_private = <directories where to find the private puppet modules>
+                      (default: ${privatedata}/puppet-config/${global:cluster}/modules)
+    manifests_generic = <directory where to find the generic manifests>
                         (default: ${puppethpc}/puppet-config/manifests)
-    manifests_private = <directory where to find private manifests> (default: 
-                        ${privatedata}/puppet-config/${global:cluster}/manifests)
-    hieradata_generic = <directory where to find generic Hiera files>
+    manifests_private = <directory where to find the private manifests>
+                        (default: ${privatedata}/puppet-config/${global:cluster}/manifests)
+    hieradata_generic = <directory where to find the generic Hiera files>
                         (default: ${puppethpc}/hieradata)
-    hieradata_private = <directory where to find private Hiera files>
+    hieradata_private = <directory where to find the private Hiera files>
                         (default: ${privatedata}/hieradata)
-    files_private = <directory where to find private files to put on nodes>
+    files_private = <directory where to find all the private files to put on nodes>
                     (default: ${privatedata}/files/${global:cluster})
 
-All the values in the '[paths]' section are optionnal, if not defined the default value applies.
+All the values in the '[paths]' section are optional, if they are not defined,
+the default value is used.
 
 # EXAMPLES
 
-To simply push the actual configuration in default environment
+To simply push the actual configuration in the default environment:
 
     hpc-config-push
 
-To push the actual configuration in the 'test' environment
+To push the actual configuration in the 'test' environment:
 
     hpc-config-push -e test
 
