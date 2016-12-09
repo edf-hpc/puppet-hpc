@@ -18,15 +18,15 @@ private data and files and packaged Puppet modules.
 
 # OPTIONS
 
-  -h, --help            show this help message and exit
-  -d, --debug           Enable debug mode
-  -c [CONF], --conf [CONF]
-                        Path to the configuration file
-  -e [ENVIRONMENT], --environment [ENVIRONMENT]
-                        Name of the pushed environment
-  -V [VERSION], --version [VERSION]
-                        Version of the pushed config
-  --full-tmp-cleanup    Full tmp dir cleanup.
+    -h, --help            show this help message and exit
+    -d, --debug           Enable debug mode
+    -c [CONF], --conf [CONF]
+                          Path to the configuration file
+    -e [ENVIRONMENT], --environment [ENVIRONMENT]
+                          Name of the pushed environment
+    -V [VERSION], --version [VERSION]
+                          Version of the pushed config
+    --full-tmp-cleanup    Full tmp dir cleanup.
 
 # DIRECTORY LAYOUT
 
