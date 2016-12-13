@@ -15,7 +15,7 @@ all: html pdf
 html: $(NAME).html
 
 $(NAME).html: base.asc $(SRC) $(IMG_PNG) $(REF)
-	asciidoctor --doctype $(DOCTYPE) --attribute data-uri --backend html5 --out-file $@ $(SRC)
+	asciidoctor --doctype $(DOCTYPE) --attribute data-uri --backend html5 --out-file $@ base.asc
 
 pdf: $(NAME).pdf
 
