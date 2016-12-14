@@ -13,23 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-
-# Set apt configuration
-# 
-# In a separate class to set the stage.
 #
-# @param sources APT sources as defined by `apt::sources`
-# @param confs   APT configs as defined by `apt::conf`
-# @param foreign_arch Foreign architecture t add to dpkg config
-class hpc_apt (
-  $confs        = {},
-  $sources      = {},
-  $foreign_arch = '',
-) {
-  include ::apt
+class hpc_apt::config inherits hpc_apt {
 
-  anchor { 'hpc_apt::begin': } ->
-  class { '::hpc_apt::config': } ->
-  anchor { 'hpc_apt::end': }
+  exec { 'add_foreign_arch':
+    command => "/usr/bin/dpkg --add-architecture ${::hpc_apt::foreign_arch}",
+    unless  => "/usr/bin/dpkg --print-foreign-architectures | grep ${::hpc_apt::foreign_arch}",
+  }
+
+  create_resources(apt::conf, $::hpc_apt::confs)
+  create_resources(apt::source, $::hpc_apt::sources)
 
 }
