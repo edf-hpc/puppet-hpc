@@ -65,9 +65,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="292.41968"
-     inkscape:cy="154.10325"
+     inkscape:zoom="1.979899"
+     inkscape:cx="329.15946"
+     inkscape:cy="196.03448"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -94,7 +94,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -586,7 +586,7 @@
          y="415"
          x="-62.362183"
          sodipodi:role="line"
-         id="tspan3887">cluster2</tspan><tspan
+         id="tspan3887">clusterZ</tspan><tspan
          style="font-size:12px;font-style:italic;fill:#8d8d8d;fill-opacity:1;-inkscape-font-specification:Andale Mono Italic"
          y="430"
          x="-62.362183"
