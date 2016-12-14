@@ -6,9 +6,9 @@
   :pkcs7_public_key:  /etc/puppet/secure/keys/public_key.pkcs7.pem
   :extension:         'yaml'
 :hierarchy:
-  - private/default/roles/%{puppet_role}
-  - private/cluster
-  - private/network
+  - private/%{cluster_name}/roles/%{puppet_role}
+  - private/%{cluster_name}/cluster
+  - private/%{cluster_name}/network
   - private/organization
   - generic/common
   - generic/%{osfamily}/common
