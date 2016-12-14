@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="480"
+   height="205"
+   id="svg4509"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="components_genericity.svg">
+  <defs
+     id="defs4511">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective4517" />
+    <inkscape:perspective
+       id="perspective4548"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DotS"
+       style="overflow:visible">
+      <path
+         id="path3740"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path3681"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4556"
+       style="overflow:visible">
+      <path
+         id="path4558"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4560"
+       style="overflow:visible">
+      <path
+         id="path4562"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4564"
+       style="overflow:visible">
+      <path
+         id="path4566"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4568"
+       style="overflow:visible">
+      <path
+         id="path4570"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4572"
+       style="overflow:visible">
+      <path
+         id="path4574"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4576"
+       style="overflow:visible">
+      <path
+         id="path4578"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4580"
+       style="overflow:visible">
+      <path
+         id="path4582"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none;marker-end:none"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4584"
+       style="overflow:visible">
+      <path
+         id="path4586"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="205.57902"
+     inkscape:cy="139.89427"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1007"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4746"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4514">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-90,-507.36218)">
+    <rect
+       ry="4.9999976"
+       rx="4.9999976"
+       y="507.36218"
+       x="255"
+       height="205"
+       width="120"
+       id="rect3651"
+       style="fill:#caedc4;fill-opacity:1;stroke:none" />
+    <rect
+       style="fill:#f9dcd9;fill-opacity:1;stroke:none"
+       id="rect2875"
+       width="120"
+       height="205"
+       x="95"
+       y="507.36218"
+       rx="4.9999976"
+       ry="4.9999976" />
+    <rect
+       ry="5"
+       rx="4.7826085"
+       y="542.36218"
+       x="120"
+       height="40"
+       width="90"
+       id="rect2845"
+       style="fill:#ebd312;fill-opacity:1;stroke:none" />
+    <text
+       id="text2847"
+       y="567.36218"
+       x="153.40723"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         style="font-size:12px"
+         y="567.36218"
+         x="153.40723"
+         id="tspan2849"
+         sodipodi:role="line">role</tspan></text>
+    <rect
+       style="fill:#48ce48;fill-opacity:1;stroke:none"
+       id="rect2851"
+       width="90"
+       height="40"
+       x="120"
+       y="597.36218"
+       rx="4.7826085"
+       ry="5" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="142.66113"
+       y="622.36218"
+       id="text2853"><tspan
+         sodipodi:role="line"
+         id="tspan2855"
+         x="142.66113"
+         y="622.36218"
+         style="font-size:12px">profiles</tspan></text>
+    <rect
+       ry="5"
+       rx="4.7826085"
+       y="652.36218"
+       x="120"
+       height="40"
+       width="90"
+       id="rect2857"
+       style="fill:#ebd312;fill-opacity:1;stroke:none" />
+    <text
+       id="text2859"
+       y="677.36218"
+       x="139.13379"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         style="font-size:12px"
+         y="677.36218"
+         x="139.13379"
+         id="tspan2861"
+         sodipodi:role="line">modules</tspan></text>
+    <rect
+       ry="4.9999976"
+       rx="4.9999976"
+       y="617.36218"
+       x="260"
+       height="35"
+       width="90"
+       id="rect2869"
+       style="fill:#76a4c3;fill-opacity:1;stroke:none" />
+    <text
+       id="text2871"
+       y="637.36218"
+       x="267.86035"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         style="font-size:12px"
+         y="637.36218"
+         x="267.86035"
+         id="tspan2873"
+         sodipodi:role="line">organization</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#e15542;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="-637.36218"
+       y="110"
+       id="text3653"
+       transform="matrix(0,-1,1,0,0,0)"><tspan
+         sodipodi:role="line"
+         id="tspan3655"
+         x="-637.36218"
+         y="110"
+         style="font-size:14px">code</tspan></text>
+    <text
+       id="text3657"
+       y="-360"
+       x="557.36218"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#44a833;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"
+       transform="matrix(0,1,-1,0,0,0)"><tspan
+         style="font-size:14px;fill:#44a833;fill-opacity:1"
+         y="-360"
+         x="557.36218"
+         id="tspan3659"
+         sodipodi:role="line">hiera data levels</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)"
+       d="m 165,582.36218 0,15"
+       id="path3663"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)"
+       d="m 165,637.36218 0,15"
+       id="path3665"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#48ce48;fill-opacity:1;stroke:none"
+       id="rect4748"
+       width="90"
+       height="35"
+       x="260"
+       y="667.36218"
+       rx="4.9999976"
+       ry="4.9999976" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="279.04004"
+       y="687.36218"
+       id="text4750"><tspan
+         sodipodi:role="line"
+         id="tspan4752"
+         x="279.04004"
+         y="687.36218"
+         style="font-size:12px">common</tspan></text>
+    <rect
+       style="fill:#d26098;fill-opacity:1;stroke:none"
+       id="rect4754"
+       width="90"
+       height="35"
+       x="260"
+       y="567.36218"
+       rx="4.9999976"
+       ry="4.9999976" />
+    <text
+       xml:space="preserve"
+       style="font-size:39.93027878px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="284.81775"
+       y="586.33832"
+       id="text4756"
+       transform="scale(0.99825694,1.0017461)"><tspan
+         sodipodi:role="line"
+         id="tspan4758"
+         x="284.81775"
+         y="586.33832"
+         style="font-size:11.97908306px">cluster</tspan></text>
+    <rect
+       ry="4.9999976"
+       rx="4.9999976"
+       y="517.36218"
+       x="260"
+       height="35"
+       width="90"
+       id="rect4760"
+       style="fill:#d26098;fill-opacity:1;stroke:none" />
+    <text
+       transform="scale(0.99825694,1.0017461)"
+       id="text4762"
+       y="536.42542"
+       x="264.28812"
+       style="font-size:39.93027878px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         style="font-size:11.97908306px"
+         y="536.42542"
+         x="264.28812"
+         id="tspan4764"
+         sodipodi:role="line">network/roles</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       id="path4766"
+       d="m 305,567.36218 0,-15"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)"
+       d="m 305,617.36218 0,-15"
+       id="path4768"
+       sodipodi:nodetypes="cc" />
+    <path
+       sodipodi:nodetypes="cc"
+       id="path4770"
+       d="m 305,667.36218 0,-15"
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)" />
+    <rect
+       style="fill:#ebd312;fill-opacity:1;stroke:none"
+       id="rect5342"
+       width="15"
+       height="10"
+       x="405"
+       y="512.36218"
+       rx="0"
+       ry="0" />
+    <rect
+       ry="0"
+       rx="0"
+       y="532.36218"
+       x="405"
+       height="10"
+       width="15"
+       id="rect5344"
+       style="fill:#48ce48;fill-opacity:1;stroke:none" />
+    <rect
+       style="fill:#76a4c3;fill-opacity:1;stroke:none"
+       id="rect5346"
+       width="15"
+       height="10"
+       x="405"
+       y="552.36218"
+       rx="0"
+       ry="0" />
+    <rect
+       style="fill:#d26098;fill-opacity:1;stroke:none"
+       id="rect5348"
+       width="15"
+       height="10"
+       x="405"
+       y="572.36218"
+       rx="0"
+       ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="425"
+       y="522.36218"
+       id="text5350"><tspan
+         sodipodi:role="line"
+         id="tspan5352"
+         x="425"
+         y="522.36218"
+         style="font-size:10px">fully generic</tspan></text>
+    <text
+       id="text5354"
+       y="562.36218"
+       x="425"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         style="font-size:10px"
+         y="562.36218"
+         x="425"
+         id="tspan5356"
+         sodipodi:role="line">Organization specific</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="425"
+       y="542.36218"
+       id="text5358"><tspan
+         sodipodi:role="line"
+         id="tspan5360"
+         x="425"
+         y="542.36218"
+         style="font-size:10px">Scibian HPC clusters specific</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="425"
+       y="582.36218"
+       id="text5362"><tspan
+         sodipodi:role="line"
+         id="tspan5364"
+         x="425"
+         y="582.36218"
+         style="font-size:10px">Cluster specific</tspan></text>
+  </g>
+</svg>
