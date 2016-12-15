@@ -144,9 +144,11 @@ class{ &#39;::nfs&#39;:
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">idmapd_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the idampd configuration file </p></div></li><li><span class="name">idmapd_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::idmapd_file</tt> - <div class="inline"><p> Path of the idmapd configuration file </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::service_ensure</tt> - <div class="inline"><p> Ensure state of the service: `running` or
+    <li><span class="name">idmapd_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the idampd configuration file </p></div></li><li><span class="name">idmapd_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::idmapd_file</tt> - <div class="inline"><p> Path of the idmapd configuration file </p></div></li><li><span class="name">default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Content of the default (syscfg) file parameter
+for the nfs-common service </p></div></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::default_file</tt> - <div class="inline"><p> Path of the default (syscfg) file parameter
+for the nfs-common service (default: '/etc/default/nfs-common') </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::service_ensure</tt> - <div class="inline"><p> Ensure state of the service: `running` or
 `stopped` (default: running) </p></div></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::service</tt> - <div class="inline"><p> Name of the service </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::packages_ensure</tt> - <div class="inline"><p> Install mode (`latest` or `present`) for the
-packages (default: `present`) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::packages</tt> - <div class="inline"><p> Array of packages names </p></div></li>
+packages (default: `present`) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::packages</tt> - <div class="inline"><p> Array of packages names </p></div></li><li><span class="name">enable_gssd </span><span class="type">(<tt>Any</tt>)</span><tt> => $::nfs::params::enable_gssd</tt></li><li><strike><span class="name">enabled_gssd </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Enable gss daemon with the nfs service </p></div></strike></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -156,7 +158,7 @@ packages (default: `present`) </p></div></li><li><span class="name">packages </s
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:10 2016 by
+  Generated on Thu Dec 15 17:24:09 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

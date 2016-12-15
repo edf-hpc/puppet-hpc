@@ -32,7 +32,7 @@
       <div id="menu">
   
     <a href="../_index.html">Index (s)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../dns.html" title="dns (hostclass)">dns</a></span></span>
+    <span class='title'>dns</span>
      &raquo; 
     <span class="title">server</span>
   
@@ -93,10 +93,10 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="params.html" title="dns::params (hostclass)">dns::params</a></span></span>
+      <span class="inheritName">dns::server::params</span>
       <ul class="fullTree">
         
-          <li class="next"><span class='object_link'><a href="params.html" title="dns::params (hostclass)">dns::params</a></span></li>
+          <li class="next">dns::server::params</li>
         
           <li class="next">dns::server</li>
         
@@ -112,9 +112,64 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Install and configures a DNS server</p>
+
+<p>The configured DNS server acts as an authoritative server and/or as
+recursive.</p>
+
+<h1>Config options</h1>
+
+<p>The parameter <code>config_options</code> hash is merged with some defaults.
+  - &#39;directory&#39;          =&gt; &#39;/var/cache/bind&#39;
+  - &#39;auth-nxdomain&#39;      =&gt; &#39;no&#39;
+  - &#39;listen-on-v6&#39;       =&gt; &#39;none&#39;
+  - &#39;dnssec-validation&#39;  =&gt; &#39;auto&#39;
+  - &#39;empty-zones-enable&#39; =&gt; &#39;no&#39;</p>
+
+<p>Other options are not supported.</p>
+
+<h1>Zones</h1>
+
+<p>Zones are defined as an array of hash:</p>
+
+<pre class="code ruby"><code class="ruby">  &quot;cluster.hpc.example.com&quot; =&gt;  {
+       &quot;type&quot; =&gt; &quot;master&quot;,
+       &quot;entries&quot; =&gt; [
+           {
+             &quot;owner&quot; =&gt; &quot;@&quot;,
+             &quot;proto&quot; =&gt; &quot;IN&quot;,
+             &quot;type&quot;  =&gt; &quot;NS&quot;,
+             &quot;data&quot;  =&gt; &quot;cladmin1.cluster.hpc.example.com.&quot;
+           },
+           {
+             &quot;owner&quot; =&gt; &quot;@&quot;,
+             &quot;proto&quot; =&gt; &quot;IN&quot;,
+             &quot;type&quot;  =&gt; &quot;A&quot;,
+             &quot;data&quot;  =&gt; &quot;127.0.0.1&quot;
+           },
+           {
+             &quot;owner&quot; =&gt; &quot;cladmin1&quot;,
+             &quot;proto&quot; =&gt; &quot;IN&quot;,
+             &quot;type&quot;  =&gt; &quot;A&quot;,
+             &quot;data&quot;  =&gt; &quot;10.1.16.11&quot;
+           }
+       ]
+   }
+</code></pre>
+
+<p>This array holds the forward and reverse zones. Reverse zones are not
+generated automatically by this class. If you are using this module with
+hpc-config, you can use the <code>hpc_dns_zones</code> function of the <code>hpclib</code>
+module.</p>
+
+<h1>Virtual domain</h1>
+
+<p>If a <code>virtual_domain</code> is provided, a zone of type <code>forward</code> is activated
+and configured to forward on a DNS server listening on 127.0.0.1 port 8600.
+This option is meant to be used and tested with a consul server.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,13 +180,21 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_packages</tt></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_service</tt></li><li><span class="name">domain </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_domain</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_config_file</tt></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">local_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_local_file</tt></li><li><span class="name">zone_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::server_zone_file</tt></li><li><span class="name">zone_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::zone_options</tt></li><li><span class="name">zone_defaults </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::params::zone_defaults</tt></li>
+    <li><span class="name">manage_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::manage_packages</tt> - <div class="inline"><p> Puppet should manage package installation (default:
+true) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::packages</tt> - <div class="inline"><p> Package list </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::packages_ensure</tt> - <div class="inline"><p> Should packages be installed, latest or absent. </p></div></li><li><span class="name">manage_services </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::manage_services</tt> - <div class="inline"><p> Should Puppet manage the services (default: true) </p></div></li><li><span class="name">services </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::services</tt> - <div class="inline"><p> Services list </p></div></li><li><span class="name">services_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::services_ensure</tt> - <div class="inline"><p> Should the services run or be stopped </p></div></li><li><span class="name">manage_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::manage_config</tt> - <div class="inline"><p> Should puppet manage the configuration (default: true) </p></div></li><li><span class="name">config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::config_dir</tt> - <div class="inline"><p> Config directory path (default: '/etc/bind') </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::config_file</tt> - <div class="inline"><p> Main options configuration file (default:
+'/etc/bind/named.conf.options') </p></div></li><li><span class="name">local_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::local_file</tt> - <div class="inline"><p> Local domains configuration file (default:
+'/etc/bind/named.conf.local') </p></div></li><li><span class="name">zone_defaults </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::zone_defaults</tt> - <div class="inline"><p> Hash of default options for zones </p></div></li><li><span class="name">virtual_domain </span><span class="type">(<tt>Any</tt>)</span><tt> => $::dns::server::params::virtual_domain</tt> - <div class="inline"><p> Domain name of the 'virtual' (consul) domain.
+(default: disabled) </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Hash of options for the DNS server </p></div></li><li><span class="name">zones </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Hash of zones (default: {}) </p></div></li>
   </ul>
+</div>
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="server/config.html" title="dns::server::config (hostclass)">dns::server::config</a></span>, <span class='object_link'><a href="server/install.html" title="dns::server::install (hostclass)">dns::server::install</a></span>, <span class='object_link'><a href="server/service.html" title="dns::server::service (hostclass)">dns::server::service</a></span></p>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:52 2016 by
+  Generated on Thu Dec 15 17:23:43 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -102,11 +102,11 @@
 
 <h2>Overview</h2>
 
-<p>Install and configure clara. A Cluster administration tool.</p>
+<p>Install and configure Clara, a set of cluster administration tools.</p>
 
 <h2>Module Description</h2>
 
-<p>This module install clara and generate a usable configuration. </p>
+<p>This module installs Clara and generates a usable configuration file.</p>
 
 <h2>Setup</h2>
 
@@ -114,14 +114,13 @@
 
 <h3>Setup Requirements</h3>
 
-<p>This module provides a default keyring, but it should be replaced by your own
-keyring.</p>
+<p>This module provides a default GPG key, but it should be replaced by your own
+key.</p>
 
 <h3>Beginning with clara</h3>
 
-<p>If you wish to use the local repositories feature, you must provide a keyring.
-The example below, show how the default keyring was generated (the
-passphrase used is <code>passphrase</code>):</p>
+<p>If you wish to use the local repositories feature, you must create a GPG key.
+The example below shows how to create a GPG key (the passphrase used is <code>passphrase</code>):</p>
 
 <pre class="code ruby"><code class="ruby">LANG=C gpg --no-default-keyring --keyring puppet-config/modules/clara/files/cluster_keyring.gpg --secret-keyring puppet-config/modules/clara/files/cluster_keyring.secret.gpg --gen-key
 gpg (GnuPG) 1.4.18; Copyright (C) 2014 Free Software Foundation, Inc.
@@ -190,17 +189,17 @@ sub   2048R/A396C996 2016-05-18
 
 <h2>Limitations</h2>
 
-<p>This module is mainly tested on Debian, but is meant to also work with RHEL and
+<p>This module is mainly tested on Debian, but it is meant to also work with RHEL and
 derivatives.</p>
 
 <h2>Development</h2>
 
-<p>Patches and issues can be submitted on github:
+<p>Patches and issues can be submitted on GitHub:
 <a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:44 2016 by
+  Generated on Thu Dec 15 17:23:36 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

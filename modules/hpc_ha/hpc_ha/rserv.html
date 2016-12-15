@@ -104,9 +104,23 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>A real server definition for the keepalived virtual server feature</p>
+
+<p>A real server is the backend of a virtual server. The real_hosts hash is
+used to provide an association between the name of the resource and the
+actual hostname to use</p>
+
+<p>Example:
+<code>
+real_hosts =&gt; {
+  &#39;clservice1&#39; =&gt; &#39;wanclservice1&#39;,
+  &#39;clservice2&#39; =&gt; &#39;wanclservice2&#39;,
+  &#39;clservice3&#39; =&gt; &#39;wanclservice3&#39;,
+}
+</code></p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +131,13 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">virtual_server </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">options </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">real_hosts </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">real_host </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li>
+    <li><span class="name">virtual_server </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> IP address of the virtual server </p></div></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Port to check </p></div></li><li><span class="name">network </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> DEPRECATED Unused </p></div></li><li><span class="name">options </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Options to set on the check </p></div></li><li><span class="name">real_hosts </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Hash of all the real hosts </p></div></li><li><span class="name">real_host </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> The real hostname to check </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:59 2016 by
+  Generated on Thu Dec 15 17:23:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

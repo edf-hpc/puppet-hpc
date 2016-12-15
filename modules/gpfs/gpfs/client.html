@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Deploys the GPFS client.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,17 +126,33 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">cl_dir_mode </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_dir_mode</tt></li><li><span class="name">cl_file_mod </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_file_mode</tt></li><li><span class="name">cl_decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_decrypt_passwd</tt></li><li><span class="name">cl_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_packages</tt></li><li><span class="name">cl_packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_packages_ensure</tt></li><li><span class="name">cl_config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config_dir</tt></li><li><span class="name">cl_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config</tt></li><li><span class="name">cl_config_src </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config_src</tt></li><li><span class="name">cl_key </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_key</tt></li><li><span class="name">cl_key_src </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_key_src</tt></li><li><span class="name">cl_perf </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_perf</tt></li><li><span class="name">cl_perf_src </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_perf_src</tt></li>
+    <li><span class="name">cl_dir_mode </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_dir_mode</tt> - <div class="inline"><p> Permissions for directories (Default: '755) </p></div></li><li><span class="name">cl_file_mod </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_file_mode</tt></li><li><span class="name">cl_decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_decrypt_passwd</tt> - <div class="inline"><p> Password to decrypt encrypted files 
+(Default: 'password') </p></div></li><li><span class="name">cl_packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_packages</tt> - <div class="inline"><p> Packages to install for the client
+(Default: ['gpfs.base', 'gpfs.msg.en-us', 
+'gpfs.lum', 'gpfs.gskit', 
+'gpfs.gpl-3.16.0-4-amd64']) </p></div></li><li><span class="name">cl_packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_packages_ensure</tt> - <div class="inline"><p> State of packages on the system 
+(Default: 'present'] </p></div></li><li><span class="name">cl_config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config_dir</tt> - <div class="inline"><p> List (array) of directory paths that must exist
+to configure gpfs when installing the client
+(Default: ['/var/mmfs', '/var/mmfs/gen', 
+'/var/lock', '/var/lock/subsys', '/usr/lpp',
+'/usr/lpp/mmfs', '/usr/lpp/mmfs/lib', 
+'/var/mmfs/ssl', '/var/mmfs/ssl/stage',]) </p></div></li><li><span class="name">cl_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config</tt> - <div class="inline"><p> Absolute path of the configuration file for 
+the gpfs client (Default: '/var/mmfs/gen/mmsdrfs') </p></div></li><li><span class="name">cl_config_src </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_config_src</tt> - <div class="inline"><p> Path of the encrypted source of the configuration
+file (Default: 'gpfs/mmsdrfs.enc') </p></div></li><li><span class="name">cl_key </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_key</tt> - <div class="inline"><p> Absolute path of the SSL key file used by the gpfs
+client for internal communications
+(Default:'/var/mmfs/ssl/stage/genkeyData1') </p></div></li><li><span class="name">cl_key_src </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cl_key_src</tt> - <div class="inline"><p> Path of the encrypted source of the SSL key file
+(Default: 'gpfs/genkeyData1.enc') </p></div></li><li><span class="name">cluster </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::cluster</tt> - <div class="inline"><p> Name of the current cluster (Default: 'cluster') </p></div></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::service</tt> - <div class="inline"><p> Name of the service (Default: 'gpfs') </p></div></li><li><span class="name">service_override_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $gpfs::params::service_override_options</tt> - <div class="inline"><p> Hash to configure the service </p></div></li><li><span class="name">public_key </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Public authorized key for SSH communications to 
+add for the root user </p></div></li><li><strike><span class="name">cl_file_mode </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Permissions for files (Default: '640') </p></div></strike></li>
   </ul>
 </div>
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="client/config.html" title="gpfs::client::config (hostclass)">gpfs::client::config</a></span>, <span class='object_link'><a href="client/install.html" title="gpfs::client::install (hostclass)">gpfs::client::install</a></span></p>
+  <p class="children"><span class='object_link'><a href="client/config.html" title="gpfs::client::config (hostclass)">gpfs::client::config</a></span>, <span class='object_link'><a href="client/install.html" title="gpfs::client::install (hostclass)">gpfs::client::install</a></span>, <span class='object_link'><a href="client/service.html" title="gpfs::client::service (hostclass)">gpfs::client::service</a></span></p>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:56 2016 by
+  Generated on Thu Dec 15 17:23:49 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

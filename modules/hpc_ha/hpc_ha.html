@@ -112,9 +112,13 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Setup Keepalive VIPs and supporting scripts</p>
+
+<p>This class permits to setup keepalive VIP and then attach scripts to the
+state changes of these VIPs.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +129,9 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">default_notify_script </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_ha::params::default_notify_script</tt></li>
+    <li><span class="name">default_notify_script </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_ha::params::default_notify_script</tt> - <div class="inline"><p> A generic script path to be called by
+default for all VIPs </p></div></li><li><span class="name">vips </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Hash describing `hpc_ha::vip` resources </p></div></li><li><span class="name">vip_notify_scripts </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Hash describing `hpc_ha::vip_notify_script`
+resources </p></div></li><li><span class="name">vservs </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_ha::params::options</tt></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +141,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:59 2016 by
+  Generated on Thu Dec 15 17:23:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

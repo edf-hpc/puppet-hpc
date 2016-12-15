@@ -102,6 +102,9 @@
   <div class="discussion">
     <p><p>Activate HA for roles</p>
 
+<p>/!\ This profile is probably broken with changes coming with new profile
+ha::base. Do not use it.</p>
+
 <p>This profile defines Virtual IP addresses associated with the role as a
 whole and not specific to a service.
 Virtual IP Addresses should be defined in hiera by following the hpc_ha
@@ -115,9 +118,9 @@ of the same role. This is done by configuring two hiera hashes:</p>
 
 <pre class="code ruby"><code class="ruby">#### High-Availability Virtual IP addresses ######
 profiles::ha::role_vips:
-  clusterloc_misc:
+  administration_misc:
     prefix:      &quot;%{hiera(&#39;cluster_prefix&#39;)}&quot;
-    net_id:      &#39;clusterloc&#39;
+    net_id:      &#39;administration&#39;
     router_id:   &#39;121&#39;
     ip_address:  &#39;10.100.2.20&#39;
     auth_secret: &#39;SECRET&#39;
@@ -159,7 +162,7 @@ profiles::ha::role_vips:
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:38 2016 by
+  Generated on Thu Dec 15 17:23:27 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

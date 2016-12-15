@@ -96,6 +96,26 @@
     lib/puppet/parser/functions/decrypt.rb (58)
     <br/>
   
+    <em>hpc_hmap</em>:
+    lib/puppet/parser/functions/hpc_hmap.rb (20)
+    <br/>
+  
+    <em>hpc_atoh</em>:
+    lib/puppet/parser/functions/hpc_atoh.rb (20)
+    <br/>
+  
+    <em>hpc_ha_vips</em>:
+    lib/puppet/parser/functions/hpc_ha_vips.rb (20)
+    <br/>
+  
+    <em>hpc_ha_vservs</em>:
+    lib/puppet/parser/functions/hpc_ha_vservs.rb (20)
+    <br/>
+  
+    <em>hpc_dns_zones</em>:
+    lib/puppet/parser/functions/hpc_dns_zones.rb (20)
+    <br/>
+  
     <em>hpc_source_file</em>:
     lib/puppet/parser/functions/hpc_source_file.rb (4)
     <br/>
@@ -112,12 +132,20 @@
     lib/puppet/parser/functions/hpc_nodeset_expand.rb (4)
     <br/>
   
+    <em>hpc_roles_single_nodeset</em>:
+    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb (26)
+    <br/>
+  
+    <em>hpc_get_hosts_by_profile</em>:
+    lib/puppet/parser/functions/hpc_get_hosts_by_profile.rb (19)
+    <br/>
+  
     <em>hpc_shorewall_interfaces</em>:
     lib/puppet/parser/functions/hpc_shorewall_interfaces.rb (25)
     <br/>
   
-    <em>hpc_roles_single_nodeset</em>:
-    lib/puppet/parser/functions/hpc_roles_single_nodeset.rb (26)
+    <em>hpc_ha_vip_notify_scripts</em>:
+    lib/puppet/parser/functions/hpc_ha_vip_notify_scripts.rb (20)
     <br/>
   
   </dd>
@@ -139,6 +167,86 @@
     <span class = "summary_desc">
       <div class = "inline">
         <p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_hmap-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_hmap</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Transform a hash of values into a hash of hash</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_atoh-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_atoh</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Transform an array into a hash with empty values</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_ha_vips-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_ha_vips</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a hash of VIP hash for the current host</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_ha_vservs-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_ha_vservs</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a list of vserv hash for the current host</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_dns_zones-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_dns_zones</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a hash of DNS zones hashes of the cluster</p>
       </div>
     </span>
   
@@ -208,6 +316,38 @@
   
     <li class = "private">
       <span class = "summary_signature">
+      <a href =#hpc_roles_single_nodeset-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_roles_single_nodeset</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Return a single nodeset of all the hosts in the roles passed as argument</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
+      <a href =#hpc_get_hosts_by_profile-instance_method>
+          
+            (<span class="type"><tt>rvalue</tt></span>)
+          
+        -
+       <strong>hpc_get_hosts_by_profile</strong>
+      </span>
+    </li></a>
+    <span class = "summary_desc">
+      <div class = "inline">
+        <p>Returns the array of node names that have the given profile.</p>
+      </div>
+    </span>
+  
+    <li class = "private">
+      <span class = "summary_signature">
       <a href =#hpc_shorewall_interfaces-instance_method>
           
             (<span class="type"><tt>rvalue</tt></span>)
@@ -224,17 +364,17 @@
   
     <li class = "private">
       <span class = "summary_signature">
-      <a href =#hpc_roles_single_nodeset-instance_method>
+      <a href =#hpc_ha_vip_notify_scripts-instance_method>
           
             (<span class="type"><tt>rvalue</tt></span>)
           
         -
-       <strong>hpc_roles_single_nodeset</strong>
+       <strong>hpc_ha_vip_notify_scripts</strong>
       </span>
     </li></a>
     <span class = "summary_desc">
       <div class = "inline">
-        <p>Return a single nodeset of all the hosts in the roles passed as argument</p>
+        <p>Return a hash of VIP notify scripts hash for the current host</p>
       </div>
     </span>
   
@@ -252,6 +392,146 @@
   <div class="docstring">
     <div class="discussion">
       <p><p>Loads a crypted file from a module, evaluates it, and returns the resulting value as a string.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_hmap-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_hmap
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Transform a hash of values into a hash of hash</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_atoh-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_atoh
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Transform an array into a hash with empty values</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_ha_vips-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_ha_vips
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a hash of VIP hash for the current host</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_ha_vservs-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_ha_vservs
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a list of vserv hash for the current host</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_dns_zones-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_dns_zones
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a hash of DNS zones hashes of the cluster</p>
 </p>
     </div>
   </div>
@@ -381,34 +661,6 @@
     
   </div>
 
-  <h3 class="signature" id = hpc_shorewall_interfaces-instance_method>
-    <strong>
-      
-        (<span class="type"><tt>rvalue</tt></span>)
-      
-      hpc_shorewall_interfaces
-    </strong>
-  </h3>
-  <div class="docstring">
-    <div class="discussion">
-      <p><p>Returns an array of shorewall interfaces for this host, based on the current network config. Interfaces are defined with the attribute firewall_zone in the cluster net_topology hiera.</p>
-</p>
-    </div>
-  </div>
-  <div class="tags">
-    
-    
-    
-      <p class="tag_title">Returns:</p>
-      <ul class="return">
-        <li>
-          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
-        </li>
-      </ul>
-    
-    
-  </div>
-
   <h3 class="signature" id = hpc_roles_single_nodeset-instance_method>
     <strong>
       
@@ -437,10 +689,94 @@
     
   </div>
 
+  <h3 class="signature" id = hpc_get_hosts_by_profile-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_get_hosts_by_profile
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Returns the array of node names that have the given profile.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_shorewall_interfaces-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_shorewall_interfaces
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Returns an array of shorewall interfaces for this host, based on the current network config. Interfaces are defined with the attribute firewall_zone in the cluster net_topology hiera.</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
+  <h3 class="signature" id = hpc_ha_vip_notify_scripts-instance_method>
+    <strong>
+      
+        (<span class="type"><tt>rvalue</tt></span>)
+      
+      hpc_ha_vip_notify_scripts
+    </strong>
+  </h3>
+  <div class="docstring">
+    <div class="discussion">
+      <p><p>Return a hash of VIP notify scripts hash for the current host</p>
+</p>
+    </div>
+  </div>
+  <div class="tags">
+    
+    
+    
+      <p class="tag_title">Returns:</p>
+      <ul class="return">
+        <li>
+          (<span class="type"><tt>rvalue</tt></span>)- <div class="inline"><p></p></div>
+        </li>
+      </ul>
+    
+    
+  </div>
+
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:00 2016 by
+  Generated on Thu Dec 15 17:23:55 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

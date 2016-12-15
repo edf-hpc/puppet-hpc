@@ -104,9 +104,12 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure a Virtual IP address configured with VRRP</p>
+
+<p>This resource relies on keepalived.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +120,18 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">net_id </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">ip_address </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">router_id </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">auth_secret </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">prefix </span><span class="type">(<tt>Any</tt>)</span><tt> => ''</tt></li><li><span class="name">notify_script </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li>
+    <li><span class="name">net_id </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Network ID (wan, administration...) of the network where
+this VIP will be. </p></div></li><li><span class="name">ip_address </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> IPv4 address of VIP </p></div></li><li><span class="name">router_id </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Unique integer for this VIP, it should be unique on the
+the L2 segment. Cluster sharing an external network should not
+use the same ids. </p></div></li><li><span class="name">auth_secret </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Secret shared between the routers to authenticate the
+origin. </p></div></li><li><span class="name">master </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Is this node the master for this vip </p></div></li><li><span class="name">priority </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">prefix </span><span class="type">(<tt>Any</tt>)</span><tt> => ''</tt> - <div class="inline"><p> Prefix for the name of the instance </p></div></li><li><span class="name">notify_script </span><span class="type">(<tt>Any</tt>)</span><tt> => false</tt> - <div class="inline"><p> Configure a notify script (default: false) </p></div></li><li><span class="name">advert_int </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Interval between advertisement (heartbeat) (default:
+1s) </p></div></li><li><strike><span class="name">prority </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Integer giving the priority of this node for this vip </p></div></strike></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:59 2016 by
+  Generated on Thu Dec 15 17:23:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

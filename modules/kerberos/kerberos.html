@@ -112,9 +112,13 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure a kerberos client</p>
+
+<p>The encrypted keytab is downloaded from this source location:
+<code>$keytab_source_dir/$hostname.krb5.keytab.enc</code>.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +129,7 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::config_file</tt></li><li><span class="name">keytab_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::keytab_file</tt></li><li><span class="name">keytab_source_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::keytab_source_dir</tt></li><li><span class="name">decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::decrypt_passwd</tt></li>
+    <li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Hash with the content of `config_file` </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::packages_ensure</tt> - <div class="inline"><p> Target state of packages. (default: 'latest') </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::config_file</tt> - <div class="inline"><p> Path of the main kerberos config (default: '/etc/krb5.conf') </p></div></li><li><span class="name">keytab_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::keytab_file</tt> - <div class="inline"><p> Path of the local system keytab </p></div></li><li><span class="name">keytab_source_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::keytab_source_dir</tt> - <div class="inline"><p> Base location for the keytab source </p></div></li><li><span class="name">decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $kerberos::params::decrypt_passwd</tt> - <div class="inline"><p> Password to use to decrypt the keytab </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +139,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:03 2016 by
+  Generated on Thu Dec 15 17:24:00 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

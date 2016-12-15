@@ -115,6 +115,10 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Generate a paraview <code>pvsc</code> file</p>
+
+<p>Content comes from a template, except if <code>paraview_source</code> or
+<code>paraview_content</code> is provided. If both are provided, <code>paraview_content</code>
+is used.</p>
 </p>
   </div>
 </div>
@@ -126,13 +130,13 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">apache_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::web_apache_file</tt></li><li><span class="name">paraview_content </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">paraview_source </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">web_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::web_dir</tt></li>
+    <li><span class="name">apache_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::web_apache_file</tt> - <div class="inline"><p> Path of the apache configuration file </p></div></li><li><span class="name">paraview_content </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Content of the pvsc file </p></div></li><li><span class="name">paraview_source </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Source (`file` parameter) of the pvsc file </p></div></li><li><span class="name">web_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $::neos::params::web_dir</tt> - <div class="inline"><p> where the pvsc file is written </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:08 2016 by
+  Generated on Thu Dec 15 17:24:07 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

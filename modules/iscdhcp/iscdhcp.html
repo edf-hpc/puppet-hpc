@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Installs and configure ISC DHCP server</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +126,12 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">my_address </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">peer_address </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::peer_address</tt></li><li><span class="name">virtual_address </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::virtual_address</tt></li><li><span class="name">bootmenu_url </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::bootmenu_url</tt></li><li><span class="name">ipxebin </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::ipxebin</tt></li><li><span class="name">includes </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::includes</tt></li><li><span class="name">dhcp_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::dhcp_config</tt></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::config_file</tt></li><li><span class="name">global_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::global_options</tt></li><li><span class="name">failover </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::failover</tt></li><li><span class="name">sharednet </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::sharednet</tt></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::default_file</tt></li><li><span class="name">default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::default_options</tt></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::service</tt></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::service_ensure</tt></li><li><span class="name">systemd_config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::systemd_config_file</tt></li><li><span class="name">systemd_config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::systemd_config_options</tt></li>
+    <li><span class="name">my_address </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Current server IP Address </p></div></li><li><span class="name">boot_params </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">peer_address </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::peer_address</tt> - <div class="inline"><p> Synchronisation peer Address </p></div></li><li><span class="name">bootmenu_url </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::bootmenu_url</tt> - <div class="inline"><p> URL to use in the bootmenu entries </p></div></li><li><span class="name">ipxebin </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::ipxebin</tt> - <div class="inline"><p> DEPRECATED </p></div></li><li><span class="name">includes </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::includes</tt> - <div class="inline"><p> Hash describing `::iscdhcp::include` resources to create </p></div></li><li><span class="name">dhcp_config </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::dhcp_config</tt> - <div class="inline"><p> Default value for `dhcp_config` parameter of `includes` </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::packages_ensure</tt> - <div class="inline"><p> Target state for `packages`, `present` or `latest`
+(default: `present`) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::config_file</tt> - <div class="inline"><p> Path of the main configuration file (default:
+'/etc/dhcp/dhcpd.conf') </p></div></li><li><span class="name">global_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::global_options</tt> - <div class="inline"><p> Array of options set globally in the main configuration
+file. </p></div></li><li><span class="name">sharednet </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::sharednet</tt> - <div class="inline"><p> Hash describing options for the shared net </p></div></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::default_file</tt> - <div class="inline"><p> Path of the file giving default environment for the
+service (sysconfig or default). </p></div></li><li><span class="name">default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::default_options</tt> - <div class="inline"><p> Content of `default_file` as an array of lines. </p></div></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::service</tt> - <div class="inline"><p> Service Name </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::service_ensure</tt> - <div class="inline"><p> Target state for the service (default: '') </p></div></li><li><span class="name">systemd_config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::systemd_config_file</tt> - <div class="inline"><p> Systemd unit file path for the service </p></div></li><li><span class="name">systemd_config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $iscdhcp::params::systemd_config_options</tt> - <div class="inline"><p> Systemd unit file content for the service,
+this parameter is not merged with the default. </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +141,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:02 2016 by
+  Generated on Thu Dec 15 17:24:00 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

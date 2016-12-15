@@ -107,6 +107,92 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Write the content of a data structure in a configuration file.</p>
+
+<h1>Styles</h1>
+
+<h2>entries</h2>
+
+<p>For <code>ini</code> and <code>keyval</code>, an entry is a structure that can have the following forms:</p>
+
+<p><strong>Direct string</strong>:</p>
+
+<pre class="code ruby"><code class="ruby">&quot;key&quot; =&gt; &quot;value&quot;
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_key'>key</span><span class='op'>=</span><span class='id identifier rubyid_value'>value</span>
+</code></pre>
+
+<p><strong>Commented value</strong>:</p>
+
+<pre class="code ruby"><code class="ruby">&quot;somekey&quot; =&gt; {
+  &quot;comment&quot; =&gt; &quot;Some Comment&quot;,
+  &quot;value&quot;   =&gt; &quot;somevalue&quot;,
+}
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'>#Some Comment
+</span><span class='id identifier rubyid_somekey'>somekey</span><span class='op'>=</span><span class='id identifier rubyid_somevalue'>somevalue</span>
+</code></pre>
+
+<p>Comment can be undefined or ommited.</p>
+
+<h2><code>ini</code>:</h2>
+
+<p><code>data</code> is a hash of sections pointing to an array of entries</p>
+
+<pre class="code ruby"><code class="ruby">&quot;SectionA&quot; =&gt; {
+  &quot;key1&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;a,b,c,d&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered letters&quot;,
+   },
+  &quot;key2&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;1,2,3,4&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered numbers&quot;,
+   }
+},
+&quot;SectionB&quot; =&gt; {
+  &quot;key1&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;a,c,d&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered letters&quot;,
+  },
+  &quot;key3&quot; =&gt; {
+     &quot;value&quot;   =&gt; &quot;1,2&quot;,
+     &quot;comment&quot; =&gt; &quot;Ordered numbers&quot;,
+   },
+}
+</code></pre>
+
+<p>If the separator is <code>=</code>, it will be written as:</p>
+
+<pre class="code ini"><code class="ini">[SectionA]
+#Ordered letters
+key1=a,b,c,d
+#Ordered numbers
+key2=1,2,3,4
+
+[SectionB]
+#Ordered letters
+key1=a,c,d
+#Ordered numbers
+key3=1,2
+
+</code></pre>
+
+<h2><code>keyval</code>:</h2>
+
+<p><code>data</code> is a hash of entries.</p>
+
+<h2><code>linebyline</code>:</h2>
+
+<p><code>data</code> is an array of lines dumped into the file</p>
+
+<h2><code>yaml</code>:</h2>
+
+<p>Dump the content of <code>data</code> as a YAML file.</p>
 </p>
   </div>
 </div>
@@ -125,7 +211,7 @@ One of: ``ini``, ``keyval``, ``linebyline``, ``yaml`` </p></div></li><li><span c
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:00 2016 by
+  Generated on Thu Dec 15 17:23:55 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -104,9 +104,13 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Create all consoles for a role</p>
+
+<p>This resource will create all <code>hpc_conman::server::host_console</code> for the
+machines having the role passed in the title of the resource.</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +121,14 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">type </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">console_prefix </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">console_port </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li>
+    <li><span class="name">type </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Console type, `ipmi` or `telnet` </p></div></li><li><span class="name">console_prefix </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> String to prefix to the hostname to get the console
+device hostname. </p></div></li><li><span class="name">console_port </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Port to use on the console device </p></div></li><li><strike><span class="name">title </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> The name of the role </p></div></strike></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:58 2016 by
+  Generated on Thu Dec 15 17:23:53 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

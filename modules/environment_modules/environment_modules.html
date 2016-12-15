@@ -112,9 +112,17 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Install the &quot;modules&quot; command</p>
+
+<p>By default the options reads the sub-directories:
+- $rootdirmodules/base
+- $rootdirmodules/compiler
+- $rootdirmodules/debugger
+- $rootdirmodules/devel
+- $rootdirmodules/mpi</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +133,10 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::config_file</tt></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::config_options</tt></li><li><span class="name">rootdirmodules </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::rootdirmodules</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::packages</tt> - <div class="inline"><p> Packages list. </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::packages_ensure</tt> - <div class="inline"><p> Packages target state (`installed` or `latest`) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::config_file</tt> - <div class="inline"><p> Absolute path of the configuration file (default:
+depends of the distribution) </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::config_options</tt> - <div class="inline"><p> Content of the configuration file as an array
+, see `hpclib::print_config` </p></div></li><li><span class="name">rootdirmodules </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment_modules::params::rootdirmodules</tt> - <div class="inline"><p> Base directory path for modulefiles. (default:
+depends of the distribution) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +146,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:54 2016 by
+  Generated on Thu Dec 15 17:23:45 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

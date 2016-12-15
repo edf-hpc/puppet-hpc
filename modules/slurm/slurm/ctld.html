@@ -128,12 +128,6 @@ configured if the parameter <code>enable_lua</code> is set to true. The content 
 the script is coming from the <code>files</code> directory on Redhat like
 distribution and from the package <code>slurm-llnl-submit-plugin</code> on Debian
 and derivative distributions.</p>
-
-<p>= Network Topology</p>
-
-<p>The network topology file is activated if the <code>$enable_topology</code> is
-true. The content of the file should be provided line by line as the
-<code>$topology_options</code> parameter</p>
 </p>
   </div>
 </div>
@@ -145,10 +139,9 @@ true. The content of the file should be provided line by line as the
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">config_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::config_manage</tt> - <div class="inline"><p> Write the configuration files (default: true) </p></div></li><li><span class="name">enable_topology </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::enable_topology</tt> - <div class="inline"><p> Enable the topology configuration file
-(default: true) </p></div></li><li><span class="name">enable_lua </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::enable_lua</tt> - <div class="inline"><p> Enable the lua job submit script
+    <li><span class="name">config_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::config_manage</tt> - <div class="inline"><p> Write the configuration files (default: true) </p></div></li><li><span class="name">enable_lua </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::enable_lua</tt> - <div class="inline"><p> Enable the lua job submit script
 (default: true) </p></div></li><li><span class="name">enable_wckeys </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::enable_wckeys</tt> - <div class="inline"><p> Enable the WCkeys check (NOT IMPLEMENTED) </p></div></li><li><span class="name">submit_lua_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::submit_lua_file</tt> - <div class="inline"><p> Destination path of the lua submit script </p></div></li><li><span class="name">submit_lua_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::submit_lua_source</tt> - <div class="inline"><p> Source of the file, package on Debian and
-module on Redhat </p></div></li><li><span class="name">topology_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::topology_file</tt> - <div class="inline"><p> Destination of the network topology file </p></div></li><li><span class="name">topology_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::topology_options</tt> - <div class="inline"><p> Content of the topology file (line array) </p></div></li><li><span class="name">packages_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::packages_manage</tt> - <div class="inline"><p> Let this class installs the packages </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::packages_ensure</tt> - <div class="inline"><p> Install mode (`latest` or `present`) for the
+module on Redhat </p></div></li><li><span class="name">submit_lua_conf </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::submit_lua_conf</tt></li><li><span class="name">submit_lua_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">submit_qos_exec </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::submit_qos_exec</tt></li><li><span class="name">submit_qos_conf </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::submit_qos_conf</tt></li><li><span class="name">wckeys_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::wckeys_dir</tt></li><li><span class="name">wckeysctl_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::wckeysctl_file</tt></li><li><span class="name">wckeys_projets </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::wckeys_projets</tt></li><li><span class="name">wckeys_metiers </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::wckeys_metiers</tt></li><li><span class="name">wckeys_data_files </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">wckeysctl_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li><li><span class="name">packages_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::packages_manage</tt> - <div class="inline"><p> Let this class installs the packages </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::packages_ensure</tt> - <div class="inline"><p> Install mode (`latest` or `present`) for the
 packages (default: `present`) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::packages</tt> - <div class="inline"><p> Array of packages names </p></div></li><li><span class="name">service_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::service_manage</tt> - <div class="inline"><p> Let this class run and enable disable the
 service (default: true) </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::service_ensure</tt> - <div class="inline"><p> Ensure state of the service: `running` or
 `stopped` (default: running) </p></div></li><li><span class="name">service_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::service_enable</tt> - <div class="inline"><p> Service started at boot (default: true) </p></div></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::slurm::ctld::params::service</tt> - <div class="inline"><p> Name of the service </p></div></li>
@@ -156,12 +149,12 @@ service (default: true) </p></div></li><li><span class="name">service_ensure </s
 </div>
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="ctld/config.html" title="slurm::ctld::config (hostclass)">slurm::ctld::config</a></span>, <span class='object_link'><a href="ctld/install.html" title="slurm::ctld::install (hostclass)">slurm::ctld::install</a></span>, <span class='object_link'><a href="ctld/service.html" title="slurm::ctld::service (hostclass)">slurm::ctld::service</a></span></p>
+  <p class="children"><span class='object_link'><a href="ctld/config.html" title="slurm::ctld::config (hostclass)">slurm::ctld::config</a></span>, <span class='object_link'><a href="ctld/service.html" title="slurm::ctld::service (hostclass)">slurm::ctld::service</a></span>, <span class='object_link'><a href="ctld/install.html" title="slurm::ctld::install (hostclass)">slurm::ctld::install</a></span></p>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:18 2016 by
+  Generated on Thu Dec 15 17:24:22 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

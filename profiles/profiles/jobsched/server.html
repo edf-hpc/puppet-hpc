@@ -143,6 +143,10 @@ slurm::dbd::db_options:
 <ul>
 <li>profiles::jobsched::slurm_config_options (<code>hiera_hash</code>) Content of the slurm
     configuration file.</li>
+<li>profiles::jobsched::server::ceph::keys (<code>hiera_hash</code>) Keys to define on this
+    node for CephFS kernel mounts</li>
+<li>profiles::jobsched::server::ceph::mounts (<code>hiera_hash</code>) Mounts to use for
+    CephFS space</li>
 </ul>
 </p>
   </div>
@@ -155,7 +159,7 @@ slurm::dbd::db_options:
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:38 2016 by
+  Generated on Thu Dec 15 17:23:27 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

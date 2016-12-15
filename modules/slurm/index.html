@@ -102,13 +102,13 @@
 
 <h2>Overview</h2>
 
-<p>Install and configure slurm. A job scheduler and resource manager for HPC.</p>
+<p>Install and configure Slurm. A job scheduler and resource manager for HPC.</p>
 
 <h2>Module Description</h2>
 
-<p>This module install <a href="http://slurm.schedmd.com/">slurm</a> and generate a usable
+<p>This module installs <a href="http://slurm.schedmd.com/">Slurm</a> and generates an usable
 configuration. The module is tested to work with the Debian packages published
-by the EDF-HPC team:</p>
+by the EDF-HPC team. The sources with the Debian packaging files can be found at:</p>
 
 <ul>
 <li><a href="https://github.com/edf-hpc/slurm-llnl">Slurm itself</a></li>
@@ -116,7 +116,7 @@ by the EDF-HPC team:</p>
 scripts</a></li>
 </ul>
 
-<p>It sets up all the part of slurm in different classes:</p>
+<p>This module sets up all the components of Slurm in different classes:</p>
 
 <ul>
 <li><code>ctld</code>, for the controller daemon (<code>slurmctld</code>)</li>
@@ -131,12 +131,12 @@ scripts</a></li>
 
 <h3>Setup Requirements</h3>
 
-<p>The modules needs a working authentication mechanism in the cluster. This
+<p>This module needs a working authentication mechanism in the cluster. This
 system is usually <code>munge</code>. It should be setup on every node.</p>
 
 <p>The <code>dbd</code> class needs access to a MySQL database.</p>
 
-<p>The module depends on:</p>
+<p>This module depends on:</p>
 
 <ul>
 <li><code>puppetlabs-stdlib</code></li>
@@ -145,8 +145,8 @@ system is usually <code>munge</code>. It should be setup on every node.</p>
 
 <h3>Beginning with slurm</h3>
 
-<p>You should setup the different components of slurm, nodes generally include one
-or more feature:</p>
+<p>You should setup the different components of Slurm, nodes generally include one
+or more features:</p>
 
 <ul>
 <li><strong>Batch node</strong>, include: <code>client</code>, <code>ctld</code> and <code>dbd</code></li>
@@ -156,20 +156,20 @@ or more feature:</p>
 </ul>
 
 <p>The difference to keep in mind between a submission host and an administration
-node is that the submission host has to have <code>srun</code> prologs. Features can be
+node is that the submission host must have <code>srun</code> prologs. Features can be
 confused on smaller configurations.</p>
 
 <p>It&#39;s possible to separate <code>dbd</code> and <code>ctld</code>.</p>
 
 <p>The main module class (<code>slurm</code>) does not install anything but handles the
-configuration file common to all other classes (<code>slurm.conf</code>).</p>
+configuration file that is common to all other classes (<code>slurm.conf</code>).</p>
 
 <h2>Usage</h2>
 
 <h3>Configuration</h3>
 
 <p>The configuration is built by setting values in the <code>$config_options</code>
-parameter. The values are merged with a default configuration.</p>
+parameter. The values are merged with the default configuration.</p>
 
 <p>The parameter <code>$partitions_options</code> can be used to define the nodes and
 partition.</p>
@@ -196,27 +196,27 @@ partition.</p>
 
 <p>See the <code>hpclib::print_config</code><code>documentation for the</code>$config_options` hash syntax.</p>
 
-<p>Every entries in <code>slurm.conf</code> can be defined, it is also possible to put <code>Include</code> entries.</p>
+<p>Every entry in <code>slurm.conf</code> can be defined, it is also possible to add <code>Include</code> entries.</p>
 
 <h3>Cgroups</h3>
 
 <p>Cgroups are configured in a separate file, only used by the <code>exec</code> class. This
-class provides the parameters to configure the cgroups in slurm. The main
+class provides the parameters to configure the cgroups in Slurm. The main
 parameters are: <code>$enable_cgroup</code> and <code>cgroup_options</code>.</p>
 
 <h2>Limitations</h2>
 
-<p>This module is mainly tested on Debian, but is meant to also work with RHEL and
+<p>This module is mainly tested on Debian, but it is meant to also work with RHEL and
 derivatives.</p>
 
 <h2>Development</h2>
 
-<p>Patches and issues can be submitted on github:
+<p>Patches and issues can be submitted on GitHub:
 <a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:18 2016 by
+  Generated on Thu Dec 15 17:24:22 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

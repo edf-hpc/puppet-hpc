@@ -112,9 +112,32 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Setup standard user environment</p>
+
+<p>This class sets up:
+- system shell configuration (/etc/bash.bashrc and /etc/profile.d)
+- systemd-user-session
+- ssh keys generation script for users
+- MOTD</p>
+
+<h1>MOTD</h1>
+
+<p>The MOTD is in two parts that can be modified independently: info and legal.
+The content is provided as a hash in the <code>motd_content</code> parameter.</p>
+
+<pre class="code ruby"><code class="ruby">motd_content =&gt; {
+  &#39;info&#39; =&gt; [
+    &#39;Welcome to this System&#39;,
+    $::hostname,
+  ],
+  &#39;legal&#39; =&gt; [
+    &#39;No Trespassing&#39;,
+  ],
+}
+</code></pre>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +148,12 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">service_user_session </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::service_user_session</tt></li><li><span class="name">service_user_session_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::service_user_session_options</tt></li><li><span class="name">motd_content </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::motd_content</tt></li><li><span class="name">authorized_users_group </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::authorized_users_group</tt></li><li><span class="name">autogen_key_type </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::autogen_key_type</tt></li><li><span class="name">autogen_key_length </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::autogen_key_length</tt></li><li><span class="name">cluster </span><span class="type">(<tt>Any</tt>)</span></li>
+    <li><span class="name">service_user_session </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::service_user_session</tt> - <div class="inline"><p> Path of the user session service unit (default:
+'/etc/systemd/system/systemd-user-sessions.service') </p></div></li><li><span class="name">service_user_session_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::service_user_session_options</tt> - <div class="inline"><p> Hash with content of the user session
+service unit </p></div></li><li><span class="name">motd_content </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::motd_content</tt> - <div class="inline"><p> Hash with the MOTD content (see above) </p></div></li><li><span class="name">authorized_users_groups </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::authorized_users_groups</tt> - <div class="inline"><p> Comma separated list of groups that can connect
+to this node. </p></div></li><li><span class="name">autogen_key_type </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::autogen_key_type</tt> - <div class="inline"><p> Name of the type of SSH key generated when users logs (
+default: 'rsa') </p></div></li><li><span class="name">autogen_key_length </span><span class="type">(<tt>Any</tt>)</span><tt> => $environment::params::autogen_key_length</tt> - <div class="inline"><p> String representing the length of the generated key in
+bytes (default: '2048') </p></div></li><li><span class="name">cluster </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Name of the cluster used in the SSH key names. </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +163,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:53 2016 by
+  Generated on Thu Dec 15 17:23:44 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

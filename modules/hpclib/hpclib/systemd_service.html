@@ -104,9 +104,30 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>create a systemd unit file</p>
+
+<p>A unit file is created, loaded in systemd and enabled</p>
+
+<pre class="code ruby"><code class="ruby">hpclib::systemd_service{ &#39;foo&#39;:
+  target =&gt; &#39;/etc/systemd/system/foo.service&#39;,
+  config =&gt; {
+    &#39;Unit&#39; =&gt; {
+      &#39;Description&#39; =&gt; &#39;Fooing&#39;,
+    },
+    &#39;Service&#39; =&gt; {
+      &#39;Type&#39;      =&gt; &#39;oneshot&#39;,
+      &#39;KillMode&#39;  =&gt; &#39;process&#39;,
+      &#39;ExecStart&#39; =&gt; &#39;/usr/bin/foo&#39;,
+    },
+    &#39;Install&#39; =&gt; {
+      &#39;WantedBy&#39; =&gt; &#39;multi-user.target&#39;,
+    }
+  }
+}
+</code></pre>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +138,13 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">target </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">config </span><span class="type">(<tt>Any</tt>)</span></li>
+    <li><span class="name">target </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Absolute path of the unit file </p></div></li><li><span class="name">config </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Hash representing the content of the unit file </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:00 2016 by
+  Generated on Thu Dec 15 17:23:55 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

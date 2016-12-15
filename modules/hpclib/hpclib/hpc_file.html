@@ -107,6 +107,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Create a file with an hpc_source_file content</p>
+
+<p>The source can be any source supported by the hpc_source_file function:
+- path
+- URL (http:// or file://)
+- Relative path are module path (like the template function)</p>
 </p>
   </div>
 </div>
@@ -119,13 +124,13 @@
 <div class="tags">
   <ul class="param">
     <li><span class="name">source </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Source(s) of the file (absolute path or URL), can be a
-a single value or an array of values </p></div></li><li><span class="name">target </span><span class="type">(<tt>Any</tt>)</span><tt> => $title</tt> - <div class="inline"><p> Path of the file to write. </p></div></li><li><span class="name">mode </span><span class="type">(<tt>Any</tt>)</span><tt> => '0644'</tt> - <div class="inline"><p> Permissions mode of the file. </p></div></li><li><span class="name">owner </span><span class="type">(<tt>Any</tt>)</span><tt> => 'root'</tt> - <div class="inline"><p> User owner of the file. </p></div></li><li><span class="name">backup </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Save the file before it is replaced. </p></div></li>
+a single value or an array of values </p></div></li><li><span class="name">target </span><span class="type">(<tt>Any</tt>)</span><tt> => $title</tt> - <div class="inline"><p> Path of the file to write. </p></div></li><li><span class="name">mode </span><span class="type">(<tt>Any</tt>)</span><tt> => '0644'</tt> - <div class="inline"><p> Permissions mode of the file. </p></div></li><li><span class="name">owner </span><span class="type">(<tt>Any</tt>)</span><tt> => 'root'</tt> - <div class="inline"><p> User owner of the file. </p></div></li><li><span class="name">group </span><span class="type">(<tt>Any</tt>)</span><tt> => 'root'</tt> - <div class="inline"><p> Group owner of the file. </p></div></li><li><span class="name">backup </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Save the file before it is replaced. </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:50:00 2016 by
+  Generated on Thu Dec 15 17:23:55 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

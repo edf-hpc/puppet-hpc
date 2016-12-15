@@ -112,11 +112,7 @@
 
 <h3>What flexlm affects</h3>
 
-<ul>
-<li>The flexlm unit file for the specific vendor used by systemd</li>
-<li>The user running the flexlm service</li>
-<li>The log file of the flexlm service </li>
-</ul>
+<p>Installs a flexlm server and sets up a license file.</p>
 
 <h3>Setup Requirements</h3>
 
@@ -126,21 +122,14 @@
 
 <h2>Usage</h2>
 
-<ul>
-<li>Include the class <code>flexlm::params</code></li>
-<li>Define a flexlm server for a vendor with the resource <code>flexlm::service</code></li>
-</ul>
-
-<pre class="code ruby"><code class="ruby">  include flexlm::params
-  flexlm::service { &#39;intel&#39;:
-    binary_path     =&gt; $intel_binary_path,
-    license_path    =&gt; $intel_license_path,
-    vendor_name     =&gt; &#39;intel&#39;,
-    user_home       =&gt; $intel_user_home,
-    systemd_config  =&gt; $intel_systemd_config,
-    systemd_service =&gt; $intel_systemd_service,
+<p>Include the class:
+<code>
+  class{ &#39;::flexlm&#39;:
+    license_path     =&gt; &#39;/opt/intel/server.lic&#39;,
+    license_path_src =&gt; &#39;http://server/intel/server.lic.enc&#39;,
+    decrypt_password =&gt; &#39;passw0rd&#39; 
   }
-</code></pre>
+</code></p>
 
 <h2>Limitations</h2>
 
@@ -149,12 +138,12 @@ derivatives.</p>
 
 <h2>Development</h2>
 
-<p>Patches and issues can be submitted on github:
+<p>Patches and issues can be submitted on GitHub:
 <a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:55 2016 by
+  Generated on Thu Dec 15 17:23:46 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

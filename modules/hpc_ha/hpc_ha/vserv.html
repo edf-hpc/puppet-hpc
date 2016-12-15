@@ -104,9 +104,27 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Configure a Virtual Server</p>
+
+<h1>LoadBalancing algorithms</h1>
+
+<h2>Algorithm</h2>
+
+<ul>
+<li><code>rr</code>: Round-Robin</li>
+<li><code>lc</code>: Least-Connection</li>
+</ul>
+
+<h2>Method</h2>
+
+<ul>
+<li><code>DR</code>: Direct-Routing</li>
+<li><code>NAT</code>: Network Address Translation</li>
+<li><code>TUN</code>: Tunneling</li>
+</ul>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -117,13 +135,16 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">ip_address </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">real_server_hosts </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">lb_algo </span><span class="type">(<tt>Any</tt>)</span><tt> => 'rr'</tt></li><li><span class="name">lb_kind </span><span class="type">(<tt>Any</tt>)</span><tt> => 'DR'</tt></li><li><span class="name">delay_loop </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">persistence_timeout </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li><li><span class="name">protocol </span><span class="type">(<tt>Any</tt>)</span><tt> => 'TCP'</tt></li><li><span class="name">vip_name </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt></li>
+    <li><span class="name">ip_address </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> IP address of the virtual server </p></div></li><li><span class="name">port </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Port the virtual server listens on </p></div></li><li><span class="name">real_server_hosts </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Hosts with the real servers to check </p></div></li><li><span class="name">prefixes </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Prefix to add to the real_server_hosts to known the
+hostnames to actually check </p></div></li><li><span class="name">network </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> DEPRECATED unused </p></div></li><li><span class="name">options </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Options for the real server checks </p></div></li><li><span class="name">lb_algo </span><span class="type">(<tt>Any</tt>)</span><tt> => 'rr'</tt> - <div class="inline"><p> Load balancing algorithm (default: `rr`) </p></div></li><li><span class="name">lb_kind </span><span class="type">(<tt>Any</tt>)</span><tt> => 'DR'</tt> - <div class="inline"><p> Load balancing method (default: `DR`) </p></div></li><li><span class="name">delay_loop </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_ha::params::delay_loop</tt> - <div class="inline"><p> Interval between checks in seconds </p></div></li><li><span class="name">persistence_timeout </span><span class="type">(<tt>Any</tt>)</span><tt> => $::hpc_ha::params::persistence_timeout</tt> - <div class="inline"><p> Every reconnection inside this interval
+will use the same real server regardless of the load
+balancing algorithm </p></div></li><li><span class="name">protocol </span><span class="type">(<tt>Any</tt>)</span><tt> => 'TCP'</tt></li><li><span class="name">vip_name </span><span class="type">(<tt>Any</tt>)</span><tt> => undef</tt> - <div class="inline"><p> Name of the `hpc_ha::vip` resource </p></div></li><li><strike><span class="name">protocolor </span><span class="type">(<tt>'UDP''TCP'default: 'TCP'</tt>)</span> - <div class="inline"><p>  </p></div></strike></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 18 08:49:59 2016 by
+  Generated on Thu Dec 15 17:23:54 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
