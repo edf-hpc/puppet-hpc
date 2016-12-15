@@ -169,9 +169,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="205.57902"
-     inkscape:cy="139.89427"
+     inkscape:zoom="2.8"
+     inkscape:cx="124.97997"
+     inkscape:cy="92.024032"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -320,15 +320,15 @@
     <text
        id="text3657"
        y="-360"
-       x="557.36218"
+       x="567.36218"
        style="font-size:40px;font-style:normal;font-weight:normal;fill:#44a833;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
        xml:space="preserve"
        transform="matrix(0,1,-1,0,0,0)"><tspan
          style="font-size:14px;fill:#44a833;fill-opacity:1"
          y="-360"
-         x="557.36218"
+         x="567.36218"
          id="tspan3659"
-         sodipodi:role="line">hiera data levels</tspan></text>
+         sodipodi:role="line">hiera layers</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotS);marker-end:url(#Arrow1Mend)"
        d="m 165,582.36218 0,15"
