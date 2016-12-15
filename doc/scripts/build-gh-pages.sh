@@ -1,5 +1,5 @@
 #!/bin/bash
-docdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+docdir="$(dirname $(dirname $(readlink -f ${BASH_SOURCE[0]})))"
 
 puppet_hpc_current_git="$(dirname "${docdir}")" 
 
@@ -20,8 +20,8 @@ mkdir ${docdir}/gh-pages/modules
   cd ${docdir}
   make
 
-  cp PuppetHPCConfiguration.html ${docdir}/gh-pages/PuppetHPCConfiguration.html
-  cp PuppetHPCConfiguration.pdf ${docdir}/gh-pages/PuppetHPCConfiguration.pdf
+  cp puppet_hpc_reference-0.1.html ${docdir}/gh-pages/puppet_hpc_reference-0.1.html
+  cp puppet_hpc_reference-0.1.pdf ${docdir}/gh-pages/puppet_hpc_reference-0.1.pdf
 )
 
 module_list="$(find "${puppet_hpc_dir}/puppet-config/modules" -mindepth 1 -maxdepth 1 -name '[^.]*' -type d -printf '%f\n' |sort)"
@@ -74,8 +74,8 @@ a:hover { text-decoration: none; color: #C00; background: #FC0; }
   <ul>
   <li> Puppet HPC Configuration </li>
     <ul>
-    <li><a href="PuppetHPCConfiguration.html">HTML</a></li>
-    <li><a href="PuppetHPCConfiguration.pdf">PDF</a></li>
+    <li><a href="puppet_hpc_reference-0.1.html">HTML</a></li>
+    <li><a href="puppet_hpc_reference-0.1.pdf">PDF</a></li>
     </ul>
   <br/>
 
