@@ -26,4 +26,6 @@ class profiles::ha::base {
     vip_notify_scripts => $vip_notify_scripts,
     vservs             => $vservs,
   }
+
+  Network::Print_config <||> ~> Service <| tag == 'keepalived' |>
 }
