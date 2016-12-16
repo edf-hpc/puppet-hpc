@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Installs and configure cce_* commands</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +126,7 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::packages_ensure</tt></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::default_file</tt></li><li><span class="name">default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::default_options</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::packages</tt> - <div class="inline"><p> Array of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::packages_ensure</tt> - <div class="inline"><p> Target state of the installed packages (default: latest) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $cce::params::config_file</tt> - <div class="inline"><p> Path of the configuration file (default: '/etc/cce/cce.conf') </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Hash with the content of `config_file` (merged with defaults) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +136,7 @@
 </div>
 
     <div id="footer">
-  Generated on Thu Dec 15 18:56:10 2016 by
+  Generated on Fri Dec 16 17:40:31 2016 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
