@@ -38,4 +38,6 @@ class hpc_ha (
   class { '::hpc_ha::service': } ->
   anchor { 'hpc_ha::end': }
 
+  ::Hpc_ha::Vip_notify_script<| |> -> Class['::hpc_ha::service']
+
 }
