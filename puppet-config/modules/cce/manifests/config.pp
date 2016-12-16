@@ -15,10 +15,9 @@
 
 class cce::config inherits cce {
 
-  file { $::cce::default_file :
-    ensure  => present,
-    content => template('cce/cce_conf.erb'),
-    require => Package[$::cce::packages],
+  hpclib::print_config { $::cce::config_file:
+    style => 'keyval',
+    data  => $::cce::_config_options,
   }
 
 }
