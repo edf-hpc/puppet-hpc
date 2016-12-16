@@ -15,16 +15,9 @@
 
 # Installs and configure CCE (Common Commands EDF)
 #
-# ## Hiera
-# * `profiles::environment::cce::default_options` (`hiera_hash`)
+# # Relevant autolookup
+#
+# - `cce::config_options` Options for CCE
 class profiles::environment::cce {
-
-  ## Hiera lookups
-
-  $default_options = hiera_hash('profiles::environment::cce::default_options')
-
-  # Pass config options as a class parameter
-  class { '::cce':
-    default_options => $default_options,
-  }
+  include ::cce
 }
