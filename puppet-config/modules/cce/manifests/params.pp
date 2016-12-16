@@ -15,29 +15,33 @@
 
 class cce::params {
 
-#### Module variables
-
   $packages_ensure = 'latest'
   $packages        = ['cce-command-suite']
-  $default_file    = '/etc/default/cce.conf'
+  $config_file     = '/etc/cce/cce.conf'
 
-#### Defaults values
-  $default_options = {
-    pathbatch           => '/usr/bin',
-    typenni             => 'toupper',
-    qoshidden           => 'none',
-    parthidden          => 'none',
-    typecluster         => 'normal',
-    cce_mpp_mod         => 'on',
-    cce_mpinfo_mod      => 'on',
-    cce_mqinfo_mod      => 'on',
-    cce_mpp_mod         => 'on',
-    cce_myaccount_mod   => 'off',
-    cce_quota_mod       => 'off',
-    cce_quota_info      => '',
-    cce_quota_listvol   => '',
-    cce_user_mod        => 'off'
+  $config_options_defaults = {
+    'clustername'       => 'cluster',
+    'batchname'         => 'slurm',
+    'versionbatch'      => '16.05.6',
+    #Usernames are upper or lower cased
+    'typenni'           => 'tolower',
+    'qoshidden'         => 'none',
+    'parthidden'        => 'none',
+    # Cluster type can be: normal, bluegen. It can't be left empty.
+    'typecluster'       => 'normal',
+    'enable_cce_mpp'    => 'on',
+    'enable_cce_mpinfo' => 'on',
+    'enable_cce_mqinfo' => 'on',
+    'enable_cce_quota'  => 'off',
+    # Define quota def  nomfs:type:typequota:visiblename
+    # nomfs       => Name of file system
+    # type        => nfs / lustre / gpfs
+    # typequota   => uquota ( quota users ) / prjquota ( quota projects ) / volquota ( only nfs quota volume ) / filesetuquota ( gpfs ) / notsetquota
+    # visiblename => Name of Volume print
+    #listofvolume=""
+    # info        => Print information message
+    #info=""
+    'enable_cce_user'   => 'off',
   }
-
 
 }

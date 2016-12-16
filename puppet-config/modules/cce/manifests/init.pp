@@ -13,17 +13,26 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure cce_* commands
+#
+# @param packages Array of packages to install
+# @param packages_ensure Target state of the installed packages (default: latest)
+# @param config_file Path of the configuration file (default: '/etc/cce/cce.conf')
+# @param config_options Hash with the content of `config_file` (merged with defaults)
 class cce (
   $packages         = $cce::params::packages,
   $packages_ensure  = $cce::params::packages_ensure,
-  $default_file     = $cce::params::default_file,
-  $default_options  = $cce::params::default_options,
+  $config_file      = $cce::params::config_file,
+  $config_options   = {},
 ) inherits cce::params {
 
   validate_array($packages)
   validate_string($packages_ensure)
-  validate_absolute_path($default_file)
-  validate_hash($default_options)
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
+
+  $_config_options=deep_merge($cce::params::config_options_defaults, $config_options)
+
 
   anchor { 'cce::begin': } ->
   class { '::cce::install': } ->
