@@ -13,33 +13,30 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Install the environment necessary for any node in the userspace
-#
-# ## Hiera
-# * `profiles::environment::userspace::packages`
-# * `profiles::environment::userspace::gid`
-# * `profiles::environment::userspace::hidepid`
-class profiles::environment::userspace {
+class aufs::params {
+  #### Module variables
+  $service         = 'aufs'
+  $service_ensure  = running
+  $service_enable  = true
 
-  ## Hiera lookups
-  $packages = hiera_array('profiles::environment::userspace::packages', [])
-  $gid      = hiera('profiles::environment::userspace::gid')
-  $hidepid  = hiera('profiles::environment::userspace::hidepid')
-  $aufsbranch = hiera('profiles::environment::userspace::aufs_branch', undef)
-
-  class { '::base':
-    packages => $packages,
-  }
-
-  ## Hide processes from other users
-  class { '::hidepid':
-    gid     => $gid,
-    hidepid => $hidepid,
-    stage   => 'last',
-  }
-
-  if $aufsbranch {
-    class { '::aufs' : }
+  $branch_name = hiera('profiles::environment::userspace::aufs_branch')
+  $service_file = "/etc/systemd/system/${service}.service"
+  $service_options_defaults = {
+    'Unit'    => {
+      'Description' => 'Appends an additional branch into loaded aufs',
+      'After'       => 'remote-fs.target network.target',
+    },
+    'Service' => {
+      'Type'         => 'oneshot',
+      'ExecStartPre' => "/usr/bin/stat $branch_name",
+      'RestartSec'   => '5s',
+      'RemainAfterExit' => 'yes',
+      'ExecStart'    => "/bin/sh -c \"grep -q '$branch_name' /sys/fs/aufs/si_*/br* || mount -t aufs -o remount,append:$branch_name none /\"",
+      'ExecStop'     => "/bin/sh -c \"grep -v -q '$branch_name' /sys/fs/aufs/si_*/br* || mount -t aufs -o remount,del:$branch_name none /\"",
+    },
+    'Install' => {
+      'WantedBy'    => 'multi-user.target',
+    },
   }
 
 }

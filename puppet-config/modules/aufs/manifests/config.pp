@@ -13,33 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Install the environment necessary for any node in the userspace
-#
-# ## Hiera
-# * `profiles::environment::userspace::packages`
-# * `profiles::environment::userspace::gid`
-# * `profiles::environment::userspace::hidepid`
-class profiles::environment::userspace {
-
-  ## Hiera lookups
-  $packages = hiera_array('profiles::environment::userspace::packages', [])
-  $gid      = hiera('profiles::environment::userspace::gid')
-  $hidepid  = hiera('profiles::environment::userspace::hidepid')
-  $aufsbranch = hiera('profiles::environment::userspace::aufs_branch', undef)
-
-  class { '::base':
-    packages => $packages,
+class aufs::config inherits aufs {
+  hpclib::systemd_service { $::aufs::service:
+    target => $::aufs::service_file,
+    config => $::aufs::_service_options,
   }
-
-  ## Hide processes from other users
-  class { '::hidepid':
-    gid     => $gid,
-    hidepid => $hidepid,
-    stage   => 'last',
-  }
-
-  if $aufsbranch {
-    class { '::aufs' : }
-  }
-
 }
