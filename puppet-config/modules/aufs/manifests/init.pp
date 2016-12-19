@@ -13,33 +13,28 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Install the environment necessary for any node in the userspace
+# Adds a branch to loaded aufs
 #
-# ## Hiera
-# * `profiles::environment::userspace::packages`
-# * `profiles::environment::userspace::gid`
-# * `profiles::environment::userspace::hidepid`
-class profiles::environment::userspace {
+# @param service         Name of the service to manage (default: 'aufs')
+# @param service_ensure  Target state for the service (default: 'running')
+# @param service_enable  The service starts at boot time (default: true)
+# @param branch_name     Name of branch to add
+class aufs (
+  $service         = $::aufs::params::service,
+  $service_ensure  = $::aufs::params::service_ensure,
+  $service_enable  = $::aufs::params::service_enable,
+  $service_options = {},
+) inherits aufs::params {
 
-  ## Hiera lookups
-  $packages = hiera_array('profiles::environment::userspace::packages', [])
-  $gid      = hiera('profiles::environment::userspace::gid')
-  $hidepid  = hiera('profiles::environment::userspace::hidepid')
-  $aufsbranch = hiera('profiles::environment::userspace::aufs_branch', undef)
+  validate_string($service)
+  validate_string($service_ensure)
+  validate_bool($service_enable)
+  validate_hash($service_options)
 
-  class { '::base':
-    packages => $packages,
-  }
+  $_service_options = deep_merge($::aufs::params::service_options_defaults, $service_options)
 
-  ## Hide processes from other users
-  class { '::hidepid':
-    gid     => $gid,
-    hidepid => $hidepid,
-    stage   => 'last',
-  }
-
-  if $aufsbranch {
-    class { '::aufs' : }
-  }
-
+  anchor { 'aufs::begin': } ->
+  class { '::aufs::config': } ->
+  class { '::aufs::service': } ->
+  anchor { 'aufs::end': }
 }
