@@ -30,7 +30,7 @@ class profiles::log::server {
 
   # Pass config options as a class parameter
   class { '::rsyslog::server':
-    server_dir    => $server_dir,
+    server_dir    => "$server_dir/",
     custom_config => $custom_config,
   }
   logrotate::rule { 'remotelog':
