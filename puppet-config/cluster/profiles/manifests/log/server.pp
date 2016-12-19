@@ -49,4 +49,9 @@ class profiles::log::server {
     postrotate    => 'invoke-rc.d rsyslog rotate > /dev/null',
   }
 
+  # server_dir may be an NFS-mounted directory. In order to avoid writing
+  # logs in the void, ::rsyslog::server must not be configured and restarted
+  # before NFS mount is ready.
+  Mount <| tag == 'nfs' |> -> Class['::rsyslog::server']
+
 }
