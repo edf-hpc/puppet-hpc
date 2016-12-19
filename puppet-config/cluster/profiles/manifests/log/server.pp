@@ -34,7 +34,7 @@ class profiles::log::server {
     custom_config => $custom_config,
   }
   logrotate::rule { 'remotelog':
-    path          => "${server_dir}*/*",
+    path          => "${server_dir}/*/*",
     compress      => true,
     missingok     => true,
     firstaction   => $firstaction,
