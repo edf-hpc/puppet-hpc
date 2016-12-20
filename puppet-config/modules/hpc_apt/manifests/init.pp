@@ -15,12 +15,12 @@
 
 
 # Set apt configuration
-# 
+#
 # In a separate class to set the stage.
 #
-# @param sources APT sources as defined by `apt::sources`
-# @param confs   APT configs as defined by `apt::conf`
-# @param foreign_arch Foreign architecture t add to dpkg config
+# @param sources      APT sources as defined by `apt::sources`
+# @param confs        APT configs as defined by `apt::conf`
+# @param foreign_arch Foreign architecture to add to dpkg config
 class hpc_apt (
   $confs        = {},
   $sources      = {},
