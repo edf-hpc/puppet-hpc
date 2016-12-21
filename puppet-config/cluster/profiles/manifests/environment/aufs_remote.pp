@@ -13,28 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Install the environment necessary for any node in the userspace
-#
-# ## Hiera
-# * `profiles::environment::userspace::packages`
-# * `profiles::environment::userspace::gid`
-# * `profiles::environment::userspace::hidepid`
-class profiles::environment::userspace {
-
-  ## Hiera lookups
-  $packages = hiera_array('profiles::environment::userspace::packages', [])
-  $gid      = hiera('profiles::environment::userspace::gid')
-  $hidepid  = hiera('profiles::environment::userspace::hidepid')
-
-  class { '::base':
-    packages => $packages,
-  }
-
-  ## Hide processes from other users
-  class { '::hidepid':
-    gid     => $gid,
-    hidepid => $hidepid,
-    stage   => 'last',
-  }
-
+# Configure a remote aufs branch on some system directories
+class profiles::environment::aufs_remote {
+  include ::aufs
+  # fstab modifications must be done before gpfs service starts
+  Class [ '::aufs::config' ] -> Class [ '::gpfs::client::service' ]
 }
