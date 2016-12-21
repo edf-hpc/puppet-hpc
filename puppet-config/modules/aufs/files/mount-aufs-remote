@@ -1,0 +1,60 @@
+#!/bin/bash
+##########################################################################
+#  aufs-remote service script file                                       #
+#                                                                        #
+#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+#
+# Try to mount /usr/bin and /usr/share until it works
+#
+# This script relies on usr-bin.mount and usr-share.mount units being
+# defined (unit files or /etc/fstab).
+# 
+# In puppet-hpc, this is done by the aufs class.
+#
+function wait_mount() {
+  mount_unit="$1"
+  echo "Trying to start mount unit ${mount_unit}"
+  while true
+  do
+    systemctl start ${mount_unit}
+    status="$?"
+    case "${status}" in
+      0)
+        echo "Unit ${mount_unit} successfully started."
+        break
+        ;;
+      6)
+        echo "Unit ${mount_unit} does not exists."
+        exit 1
+        ;;
+      *)
+        sleep 5
+        ;;
+    esac
+  done
+}
+
+# Clean double overlay
+# this is a workaround an issue that should be fixed in live-boot 
+root_overlay_count="$(mount |grep -w /lib/live/mount/overlay | wc -l)"
+if [[ "x${root_overlay_count}" == "x2" ]] 
+then
+  echo "Umount /lib/live/mount/overlay"
+  umount /lib/live/mount/overlay
+else
+  echo "Not necessary to umount /lib/live/mount/overlay"
+fi
+
+wait_mount usr-bin.mount
+wait_mount usr-share.mount
+
