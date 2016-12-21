@@ -13,33 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class aufs::params {
-  #### Module variables
-  $service_name    = 'aufs-remote'
-  $service_ensure  = running
-  $service_enable  = true
-
-  $packages = [ 'aufs-tools' ]
-  $packages_ensure = 'installed'
-
-  $script_file = '/usr/local/sbin/mount-aufs-remote'
-
-  $overlay_dir  = '/lib/live/mount/overlay'
-
-  $service_file = "/etc/systemd/system/${service_name}.service"
-  $service_options_defaults = {
-    'Unit'    => {
-      'Description' => 'Mount remote parts of the aufs system',
-      'After'       => 'remote-fs.target network-online.target',
-    },
-    'Service' => {
-      'Type'            => 'simple',
-      'RemainAfterExit' => 'yes',
-      'ExecStart'       => $script_file,
-    },
-    'Install' => {
-      'WantedBy'    => 'multi-user.target',
-    },
+class aufs::install inherits aufs {
+  package { $::aufs::packages :
+    ensure  => $::aufs::packages_ensure,
   }
 
+  file { $::aufs::script_file :
+    source => 'puppet:///modules/aufs/mount-aufs-remote',
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+  hpclib::systemd_service { $::aufs::service_name:
+    target => $::aufs::service_file,
+    config => $::aufs::_service_options,
+  }
 }

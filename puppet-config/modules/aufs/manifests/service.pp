@@ -14,8 +14,8 @@
 ##########################################################################
 
 class aufs::service inherits aufs {
-  service { $::aufs::service :
-    ensure  => $::aufs::service_ensure,
-    enable  => $::aufs::service_enable,
+  service { $::aufs::service_name :
+    ensure => $::aufs::service_ensure,
+    enable => $::aufs::service_enable,
   }
 }
