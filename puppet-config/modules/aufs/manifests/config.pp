@@ -27,10 +27,10 @@ class aufs::config inherits aufs {
   $fs_options = 'noauto,udba=none,x-systemd.requires-mount-for=${::aufs::chroot_dir},noatime,nodiratime,noxino'
 
   $usr_bin_options = "br=${::aufs::overlay_dir}${fs_usr_bin}:${::aufs::squashfs_dir}${fs_usr_bin}:${::aufs::chroot_dir}${fs_usr_bin}=rr,${fs_options}"
-  $usr_share_apps_options = "br=${::aufs::overlay_dir}${fs_usr_shareapps}:${::aufs::squashfs_dir}${fs_usr_shareapps}:${::aufs::chroot_dir}${fs_apps}=rr,${fs_options}"
-  $usr_share_pixmaps_options = "br=${::aufs::overlay_dir}${fs_usr_sharepixmaps}:${::aufs::squashfs_dir}${fs_usr_sharepixmaps}:${::aufs::chroot_dir}${fs_usr_sharepixmaps}=rr,${fs_options}"
-  $usr_share_doc_options = "br=${::aufs::overlay_dir}${fs_usr_sharedoc}:${::aufs::squashfs_dir}${fs_usr_sharedoc}:${::aufs::chroot_dir}${fs_usr_sharedoc}=rr,${fs_options}"
-  $usr_share_man_options = "br=${::aufs::overlay_dir}${fs_usr_shareman}:${::aufs::squashfs_dir}${fs_usr_shareman}:${::aufs::chroot_dir}${fs_usr_shareman}=rr,${fs_options}"
+  $usr_share_apps_options = "br=${::aufs::overlay_dir}${fs_usr_share_apps}:${::aufs::squashfs_dir}${fs_usr_share_apps}:${::aufs::chroot_dir}${fs_usr_share_apps}=rr,${fs_options}"
+  $usr_share_pixmaps_options = "br=${::aufs::overlay_dir}${fs_usr_share_pixmaps}:${::aufs::squashfs_dir}${fs_usr_share_pixmaps}:${::aufs::chroot_dir}${fs_usr_share_pixmaps}=rr,${fs_options}"
+  $usr_share_doc_options = "br=${::aufs::overlay_dir}${fs_usr_share_doc}:${::aufs::squashfs_dir}${fs_usr_share_doc}:${::aufs::chroot_dir}${fs_usr_share_doc}=rr,${fs_options}"
+  $usr_share_man_options = "br=${::aufs::overlay_dir}${fs_usr_share_man}:${::aufs::squashfs_dir}${fs_usr_share_man}:${::aufs::chroot_dir}${fs_usr_share_man}=rr,${fs_options}"
 
   mount { $fs_usr_bin :
     ensure  => present,
