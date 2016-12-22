@@ -17,10 +17,22 @@ class aufs::config inherits aufs {
   # Mounts are defined but not activated, this is done by the service.
   #   x-systemd.requires-mount-for: systemctl start will refuse to start if mount for this
   #                                 path are not there
-  $usr_bin_options = "noauto,br=${::aufs::overlay_dir}/usr/bin:${::aufs::squashfs_dir}/usr/bin:${::aufs::chroot_dir}/usr/bin,x-systemd.requires-mount-for=${::aufs::chroot_dir}"
-  $usr_share_options = "noauto,br=${::aufs::overlay_dir}/usr/share:${::aufs::squashfs_dir}/usr/share:${::aufs::chroot_dir}/usr/share,x-systemd.requires-mount-for=${::aufs::chroot_dir}"
 
-  mount { '/usr/bin':
+  $fs_usr_bin = '/usr/bin'
+  $fs_usr_share_apps = '/usr/share/applications'
+  $fs_usr_share_pixmaps = '/usr/share/pixmaps'
+  $fs_usr_share_doc = '/usr/share/man'
+  $fs_usr_share_man = '/usr/share/doc'
+
+  $fs_options = 'noauto,udba=none,x-systemd.requires-mount-for=${::aufs::chroot_dir},noatime,nodiratime,noxino'
+
+  $usr_bin_options = "br=${::aufs::overlay_dir}${fs_usr_bin}:${::aufs::squashfs_dir}${fs_usr_bin}:${::aufs::chroot_dir}${fs_usr_bin}=rr,${fs_options}"
+  $usr_share_apps_options = "br=${::aufs::overlay_dir}${fs_usr_shareapps}:${::aufs::squashfs_dir}${fs_usr_shareapps}:${::aufs::chroot_dir}${fs_apps}=rr,${fs_options}"
+  $usr_share_pixmaps_options = "br=${::aufs::overlay_dir}${fs_usr_sharepixmaps}:${::aufs::squashfs_dir}${fs_usr_sharepixmaps}:${::aufs::chroot_dir}${fs_usr_sharepixmaps}=rr,${fs_options}"
+  $usr_share_doc_options = "br=${::aufs::overlay_dir}${fs_usr_sharedoc}:${::aufs::squashfs_dir}${fs_usr_sharedoc}:${::aufs::chroot_dir}${fs_usr_sharedoc}=rr,${fs_options}"
+  $usr_share_man_options = "br=${::aufs::overlay_dir}${fs_usr_shareman}:${::aufs::squashfs_dir}${fs_usr_shareman}:${::aufs::chroot_dir}${fs_usr_shareman}=rr,${fs_options}"
+
+  mount { $fs_usr_bin :
     ensure  => present,
     device  => 'none',
     fstype  => 'aufs',
@@ -28,17 +40,41 @@ class aufs::config inherits aufs {
     atboot  => false,
   }
 
-  mount { '/usr/share':
+  mount { $fs_usr_share_apps :
     ensure  => present,
     device  => 'none',
     fstype  => 'aufs',
-    options => $usr_share_options,
+    options => $usr_share_apps_options,
+    atboot  => false,
+  }
+
+  mount { $fs_usr_share_pixmaps :
+    ensure  => present,
+    device  => 'none',
+    fstype  => 'aufs',
+    options => $usr_share_pixmaps_options,
+    atboot  => false,
+  }
+
+  mount { $fs_usr_share_doc :
+    ensure  => present,
+    device  => 'none',
+    fstype  => 'aufs',
+    options => $usr_share_doc_options,
+    atboot  => false,
+  }
+
+  mount { $fs_usr_share_man :
+    ensure  => present,
+    device  => 'none',
+    fstype  => 'aufs',
+    options => $usr_share_pixmaps_options,
     atboot  => false,
   }
 
   exec { 'aufs_config_systemd_daemon_reload':
     command     => '/bin/systemctl daemon-reload',
     refreshonly => true,
-    subscribe   => Mount[ '/usr/share', '/usr/bin' ]
+    subscribe   => Mount[ $fs_usr_bin, $fs_usr_share_apps, $fs_usr_share_man, $fs_usr_share_doc ]
   }
 }
