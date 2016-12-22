@@ -68,7 +68,7 @@ class aufs::config inherits aufs {
     ensure  => present,
     device  => 'none',
     fstype  => 'aufs',
-    options => $usr_share_pixmaps_options,
+    options => $usr_share_man_options,
     atboot  => false,
   }
 
