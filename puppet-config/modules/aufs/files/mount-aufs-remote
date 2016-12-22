@@ -14,9 +14,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 #
-# Try to mount /usr/bin and /usr/share until it works
+# Try to mount /usr/bin and /usr/share/{applications,pixmaps,man,doc} until
+# it works
 #
-# This script relies on usr-bin.mount and usr-share.mount units being
+# This script relies on usr-bin.mount and usr-share-*.mount units being
 # defined (unit files or /etc/fstab).
 # 
 # In puppet-hpc, this is done by the aufs class.
@@ -56,5 +57,8 @@ else
 fi
 
 wait_mount usr-bin.mount
-wait_mount usr-share.mount
+wait_mount usr-share-applications.mount
+wait_mount usr-share-pixmaps.mount
+wait_mount usr-share-doc.mount
+wait_mount usr-share-man.mount
 
