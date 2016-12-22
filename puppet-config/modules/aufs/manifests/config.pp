@@ -24,7 +24,7 @@ class aufs::config inherits aufs {
   $fs_usr_share_doc = '/usr/share/man'
   $fs_usr_share_man = '/usr/share/doc'
 
-  $fs_options = 'noauto,udba=none,x-systemd.requires-mount-for=${::aufs::chroot_dir},noatime,nodiratime,noxino'
+  $fs_options = "noauto,udba=none,x-systemd.requires-mount-for=${::aufs::chroot_dir},noatime,nodiratime,noxino"
 
   $usr_bin_options = "br=${::aufs::overlay_dir}${fs_usr_bin}:${::aufs::squashfs_dir}${fs_usr_bin}:${::aufs::chroot_dir}${fs_usr_bin}=rr,${fs_options}"
   $usr_share_apps_options = "br=${::aufs::overlay_dir}${fs_usr_share_apps}:${::aufs::squashfs_dir}${fs_usr_share_apps}:${::aufs::chroot_dir}${fs_usr_share_apps}=rr,${fs_options}"
