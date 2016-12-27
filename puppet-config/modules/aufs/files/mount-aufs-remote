@@ -56,9 +56,14 @@ else
   echo "Not necessary to umount /lib/live/mount/overlay"
 fi
 
+mkdir -p /lib/live/mount/overlay/usr/bin
 wait_mount usr-bin.mount
+mkdir -p /lib/live/mount/overlay/usr/share/applications
 wait_mount usr-share-applications.mount
+mkdir -p /lib/live/mount/overlay/usr/share/pixmaps
 wait_mount usr-share-pixmaps.mount
+mkdir -p /lib/live/mount/overlay/usr/share/doc
 wait_mount usr-share-doc.mount
+mkdir -p /lib/live/mount/overlay/usr/share/man
 wait_mount usr-share-man.mount
 
