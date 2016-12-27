@@ -18,6 +18,8 @@
 # This profile lets you define file system mounts in hiera. It only
 # defines the mounts and does not handle creating the mount points.
 #
+# Mounts are done in the first stage, they should not depend on anything.
+#
 # NFS mounts should be handled by `profiles::nfs::mounts`.
 #
 # ## Hiera
@@ -30,6 +32,8 @@ class profiles::filesystem::mounts {
 
   # Mount all the specified directories
   debug("File systems to mount: ${to_mount}")
-  create_resources('mount', $to_mount)
-
+  class{ '::filesystem::mounts':
+    mounts => $to_mount,
+    stage  => first,
+  }
 }
