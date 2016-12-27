@@ -24,8 +24,9 @@ class ssmtp::params {
 
   #### Default variables
   $config_options_default = {
-    'mailhub'       => '',
-    'rewritedomain' => '',
+    'mailhub'          => '',
+    'rewritedomain'    => '',
+    'fromlineoverride' => '',
   }
 
 }

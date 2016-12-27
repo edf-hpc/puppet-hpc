@@ -43,6 +43,7 @@ dns::client::options:
 profiles::ssmtp::config_options:
   mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
   rewritedomain: "%{::hostname}.%{hiera('domain')}"
+  fromlineoverride: "no"
 
 ##### POSTFIX
 profiles::postfix::relay::config_options:
