@@ -37,13 +37,9 @@ class profiles::filesystem::directories {
   # Hiera lookups
   $dirs = hiera_hash('profiles::filesystem::directories')
 
-  $defaults = {
-    'ensure' => 'directory',
-    'owner'  => 'root',
-    'group'  => 'root',
-    'mode'   => '0755',
+  class{ '::filesystem::directories:':
+    directories => $dirs,
+    stage       => 'first',
   }
-
-  create_resources('file', $dirs, $defaults)
 
 }

@@ -35,10 +35,10 @@ class profiles::filesystem::symlinks {
   # Hiera lookups
   $links = hiera_hash('profiles::filesystem::symlinks')
 
-  $defaults = {
-    'ensure' => 'link'
+  class{ '::filesystem::symlinks':
+    symlinks => $links,
+    stage    => 'first',
   }
 
-  create_resources('file', $links, $defaults)
 
 }
