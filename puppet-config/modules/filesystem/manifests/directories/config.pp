@@ -21,5 +21,5 @@ class filesystem::directories::config inherits filesystem::directories {
     'mode'   => '0755',
   }
 
-  create_resources('file', $::filesystem::directories::directorie, $defaults)
+  create_resources('file', $::filesystem::directories::directories, $defaults)
 }
