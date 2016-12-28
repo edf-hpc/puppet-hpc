@@ -37,6 +37,19 @@ class{ '::filesystem::mounts':
       remounts => false,
   }
 }
+
+class{ '::filesystem::directories':
+  directories => {
+    '/data' => {}
+  }
+}
+
+class{ '::filesystem::symlinks':
+  symlinks => {
+    '/home' => {
+      target  => '/data/home',
+  }
+}
 ```
 
 ## Limitations
