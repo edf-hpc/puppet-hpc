@@ -103,6 +103,7 @@ define hpc_ha::vip (
     virtual_ipaddress => [ $ip_address ],
     notify_script     => $_notify_script,
     advert_int        => $advert_int,
+    lvs_interface     => $interface,
   }
 
   # disable martian logging since normal with VLAN with multiple IP networks
