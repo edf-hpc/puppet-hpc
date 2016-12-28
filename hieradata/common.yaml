@@ -58,6 +58,7 @@ profiles::openssh::server::config_augeas:
   - 'set MaxStartups 8192'
   - 'set PermitRootLogin yes'
   - 'set X11UseLocalhost no'
+  - 'set ClientAliveInterval 300'
   - 'set KexAlgorithms/1 curve25519-sha256@libssh.org'
   - 'set KexAlgorithms/2 ecdh-sha2-nistp256'
   - 'set KexAlgorithms/3 ecdh-sha2-nistp384'
