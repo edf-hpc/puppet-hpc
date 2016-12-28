@@ -37,7 +37,7 @@ class profiles::filesystem::directories {
   # Hiera lookups
   $dirs = hiera_hash('profiles::filesystem::directories')
 
-  class{ '::filesystem::directories:':
+  class{ '::filesystem::directories':
     directories => $dirs,
     stage       => 'first',
   }
