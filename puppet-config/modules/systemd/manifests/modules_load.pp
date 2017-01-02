@@ -19,7 +19,7 @@
 #
 # @param data Content of the file as an array of lines
 # @param config_dir Configuration dir for the file
-# @
+# @param service_name Name of the service
 define systemd::modules_load (
   $data,
   $config_dir   = '/etc/modules-load.d',
