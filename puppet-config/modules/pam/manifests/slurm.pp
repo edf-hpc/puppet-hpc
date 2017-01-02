@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -20,6 +20,11 @@
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
 # @param packages         List of packages to install
+# @param packages_manage Boolean telling if the package installation should be
+#          handled by the module
+# @param preseed Path of the preseed file to use and generate
+# @param module_enable Boolean telling if the pam_slurm module should be
+#          enabled during package installation (default: true)
 class pam::slurm (
   $packages_manage    = $pam::slurm::params::packages_manage,
   $packages           = $pam::slurm::params::packages,
