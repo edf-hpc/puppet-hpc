@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -20,6 +20,7 @@
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
 # @param packages         List of packages to install
+# @param pamauthupdate_file Path of the file to be picked up by pam-auth-update
 class pam::pwquality (
   $pamauthupdate_file = $pam::params::pwquality::pamauthupdate_file,
   $packages_ensure    = $pam::params::pwquality::packages_ensure,
