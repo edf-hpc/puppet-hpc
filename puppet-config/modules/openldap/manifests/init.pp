@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,14 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# OpenLDAP server
+# 
+# @param packages Array of package names to install
+# @param packages_ensure Target state of the paackages (default: 'present')
+# @param default_file Path of the default parameters file (default or sysconfig)
+# @param default_options Content of the ``default_file``
+# @param service_override Hash of the content of the systemd unit override
+#          file.
 class openldap (
   $packages                   = $openldap::params::packages,
   $packages_ensure            = $openldap::params::packages_ensure,
   $default_file               = $openldap::params::default_file,
   $default_options            = $openldap::params::default_options,
-  $decrypt_passwd             = $openldap::params::decrypt_passwd,
   $service_override           = {},
-  $cluster                    = '',
 ) inherits openldap::params {
 
   validate_array($packages)
