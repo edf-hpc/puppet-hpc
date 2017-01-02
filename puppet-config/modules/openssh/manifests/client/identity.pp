@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,23 +15,6 @@
 
 
 # Get private/public key and add it to config as identity
-#
-# The private key `key_enc` is decrypted with `hpclib::decrypt` and
-# put on the file system. The public key is generated with the same name
-# suffixed `.pub`.
-#
-# An entry is added to the `config_file` like this:
-# ```
-# Host <$host>
-# IdentityFile <$key_file>
-# ```
-#
-# Multiple entries are authorized for the same host, the same key file
-# can be re-used for other files and/or hosts.
-#
-# If the `ensure` parameter is defined as `absent`, the files (private
-# and public keys) are removed and the entry is removed from the config
-# file
 #
 # @param key_enc        Encrypted key source
 # @param key_file       Target private key file path, same as the

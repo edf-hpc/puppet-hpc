@@ -28,8 +28,6 @@ class openssh::server::keys inherits openssh::server {
   $files_defaults      = {
   }
 
-
-
   # Host keys
   #
   # Each key is pulled from the source directory with a series of default
