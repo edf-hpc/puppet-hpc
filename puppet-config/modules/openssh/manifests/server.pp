@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,16 +15,14 @@
 
 # Setup the OpenSSH server on the nodes with root keys
 #
-# The module provides a default public root key that match the one setup
-# by default in `openssh::client`, this should never be used in
-# production. You must override it with the `root_public_key` parameter.
-#
-# Note this is the actual key without the `ssh-rsa` and user name, not a
-# file path.
 #
 # @param packages_ensure     Install mode (`latest` or `present`) for the
 #                            packages (default: `present`)
 # @param packages            Array of packages names
+# @param config_file Path of the configuration file (default:
+#          '/etc/ssh/sshd_config')
+# @param config_augeas Augeas commands to apply to the config file
+# @param augeas_context Augeas context of the config file
 # @param service_ensure      Ensure state of the service: `running` or
 #                            `stopped` (default: running)
 # @param service_enable      Service started at boot (default: true)
@@ -33,7 +31,21 @@
 #                            'cluster')
 # @param root_public_key     String of the RSA public key
 # @param hostkeys_source_dir Base URL to fetch the source keys (default:
-#                            'openssh'
+#                            'openssh')
+# @param hostkeys_dir Path of the directory where the host keys will be put
+# @param host_private_key_rsa Basename of the private RSA key (source and
+#          destination)
+# @param host_public_key_rsa Basename of the public RSA key (destination only)
+# @param host_private_key_dsa Basename of the private DSA key (source and
+#          destination)
+# @param host_public_key_dsa Basename of the public DSA key (destination only)
+# @param host_private_key_ecdsa Basename of the private ECDSA key (source and
+#          destination)
+# @param host_public_key_ecdsa Basename of the public ECDSA key (destination only)
+# @param host_private_key_ed25519 Basename of the private ED25519 key (source and
+#          destination)
+# @param host_public_key_ed25519 Basename of the public ED25519 key (destination only)
+# @param decrypt_passwd Password to use with the hpclib ``decrypt()`` function
 class openssh::server (
   $packages                 = $::openssh::server::params::packages,
   $packages_ensure          = $::openssh::server::params::packages_ensure,
