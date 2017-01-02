@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,6 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# OpenLDAP replica setup script
+# 
+# @param make_replica_script Path of the script to generate the replica
+# @param make_replica_script_source file source for the replica script
+# @param directory_source hpclib ``decrypt()`` base directory for the
+#          encrypted LDIF file
+# @param ldif_directory LDIF file destination directory
+# @param ldif_file LDIF file basename (not absolute path)
+# @param decrypt_passwd Password to use with hpclib ``decrypt()`` function
 class openldap::replica (
   $make_replica_script        = $openldap::params::make_replica_script,
   $make_replica_script_source = $openldap::params::make_replica_script_source,
