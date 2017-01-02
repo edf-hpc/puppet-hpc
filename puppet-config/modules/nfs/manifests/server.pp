@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -21,6 +21,7 @@
 # @param service_ensure    Ensure state of the service: `running` or
 #                          `stopped` (default: running)
 # @param service           Name of the service
+# @param exports_file Path of the exports file (default: '/etc/exports')
 class nfs::server (
   $exports_file    = $::nfs::server::params::exports_file,
   $packages        = $::nfs::server::params::packages,
