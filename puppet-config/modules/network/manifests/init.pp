@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,40 +14,6 @@
 ##########################################################################
 
 # Configure the network on this host
-#
-# ## Bonding
-#
-# Bonding is configured by passing bonding options as a hash:
-#
-# ```
-# 'bond0' => {
-#   'slaves'  => [ 'eth0', 'eth1' ],
-#   'options' => 'mode=active-backup primary=eth0',
-# },
-# 'bond1' => {
-#   'slaves'  => [ 'eth2', 'eth3' ],
-#   'options' => 'mode=active-backup primary=eth2',
-# },
-# ```
-#
-#
-# ## Bridge
-#
-# Bridges are configured by passing bridge options as a hash. If the
-# bridged port does not exists in the netconfig fact, it will be added
-# automatically when the configuration is written.
-#
-# ```
-# network::bridge_options:
-#    'br0':
-#      'ports':
-#         - 'eth0'
-#      'description': 'administraton network on service and nas nodes'
-#    'br2':
-#      'ports':
-#         - 'bond2'
-#      'description': 'WAN network on service nodes'
-# ```
 #
 # @param defaultgw IP Address of the default gateway
 # @param fqdn Fully Qualified Domain Name of this host
@@ -81,7 +47,7 @@
 # @param opa_kernel_modules Array of kernel modules to load during server boot
 # @param mlx4load Load the `mlx4` driver, 'yes'` or 'no' (default: 'yes')
 # @param irqbalance_options Key/Value hash with the content of the irqbalance configuration
-# @param ib_mtu MTU for the IPoIB network
+# @param ib_mtu MTU for the IPoIB network (default: '65520')
 # @param ib_mode Mode for IPoIB, 'connected' or 'datagram' (default: 'connected')
 # @param ib_options Key/Value hash with the content of `ib_file`
 class network (
