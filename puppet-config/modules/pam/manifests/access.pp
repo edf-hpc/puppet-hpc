@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,9 +14,6 @@
 ##########################################################################
 
 # Configure pam_access
-#
-# The configuration options below is completed with a last catchall
-# reject rule.
 #
 # The `exec` parameter is only used on Redhat. The parameters `type`,
 # `module`, `control`, `position` and `pam_service` are only used on
