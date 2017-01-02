@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,6 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Bittorrent opentracker server
+#
+# @param packages Array of package names
+# @param packages_ensure Target state of the packages (default: 'latest')
+# @param default_file Path of the file with the default parameter
+# @param config_dir Path of the directory where the configuration is
+# @param config_file Basename of the configuration file
+# @param opentracker_default_options Hash with the content of the ``default_file``
+# @param systemd_service_file Path of the systemd service unit file
+# @param systemd_service_file_options Hash with the content of
+#          ``systemd_service_file``
+# @param admin_node Name of the node that can get stats from the tracker
+# @param tracker_nodes Array with the name of all the tracker nodes (this one
+#          included)
 class opentracker (
   $packages                     = $opentracker::params::packages,
   $packages_ensure              = $opentracker::params::packages_ensure,
