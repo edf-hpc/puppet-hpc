@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,6 +13,16 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Postfix MTA
+#
+# @param packages Array of package names
+# @param packages_ensure Target state for packages (default: 'installed')
+# @param service Service name
+# @param service_ensure Target state for the service (default: 'running')
+# @param service_enable Service should start on boot (default: true)
+# @param config_file Path of the main postfix config file
+# @param config_options Hash with the key/values for config_file content
+#          (merged with some default values)
 class postfix (
   $packages        = $::postfix::params::packages,
   $packages_ensure = $::postfix::params::packages_ensure,
