@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,11 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Setup the OpenSSH client and private root key
-#
-# @param root_key_enc   Source of the encrypted root private key file
-# @param root_key_file  Destination path of the root private key file
-# @param decrypt_passwd Password used to decrypt the encrypted `root_key_enc`
+# Setup system wide OpenSSH client options
+# 
+# @param packages Array of package names to install
+# @param packages_ensure Target state of the packages (default: 'latest')
+# @param config_file Path of the ssh client config file (default:
+#          '/etc/ssh/ssh_config)
+# @param config_augeas Augeas commands to apply in the config file
+# @param augeas_context Default Host augeas Context
 class openssh::client (
   $packages         = $::openssh::client::params::packages,
   $packages_ensure  = $::openssh::client::params::packages_ensure,
