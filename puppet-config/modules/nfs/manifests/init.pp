@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,23 +15,6 @@
 
 # NFS common
 #
-# For NFSv4 it is mandatory to have a working idmapd configuration, the
-# most basic setup is for all the nodes to use the same idmapd domain.
-#
-# By default, idmapd will use the local domain name (`hostname -d`). If
-# you wish to override this setting you can add a `idmapd_options`:
-# ```
-# class{ '::nfs':
-#   idmapd_options => {
-#     'General' => {
-#       'Domain' => {
-#         'comment' => 'Domain for the mapping',
-#         'value'   => 'hpc.example.edu',
-#       },
-#     },
-#   },
-# }
-# ```
 #
 # @param idmapd_options    Content of the idampd configuration file
 # @param idmapd_file       Path of the idmapd configuration file
