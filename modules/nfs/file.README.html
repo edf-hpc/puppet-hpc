@@ -100,19 +100,15 @@
 <li><a href="#development">Development</a></li>
 </ol>
 
-<h2>Overview</h2>
+<h2>Module Description</h2>
 
 <p>Install and configure NFS client or server, manages mount and exports.</p>
-
-<h2>Module Description</h2>
 
 <p>The modules define a class for the server and one for the client. The module
 defines resources type that can be used to mount NFS exports on the client and
 to define new exports on the server.</p>
 
 <h2>Setup</h2>
-
-<h3>What nfs affects</h3>
 
 <h3>Setup Requirements</h3>
 
@@ -122,19 +118,61 @@ to define new exports on the server.</p>
 
 <h2>Usage</h2>
 
-<p>On the server:</p>
+<h3>Server</h3>
 
 <ul>
 <li>Include the class <code>::nfs::server</code></li>
 <li>Define exports with the resource <code>::nfs::server::export</code></li>
 </ul>
 
-<p>On the client:</p>
+<pre class="code ruby"><code class="ruby">::nfs::server::export{&#39;data&#39;:
+  exportdir  =&gt; &#39;/data&#39;,
+  options    =&gt; &#39;rw,sync&#39;,
+}
+
+</code></pre>
+
+<h3>Client</h3>
 
 <ul>
-<li>Include the class <code>::nfs::client</code></li>
+<li>Include the class <code>::nfs</code></li>
 <li>Define exports with the resource <code>::nfs::client::mount</code></li>
 </ul>
+
+<pre class="code ruby"><code class="ruby">::nfs::client::mount{&#39;nas&#39;:
+  server     =&gt; &#39;nas.hpc.example.com&#39;,
+  exportdir  =&gt; &#39;/unix/&#39;,
+  mountpoint =&gt; &#39;/mnt/.nas&#39;,
+  options    =&gt; &#39;sec=krb5,bg,rw,hard,timeo=20,vers=4&#39;,
+}
+
+</code></pre>
+
+<h3>Kerberos</h3>
+
+<p>Kerberos must be configured separatly (by the kerberos module) before starting
+the NFS service. You can request this module to load the gssd service though by
+setting <code>enable_gssd</code> to true.</p>
+
+<h3>Idmapd</h3>
+
+<p>For NFSv4 it is mandatory to have a working idmapd configuration, the
+most basic setup is for all the nodes to use the same idmapd domain.</p>
+
+<p>By default, idmapd will use the local domain name (<code>hostname -d</code>). If
+you wish to override this setting you can add a <code>idmapd_options</code>:</p>
+
+<pre class="code ruby"><code class="ruby">class{ &#39;::nfs&#39;:
+  idmapd_options =&gt; {
+    &#39;General&#39; =&gt; {
+      &#39;Domain&#39; =&gt; {
+        &#39;comment&#39; =&gt; &#39;Domain for the mapping&#39;,
+        &#39;value&#39;   =&gt; &#39;hpc.example.edu&#39;,
+      },
+    },
+  },
+}
+</code></pre>
 
 <h2>Limitations</h2>
 
@@ -148,7 +186,7 @@ derivatives.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:06 2016 by
+  Generated on Tue Jan  3 10:45:53 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

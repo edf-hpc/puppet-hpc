@@ -107,23 +107,6 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>Get private/public key and add it to config as identity</p>
-
-<p>The private key <code>key_enc</code> is decrypted with <code>hpclib::decrypt</code> and
-put on the file system. The public key is generated with the same name
-suffixed <code>.pub</code>.</p>
-
-<p>An entry is added to the <code>config_file</code> like this:
-<code>
-Host &lt;$host&gt;
-IdentityFile &lt;$key_file&gt;
-</code></p>
-
-<p>Multiple entries are authorized for the same host, the same key file
-can be re-used for other files and/or hosts.</p>
-
-<p>If the <code>ensure</code> parameter is defined as <code>absent</code>, the files (private
-and public keys) are removed and the entry is removed from the config
-file</p>
 </p>
   </div>
 </div>
@@ -145,7 +128,7 @@ file (default: '/root/.ssh/config) </p></div></li><li><span class="name">host </
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:12 2016 by
+  Generated on Tue Jan  3 10:45:58 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

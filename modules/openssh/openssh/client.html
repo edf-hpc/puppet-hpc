@@ -114,7 +114,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p><p>Setup the OpenSSH client and private root key</p>
+    <p><p>Setup system wide OpenSSH client options</p>
 </p>
   </div>
 </div>
@@ -126,7 +126,8 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::packages_ensure</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::config_file</tt></li><li><span class="name">config_augeas </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::config_augeas</tt></li><li><span class="name">augeas_context </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::augeas_context</tt></li><li><strike><span class="name">root_key_enc </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Source of the encrypted root private key file </p></div></strike></li><li><strike><span class="name">root_key_file </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Destination path of the root private key file </p></div></strike></li><li><strike><span class="name">decrypt_passwd </span><span class="type">(<tt>Unknown</tt>)</span> - <div class="inline"><p> Password used to decrypt the encrypted `root_key_enc` </p></div></strike></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::packages</tt> - <div class="inline"><p> Array of package names to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::packages_ensure</tt> - <div class="inline"><p> Target state of the packages (default: 'latest') </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::config_file</tt> - <div class="inline"><p> Path of the ssh client config file (default:
+'/etc/ssh/ssh_config) </p></div></li><li><span class="name">config_augeas </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::config_augeas</tt> - <div class="inline"><p> Augeas commands to apply in the config file </p></div></li><li><span class="name">augeas_context </span><span class="type">(<tt>Any</tt>)</span><tt> => $::openssh::client::params::augeas_context</tt> - <div class="inline"><p> Default Host augeas Context </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -136,7 +137,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:11 2016 by
+  Generated on Tue Jan  3 10:45:58 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

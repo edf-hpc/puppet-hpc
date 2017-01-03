@@ -103,14 +103,19 @@
     <p><p>Authentication system client</p>
 
 <p>Authentication uses the SSS daemon to configure node directory and
-authentication. The common pattern supported by this profile is a local
-LDAP replica and an external Kerberos server for authentication.</p>
+authentication. The profile can configure SSSD to authenticate against either
+an internal LDAP replica or an external reference LDAP server. The optional
+Kerberos configuration necessarily connect to an external server.</p>
 
 <h2>SSSD</h2>
 
 <p>SSSD is configured with four hiera keys
 (<code>profiles::auth::client::sssd_options_*</code>), those options are combined
 to create <code>sssd_options</code> used to generate the file <code>/etc/sssd/sssd.conf</code></p>
+
+<p>The URI to the LDAP server depends on the value of the boolean <code>external_ldap</code>
+parameter. If true, the URI is the value of <code>ldap_external_uri</code>, otherwise
+(default) it is <code>ldap_internal_uri</code>.</p>
 
 <h2>Kerberos</h2>
 
@@ -131,9 +136,10 @@ replica configuration.</p>
 <pre class="code ruby"><code class="ruby">profiles::auth::client::enable_kerberos: false
 kdc_primary:                    &#39;kdc1.example.com&#39;
 kdc_secondary:                  &#39;kdc2.example.com&#39;
-external_ldap:                  &#39;ldap.example.com&#39;
+ldap_external:                  &#39;ldap.example.com
 krb5_realm:                     &#39;EXAMPLE.COM&#39;
 
+profiles::auth::client::external_ldap: false
 profiles::auth::client::sssd_options_general:
   config_file_version:  &#39;2&#39;
   reconnection_retries: &#39;3&#39;
@@ -147,6 +153,8 @@ profiles::auth::client::sssd_options_nss:
 profiles::auth::client::sssd_options_pam:
   reconnection_retries:           &#39;3&#39;
   offline_credentials_expiration: &#39;1&#39;
+profiles::auth::client::ldap_external_uri: &quot;ldaps://%{hiera(&#39;ldap_external_primary&#39;)}, ldaps://%{hiera(&#39;ldap_external_secondary&#39;)}&quot;
+profiles::auth::client::ldap_internal_uri: &quot;ldaps://%{hiera(&#39;ldap_internal_primary&#39;)}, ldaps://%{hiera(&#39;ldap_internal_secondary&#39;)}&quot;
 profiles::auth::client::sssd_options_domain:
   name:                      &quot;%{hiera(&#39;cluster_name&#39;)}&quot;
   description:               &quot;LDAP replica for %{hiera(&#39;cluster_name&#39;)}&quot;
@@ -155,7 +163,6 @@ profiles::auth::client::sssd_options_domain:
   cache_credentials:         &#39;true&#39;
   enumerate:                 &#39;true&#39;
   min_id:                    &#39;1000&#39;
-  ldap_uri:                  &quot;ldaps://%{hiera(&#39;cluster_prefix&#39;)}%{my_auth_replica}1, ldaps://%{hiera(&#39;cluster_prefix&#39;)}%{my_auth_replica}2&quot;
   ldap_tls_reqcert:          &#39;allow&#39;
   ldap_tls_cacert:           &quot;%{hiera(&#39;certificates::certificates_directory&#39;)}&quot;
   ldap_search_timeout:       &#39;3&#39;
@@ -187,8 +194,8 @@ profiles::auth::client::krb5_options:
       {
         kdc = %{hiera(&#39;kdc_primary&#39;)}
         kdc = %{hiera(&#39;kdc_secondary&#39;)}
-        admin_server = %{hiera(&#39;external_ldap&#39;)}
-        kpasswd_server = %{hiera(&#39;external_ldap&#39;)}
+        admin_server = %{hiera(&#39;ldap_external&#39;)}
+        kpasswd_server = %{hiera(&#39;ldap_external&#39;)}
         default_domain = example.com
       }
   domain_realm:
@@ -211,6 +218,9 @@ kerberos::decrypt_passwd:    &quot;%{hiera(&#39;cluster_decrypt_password&#39;)}&
 <li><code>profiles::auth::client::sssd_options_nss</code> (<code>hiera_hash</code>)</li>
 <li><code>profiles::auth::client::sssd_options_pam</code> (<code>hiera_hash</code>)</li>
 <li><code>profiles::auth::client::sssd_options_domain</code> (<code>hiera_hash</code>)</li>
+<li><code>profiles::auth::client::external_ldap</code> (default value: false)</li>
+<li><code>profiles::auth::client::ldap_external_uri</code></li>
+<li><code>profiles::auth::client::ldap_internal_uri</code></li>
 <li><code>profiles::auth::client::krb5_options</code> (<code>hiera_hash</code>)</li>
 </ul>
 
@@ -231,7 +241,7 @@ kerberos::decrypt_passwd:    &quot;%{hiera(&#39;cluster_decrypt_password&#39;)}&
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:40:25 2016 by
+  Generated on Tue Jan  3 10:45:09 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

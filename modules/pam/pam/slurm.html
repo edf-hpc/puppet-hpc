@@ -128,8 +128,10 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages_manage</tt></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
-'present) </p></div></li><li><span class="name">preseed </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::preseed</tt></li><li><span class="name">module_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::module_enable</tt></li>
+    <li><span class="name">packages_manage </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages_manage</tt> - <div class="inline"><p> Boolean telling if the package installation should be
+handled by the module </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
+'present) </p></div></li><li><span class="name">preseed </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::preseed</tt> - <div class="inline"><p> Path of the preseed file to use and generate </p></div></li><li><span class="name">module_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::slurm::params::module_enable</tt> - <div class="inline"><p> Boolean telling if the pam_slurm module should be
+enabled during package installation (default: true) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -139,7 +141,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:13 2016 by
+  Generated on Tue Jan  3 10:46:00 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

@@ -86,25 +86,22 @@
 <h4>Table of Contents</h4>
 
 <ol>
-<li><a href="#overview">Overview</a></li>
 <li><a href="#module-description">Module Description</a></li>
 <li><a href="#setup">Setup</a>
 
 <ul>
-<li><a href="#what-clara-affects">What openssh affects</a></li>
+<li><a href="#what-openssh-affects">What openssh affects</a></li>
 <li><a href="#setup-requirements">Setup requirements</a></li>
-<li><a href="#beginning-with-clara">Beginning with openssh</a></li>
+<li><a href="#beginning-with-openssh">Beginning with openssh</a></li>
 </ul></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#development">Development</a></li>
 </ol>
 
-<h2>Overview</h2>
+<h2>Module Description</h2>
 
 <p>Install and configure openssh client and server</p>
-
-<h2>Module Description</h2>
 
 <p>This module installs and configures OpenSSH clients and servers as is
 frequently seen in HPC cluster. It authorize a root key on every node and
@@ -130,6 +127,8 @@ a prompt.</p>
 <li>edfhpc-hpclib</li>
 </ul>
 
+<p>The <code>puppet_role</code> fact should be defined.</p>
+
 <h3>Beginning with openssh</h3>
 
 <p>Generate keys for your local site:</p>
@@ -147,13 +146,98 @@ the source values for the keys: </p>
 <ul>
 <li><code>::openssh::server::root_public_key</code></li>
 <li><code>::openssh::server::hostkeys_source_dir</code></li>
-<li><code>::openssh::client::root_key_enc</code></li>
 </ul>
+
+<p>The key must be added as a resource <code>::openssh::client::identity</code> to the
+administration nodes.</p>
 
 <p>After applying the server class, if you already connected to the server, you
 might have to remove the entries in your <code>~/.ssh/known_hosts</code> file.</p>
 
 <h2>Usage</h2>
+
+<h3>Server</h3>
+
+<p>The server class installs:</p>
+
+<ul>
+<li>The server itself</li>
+<li>Some configuration options</li>
+<li>A root public key</li>
+<li>Host keys</li>
+</ul>
+
+<p>Host keys are downloaded and decrypted with the hpclib <code>decrypt()</code> function.</p>
+
+<p>Each key will be searched in the following order:</p>
+
+<ul>
+<li><code>$hostkeys_source_dir/$key_name.$hostname.enc</code></li>
+<li><code>$hostkeys_source_dir/$key_name.$puppet_role.enc</code></li>
+<li><code>$hostkeys_source_dir/$key_name.default.enc</code></li>
+</ul>
+
+<p>Note: the public key is not downloaded but regenerated on the host from the
+private key.</p>
+
+<p>The module provides a default public root key this should never be used in
+production. You must override it with the <code>root_public_key</code> parameter.</p>
+
+<p>Note this is the actual key without the <code>ssh-rsa</code> and user name, not a
+file path.</p>
+
+<pre class="code ruby"><code class="ruby">class{&#39;::openssh::server&#39;:
+  cluster             =&gt; &#39;cluster&#39;,
+  root_public_key     =&gt; &#39;AAAAB3NzaC1yc2EAAAADAQABAAABAQDxPBL2D3+fW/GTjCpUI+kVAg6s1M8Z0lRRX35ecodrgz09X70tMFC2h9brXrY2557abUX3jy+0khEV81p24havY9Zi6+7rAqaB3ehCwIPTRT0vqCmHzWSOwK6WJbtur2xnXGvlwM/ngtE/RfUfbPU0Kvb6DG+kWedzi3stwyF4mRkOUahg2l0h+hKHHo46XJFI/bUfNP1ybFSAWYdkYP5Fy2pXK8JdUnYIp5wQIU6waeGUf/fEHPlyZC9fGWqygtSzOCXo3v7KQP9OLW9bupOuXi8zTt4fDKB9qQRjezt4sgnhG/yd/UwQupenIMh2m3DMAX2/e0+w6b1ORP8lzCpd&#39;,
+  hostkeys_source_dir =&gt; &#39;http://files.hpc.example.com/private/hostkeys&#39;,
+  decrypt_password    =&gt; &#39;passw0rd&#39;,
+  config_augeas       =&gt; [
+    &#39;set ClientAliveInterval 300&#39;,
+    &#39;set AcceptEnv/1 LANG&#39;,
+    &#39;set AcceptEnv/2 LC_*&#39;,
+    &#39;set AcceptEnv/3 SLURM_*&#39;,
+  ],
+}
+</code></pre>
+
+<h3>Client</h3>
+
+<p>The client class simply configures system wide default settings for SSH
+clients.</p>
+
+<pre class="code ruby"><code class="ruby">class{&#39;::openssh::client&#39;: }
+</code></pre>
+
+<h3>Client Identity</h3>
+
+<p>The <code>::openssh::client::identity</code> resource configures a user private key file
+and configure it in a user config file.</p>
+
+<pre class="code ruby"><code class="ruby">::openssh::client::identity{&#39;backup_server_key&#39;:
+  key_enc        =&gt; &#39;http://files.hpc.example.com/private/keys/id_rsa_backup.enc&#39;,
+  config_file    =&gt; &#39;/root/.ssh/config&#39;,
+  host           =&gt; &#39;backup.hpc.example.com&#39;,
+  decrypt_passwd =&gt; &#39;passw0rd&#39;,
+}
+
+</code></pre>
+
+<p>The private key <code>key_enc</code> is decrypted with <code>hpclib::decrypt</code> and
+put on the file system. The public key is generated with the same name
+suffixed <code>.pub</code>.</p>
+
+<p>An entry is added to the <code>config_file</code> like this:
+<code>
+Host &lt;$host&gt;
+IdentityFile &lt;$key_file&gt;
+</code></p>
+
+<p>Multiple entries are authorized for the same host, the same key file
+can be re-used for other files and/or hosts.</p>
+
+<p>If the <code>ensure</code> parameter is defined as <code>absent</code>, the files (private
+and public keys) are removed and the entry is removed from the config
+file</p>
 
 <h2>Limitations</h2>
 
@@ -167,7 +251,7 @@ derivatives.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:11 2016 by
+  Generated on Tue Jan  3 10:45:58 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

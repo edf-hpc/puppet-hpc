@@ -112,6 +112,7 @@ some specific PAM modules. Supported modules are:</p>
 <ul>
 <li><code>access</code>, authentication access list</li>
 <li><code>limits</code>, set resource limits for the processes of the session</li>
+<li><code>mkhomedir</code>, create user directories on first login</li>
 <li><code>pwquality</code>, check password quality when user changes passwords</li>
 <li><code>slurm</code>, only authorizes users with a SLURM job on the node</li>
 <li><code>sss</code>, authentication uses the sssd daemon</li>
@@ -133,20 +134,104 @@ some specific PAM modules. Supported modules are:</p>
 
 <h3>Beginning with pam</h3>
 
+<pre class="code ruby"><code class="ruby">include ::pam
+</code></pre>
+
 <h2>Usage</h2>
 
-<p>Include the class corressponding to the modules you wish to activate on the
-nodes.</p>
+<h3>Access</h3>
+
+<p>Access create a list of rules to accept or reject connections by user, group
+and origin (host, tty...). This class terminates its rules by a reject all
+rule. It typically fills the file <code>/etc/security/access.conf</code>.</p>
+
+<pre class="code ruby"><code class="ruby">class{&#39;::pam::access&#39;:
+  config_options =&gt; [
+    &#39;+ : root : 127.0.0.0/8&#39;,
+    &#39;+ : root : 10.1.1.0/24&#39;,
+    &#39;+ : root : 10.1.2.0/24&#39;,
+    &#39;+ : root : cron crond :0 ttyS0 ttyS1 tty1 tty2 tty3 tty4 tty5 tty6&#39;,
+  ],
+}
+</code></pre>
+
+<h3>Limits</h3>
+
+<p>The limits module configure <code>rlimit</code> applied to PAM sessions. It creates a
+file <code>/etc/security/limits.conf.d/puppet.conf</code>.</p>
+
+<p>Data are given through a hash, but the key is discarded in the resulting file.</p>
+
+<pre class="code ruby"><code class="ruby">class{&#39;::pam::limits&#39;:
+  config_options =&gt; {
+    &#39;rss_soft&#39;     =&gt; &#39;*       soft    rss             unlimited&#39;,
+    &#39;rss_hard&#39;     =&gt; &#39;*       hard    rss             unlimited&#39;,
+    &#39;memlock_soft&#39; =&gt; &#39;*       soft    memlock         unlimited&#39;,
+    &#39;memlock_hard&#39; =&gt; &#39;*       hard    memlock         unlimited&#39;,
+    &#39;as_soft&#39;      =&gt; &#39;*       soft    as              unlimited&#39;,
+    &#39;as_hard&#39;      =&gt; &#39;*       hard    as              unlimited&#39;,
+    &#39;stack_soft&#39;   =&gt; &#39;*       soft    stack           unlimited&#39;,
+    &#39;stack_hard&#39;   =&gt; &#39;*       hard    stack           unlimited&#39;,
+    &#39;nofile_soft&#39;  =&gt; &#39;*       soft    nofile          16384&#39;,
+    &#39;nofile_hard&#39;  =&gt; &#39;*       hard    nofile          16384&#39;,
+  },
+}
+</code></pre>
+
+<h3>MKHomeDir</h3>
+
+<p>The module sets up a python script that is called to create the user
+directories (home and scratch) when a user logs in for the first time.</p>
+
+<p>This module sets directories to be owned by <code>root:root</code> with an ACL to
+authorize the user to write in the directory. This forbids the user to modify
+permission for his own home directory.</p>
+
+<pre class="code ruby"><code class="ruby">include ::pam::mkhomedir
+</code></pre>
+
+<h3>PWQuality</h3>
+
+<p>The pwquality module is used to check that password change respect company
+policies.</p>
+
+<p>The configuration can not be changed through the configuration, it is set as:</p>
+
+<pre class="code ruby"><code class="ruby">retry=3 minlen=8 difok=3 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=0
+</code></pre>
+
+<pre class="code ruby"><code class="ruby">include ::pam::pwquality
+</code></pre>
+
+<h3>Slurm</h3>
+
+<p>The slurm module, when installed and enabled, block connection from user not
+having a job on the node.</p>
+
+<pre class="code ruby"><code class="ruby">class{&#39;::pam::slurm&#39;:
+  module_enable =&gt; true
+}
+</code></pre>
+
+<p>This setting is only applied when the package is installed (preseed).</p>
+
+<h3>SSS</h3>
+
+<p>Activate authentication through SSSD, by installing the relevant PAM module.</p>
+
+<pre class="code ruby"><code class="ruby">include ::pam::sss
+</code></pre>
 
 <h2>Limitations</h2>
 
 <p>Some modules do not supports Redhat:</p>
 
 <ul>
+<li><code>limits</code></li>
+<li><code>mkhomedir</code></li>
 <li><code>sss</code></li>
 <li><code>slurm</code></li>
 <li><code>pwquality</code></li>
-<li><code>limits</code></li>
 </ul>
 
 <h2>Development</h2>
@@ -156,7 +241,7 @@ nodes.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:13 2016 by
+  Generated on Tue Jan  3 10:46:00 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

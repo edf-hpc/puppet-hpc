@@ -114,9 +114,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>OpenLDAP replica setup script</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -127,13 +128,14 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">make_replica_script </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::make_replica_script</tt></li><li><span class="name">make_replica_script_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::make_replica_script_source</tt></li><li><span class="name">directory_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::directory_source</tt></li><li><span class="name">ldif_directory </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::ldif_directory</tt></li><li><span class="name">ldif_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::ldif_file</tt></li><li><span class="name">decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::decrypt_passwd</tt></li>
+    <li><span class="name">make_replica_script </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::make_replica_script</tt> - <div class="inline"><p> Path of the script to generate the replica </p></div></li><li><span class="name">make_replica_script_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::make_replica_script_source</tt> - <div class="inline"><p> file source for the replica script </p></div></li><li><span class="name">directory_source </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::directory_source</tt> - <div class="inline"><p> hpclib ``decrypt()`` base directory for the
+encrypted LDIF file </p></div></li><li><span class="name">ldif_directory </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::ldif_directory</tt> - <div class="inline"><p> LDIF file destination directory </p></div></li><li><span class="name">ldif_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::ldif_file</tt> - <div class="inline"><p> LDIF file basename (not absolute path) </p></div></li><li><span class="name">decrypt_passwd </span><span class="type">(<tt>Any</tt>)</span><tt> => $openldap::params::decrypt_passwd</tt> - <div class="inline"><p> Password to use with hpclib ``decrypt()`` function </p></div></li>
   </ul>
 </div>
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:09 2016 by
+  Generated on Tue Jan  3 10:45:56 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

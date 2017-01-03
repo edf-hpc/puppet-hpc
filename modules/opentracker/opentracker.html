@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Bittorrent opentracker server</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +126,9 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::packages_ensure</tt></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::default_file</tt></li><li><span class="name">config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::config_dir</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::config_file</tt></li><li><span class="name">opentracker_default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::opentracker_default_options</tt></li><li><span class="name">systemd_service_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::systemd_service_file</tt></li><li><span class="name">systemd_service_file_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::systemd_service_file_options</tt></li><li><span class="name">admin_node </span><span class="type">(<tt>Any</tt>)</span></li><li><span class="name">tracker_nodes </span><span class="type">(<tt>Any</tt>)</span></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::packages</tt> - <div class="inline"><p> Array of package names </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::packages_ensure</tt> - <div class="inline"><p> Target state of the packages (default: 'latest') </p></div></li><li><span class="name">default_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::default_file</tt> - <div class="inline"><p> Path of the file with the default parameter </p></div></li><li><span class="name">config_dir </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::config_dir</tt> - <div class="inline"><p> Path of the directory where the configuration is </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::config_file</tt> - <div class="inline"><p> Basename of the configuration file </p></div></li><li><span class="name">opentracker_default_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::opentracker_default_options</tt> - <div class="inline"><p> Hash with the content of the ``default_file`` </p></div></li><li><span class="name">systemd_service_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::systemd_service_file</tt> - <div class="inline"><p> Path of the systemd service unit file </p></div></li><li><span class="name">systemd_service_file_options </span><span class="type">(<tt>Any</tt>)</span><tt> => $opentracker::params::systemd_service_file_options</tt> - <div class="inline"><p> Hash with the content of
+``systemd_service_file`` </p></div></li><li><span class="name">admin_node </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Name of the node that can get stats from the tracker </p></div></li><li><span class="name">tracker_nodes </span><span class="type">(<tt>Any</tt>)</span> - <div class="inline"><p> Array with the name of all the tracker nodes (this one
+included) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +138,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:12 2016 by
+  Generated on Tue Jan  3 10:45:59 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

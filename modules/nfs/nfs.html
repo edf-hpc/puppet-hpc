@@ -115,24 +115,6 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p><p>NFS common</p>
-
-<p>For NFSv4 it is mandatory to have a working idmapd configuration, the
-most basic setup is for all the nodes to use the same idmapd domain.</p>
-
-<p>By default, idmapd will use the local domain name (<code>hostname -d</code>). If
-you wish to override this setting you can add a <code>idmapd_options</code>:
-<code>
-class{ &#39;::nfs&#39;:
-  idmapd_options =&gt; {
-    &#39;General&#39; =&gt; {
-      &#39;Domain&#39; =&gt; {
-        &#39;comment&#39; =&gt; &#39;Domain for the mapping&#39;,
-        &#39;value&#39;   =&gt; &#39;hpc.example.edu&#39;,
-      },
-    },
-  },
-}
-</code></p>
 </p>
   </div>
 </div>
@@ -158,7 +140,7 @@ packages (default: `present`) </p></div></li><li><span class="name">packages </s
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:06 2016 by
+  Generated on Tue Jan  3 10:45:53 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

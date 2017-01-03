@@ -112,9 +112,10 @@
 </dl>
 <div class="clear"></div>
 
-<div class="docstring">
+<h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p></p>
+    <p><p>Postfix MTA</p>
+</p>
   </div>
 </div>
 <div class="tags">
@@ -125,7 +126,8 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::packages</tt></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::packages_ensure</tt></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service</tt></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service_ensure</tt></li><li><span class="name">service_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service_enable</tt></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::config_file</tt></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt></li>
+    <li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::packages</tt> - <div class="inline"><p> Array of package names </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::packages_ensure</tt> - <div class="inline"><p> Target state for packages (default: 'installed') </p></div></li><li><span class="name">service </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service</tt> - <div class="inline"><p> Service name </p></div></li><li><span class="name">service_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service_ensure</tt> - <div class="inline"><p> Target state for the service (default: 'running') </p></div></li><li><span class="name">service_enable </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::service_enable</tt> - <div class="inline"><p> Service should start on boot (default: true) </p></div></li><li><span class="name">config_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $::postfix::params::config_file</tt> - <div class="inline"><p> Path of the main postfix config file </p></div></li><li><span class="name">config_options </span><span class="type">(<tt>Any</tt>)</span><tt> => {</tt> - <div class="inline"><p> Hash with the key/values for config_file content
+(merged with some default values) </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -135,7 +137,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Dec 16 17:41:14 2016 by
+  Generated on Tue Jan  3 10:46:01 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
