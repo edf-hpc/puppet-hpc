@@ -14,7 +14,7 @@
 ##########################################################################
 
 # Configure pam_pwquality: check password strength
-#
+
 # Only works on Debian
 #
 # @param packages_ensure  Ensures the packages are in this state (default:
@@ -22,9 +22,9 @@
 # @param packages         List of packages to install
 # @param pamauthupdate_file Path of the file to be picked up by pam-auth-update
 class pam::pwquality (
-  $pamauthupdate_file = $pam::params::pwquality::pamauthupdate_file,
-  $packages_ensure    = $pam::params::pwquality::packages_ensure,
-  $packages           = $pam::params::pwquality::packages,
+  $pamauthupdate_file = $pam::pwquality::params::pamauthupdate_file,
+  $packages_ensure    = $pam::pwquality::params::packages_ensure,
+  $packages           = $pam::pwquality::params::packages,
 ) inherits pam::pwquality::params {
   require ::pam
 

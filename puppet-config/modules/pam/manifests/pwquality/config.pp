@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -24,7 +24,7 @@ class pam::pwquality::config inherits pam::pwquality {
   }
 
   exec { 'refresh common-password for pwquality':
-    command     => 'pam-auth-update --package --force',
+    command     => '/usr/sbin/pam-auth-update --package --force',
     require     => File[$::pam::pwquality::pamauthupdate_file],
     subscribe   => File[$::pam::pwquality::pamauthupdate_file],
     refreshonly => true
