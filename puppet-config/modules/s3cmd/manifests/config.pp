@@ -18,6 +18,7 @@ class s3cmd::config inherits s3cmd {
   hpclib::print_config { $::s3cmd::config_file:
     style => 'ini',
     data  => $::s3cmd::_config_options,
+    mode  => '0600',
   }
 
 }
