@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -22,7 +22,7 @@ class pam::slurm::install inherits pam::slurm {
       'Debian': {
         file { $::pam::slurm::preseed:
           content => template('pam/libpam-slurm.preseed.erb'),
-          mode    => 0644,
+          mode    => '0644',
         }
         package { $::pam::slurm::packages:
           ensure       => $::pam::slurm::packages_ensure,
