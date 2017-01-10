@@ -21,7 +21,7 @@ class profiles::consul::client {
   # The list of packages is different for the client and server profiles. For
   # this reason, we cannot use autolookup for this parameter, there are
   # variables specific to each profile.
-  $packages   = hiera('profiles::consul::client::packages')
+  $packages   = hiera_array('profiles::consul::client::packages')
 
   # The binding IP address is the IP address of the interface on the
   # administration network.
