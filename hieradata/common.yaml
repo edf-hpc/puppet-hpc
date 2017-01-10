@@ -519,6 +519,7 @@ profiles::monitoring::server::packages:
   - 'monitoring-plugins-basic'
   - 'monitoring-plugins-hpc-agent'
   - 'monitoring-plugins-hpc-server'
+  - 'nagios-nrpe-plugin'
 
 profiles::monitoring::server::features:
   - api
