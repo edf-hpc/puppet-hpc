@@ -607,7 +607,6 @@ profiles::consul::client::packages:
   - consult
 profiles::consul::server::packages:
   - consul
-  - monitoring-plugins-basic
 profiles::consul::server::subservices:
   - name: 'http'
     check:
