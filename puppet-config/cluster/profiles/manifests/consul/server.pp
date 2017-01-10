@@ -21,7 +21,7 @@ class profiles::consul::server {
   # The list of packages is different for the client and server profiles. For
   # this reason, we cannot use autolookup for this parameter, there are
   # variables specific to each profile.
-  $packages    = hiera('profiles::consul::server::packages')
+  $packages    = hiera_array('profiles::consul::server::packages')
 
   # Even though all consul agent (client and servers) could potentially have
   # services, in our architecture only the servers actually have services. We
