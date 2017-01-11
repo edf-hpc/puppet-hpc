@@ -13,9 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opafm::service inherits opafm {
-  service { $::opafm::service :
-    ensure => $::opafm::service_ensure,
-    enable => $::opafm::service_enable,
+class opa::fm::service inherits opa::fm {
+  service { $::opa::fm::service :
+    ensure => $::opa::fm::service_ensure,
+    enable => $::opa::fm::service_enable,
   }
 }

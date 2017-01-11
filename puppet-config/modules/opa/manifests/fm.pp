@@ -16,7 +16,7 @@
 # Deploys Intel OPA Fabric Manager
 #
 # @param packages        Array of packages to install (default:
-#                        ['opa-fm', 'opa-fastfabric'])
+#                        ['opa-fm'])
 # @param packages_ensure Target state for the packages (default: 'installed')
 # @param service         Name of the service to manage (default:
 #                        'opafm')
@@ -30,24 +30,19 @@
 # @param devicegroups    Hash of device groups definitions (default: {})
 # @param pmportgroups    Hash of Performance Manager (PM) port groups
 #                        definitions (default: {})
-# @param switch_file     Absolute path to the switches list file
-#                        (default: '/etc/opa/switches')
-# @param switch_source   Source URL for switches file (default: undef)
-class opafm (
-  $packages        = $::opafm::params::packages,
-  $packages_ensure = $::opafm::params::packages_ensure,
-  $service         = $::opafm::params::service,
-  $service_ensure  = $::opafm::params::service_ensure,
-  $service_enable  = $::opafm::params::service_enable,
-  $config_file     = $::opafm::params::config_file,
-  $config_source   = $::opafm::params::config_source,
-  $fe_enable       = $::opafm::params::fe_enable,
-  $fe_sslsecurity  = $::opafm::params::fe_sslsecurity,
-  $devicegroups    = $::opafm::params::devicegroups,
-  $pmportgroups    = $::opafm::params::pmportgroups,
-  $switch_file     = $::opafm::params::switch_file,
-  $switch_source   = $::opafm::params::switch_source,
-) inherits opafm::params {
+class opa::fm (
+  $packages        = $::opa::fm::params::packages,
+  $packages_ensure = $::opa::fm::params::packages_ensure,
+  $service         = $::opa::fm::params::service,
+  $service_ensure  = $::opa::fm::params::service_ensure,
+  $service_enable  = $::opa::fm::params::service_enable,
+  $config_file     = $::opa::fm::params::config_file,
+  $config_source   = $::opa::fm::params::config_source,
+  $fe_enable       = $::opa::fm::params::fe_enable,
+  $fe_sslsecurity  = $::opa::fm::params::fe_sslsecurity,
+  $devicegroups    = $::opa::fm::params::devicegroups,
+  $pmportgroups    = $::opa::fm::params::pmportgroups,
+) inherits opa::fm::params {
 
   validate_array($packages)
   validate_string($packages_ensure)
@@ -61,14 +56,9 @@ class opafm (
   validate_hash($devicegroups)
   validate_hash($pmportgroups)
 
-  if $switch_source {
-    validate_string($switch_source)
-    validate_absolute_path($switch_file)
-  }
-
-  anchor { 'opafm::begin': } ->
-  class { '::opafm::install': } ->
-  class { '::opafm::config': } ~>
-  class { '::opafm::service': } ->
-  anchor { 'opafm::end': }
+  anchor { 'opa::fm::begin': } ->
+  class { '::opa::fm::install': } ->
+  class { '::opa::fm::config': } ~>
+  class { '::opa::fm::service': } ->
+  anchor { 'opa::fm::end': }
 }
