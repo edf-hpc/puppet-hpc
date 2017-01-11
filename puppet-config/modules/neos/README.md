@@ -2,15 +2,14 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
     * [What neos affects](#what-neos-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with neos](#beginning-with-neos)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
 
 
 ## Module Description
@@ -26,9 +25,18 @@ also generate a Paraview server file (`.pvsc`).
 ### Setup Requirements
 
 Module dependency:
- * `hpclib`
+
+ * ``hpclib``
+ * ``apache`` (for ``neos::web``)
 
 ### Beginning with neos
+
+
+## Usage
+
+
+### neos
+Include the neos class on graphical nodes and submit hosts.
 
 The default configuration might be correct for your site, but you should at
 least provide a cluster name:
@@ -43,11 +51,28 @@ class { '::neos':
 }
 ```
 
-## Usage
 
-Include the neos class on graphical nodes and submit hosts.
+### neos::web
 
-The class `::neos::web` should be installed on a web server.
+The class `::neos::web` should be installed on a web server. This class will
+setup an alias to a file ``server.pvsc`` that will be exported.
+
+The content of the file is:
+
+ * Generated from the neos configuration ``neos_options`` parameter
+ * A source for the file
+ * The content directly
+
+```
+class { '::neos::web':
+  neos_options => {
+    'cluster' => {
+      'name' => 'clustername'
+    }
+  },
+}
+
+```
 
 ## Limitations
 

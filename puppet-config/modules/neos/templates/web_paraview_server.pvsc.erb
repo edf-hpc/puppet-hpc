@@ -1,7 +1,7 @@
 <% ########################################################################## -%>
 <% #  Puppet configuration file                                             # -%>
 <% #                                                                        # -%>
-<% #  Copyright (C) 2014-2016 EDF S.A.                                      # -%>
+<% #  Copyright (C) 2014-2017 EDF S.A.                                      # -%>
 <% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
 <% #                                                                        # -%>
 <% #  This program is free software; you can redistribute in and/or         # -%>
@@ -38,16 +38,16 @@
           <Argument value="$PARAUSER$@<%= @cluster_name %>"/>
           <Argument value="srun"/>
           <Argument value="--wckey=$PARAKEY$"/>
-          <Argument value="--exclusive"/>
           <Argument value="-N"/>
           <Argument value="$PARANODES$"/>
-          <Argument value="--ntasks-per-node=1"/>
+          <Argument value="--exclusive"/>
+          <Argument value="--cpu_bind=none"/>
           <Argument value="-t"/>
           <Argument value="$PARATIME$"/>
-          <Argument value="--partition=<%= @partitions %>"/>
+          <Argument value="--partition=<%= @partition %>"/>
           <Argument value="neos"/>
           <Argument value="--scenario=paraview"/>
-          <Argument value="--param1=$PARAVERSION$"/>
+          <Argument value="--opts=paraviewpath:$PARAVERSION$"/>
         </Arguments>
       </Command>
     </CommandStartup>

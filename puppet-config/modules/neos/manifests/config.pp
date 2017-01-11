@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,9 +14,11 @@
 ##########################################################################
 
 class neos::config inherits neos {
-  hpclib::print_config { $::neos::config_file:
-    style => 'ini',
-    data  => $::neos::_config_options,
+  if $::neos::install_manage {
+    hpclib::print_config { $::neos::config_file:
+      style => 'ini',
+      data  => $::neos::_config_options,
+    }
   }
 }
 
