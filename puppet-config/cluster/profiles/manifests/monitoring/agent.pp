@@ -20,8 +20,10 @@ class profiles::monitoring::agent {
 
   # if the host runs virtual machines, it must be monitored by master monitoring server
   if member(hpc_get_hosts_by_profile('virt::host'), $::hostname) {
-    $zones         = hiera_hash('profiles::monitoring::agent::ext::zones', {})
-    $endpoints     = hiera_hash('profiles::monitoring::agent::ext::endpoints', {})
+    #zones         = hiera_hash('profiles::monitoring::agent::ext::zones', {})
+    #endpoints     = hiera_hash('profiles::monitoring::agent::ext::endpoints', {})
+    $zones         = hiera_hash('profiles::monitoring::agent::int::zones', {})
+    $endpoints     = hiera_hash('profiles::monitoring::agent::int::endpoints', {})
   } else {
     $zones         = hiera_hash('profiles::monitoring::agent::int::zones', {})
     $endpoints     = hiera_hash('profiles::monitoring::agent::int::endpoints', {})
