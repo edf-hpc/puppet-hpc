@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,6 +15,7 @@
 
 # Install and configures neos
 #
+# @param install_manage  Install Neos (default: true)
 # @param packages        Neos packages list.
 # @param packages_ensure Neos packages target state (`present` or `latest`)
 # @param config_file     Absolute path of the configuration file (default:
@@ -22,11 +23,13 @@
 # @param config_options  Content of the configuration file as a hash
 #                        , see `hpclib::print_config`
 class neos (
+  $install_manage   = $::neos::params::install_manage,
   $packages         = $::neos::params::packages,
   $packages_ensure  = $::neos::params::packages_ensure,
   $config_file      = $::neos::params::config_file,
   $config_options   = {},
 ) inherits neos::params {
+  validate_bool($install_manage)
   validate_array($packages)
   validate_string($packages_ensure)
   validate_absolute_path($config_file)
@@ -40,5 +43,3 @@ class neos (
   anchor { 'neos::end': }
 
 }
-
-Class['::neos'] -> Class ['::neos::web']

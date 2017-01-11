@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,6 +14,8 @@
 ##########################################################################
 
 class neos::params {
+  $install_manage = true
+
   $packages = [
     'neos',
     'neos-scenarios-graphical'
@@ -26,8 +28,5 @@ class neos::params {
       'name' => 'mycluster'
     }
   }
-
-  $web_apache_file = '/etc/apache2/conf.d/neos.conf'
-  $web_dir         = '/usr/local/neos_web'
 }
 

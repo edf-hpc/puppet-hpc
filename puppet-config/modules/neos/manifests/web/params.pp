@@ -13,30 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Generate a paraview `pvsc` file
-#
-# Content comes from a template, except if `paraview_source` or
-# `paraview_content` is provided. If both are provided, `paraview_content`
-# is used.
-#
-# @param apache_file Path of the apache configuration file
-# @param paraview_content Content of the pvsc file
-# @param paraview_source Source (`file` parameter) of the pvsc file
-# @param web_dir where the pvsc file is written
-class neos::web (
-  $apache_file      = $::neos::web::params::apache_file,
-  $paraview_content = undef,
-  $paraview_source  = undef,
-  $web_dir          = $::neos::web::params::web_dir,
-  $neos_options     = {}
-) inherits neos::web::params {
-  validate_absolute_path($apache_file)
-  validate_absolute_path($web_dir)
-  validate_hash($neos_options)
-
-  $_neos_options = deep_merge($::neos::params::config_options_default, $neos_options)
-
-  anchor { 'neos::web::begin': } ->
-  class { '::neos::web::config': } ->
-  anchor { 'neos::web::end': }
+class neos::web::params inherits neos::params {
+  $apache_file = '/etc/apache2/conf.d/neos.conf'
+  $web_dir     = '/usr/local/neos_web'
 }
+
