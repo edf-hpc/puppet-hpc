@@ -1,21 +1,21 @@
-# opafm
+# opa
 
 #### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
 3. [Setup](#setup)
-    * [What iscdhcp affects](#what-iscdhcp-affects)
+    * [What opa affects](#what-opa-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with iscdhcp](#beginning-with-iscdhcp)
+    * [Beginning with opa](#beginning-with-opa)
 4. [Usage](#usage)
 5. [Limitations](#limitations)
 6. [Development](#development)
 
 ## Module Description
 
-The module installs and configure the Intel OmniPath (OPA) Fabric Manager (FM),
-also known as OPA FM.
+The module installs and configure various Intel OmniPath (OPA) utils , including the
+Intel OmniPath (OPA) Fabric Manager (FM), also known as OPA FM.
 
 It can eventually enable the Fabric Executive (FE) that is notably used by
 Intel FM GUI to get data from the FM through TLS/SSL.
@@ -25,6 +25,7 @@ Intel FM GUI to get data from the FM through TLS/SSL.
 ### What opafm affects
 
 * OPA Fabric Manager packages
+* OPA Fastfabric package
 * OPA Fabric Manager XML formatted configuration file
 * OPA Fabric Manager service
 
@@ -35,7 +36,7 @@ This module depends in:
 * `stdlib` module (`validate_*()` functions)
 * `hpclib` module (`hpc_file()` function)
 
-### Beginning with opafm
+### Beginning with opa
 
 The module is able to define device groups (such as OPA switches groups) into
 the OPA FM XML configuration file and then set Performance Manager (PM) port
@@ -62,9 +63,31 @@ the module.
 
 ## Usage
 
-The `opafm` has only one public class. For managing the Fabric Manager XML
-configuration file, this public class can be instanciated in two main ways,
-either by giving in arguments:
+The `opa` has two public classes. 
+`opa::ff` installs and configures the Intel OmniPath (OPA) FastFabric tools, 
+including the switches file.
+`opa::fm` installs and configures Intel OmniPath (OPA) Fabric Manager. It 
+depends on the `opa::ff` class.
+
+
+### opa::ff
+
+The URL to the switches mappings file is optional in argument. If not given, the
+public will just skip managing the resource.
+
+Here is an example of public class instanciation with individual parameters:
+
+```
+class { '::opa::fm':
+  switch_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/switches',
+}
+```
+In this example the switches file is downloaded from the given URL and deployed 
+without modification.
+
+### opa::fm
+ For managing the Fabric Manager XML configuration file, the public class 
+`opa::fm` can be instanciated in two main ways, either by giving in arguments:
 
 * Individual parameters of the OPA Fabric Manager configuration file. This way,
   the configuration file is generated based on a template and the arguments
@@ -77,7 +100,7 @@ public will just skip managing the resource.
 Here is an example of public class instanciation with individual parameters:
 
 ```
-class { '::opafm':
+class { '::opa::fm':
   fe_enable      => true,
   fe_sslsecurity => true,
   devicegroups   => {
@@ -115,27 +138,22 @@ class { '::opafm':
       enable  => '1',
     },
   },
-  switch_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/switches',
 }
 
 ```
 
 With this class instanciation, the Fabric Engine will be enabled (typically for
 FM GUI) with SSL security enhancement. Three devices groups of switches are
-defined. All these groups are then assigned to PM groups. The switches file is
-also downloaded from the given URL and deployed without modification.
+defined. All these groups are then assigned to PM groups.
 
 To give URL to a full OPA Fabric Manager XML configuration file, use the
 `config_source` argument:
 
 ```
-class { '::opafm':
+class { '::opa::fm':
   config_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/opafm.xml',
 }
 ```
-
-In this example, the `switch_source` argument is not set. The file resource will
-not be managed by the module.
 
 If the `config_source` argument is defined, its value takes precedence over the
 individual parameters of the Fabric Manager XML configuration file.

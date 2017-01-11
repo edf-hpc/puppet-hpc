@@ -13,9 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opafm::params {
+class opa::fm::params {
   #### Module variables
-  $packages        = ['opa-fm', 'opa-fastfabric']
+  $packages        = ['opa-fm']
   $packages_ensure = installed
   $service         = 'opafm'
   $service_ensure  = running
@@ -29,6 +29,4 @@ class opafm::params {
   $devicegroups    = {}
   $pmportgroups    = {}
 
-  $switch_file     = '/etc/opa/switches'
-  $switch_source   = undef
 }

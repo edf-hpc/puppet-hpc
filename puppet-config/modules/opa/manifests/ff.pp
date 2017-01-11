@@ -13,7 +13,31 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Will setup opa-fm
-class profiles::opafm::service {
-  class { '::opafm': }
+# Deploys Intel Omni-Path fast fabric management tools 
+#
+# @param packages        Array of packages to install (default:
+#                        ['opa-fastfabric'])
+# @param packages_ensure Target state for the packages (default: 'installed')
+# @param switch_file     Absolute path to the switches list file
+#                        (default: '/etc/opa/switches')
+# @param switch_source   Source URL for switches file (default: undef)
+class opa::ff (
+  $packages        = $::opa::ff::params::packages,
+  $packages_ensure = $::opa::ff::params::packages_ensure,
+  $switch_file     = $::opa::ff::params::switch_file,
+  $switch_source   = $::opa::ff::params::switch_source,
+) inherits opa::ff::params {
+
+  validate_array($packages)
+  validate_string($packages_ensure)
+
+  if $switch_source {
+    validate_string($switch_source)
+    validate_absolute_path($switch_file)
+  }
+
+  anchor { 'opa::ff::begin': } ->
+  class { '::opa::ff::install': } ->
+  class { '::opa::ff::config': } ~>
+  anchor { 'opa::ff::end': }
 }

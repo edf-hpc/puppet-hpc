@@ -13,25 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opafm::config inherits opafm {
-  if $::opafm::config_source {
-    hpclib::hpc_file { $::opafm::config_file:
+class opa::fm::config inherits opa::fm {
+  if $::opa::fm::config_source {
+    hpclib::hpc_file { $::opa::fm::config_file:
       ensure => present,
-      source => $::opafm::config_source,
+      source => $::opa::fm::config_source,
     }
   } else {
-    $fe_enable      = $::opafm::fe_enable
-    $fe_sslsecurity = $::opafm::fe_sslsecurity
-    file { $::opafm::config_file:
+    $fe_enable      = $::opa::fm::fe_enable
+    $fe_sslsecurity = $::opa::fm::fe_sslsecurity
+    file { $::opa::fm::config_file:
       ensure  => present,
-      content => template('opafm/opafm.xml.erb'),
+      content => template('opa/opafm.xml.erb'),
     }
   }
 
-  if $::opafm::switch_source {
-    hpclib::hpc_file { $::opafm::switch_file :
-      source => $::opafm::switch_source,
-    }
-  }
 }
-

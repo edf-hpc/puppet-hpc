@@ -13,10 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opafm::install inherits opafm {
+class opa::fm::install inherits opa::fm {
 
-  package { $::opafm::packages:
-    ensure => $::opafm::packages_ensure,
+  package { $::opa::fm::packages:
+    ensure => $::opa::fm::packages_ensure,
   }
 
 }
