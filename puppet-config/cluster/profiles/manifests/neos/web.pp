@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet HPC profile for neos web resources                             #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -17,6 +17,12 @@
 #
 # This include paraview server configuration (`neos.pvsc`)
 #
+# ## Hiera
+# * `profiles::neos::config_options` (`hiera_hash`) Import neos configuration
+#   to get some parameters 
 class profiles::neos::web {
-  include ::neos::web
+  $neos_options = hiera_hash('profiles::neos::config_options')
+  class { '::neos::web':
+    neos_options => $neos_options,
+  }
 }
