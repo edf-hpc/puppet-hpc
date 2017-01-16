@@ -1,0 +1,64 @@
+#!/bin/bash
+
+function usage ()
+{
+        echo ""
+        echo -e " Usage : $0 [-c nom_du_cluster] [-p email_pe] [-s email_copie]"
+        echo -e ""
+	exit 1
+}
+
+while getopts c:p:s:h x 2> /dev/null
+do
+    case $x in
+        \? )    usage                   ;;
+         h )    usage                   ;;
+	 c ) 	cluster="$OPTARG"	;;
+	 p )	email_pe="$OPTARG"      ;;
+	 s )	email_copie="$OPTARG"	;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "${cluster}" -o -z "${email_pe}" ]; then
+    usage
+fi
+
+groupldap="cl-${cluster}-users*"
+log_file="/var/log/report.log"
+file_report="/tmp/user-reporting-${cluster}_$(date '+%d_%m_%Y')"
+
+# Recup conf via conf sssd
+# -------------------------
+cmdsssd=$(awk '/^ldap_uri/{ldap_uri=$NF};/^ldap_default_bind_dn/{ldap_default_bind_dn=$NF};/^ldap_default_authtok/{ldap_default_authtok=$NF};/^ldap_search_base/{ldap_search_base=$NF} {print ldap_uri"|"ldap_default_bind_dn"|"ldap_default_authtok"|"ldap_search_base}' /etc/sssd/sssd.conf | tail -n 1 | sed 's/ldap_default_bi  nd_dn=//g;s/ldap_default_authtok=//g;s/ldap_search_base=//g;s/ldap_default_bind_dn=//g')
+IFS="|" read ldapserver loginldapserver passldapserver baseldapserver <<<  "${cmdsssd}"
+
+listaccount=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} cn=${groupldap} | awk '/^member:/ {print$2}' | awk -F "," '{print$1}')
+nb_users=$(echo ${listaccount} | tr " " "\n" | wc -l)
+
+echo -e "-------------------------------------------------------------------------------------------------------" > ${file_report}
+echo -e "List of ${nb_users} cluster users ${cluster}:\n" >> ${file_report}
+printf "%-16s %-12s %-44s\n" "Login" "Status" "Mail User" >> ${file_report}
+echo -e "-------------------------------------------------------------------------------------------------------" >> ${file_report}
+
+
+for nni in ${listaccount};do
+
+	cmdldaprec=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} ${nni} | awk '/^uid:/ {login=$2};/^employeeType:/ {statut=$2};/^mail:/ {mail=$2}; {print login"|"statut"|"mail}' | tail -n 1 ) 	
+	IFS="|" read login statut mail <<<  "${cmdldaprec}"
+	printf "%-16s %-12s %-44s\n" "${login}" "${statut}" "${mail}" >> ${file_report}
+	mailusercluster+="${mail} "
+
+done
+
+echo -e "\n\n" >>  ${file_report}
+echo -e "-------------------------------------------------------------------------------------------------------" >> ${file_report}
+echo -e "List of Cluster user emails ${cluster}" >> ${file_report}
+echo -e "To Copy/Paste to Notes" >> ${file_report}
+echo -e "-------------------------------------------------------------------------------------------------------" >> ${file_report}
+
+echo ${mailusercluster[*]} | tr " " "," >> ${file_report} 
+
+# Envoi du mail
+cat ${file_report} | mailx -a "From: <%= @config_report_users['send_from'] %>" -c "${email_copie}" -s "[$(echo ${cluster}|sed -e 's/.*/\U&/')] : weekly report of ${nb_users} users $(date +%m/%Y)" "${email_pe}"
+
