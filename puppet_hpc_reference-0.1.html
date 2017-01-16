@@ -360,12 +360,111 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 
 </style>
 </head>
-<body class="book">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Puppet-HPC reference documentation</h1>
 <span id="author" class="author">CCN-HPC</span><br>
 <span id="revnumber">version 0.1,</span>
 <span id="revdate">01/01/1970</span>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_about_this_document">About this document</a></li>
+<li>
+<ul class="sectlevel1">
+<li><a href="#_purpose">Purpose</a></li>
+<li><a href="#_typographic_conventions">Typographic conventions</a></li>
+<li><a href="#_build_dependencies">Build dependencies</a></li>
+<li><a href="#_license">License</a></li>
+<li><a href="#_authors">Authors</a></li>
+</ul>
+</li>
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#arch">Software architecture</a></li>
+<li>
+<ul class="sectlevel1">
+<li><a href="#arch-pattern">1. Pattern</a></li>
+<li><a href="#arch-hieralayers">2. Hiera layers</a></li>
+<li><a href="#arch-internalrepo">3. Internal repository</a></li>
+<li><a href="#arch-deps">4. External dependencies</a></li>
+<li><a href="#arch-genericity">5. Genericity levels</a></li>
+<li><a href="#arch-roles">6. Roles</a></li>
+<li><a href="#_cluster_definition">7. Cluster definition</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#cluster-main-parameters">7.1. Main shared parameters</a></li>
+<li><a href="#cluster-network-definitions">7.2. Network definitions</a></li>
+<li><a href="#cluster-node-definitions">7.3. Node definitions</a></li>
+</ul>
+</li>
+<li><a href="#_deployment">8. Deployment</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_push_and_apply_scripts">8.1. Push and apply scripts</a></li>
+<li><a href="#_packages">8.2. Packages</a></li>
+</ul>
+</li>
+<li><a href="#arch-encrypt">9. Sensitive data encryption</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#arch-encrypt-keys">9.1. Encryption keys</a></li>
+<li><a href="#_key_propagation_service">9.2. Key propagation service</a></li>
+<li><a href="#_sensitive_files_decryption">9.3. Sensitive files decryption</a></li>
+<li><a href="#arch-encrypt-bootstrap">9.4. Bootstrap procedure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#devgl">Development Guidelines</a></li>
+<li>
+<ul class="sectlevel1">
+<li><a href="#devgl-rules">1. Main rules</a></li>
+<li><a href="#devgl-dirs">2. Directories structure</a></li>
+<li><a href="#devgl-style">3. Language settings</a></li>
+<li><a href="#_hieradata">4. Hieradata</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#devgl-data-types">4.1. Parameter types</a></li>
+<li><a href="#_shared_parameters">4.2. Shared parameters</a></li>
+<li><a href="#_simple_parameters">4.3. Simple parameters</a></li>
+<li><a href="#devgl-advparams">4.4. Advanced parameters</a></li>
+<li><a href="#devgl-interpolation">4.5. Interpolation</a></li>
+</ul>
+</li>
+<li><a href="#devgl-mods">5. Modules</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#devgl-mods-dependencies">5.1. Dependencies</a></li>
+<li><a href="#devgl-mods-inh">5.2. Classes inheritance</a></li>
+<li><a href="#devgl-mods-params">5.3. Parameters</a></li>
+<li><a href="#devgl-mods-args">5.4. Arguments</a></li>
+<li><a href="#devgl-mods-ex">5.5. Examples</a></li>
+</ul>
+</li>
+<li><a href="#devgl-profiles">6. Profiles</a></li>
+<li><a href="#_roles">7. Roles</a></li>
+<li><a href="#_advanced_processing">8. Advanced processing</a></li>
+<li><a href="#_git_repository">9. Git repository</a></li>
+<li><a href="#_debugging">10. Debugging</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_static_analysis">10.1. Static analysis</a></li>
+<li><a href="#_scripts">10.2. Scripts</a></li>
+<li><a href="#_unit_tests">10.3. Unit tests</a></li>
+</ul>
+</li>
+<li><a href="#_documentation">11. Documentation</a></li>
+<li>
+<ul class="sectlevel2">
+<li><a href="#_module">11.1. Module</a></li>
+<li><a href="#_profiles">11.2. Profiles</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_reference_api">Reference API</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <h1 id="_about_this_document" class="sect0">About this document</h1>
@@ -441,7 +540,7 @@ documentation:</p>
 <h2 id="_license">License</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright © 2014-2016 EDF S.A.</p>
+<p>Copyright © 2014-2017 EDF S.A.</p>
 </div>
 <div class="paragraph">
 <p>CCN-HPC &lt;<a href="mailto:dsp-cspito-ccn-hpc@edf.fr">dsp-cspito-ccn-hpc@edf.fr</a>&gt;</p>
@@ -3541,7 +3640,7 @@ description, types and optionally examples of values.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2017-01-16 17:22:30 CET
+Last updated 2017-01-16 17:43:30 CET
 </div>
 </div>
 </body>
