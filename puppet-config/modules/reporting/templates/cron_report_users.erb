@@ -1,0 +1,2 @@
+# Reporting users <%= @config_report_users['cron_cluster'] %> 
+00 6 * * 1 <%= @config_report_users['cron_exe_user'] %> /usr/local/sbin/report_users -c <%= @config_report_users['cron_cluster'] %> -p <%= @config_report_users['cron_destinataire'] %> -s <%= @config_report_users['cron_destinataire_copie'] %>
