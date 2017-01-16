@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="puppet_type_list_link"
+        href="puppet_type_list.html">
+      Puppet Type List
+    </a>
+  
+    <a class="full_list_link" id="puppet_provider_list_link"
+        href="puppet_provider_list.html">
+      Puppet Provider List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>opa</h1>
+
+<h4>Table of Contents</h4>
+
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#module-description">Module Description</a></li>
+<li><a href="#setup">Setup</a>
+
+<ul>
+<li><a href="#what-opa-affects">What opa affects</a></li>
+<li><a href="#setup-requirements">Setup requirements</a></li>
+<li><a href="#beginning-with-opa">Beginning with opa</a></li>
+</ul></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#development">Development</a></li>
+</ol>
+
+<h2>Module Description</h2>
+
+<p>The module installs and configure various Intel OmniPath (OPA) utils , including the
+Intel OmniPath (OPA) Fabric Manager (FM), also known as OPA FM.</p>
+
+<p>It can eventually enable the Fabric Executive (FE) that is notably used by
+Intel FM GUI to get data from the FM through TLS/SSL.</p>
+
+<h2>Setup</h2>
+
+<h3>What opafm affects</h3>
+
+<ul>
+<li>OPA Fabric Manager packages</li>
+<li>OPA Fastfabric package</li>
+<li>OPA Fabric Manager XML formatted configuration file</li>
+<li>OPA Fabric Manager service</li>
+</ul>
+
+<h3>Setup Requirements</h3>
+
+<p>This module depends in:</p>
+
+<ul>
+<li><code>stdlib</code> module (<code>validate_*()</code> functions)</li>
+<li><code>hpclib</code> module (<code>hpc_file()</code> function)</li>
+</ul>
+
+<h3>Beginning with opa</h3>
+
+<p>The module is able to define device groups (such as OPA switches groups) into
+the OPA FM XML configuration file and then set Performance Manager (PM) port
+groups on these device groups. This way, the performances of the groups of
+switches can be monitored with tools such as <code>opatop</code> or FM GUI.</p>
+
+<p>To define the device groups, it is required to gather the GUIDs of the switches
+before anything. Once the network fibers and cables are plugged, the switches
+GUIDs can be retrieved with the following command:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># opaextractsellinks
+</span></code></pre>
+
+<p>This command dumps the list of inter-switches links along with the GUIDs of the
+switches. If the switches have been properly labelled with <code>opaswitchadmin</code>, the
+output is hopefully human-readable. Otherwise, ask the hardware vendor for the
+GUIDs.</p>
+
+<p>The module is also able to deploy an optional <code>switches</code> file which specifies
+the mapping between switches GUIDs and their names. The module expects an URL
+to the complete file, so the file must be prepared before using this feature of
+the module.</p>
+
+<h2>Usage</h2>
+
+<p>The <code>opa</code> has two public classes. 
+<code>opa::ff</code> installs and configures the Intel OmniPath (OPA) FastFabric tools, 
+including the switches file.
+<code>opa::fm</code> installs and configures Intel OmniPath (OPA) Fabric Manager. It 
+depends on the <code>opa::ff</code> class.</p>
+
+<h3>opa::ff</h3>
+
+<p>The URL to the switches mappings file is optional in argument. If not given, the
+public will just skip managing the resource.</p>
+
+<p>Here is an example of public class instanciation with individual parameters:</p>
+
+<pre class="code ruby"><code class="ruby">class { &#39;::opa::fm&#39;:
+  switch_source =&gt; &#39;http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/switches&#39;,
+}
+</code></pre>
+
+<p>In this example the switches file is downloaded from the given URL and deployed 
+without modification.</p>
+
+<h3>opa::fm</h3>
+
+<p>For managing the Fabric Manager XML configuration file, the public class 
+<code>opa::fm</code> can be instanciated in two main ways, either by giving in arguments:</p>
+
+<ul>
+<li>Individual parameters of the OPA Fabric Manager configuration file. This way,
+the configuration file is generated based on a template and the arguments
+values.</li>
+<li>The URL to a full OPA Fabric Manager XML configuration file.</li>
+</ul>
+
+<p>The URL to the switches mappings file is optional in argument. If not given, the
+public will just skip managing the resource.</p>
+
+<p>Here is an example of public class instanciation with individual parameters:</p>
+
+<pre class="code ruby"><code class="ruby">class { &#39;::opa::fm&#39;:
+  fe_enable      =&gt; true,
+  fe_sslsecurity =&gt; true,
+  devicegroups   =&gt; {
+    &#39;group1&#39; =&gt; {
+      comment   =&gt; &#39;cluster switches group 1&#39;,
+      nodeguids =&gt; [ &#39;0x0134567deadbeef1&#39;,
+                     &#39;0x0134567deadbeef2&#39;,
+                     &#39;0x0134567deadbeef3&#39;, ],
+    },
+    &#39;group2&#39; =&gt; {
+      comment   =&gt; &#39;cluster switches group 2&#39;,
+      nodeguids =&gt; [ &#39;0x0134567deadbeef4&#39;,
+                     &#39;0x0134567deadbeef5&#39;,
+                     &#39;0x0134567deadbeef6&#39;,
+                     &#39;0x0134567deadbeef7&#39;, ],
+    },
+    &#39;group3&#39; =&gt; {
+      comment =&gt; &#39;cluster switches group 3&#39;,
+      nodeguids =&gt; [ &#39;0x0134567deadbeef8&#39;,
+                     &#39;0x0134567deadbeef9&#39;,
+                     &#39;0x0134567deadbeefA&#39;, ],
+    },
+  },
+  pmportgroups   =&gt; {
+    &#39;group1&#39; =&gt; {
+      monitor =&gt; &#39;group1&#39;,
+      enable  =&gt;  &#39;1&#39;,
+     },
+    &#39;group2&#39; =&gt; {
+      monitor =&gt; &#39;group2&#39;,
+      enable  =&gt; &#39;1&#39;,
+    },
+    &#39;group3&#39; =&gt; {
+      monitor =&gt; &#39;group3&#39;,
+      enable  =&gt; &#39;1&#39;,
+    },
+  },
+}
+
+</code></pre>
+
+<p>With this class instanciation, the Fabric Engine will be enabled (typically for
+FM GUI) with SSL security enhancement. Three devices groups of switches are
+defined. All these groups are then assigned to PM groups.</p>
+
+<p>To give URL to a full OPA Fabric Manager XML configuration file, use the
+<code>config_source</code> argument:</p>
+
+<pre class="code ruby"><code class="ruby">class { &#39;::opa::fm&#39;:
+  config_source =&gt; &#39;http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/opafm.xml&#39;,
+}
+</code></pre>
+
+<p>If the <code>config_source</code> argument is defined, its value takes precedence over the
+individual parameters of the Fabric Manager XML configuration file.</p>
+
+<h2>Limitations</h2>
+
+<p>This module is mainly tested on Debian.</p>
+
+<h2>Development</h2>
+
+<p>Patches and issues can be submitted on GitHub:
+<a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
+</div></div>
+
+    <div id="footer">
+  Generated on Mon Jan 16 17:23:25 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>

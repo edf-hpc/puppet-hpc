@@ -114,9 +114,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p><p>Configure pam_pwquality: check password strength</p>
-
-<p>Only works on Debian</p>
+    <p><p>Only works on Debian</p>
 </p>
   </div>
 </div>
@@ -128,8 +126,8 @@
 <h2>Parameter Summary</h2>
 <div class="tags">
   <ul class="param">
-    <li><span class="name">pamauthupdate_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pwquality::pamauthupdate_file</tt> - <div class="inline"><p> Path of the file to be picked up by pam-auth-update </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pwquality::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
-'present) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::params::pwquality::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li>
+    <li><span class="name">pamauthupdate_file </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::pwquality::params::pamauthupdate_file</tt> - <div class="inline"><p> Path of the file to be picked up by pam-auth-update </p></div></li><li><span class="name">packages_ensure </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::pwquality::params::packages_ensure</tt> - <div class="inline"><p> Ensures the packages are in this state (default:
+'present) </p></div></li><li><span class="name">packages </span><span class="type">(<tt>Any</tt>)</span><tt> => $pam::pwquality::params::packages</tt> - <div class="inline"><p> List of packages to install </p></div></li>
   </ul>
 </div>
 <div id="subclasses">
@@ -139,7 +137,7 @@
 </div>
 
     <div id="footer">
-  Generated on Tue Jan  3 10:46:00 2017 by
+  Generated on Mon Jan 16 17:23:30 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

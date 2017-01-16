@@ -86,7 +86,6 @@
 <h4>Table of Contents</h4>
 
 <ol>
-<li><a href="#overview">Overview</a></li>
 <li><a href="#module-description">Module Description</a></li>
 <li><a href="#setup">Setup</a>
 
@@ -112,10 +111,20 @@ also generate a Paraview server file (<code>.pvsc</code>).</p>
 
 <h3>Setup Requirements</h3>
 
-<p>Module dependency:
- * <code>hpclib</code></p>
+<p>Module dependency:</p>
+
+<ul>
+<li><code>hpclib</code></li>
+<li><code>apache</code> (for <code>neos::web</code>)</li>
+</ul>
 
 <h3>Beginning with neos</h3>
+
+<h2>Usage</h2>
+
+<h3>neos</h3>
+
+<p>Include the neos class on graphical nodes and submit hosts.</p>
 
 <p>The default configuration might be correct for your site, but you should at
 least provide a cluster name:</p>
@@ -129,11 +138,28 @@ least provide a cluster name:</p>
 }
 </code></pre>
 
-<h2>Usage</h2>
+<h3>neos::web</h3>
 
-<p>Include the neos class on graphical nodes and submit hosts.</p>
+<p>The class <code>::neos::web</code> should be installed on a web server. This class will
+setup an alias to a file <code>server.pvsc</code> that will be exported.</p>
 
-<p>The class <code>::neos::web</code> should be installed on a web server.</p>
+<p>The content of the file is:</p>
+
+<ul>
+<li>Generated from the neos configuration <code>neos_options</code> parameter</li>
+<li>A source for the file</li>
+<li>The content directly</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby">class { &#39;::neos::web&#39;:
+  neos_options =&gt; {
+    &#39;cluster&#39; =&gt; {
+      &#39;name&#39; =&gt; &#39;clustername&#39;
+    }
+  },
+}
+
+</code></pre>
 
 <h2>Limitations</h2>
 
@@ -146,7 +172,7 @@ least provide a cluster name:</p>
 </div></div>
 
     <div id="footer">
-  Generated on Tue Jan  3 10:45:51 2017 by
+  Generated on Mon Jan 16 17:23:21 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>
