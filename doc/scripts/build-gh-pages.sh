@@ -8,6 +8,10 @@ temp_base="$(mktemp -d --tmpdir puppet_hpc_build_gh_pagesXXXXX)"
 puppet_hpc_dir="${temp_base}/puppet-hpc-master"
 puppet_hpc_gh_pages="${temp_base}/puppet-hpc-gh-pages"
 
+
+git_user_name="$(cd ${puppet_hpc_current_git} ; git config user.name)"
+git_user_email="$(cd ${puppet_hpc_current_git} ; git config user.email)"
+
 git clone "${puppet_hpc_current_git}" "${puppet_hpc_dir}"
 git clone -b gh-pages "${puppet_hpc_current_git}" "${puppet_hpc_gh_pages}"
 
@@ -113,7 +117,7 @@ then
     rm -rf *
     cp -r ${docdir}/gh-pages/* .
     git add *
-    git commit -m "Automatic doc regen"
+    git commit -m "Automatic doc regen" --author="${git_user_name} <${git_user_email}>"
   )
   (
     cd ${docdir}
