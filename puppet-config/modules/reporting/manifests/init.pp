@@ -14,16 +14,18 @@
 ##########################################################################
 
 class reporting (
-  $script_report_users = $reporting::params::script_report_users,
-  $cron_reporting      = $reporting::params::cron_reporting,
+  $script_report_users   = $reporting::params::script_report_users,
+  $cron_reporting        = $reporting::params::cron_reporting,
+  $config_options        = {},
   $config_report_users   = {},
 ) inherits reporting::params {
 
   validate_absolute_path($script_report_users)
   validate_absolute_path($cron_reporting)
   validate_hash($config_report_users)
+  validate_hash($config_options)
 
-  $_config_options=deep_merge($reporting::params::config_options_defaults, $config_report_users)
+  $_config_options=deep_merge($reporting::params::config_options_defaults, $config_report_users, $config_options)
 
   anchor { 'reporting::begin': } ->
   class { '::reporting::config': } ->
