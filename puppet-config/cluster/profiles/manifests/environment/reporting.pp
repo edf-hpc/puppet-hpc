@@ -15,6 +15,5 @@
 
 # - `reporting::config_options` Options for reporting
 class profiles::environment::reporting {
-  #include ::reporting
   class { '::reporting': }
 }
