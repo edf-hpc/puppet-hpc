@@ -597,6 +597,7 @@ profiles::log::client::server:        "%{hiera('cluster_prefix')}%{::my_log_serv
 profiles::log::client::port:          '20514'
 profiles::log::server::server_dir:    "%{hiera('admin_dir')}/restricted/logs/"
 profiles::log::server::custom_config: 'rsyslog/server-hostname.conf.erb'
+rsyslog::client::spool_size:          '200m'
 
 ##### Consul
 consul::domain: "%{hiera('virtual_domain')}"
