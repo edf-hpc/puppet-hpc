@@ -36,12 +36,16 @@ IFS="|" read ldapserver loginldapserver passldapserver baseldapserver <<<  "${cm
 listaccount=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} cn=${groupldap} | awk '/^member:/ {print$2}' | awk -F "," '{print$1}'| sed 's/uid=dummy//g')
 nb_users=$(echo ${listaccount} | tr " " "\n" | wc -l)
 
+grp=$(echo ${groupldap} | awk -F "-" '{print$NF}')
+nbusersubmit=$(sacct -X -S $(date -d "31 days ago" +"%Y-%m-%dT00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
+
 echo '<html><head>' > ${file_report}
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' >> ${file_report}
 echo '<title>weekly report</title>' >> ${file_report}
 echo '</head><body>' >> ${file_report}
 echo '<br><br>' >> ${file_report}
-echo '<a>Dear PP,<a><br>' >> ${file_report}
+echo '<a>Dear PP,<a><br><br>' >> ${file_report}
+echo '<a>For information there are <b>${nbusersubmit}</b> since 31 days who submitted at least one job</a><br><br>' >> ${file_report}
 echo '<a>Please find include a list of the <b>'${nb_users}'</b> users of the <b>'${cluster}'</b> cluster belonging to the <b>'${groupldap}'</b> group:</a><br><br>' >> ${file_report}
 echo '<table style="width:80%;text-align:left">' >>${file_report}
 echo '<th style="width:20%;background:#A5CEF7">Login</th>' >>${file_report}
