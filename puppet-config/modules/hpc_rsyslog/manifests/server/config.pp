@@ -20,6 +20,25 @@ class hpc_rsyslog::server::config inherits hpc_rsyslog::server {
     create_resources(logrotate::rule,
                      $::hpc_rsyslog::server::_logrotate_rules)
 
+    $service_dir = "/etc/systemd/system/${::hpc_rsyslog::server::service_name}.service.d"
+    $service_override_file = "${service_dir}/override.conf"
+
+    file { $service_dir:
+      ensure => directory,
+    }
+
+    hpclib::print_config { $service_override_file:
+      style  => 'ini',
+      data   => $::hpc_rsyslog::server::_service_override,
+      notify => Exec['rsyslog_systemctl_daemon_reload'],
+    }
+
+    exec { 'rsyslog_systemctl_daemon_reload':
+      refreshonly => true,
+      command     => '/bin/systemctl daemon-reload',
+      notify      => Class['::rsyslog::service'],
+    }
+
   }
 
 }
