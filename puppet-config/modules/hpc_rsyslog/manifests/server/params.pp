@@ -32,5 +32,11 @@ class hpc_rsyslog::server::params {
       postrotate    => 'invoke-rc.d rsyslog rotate > /dev/null',
     }
   }
+  $service_name = 'rsyslog'
+  $service_override_defaults = {
+    'Service' => {
+      'LimitNOFILE' => '8192'
+    }
+  }
 
 }

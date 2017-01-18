@@ -20,13 +20,15 @@ rsyslog servers.
 
 ### What hpc_rsyslog affects
 
-The module deploys logrotate rules configuration.
+The module deploys logrotate rules configuration and systemd drop-in service
+configuration override.
 
 ### Setup Requirements
 
 The module depends on:
 
 * `stdlib` module (for `validate_*()` and `deep_merge()` functions),
+* `hpclib` module (for `print_config()` defined type)
 
 ### Beginning with hpc_rsyslog
 
@@ -52,7 +54,12 @@ class { "::hpc_rsyslog::server":
       rotate_every  => day,
       postrotate    => 'invoke-rc.d rsyslog rotate > /dev/null',
     }
-  } 
+  },
+  service_override => {
+    'Service' => {
+      'LimitNOFILE' => '16384'
+    }
+  },
 }
 ```
 
@@ -62,6 +69,11 @@ defaults parameters of this rule can be altered by overriding them in the class
 arguments since the `logrotate_rules` hash is deep-merged with default rule
 definition from `params` private class. Other rules can be appended into the
 hash.
+
+The `service_override` parameter is a hash of a drop-in systemd service
+configuration file containing to override default rsyslog service settings. The
+default drop-in systemd service configuration file defined in `params` private
+class sets rsyslog soft maximum open fd limit to 8192.
 
 ## Limitations
 
