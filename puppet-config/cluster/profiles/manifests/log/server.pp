@@ -16,10 +16,9 @@
 # Log server
 #
 # ## Hiera
-# * `profiles::log::server::server_dir`
 # * `profiles::log::server::custom_config`
-# * `profiles::log::server::logrotate_firstaction` Check command before
-#     rotating the logs on disk (default: `undef`)
+# * `profiles::log::server::logrotate_rules` Logrotate additional rules
+#   (default: {})
 class profiles::log::server {
 
   ## Hiera lookups
@@ -27,7 +26,6 @@ class profiles::log::server {
   $custom_config = hiera('profiles::log::server::custom_config')
   $logrotate_rules = hiera_hash('profiles::log::server::logrotate_rules', {})
 
-  # Pass config options as a class parameter
   class { '::rsyslog::server':
     custom_config => $custom_config,
   }
