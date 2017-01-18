@@ -16,19 +16,15 @@
 # Log server
 #
 # ## Hiera
-# * `profiles::log::server::custom_config`
 # * `profiles::log::server::logrotate_rules` Logrotate additional rules
 #   (default: {})
 class profiles::log::server {
 
   ## Hiera lookups
 
-  $custom_config = hiera('profiles::log::server::custom_config')
   $logrotate_rules = hiera_hash('profiles::log::server::logrotate_rules', {})
 
-  class { '::rsyslog::server':
-    custom_config => $custom_config,
-  }
+  include ::rsyslog::server
 
   class { '::hpc_rsyslog::server':
     logrotate_rules => $logrotate_rules,
