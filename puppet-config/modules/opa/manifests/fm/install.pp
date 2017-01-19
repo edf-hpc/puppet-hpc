@@ -18,5 +18,9 @@ class opa::fm::install inherits opa::fm {
   package { $::opa::fm::packages:
     ensure => $::opa::fm::packages_ensure,
   }
+ 
+  file { [ '/var/crash', '/var/crash/opafm' ]:
+    ensure => directory,
+  }
 
 }
