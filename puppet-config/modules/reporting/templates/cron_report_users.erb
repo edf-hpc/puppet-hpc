@@ -1,5 +1,5 @@
 <%- @config_report_users.each do | reportusers, content | -%>
 # Reporting users <%- content['cron_cluster'] %> of group <%=reportusers%>.
-00 6 * * 1 <%= content['cron_exe_cluster'] %> /usr/local/sbin/report_users -g <%=reportusers%> -c <%= content['cron_cluster']%> -p <%= content['cron_destinataire'] %> -s <%= content['cron_destinataire_copie']%>
+00 6 * * 1 <%= content['cron_exe_user'] %> /usr/local/sbin/report_users -g <%=reportusers%> -c <%= content['cron_cluster']%> -p <%= content['cron_destinataire'] %> -s <%= content['cron_destinataire_copie']%>
 <%- end -%>
 
