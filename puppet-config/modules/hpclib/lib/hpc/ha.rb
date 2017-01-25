@@ -105,24 +105,48 @@ def get_host_vip_notify_scripts(hostname)
 
   # This function returns a hash that could be given in parameters of:
   #   create_resources(hpc_ha::vip_notify_script, $result)
+  #
+  # It implies that the items in the hashes composing this hash must correspond
+  # to the parameters of the hpc_ha::vip_notify_script class.
 
   host_vip_notify_scripts = Hash.new
 
   # Iterate over all VIPs found in hiera. For each of them, if hostname is
   # member, add to host_vips
+
   all_vips = get_vips()
-  all_vips.each do |vip_group, vip_items|
+  all_vips.each do |vip_name, vip_items|
 
     members = hpc_nodeset_expand(vip_items['members'])
     if members.include?(hostname) and vip_items.key?('notify')
 
-      new_script = Hash.new
-      # The items in this hash must correspond to the parameters of the
-      # hpc_ha::vip_notify_script class
-      new_script['vip_name'] = vip_group
-      new_script['source'] = vip_items['notify']
+      notify_conf = vip_items['notify']
 
-      host_vip_notify_scripts[vip_group] = new_script
+      # If the notify element is a simple string, consider the value is the
+      # source of a script in common part.
+      if notify_conf.instance_of? String
+        new_script = Hash.new
+        new_script['vip_name'] = vip_name
+        new_script['part'] = 'common'
+        source = vip_items['notify']
+        basename = File.basename(source)
+        new_script['source'] = source
+        host_vip_notify_scripts["#{vip_name}-common-#{basename}"] = new_script
+      else
+        # Otherwise (not a string), the notify element must a a hash, with parts
+        # as keys, of list of script sources.
+        notify_conf.each do |part, scripts|
+          scripts.each do |source|
+            new_script = Hash.new
+            new_script['vip_name'] = vip_name
+            new_script['part'] = part
+            basename = File.basename(source)
+            new_script['source'] = source
+            host_vip_notify_scripts["#{vip_name}-#{part}-#{basename}"] = new_script
+          end
+        end
+      end
+
     end
   end
   return nil unless host_vip_notify_scripts.length
