@@ -69,10 +69,13 @@ define hpc_ha::vip (
 
   # Setup the notify script and run-parts dirs
   if $notify_script {
-    $_notify_script = "/etc/hpc_ha/${vrrp_instance_id}/notify/vserv_${_name}_notify"
+    $_notify_script = $::hpc_ha::default_notify_script
+  } else {
+    $_notify_script = undef
   }
 
   $scripts_dir = "/etc/hpc_ha/${vrrp_instance_id}"
+
   $notify_dirs = [
     $scripts_dir,
     "${scripts_dir}/notify",
