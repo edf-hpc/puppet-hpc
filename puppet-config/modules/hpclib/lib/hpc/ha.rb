@@ -89,7 +89,10 @@ def get_host_vips(hostname)
       new_vip['router_id'] = vip_items['router_id']
       new_vip['ip_address'] = vip_items['ip']
       new_vip['auth_secret'] = vip_items['secret']
-      new_vip['notify_script'] = vip_items.key?('notify')
+      # Enable generic notify_script if notify scripts are set on VIP or a vserv
+      # is defined with a port. If a vserv is configured, a notify script is
+      # systematically deployed with a template by the hpc_ha module.
+      new_vip['notify_script'] = vip_items.key?('notify') || vip_items.key?('port')
       if vip_items.key?('advert_int')
         new_vip['advert_int'] = vip_items['advert_int']
       end
