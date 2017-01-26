@@ -65,9 +65,12 @@ define hpc_ha::vip_notify_script (
   }
 
   if $source {
-    $_script_name = basename($source)
+    # The script name appending the real filename is the basename of the source
+    # URL where dots (.) are replaced by dash (-) since run-part ignores files
+    # containing dots.
+    $_script_name = regsubst(basename($source), '\.', '-')
   } else {
-    $_script_name = 'common.sh'
+    $_script_name = 'common'
   }
 
   file { "/etc/hpc_ha/${vrrp_instance_id}/${_part_dir}/vserv_${_vip_name}_notify_${_script_name}":
