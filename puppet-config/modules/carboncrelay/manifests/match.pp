@@ -12,6 +12,13 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
 #  GNU General Public License for more details.                          #
 ##########################################################################
+
+# Match rule
+#
+# @param expression Expression matching metrics (default: '*')
+# @param destinations Array of destination clusters (default: ['blackhole'])
+# @param stop Boolean: following rules applied (default: false)
+# @param order Order of the rule in the configuration file: 31+ (default: '31')
 define carboncrelay::match (
   $expression   = $::carboncrelay::params::match_expression,
   $destinations = $::carboncrelay::params::match_destination,

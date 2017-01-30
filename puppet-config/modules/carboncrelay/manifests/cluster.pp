@@ -12,6 +12,12 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
 #  GNU General Public License for more details.                          #
 ##########################################################################
+
+# A target cluster
+#
+# @param type One of: 'forward', 'any_of', 'failover' (default: 'any_of')
+# @param destinations Hash of destinations
+# @param order Order of the cluster in the configuration file: 11-19 (default: '11' )
 define carboncrelay::cluster (
   $type         = $::carboncrelay::params::cluster_type,
   $destinations = [],

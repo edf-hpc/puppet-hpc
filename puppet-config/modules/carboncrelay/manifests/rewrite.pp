@@ -12,6 +12,12 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
 #  GNU General Public License for more details.                          #
 ##########################################################################
+
+# Rewrite rule
+#
+# @param expression Expression to match
+# @param replacement Replacement expression
+# @param order Order of the rule in the configuration file: 21-29 (default: 21)
 define carboncrelay::rewrite (
   $expression,
   $replacement,
