@@ -11,7 +11,7 @@
 #      $3 = Target state of transition                                   #
 #                                                                        #
 #                                                                        #
-#  Copyright (C) 2014-2016 EDF S.A.                                      #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
