@@ -41,7 +41,7 @@ class profiles::cluster::common {
   # Set apt config
   if $::osfamily == 'Debian' {
     $apt_sources = hiera_hash('profiles::cluster::apt_sources')
-    $apt_confs   = hiera_hash('profiles::cluster::apt_confs')
+    $apt_confs   = hiera_hash('profiles::cluster::apt_confs', {})
     class { '::hpc_apt':
       stage   => 'first',
       confs   => $apt_confs,
