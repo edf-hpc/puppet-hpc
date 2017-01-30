@@ -13,6 +13,17 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure carbon-c-relay 
+#
+# @param service Service name
+# @param service_ensure Target state of the service (default: 'running')
+# @param service_enable Boolean: is service started at boot (default: true)
+# @param packages Array of packages names
+# @param packages_ensure Target state of the packages (default: 'installed')
+# @param config_file Absolute path of the configuration file (default:
+#          '/etc/carbon-c-relay.conf')
+# @param service_override Hash of options to include in the systemd service
+#          override files
 class carboncrelay (
   $service          = $::carboncrelay::params::service,
   $service_ensure   = $::carboncrelay::params::service_ensure,
