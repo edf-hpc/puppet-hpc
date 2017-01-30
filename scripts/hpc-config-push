@@ -38,6 +38,18 @@ import boto
 import boto.s3
 import boto.s3.connection
 
+def conf_copy(src, dst, *, follow_symlinks=True):
+    """Alternate copy function for shutil.copytree() in order to properly
+       resolve and copy symlinks to directories. It is used to copy private
+       files into the tmp directory. If the path is a directory, call copytree()
+       with self as copy_function, otherwise (flat file) call copy2()."""
+    if os.path.isdir(src):
+        shutil.copytree(src, dst,
+                        symlinks=not follow_symlinks,
+                        copy_function=conf_copy)
+    else:
+        shutil.copy2(src, dst, follow_symlinks=follow_symlinks)
+
 class AppConf():
     """Runtime configuration class."""
 
@@ -333,7 +345,9 @@ def _push_posix():
         shutil.rmtree(dir_files)
 
     logger.debug("posix push: copying private files")
-    shutil.copytree(conf.dir_files_private, dir_files)
+    # copytree() with alternate copy function conf_copy() to properly handle
+    # symlinks on directories.
+    shutil.copytree(conf.dir_files_private, dir_files, copy_function=conf_copy)
     logger.debug("posix push: copying puppet conf")
     shutil.copy(conf.conf_puppet, conf.destination)
     logger.debug("posix push: copying hiera conf")
