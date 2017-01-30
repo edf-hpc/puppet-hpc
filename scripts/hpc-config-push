@@ -345,8 +345,11 @@ def _push_posix():
         shutil.rmtree(dir_files)
 
     logger.debug("posix push: copying private files")
-    # copytree() with alternate copy function conf_copy() to properly handle
-    # symlinks on directories.
+    # copytree() default copy_function is shutil.copy2() which does not manage
+    # directories. When the file is a symlink, copytree() resolve the link and
+    # directly call copy2() with the target of the link. It fails with errno 21
+    # when the target is a directory. To avoid this bug, use an alternate copy
+    # function conf_copy() to properly handle symlinks on directories.
     shutil.copytree(conf.dir_files_private, dir_files, copy_function=conf_copy)
     logger.debug("posix push: copying puppet conf")
     shutil.copy(conf.conf_puppet, conf.destination)
