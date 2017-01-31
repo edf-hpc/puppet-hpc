@@ -50,6 +50,9 @@ profiles::postfix::relay::config_options:
   mydomain:            "%{hiera('domain')}"
 
 ##### TFTP
+# This shared parameter is not used in this layer of the hieradata but it is
+# proven to be useful in upper layers.
+tftp_dir: '/srv/tftp'
 profiles::tftp::server::tftp_opts:
   TFTP_DIRECTORY: "\"%{hiera('admin_dir')}/public/tftp\""
 
