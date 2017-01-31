@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2016 EDF SA
+# Copyright (C) 2016-2017 EDF SA
 # Contact:
 #       CCN - HPC <dsp-cspit-ccn-hpc@edf.fr>
 #       1, Avenue du General de Gaulle
@@ -21,7 +21,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public
-# License along with HPCStats. If not, see
+# License along with puppet-hpc. If not, see
 # <http://www.gnu.org/licenses/>.
 
 import os
