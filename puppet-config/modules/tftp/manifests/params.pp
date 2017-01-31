@@ -36,7 +36,7 @@ class tftp::params {
       $packages          = ['tftpd-hpa']
       $service           = 'tftpd-hpa'
       $config_file       = '/etc/default/tftpd-hpa'
-      $config_options = {
+      $config_options_defaults = {
         'TFTP_USERNAME'    => '"tftp"',
         'TFTP_DIRECTORY'   => '"/srv/tftp"',
         'TFTP_ADDRESS'     => '"0.0.0.0:69"',
