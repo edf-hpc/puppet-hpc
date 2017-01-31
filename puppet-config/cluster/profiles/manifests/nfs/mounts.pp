@@ -16,12 +16,13 @@
 # Configure NFS client mount
 #
 # ## Hiera
-# * `profiles::nfs::to_mount` (`hiera_hash`)
+# * `profiles::nfs::to_mount` (`hiera_hash`) Hash of NFS mount definitions
+#                             (default: {})
 # * `profiles::auth::client::enable_kerberos`
 class profiles::nfs::mounts {
 
   # Hiera lookups
-  $to_mount = hiera_hash('profiles::nfs::to_mount')
+  $to_mount = hiera_hash('profiles::nfs::to_mount', {})
 
   # If kerberos is enabled it should be configured before starting
   # nfs-common.
