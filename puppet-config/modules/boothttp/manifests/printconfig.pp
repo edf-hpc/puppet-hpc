@@ -13,7 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Write an OS install file
 #
+# @param name name of the resource
+# @param os OS name of the install file to write
 define boothttp::printconfig (
   $os = 'calibre9'
 ) {

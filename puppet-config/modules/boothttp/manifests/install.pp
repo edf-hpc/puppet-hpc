@@ -19,9 +19,9 @@ class boothttp::install inherits boothttp {
     ensure => $::boothttp::packages_ensure
   }
 
-  $menu_dir                        = "${boothttp::config_dir_http}/cgi-bin"
-  $menu_file                       = "${menu_dir}/bootmenu.py"
-  $disk_dir                        = "${boothttp::config_dir_http}/disk"
+  $menu_dir  = "${boothttp::config_dir_http}/cgi-bin"
+  $menu_file = "${menu_dir}/bootmenu.py"
+  $disk_dir  = "${boothttp::config_dir_http}/disk"
 
   ensure_resource('file',$boothttp::config_dir_http,{'ensure' => 'directory'})
   ensure_resource('file',$menu_dir,{'ensure' => 'directory'})

@@ -21,11 +21,11 @@ class boothttp::params {
     'python-yaml'
   ]
 
-  $config_dir        = '/public/'
-  $config_dir_source = '/path/to/sources'
-
   # Files and directories that can be downloaded by HTTP
+  $config_dir        = '/public/'
   $config_dir_http = "${config_dir}/http"
+
+  $config_dir_source = '/path/to/sources'
   $menu_source     = "${config_dir_source}/bootmenu.py"
   $menu_config     = "${config_dir_source}/bootmenu.yaml"
 
