@@ -15,25 +15,30 @@
 
 # Setup files to serve over http for boot system
 #
-# @param packages        List of packages to install
-# @param packages_ensure Should packages be installed, latest or absent
 # @param virtual_address Hostname to insert in the kickstart/preseed for
-#                        the HTTP server
+#          the HTTP server
+# @param packages List of packages to install
+# @param packages_ensure Should packages be installed, latest or absent
 # @param config_dir_http Target directory for files to serve
-# @param menu_source     Source URL of the menu CGI
-# @param supported_os    List of Operating Systems to include in the
-#                        configuration.
+# @param hpc_files Hash describing hpclib::hpc_file resources to create
+# @param archives Hash describing archive resources to create
+# @param supported_os Hash of Operating Systems to include in the
+#          configuration.
+# @param install_options OS install files (preseed or kickstart) options
+# @param menu_source Source URL of the menu CGI
+# @param menu_config Path of the menu CGI yaml configuration file
+# @param menu_config_options Hash with the content of `menu_config`
 class boothttp (
   $virtual_address,
   $packages        = $::boothttp::params::packages,
   $packages_ensure = $::boothttp::params::packages_ensure,
   $config_dir_http = $::boothttp::params::config_dir_http,
-  $menu_source     = $::boothttp::params::menu_source,
   $hpc_files       = $::boothttp::params::hpc_files,
   $archives        = $::boothttp::params::archives,
   $supported_os    = $::boothttp::params::supported_os,
   $install_options = $::boothttp::params::install_options,
   $menu_config     = $::boothttp::params::menu_config,
+  $menu_source     = $::boothttp::params::menu_source,
   $menu_config_options,
 
 ) inherits boothttp::params {
