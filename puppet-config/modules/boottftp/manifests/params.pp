@@ -13,12 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-#
 class boottftp::params {
 
-  $config_dir                      = '/public/ipxe'
-
-  # Dir to place ipxe binaries
-  $tftp_dir                  = "${config_dir}/tftp"
+  $tftp_dir = "/srv/tftp"
 
 }
