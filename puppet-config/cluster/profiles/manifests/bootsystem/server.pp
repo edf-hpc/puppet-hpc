@@ -18,7 +18,8 @@
 # ## Hiera
 # * `cluster_prefix`
 # * `domain`
-# * `profiles::bootsystem::tftp_config_options` (`hiera_hash`)
+# * `profiles::bootsystem::tftp_config_options` Configuration hash of TFTP
+#                                               server (default: {})
 # * `profiles::bootsystem::tftp_dir`
 # * `profiles::bootsystem::http_dir`
 # * `profiles::bootsystem::http_port`
@@ -35,8 +36,7 @@ class profiles::bootsystem::server {
   $domain          = hiera('domain')
   $virtual_address = $::hostfile["${prefix}${::puppet_role}"]
 
-  # Install and configure the server tftp
-  $tftp_config_options = hiera_hash('profiles::bootsystem::tftp_config_options')
+  $tftp_config_options = hiera_hash('profiles::bootsystem::tftp_config_options', {})
 
   class { '::tftp':
     config_options     => $tftp_config_options,
