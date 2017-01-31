@@ -144,8 +144,11 @@ profiles::http::serveradmin:     'webmaster@localhost'
 profiles::http::scriptalias:     "%{hiera('profiles::http::mirror::docroot')}/cgi-bin"
 profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
 
-profiles::http::secret::port:    '1216'
-profiles::http::secret::docroot: "%{hiera('admin_dir')}/restricted/secrets"
+###### EYAML keys propagation service
+profiles::http::secret::port:          '1216'
+profiles::http::secret::docroot:       '/var/www_secret'
+profiles::http::secret::keys_enc:      "%{hiera('private_files_dir')}/eyaml/keys.tar.xz.enc"
+profiles::http::secret::keys_password: "%{hiera('cluster_decrypt_password')}"
 
 profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
