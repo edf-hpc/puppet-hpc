@@ -17,12 +17,11 @@
 #
 # @param tftp_dir Directory whare to place ipxe binaries
 # @param hpc_files Hash containing the ipxe binaries to install with their sources
-
 class boottftp (
   $tftp_dir  = $::boottftp::params::tftp_dir,
   $hpc_files = $::boottftp::params::hpc_files,
 ) inherits boottftp::params {
-  
+
   validate_string($tftp_dir)
   validate_hash($hpc_files)
 

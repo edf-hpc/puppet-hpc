@@ -15,6 +15,6 @@
 
 class boottftp::params {
 
-  $tftp_dir = "/srv/tftp"
+  $tftp_dir = '/srv/tftp'
 
 }
