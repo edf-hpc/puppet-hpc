@@ -20,7 +20,7 @@
 # @param order Order of the cluster in the configuration file: 11-19 (default: '11' )
 define carboncrelay::cluster (
   $type         = $::carboncrelay::params::cluster_type,
-  $destinations = [],
+  $destinations = {},
   $order        = $::carboncrelay::params::cluster_order,
 ) {
   validate_string($type)

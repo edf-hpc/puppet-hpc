@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Installs and configure carbon-c-relay 
+# Installs and configure carbon-c-relay
 #
 # @param service Service name
 # @param service_ensure Target state of the service (default: 'running')
