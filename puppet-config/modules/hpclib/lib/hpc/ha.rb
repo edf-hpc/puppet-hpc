@@ -71,6 +71,10 @@ def get_host_vips(hostname)
   # Iterate over all VIPs found in hiera. For each of them, if hostname is
   # member, add to host_vips
   all_vips = get_vips()
+
+  # if no vip found in hiera, stop here
+  return nil if all_vips.nil?
+
   all_vips.each do |vip_group, vip_items|
 
     members = hpc_nodeset_expand(vip_items['members'])
@@ -118,6 +122,10 @@ def get_host_vip_notify_scripts(hostname)
   # member, add to host_vips
 
   all_vips = get_vips()
+
+  # if no vip found in hiera, stop here
+  return nil if all_vips.nil?
+
   all_vips.each do |vip_name, vip_items|
 
     members = hpc_nodeset_expand(vip_items['members'])
@@ -169,6 +177,10 @@ def get_host_vservs(hostname)
   # Iterate over all VIPs found in hiera. For each of them, if hostname is
   # member, add to host_vips
   all_vservs = get_vips()
+
+  # if no vip found in hiera, stop here
+  return nil if all_vservs.nil?
+
   all_vservs.each do |vservs_group, vservs_items|
 
     members = hpc_nodeset_expand(vservs_items['members'])
