@@ -22,7 +22,7 @@
 # @param config_dir_http Target directory for files to serve
 # @param hpc_files Hash describing hpclib::hpc_file resources to create
 # @param archives Hash describing archive resources to create
-# @param supported_os Hash of Operating Systems to include in the
+# @param supported_os Array of Operating Systems to include in the
 #          configuration.
 # @param install_options OS install files (preseed or kickstart) options
 # @param menu_source Source URL of the menu CGI
@@ -47,7 +47,7 @@ class boothttp (
   validate_string($menu_source)
   validate_hash($hpc_files)
   validate_hash($archives)
-  validate_hash($supported_os)
+  validate_array($supported_os)
   validate_string($menu_config)
   validate_hash($menu_config_options)
 
