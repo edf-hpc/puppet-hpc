@@ -15,7 +15,7 @@
 
 class boothttp::config inherits boothttp {
 
-  create_resources(boothttp::printconfig, $::boothttp::supported_os)
+  create_resources(boothttp::printconfig, hpc_atoh($::boothttp::supported_os))
 
   hpclib::print_config { $::boothttp::menu_config :
     style   => 'yaml',

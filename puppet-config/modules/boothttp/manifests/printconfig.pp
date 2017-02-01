@@ -15,25 +15,23 @@
 
 # Write an OS install file
 #
-# @param name name of the resource
-# @param os OS name of the install file to write
-define boothttp::printconfig (
-  $os = 'calibre9'
-) {
+# @param name name of the resource and OS name of the install to write
+define boothttp::printconfig () {
 
-  $config_file = "${::boothttp::install::disk_dir}/${os}/install_config"
+  $_os = $name
+  $config_file = "${::boothttp::install::disk_dir}/${_os}/install_config"
 
   # Calibre9 uses a hash passed as parameter directly written as a preseed
   # RH still uses a direct template
-  if $os == 'calibre9' {
+  if $_os == 'calibre9' {
     $install_options = $::boothttp::install_options
     hpclib::print_config{ $config_file:
       style     => 'keyval',
-      data      => $install_options[$os],
+      data      => $install_options[$_os],
       separator => ' ',
     }
   } else {
-    $template_file   = "boothttp/install_config.${os}.erb"
+    $template_file   = "boothttp/install_config.${_os}.erb"
     $virtual_address = $boothttp::virtual_address
 
     file { $config_file:

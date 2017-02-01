@@ -31,10 +31,6 @@ class boothttp::params {
 
   $install_options = {}
 
-  $supported_os = {
-    'calibre9' => {
-      'os' => 'calibre9',
-    }
-  }
+  $supported_os = [ 'calibre9' ]
 
 }

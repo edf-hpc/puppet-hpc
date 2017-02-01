@@ -47,6 +47,7 @@ follow the format for the Debian version.
 class { '::boothttp':
   $virtual_address     => 'clservice',
   $config_dir_http     => '/var/www',
+  $supported_os        => [ 'calibre9' ],
   $menu_config         => '/etc/hpc-config/bootmenu.yaml',
   $menu_source         => 'http://files.hpc.example.com/boot/cgi/bootmenu.py',
   $menu_config_options => {
