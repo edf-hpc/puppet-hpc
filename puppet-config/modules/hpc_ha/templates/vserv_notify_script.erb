@@ -35,22 +35,24 @@ target_state="${3}"
 
 current_name="$(basename $0)"
 
+ip_address="${VRTADD%/*}"
+
 logger -t ${current_name}.info "INFO: $(hostname) changed state for VIP ${VRTADD}, the new state is: ${target_state}."
 case "${target_state}" in
   "MASTER")
     logger -t ${current_name}.info "INFO: $(hostname) becomes master"
-    /sbin/ip addr del "${VRTADD}/32" dev lo
+    /sbin/ip addr del "${ip_address}/32" dev lo
     /sbin/ipvsadm --restore < /tmp/keepalived.ipvs
   ;;
   "BACKUP")
     logger -t ${current_name}.info "INFO: $(hostname) becomes backup"
-    /sbin/ip addr add "${VRTADD}/32" scope host dev lo
+    /sbin/ip addr add "${ip_address}/32" scope host dev lo
     /sbin/ipvsadm --save > /tmp/keepalived.ipvs
     /sbin/ipvsadm --clear
   ;;
   *)
     logger -t ${current_name}.info "INFO: $(hostname) is neither master nor backup"
-    /sbin/ip addr del "${VRTADD}/32" dev lo
+    /sbin/ip addr del "${ip_address}/32" dev lo
     /sbin/ipvsadm --save > /tmp/keepalived.ipvs
     /sbin/ipvsadm --clear
   ;;    
