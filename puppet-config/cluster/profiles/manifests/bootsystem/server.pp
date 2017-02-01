@@ -18,13 +18,13 @@
 # ## Hiera
 # * `cluster_prefix`
 # * `domain`
+# * `boot_params`
 # * `profiles::bootsystem::tftp_config_options` Configuration hash of TFTP
 #                                               server (default: {})
 # * `profiles::bootsystem::tftp_dir`
 # * `profiles::bootsystem::http_dir`
 # * `profiles::bootsystem::http_port`
 # * `profiles::bootsystem::supported_os`
-# * `profiles::bootsystem::boot_params`
 #
 # ## Relevant Autolookups
 # * `boothttp::menu_source`
@@ -47,7 +47,7 @@ class profiles::bootsystem::server {
 
   $config_dir_http     = hiera('profiles::bootsystem::http_dir')
   $supported_os        = hiera('profiles::bootsystem::supported_os')
-  $menu_config_options = hiera('profiles::bootsystem::boot_params')
+  $menu_config_options = hiera_hash('boot_params', {})
 
   class { '::boothttp':
     config_dir_http     => $config_dir_http,
