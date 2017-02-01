@@ -105,10 +105,10 @@
 <h2>Hiera</h2>
 
 <ul>
-<li><code>profiles::log::server::server_dir</code></li>
-<li><code>profiles::log::server::custom_config</code></li>
-<li><code>profiles::log::server::logrotate_firstaction</code> Check command before
-rotating the logs on disk (default: <code>undef</code>)</li>
+<li><code>profiles::log::server::logrotate_rules</code>  Logrotate additional rules
+(default: {})</li>
+<li><code>profiles::log::server::service_override</code> Hash of systemd service override
+definition (default: {})</li>
 </ul>
 </p>
   </div>
@@ -121,7 +121,7 @@ rotating the logs on disk (default: <code>undef</code>)</li>
 </div>
 
     <div id="footer">
-  Generated on Tue Jan 17 18:47:51 2017 by
+  Generated on Wed Feb  1 16:59:43 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.5).
 </div>

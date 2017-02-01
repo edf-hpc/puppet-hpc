@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="puppet_manifest_list_link"
+        href="puppet_manifest_list.html">
+      Puppet Manifest List
+    </a>
+  
+    <a class="full_list_link" id="puppet_plugin_list_link"
+        href="puppet_plugin_list.html">
+      Puppet Plugin List
+    </a>
+  
+    <a class="full_list_link" id="puppet_type_list_link"
+        href="puppet_type_list.html">
+      Puppet Type List
+    </a>
+  
+    <a class="full_list_link" id="puppet_provider_list_link"
+        href="puppet_provider_list.html">
+      Puppet Provider List
+    </a>
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>hpc_rsyslog</h1>
+
+<h4>Table of Contents</h4>
+
+<ol>
+<li><a href="#module-description">Module Description</a></li>
+<li><a href="#setup">Setup</a>
+
+<ul>
+<li><a href="#what-flexlm-affects">What hpc_conman affects</a></li>
+<li><a href="#setup-requirements">Setup requirements</a></li>
+<li><a href="#beginning-with-flexlm">Beginning with hpc_conman</a></li>
+</ul></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#development">Development</a></li>
+</ol>
+
+<h2>Module Description</h2>
+
+<p>This module deploys resources complementary to saz-rsyslog community module on
+rsyslog servers.</p>
+
+<h2>Setup</h2>
+
+<h3>What hpc_rsyslog affects</h3>
+
+<p>The module deploys logrotate rules configuration and systemd drop-in service
+configuration override.</p>
+
+<h3>Setup Requirements</h3>
+
+<p>The module depends on:</p>
+
+<ul>
+<li><code>stdlib</code> module (for <code>validate_*()</code> and <code>deep_merge()</code> functions),</li>
+<li><code>hpclib</code> module (for <code>print_config()</code> defined type)</li>
+</ul>
+
+<h3>Beginning with hpc_rsyslog</h3>
+
+<h2>Usage</h2>
+
+<p>The module has one public class <code>::hpc_rsyslog::server</code> which can be called like
+this:</p>
+
+<pre class="code ruby"><code class="ruby">class { &quot;::hpc_rsyslog::server&quot;:
+  logrotate_rules =&gt; {
+    remotelog =&gt; {
+      path          =&gt; &#39;/srv/logs/*&#39;,
+      compress      =&gt; true,
+      missingok     =&gt; true,
+      copytruncate  =&gt; true,
+      create        =&gt; false,
+      delaycompress =&gt; true,
+      mail          =&gt; false,
+      rotate        =&gt; &#39;30&#39;,
+      sharedscripts =&gt; true,
+      size          =&gt; &#39;5M&#39;,
+      rotate_every  =&gt; day,
+      postrotate    =&gt; &#39;invoke-rc.d rsyslog rotate &gt; /dev/null&#39;,
+    }
+  },
+  service_override =&gt; {
+    &#39;Service&#39; =&gt; {
+      &#39;LimitNOFILE&#39; =&gt; &#39;16384&#39;
+    }
+  },
+}
+</code></pre>
+
+<p>The <code>logrotate_rules</code> parameter is a hash of logrotate rules definitions to
+deploy. This <code>remotelog</code> rule is deployed by default by the module. The
+defaults parameters of this rule can be altered by overriding them in the class
+arguments since the <code>logrotate_rules</code> hash is deep-merged with default rule
+definition from <code>params</code> private class. Other rules can be appended into the
+hash.</p>
+
+<p>The <code>service_override</code> parameter is a hash of a drop-in systemd service
+configuration file containing to override default rsyslog service settings. The
+default drop-in systemd service configuration file defined in <code>params</code> private
+class sets rsyslog soft maximum open fd limit to 8192.</p>
+
+<h2>Limitations</h2>
+
+<p>This module is mainly tested on Debian, but is meant to also work with RHEL and
+derivatives.</p>
+
+<h2>Development</h2>
+
+<p>Patches and issues can be submitted on GitHub:
+<a href="https://github.com/edf-hpc/puppet-hpc">https://github.com/edf-hpc/puppet-hpc</a></p>
+</div></div>
+
+    <div id="footer">
+  Generated on Wed Feb  1 17:00:15 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>
