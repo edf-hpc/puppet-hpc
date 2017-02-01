@@ -46,7 +46,7 @@ follow the format for the Debian version.
 ```
 class { '::boothttp':
   $virtual_address     => 'clservice',
-  $config_dir_http     => '/var/www_boot',
+  $config_dir_http     => '/var/www',
   $menu_config         => '/etc/hpc-config/bootmenu.yaml',
   $menu_source         => 'http://files.hpc.example.com/boot/cgi/bootmenu.py',
   $menu_config_options => {
@@ -79,17 +79,17 @@ class { '::boothttp':
     },
   },
   hpc_files => {
-    '/var/www_boot/disk/calibre9/partition-schema' => {
+    '/var/www/disk/calibre9/partition-schema' => {
       'source' => 'http://files.hpc.example.com/boot/disk-installer/calibre9/partition-schema',
     },
-    '/var/www_boot/disk/calibre9/hpc-config.conf' => {
+    '/var/www/disk/calibre9/hpc-config.conf' => {
       'source' =>'http://files.hpc.example.com/boot/disk-installer/calibre9/hpc-config.conf',
     },
   },
   archives => {
-    '/var/www_boot/disk/calibre9/netboot.tar.gz' => {
+    '/var/www/disk/calibre9/netboot.tar.gz' => {
       'source'       => 'http://files.hpc.example.com/boot/disk-installer/calibre9/netboot.tar.gz',
-      'extract_path' => '/var/www_boot/disk/calibre9',
+      'extract_path' => '/var/www/disk/calibre9',
     },
   },
 }
