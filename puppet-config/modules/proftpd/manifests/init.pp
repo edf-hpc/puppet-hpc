@@ -13,6 +13,22 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure a ProFTPd server
+#
+# @param service Service name
+# @param service_ensure Target state of the service (default: 'running')
+# @param service_enable Boolean: is the service starting at boot (default:
+#          true)
+# @param packages Array of package names
+# @param packages_ensure Target state of the packages (default: 'installed')
+# @param config_file Absolute path of the configuration file (default:
+#          '/etc/proftpd/proftpd.conf')
+# @param user_name Name of the FTP user (default: 'ftp')
+# @param user_home Absolute path of the FTP user home (default: '/srv/ftp')
+# @param user_comment Comment for the FTP user
+# @param auto_stop Boolean: the service automatically stop at a fixed time
+# @param auto_stop_hour Hour of the time when the service should be stopped
+# @param auto_stop_min Minutes of the time when the service should be stopped
 class proftpd (
   $service         = $::proftpd::params::service,
   $service_ensure  = $::proftpd::params::service_ensure,
