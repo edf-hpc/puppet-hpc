@@ -15,6 +15,16 @@
 
 class boothttp::config inherits boothttp {
 
+  apache::vhost { "${::boothttp::servername}_bootsystem":
+    servername    => $::boothttp::servername,
+    port          => $::boothttp::port,
+    docroot       => $::boothttp::config_dir_http,
+    scriptalias   => "${::boothttp::config_dir_http}/cgi-bin",
+    serveraliases => $::boothttp::serveraliases,
+    docroot_mode  => '0750',
+    docroot_group => 'www-data',
+  }
+
   create_resources(boothttp::printconfig, hpc_atoh($::boothttp::supported_os))
 
   hpclib::print_config { $::boothttp::menu_config :
