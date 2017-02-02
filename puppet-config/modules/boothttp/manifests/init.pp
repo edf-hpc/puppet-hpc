@@ -49,6 +49,7 @@ class boothttp (
 
 ) inherits boothttp::params {
 
+  validate_string($virtual_address)
   validate_string($servername)
   validate_array($serveraliases)
   validate_string($port)
