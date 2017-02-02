@@ -22,7 +22,6 @@
 # * `profiles::bootsystem::tftp_config_options` Configuration hash of TFTP
 #                                               server (default: {})
 # * `profiles::bootsystem::tftp_dir`
-# * `profiles::bootsystem::http_port`
 #
 # ## Relevant Autolookups
 # * `boothttp::menu_source`
@@ -44,7 +43,6 @@ class profiles::bootsystem::server {
   }
 
   $menu_config_options = hiera_hash('boot_params', {})
-  $port = hiera('profiles::bootsystem::http_port')
   $servername = "${prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
@@ -52,7 +50,6 @@ class profiles::bootsystem::server {
 
   class { '::boothttp':
     virtual_address     => $virtual_address,
-    port                => $port,
     servername          => $servername,
     serveraliases       => $serveraliases,
     menu_config_options => $menu_config_options,
