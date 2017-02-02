@@ -25,8 +25,8 @@ resources through HTTP. This include:
 The installer configuration uses a list of supported os, the default list only
 includes `calibre9`.
 
-The module setup the files to serve, but the actual configuration of the web
-server (apache) is handled separatly.
+The module setup the files to serve and the virtual host configuration of the
+HTTP server (apache).
 
 ## Setup
 
@@ -46,6 +46,9 @@ follow the format for the Debian version.
 ```
 class { '::boothttp':
   $virtual_address     => 'clservice',
+  $servername          => 'clservice',
+  $serveraliases       => [ 'clservice.hpc.example.com' ],
+  $port                => '3138',
   $config_dir_http     => '/var/www',
   $supported_os        => [ 'calibre9' ],
   $menu_config         => '/etc/hpc-config/bootmenu.yaml',

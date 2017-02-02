@@ -16,6 +16,7 @@
 #
 class boothttp::params {
 
+  $port            = '3138'
   $packages_ensure = 'installed'
   $packages        = [
     'python-yaml'

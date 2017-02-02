@@ -17,6 +17,9 @@
 #
 # @param virtual_address Hostname to insert in the kickstart/preseed for
 #          the HTTP server
+# @param servername Hostname for the apache virtual host
+# @param serveraliases Array of FDQN hostname for the apache virtual host
+# @param port TCP port of the apache virtual host
 # @param packages List of packages to install
 # @param packages_ensure Should packages be installed, latest or absent
 # @param config_dir_http Target directory for files to serve
@@ -30,6 +33,9 @@
 # @param menu_config_options Hash with the content of `menu_config`
 class boothttp (
   $virtual_address,
+  $servername,
+  $serveraliases,
+  $port            = $::boothttp::params::port,
   $packages        = $::boothttp::params::packages,
   $packages_ensure = $::boothttp::params::packages_ensure,
   $config_dir_http = $::boothttp::params::config_dir_http,
@@ -43,6 +49,9 @@ class boothttp (
 
 ) inherits boothttp::params {
 
+  validate_string($servername)
+  validate_array($serveraliases)
+  validate_string($port)
   validate_absolute_path($config_dir_http)
   validate_string($menu_source)
   validate_hash($hpc_files)
