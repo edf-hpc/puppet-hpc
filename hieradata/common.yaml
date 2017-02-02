@@ -155,7 +155,8 @@ profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 
 ##### BOOTSYSTEM
-profiles::bootsystem::http_port:   '3138'
+boot_http_port: '3138'
+boothttp::port: "%{hiera('boot_http_port')}"
 
 ##### HA
 
@@ -662,7 +663,7 @@ profiles::consul::server::subservices:
     check:
       id: 'http_boot_check'
       name: 'Local HTTP bootsystem check'
-      http: "http://localhost:%{hiera('profiles::bootsystem::http_port')}/"
+      http: "http://localhost:%{hiera('boot_http_port')}/"
       interval: '10s'
       timeout: '1s'
 # Slurmweb
