@@ -21,19 +21,26 @@
 # * `boot_params`
 # * `profiles::bootsystem::tftp_config_options` Configuration hash of TFTP
 #                                               server (default: {})
-# * `profiles::bootsystem::tftp_dir`
 #
 # ## Relevant Autolookups
+# * `boothttp::port`
+# * `boothttp::config_dir_http`
 # * `boothttp::menu_source`
-# * `boottftp::ipxe_efi_source`
-# * `boottftp::ipxe_legacy_source`
+# * `boothttp::menu_config`
+# * `boothttp::hpc_files`
+# * `boothttp::archives`
+# * `boothttp::install_options`
+# * `boottftp::tftp_dir`
+# * `boottftp::hpc_files`
 class profiles::bootsystem::server {
 
-  $prefix          = hiera('cluster_prefix')
-  $domain          = hiera('domain')
-  $virtual_address = $::hostfile["${prefix}${::puppet_role}"]
-
+  $prefix              = hiera('cluster_prefix')
+  $domain              = hiera('domain')
+  $virtual_address     = $::hostfile["${prefix}${::puppet_role}"]
   $tftp_config_options = hiera_hash('profiles::bootsystem::tftp_config_options', {})
+  $menu_config_options = hiera_hash('boot_params', {})
+  $servername          = "${prefix}${::puppet_role}"
+  $serveraliases       = ["${servername}.${domain}"]
 
   class { '::tftp':
     config_options     => $tftp_config_options,
@@ -42,9 +49,6 @@ class profiles::bootsystem::server {
   class { '::boottftp':
   }
 
-  $menu_config_options = hiera_hash('boot_params', {})
-  $servername = "${prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${domain}"]
 
   include ::apache
 
