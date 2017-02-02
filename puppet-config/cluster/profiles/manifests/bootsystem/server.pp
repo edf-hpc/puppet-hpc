@@ -44,25 +44,18 @@ class profiles::bootsystem::server {
   }
 
   $menu_config_options = hiera_hash('boot_params', {})
+  $port = hiera('profiles::bootsystem::http_port')
+  $servername = "${prefix}${::puppet_role}"
+  $serveraliases = ["${servername}.${domain}"]
+
+  include ::apache
 
   class { '::boothttp':
     virtual_address     => $virtual_address,
+    port                => $port,
+    servername          => $servername,
+    serveraliases       => $serveraliases,
     menu_config_options => $menu_config_options,
-  }
-
-  $port = hiera('profiles::bootsystem::http_port')
-
-  $servername = "${prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${domain}"]
-  include apache
-  apache::vhost { "${servername}_bootsystem":
-    servername    => $servername,
-    port          => $port,
-    docroot       => $config_dir_http,
-    scriptalias   => "${config_dir_http}/cgi-bin",
-    serveraliases => $serveraliases,
-    docroot_mode  => '0750',
-    docroot_group => 'www-data',
   }
 
 }
