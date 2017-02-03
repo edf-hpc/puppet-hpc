@@ -25,7 +25,7 @@ class boothttp::params {
   $config_dir_http   = '/var/www'
   $config_dir_source = '/path/to/sources'
   $menu_source       = "${config_dir_source}/bootmenu.py"
-  $menu_config       = "${config_dir_source}/bootmenu.yaml"
+  $menu_config       = '/etc/hpc-config/bootmenu.yaml'
 
   $hpc_files = {}
   $archives  = {}
