@@ -24,7 +24,7 @@
 # @param service_ensure    Ensure state of the service: `running` or
 #                          `stopped` (default: running)
 # @param service_enable    Service started at boot (default: true)
-# @param service           Name of the service
+# @param service_name      Name of the service
 class slurm::dbd (
   $config_manage          = $::slurm::dbd::params::config_manage,
   $db_backup_enable       = $::slurm::dbd::params::db_backup_enable,
@@ -53,7 +53,7 @@ class slurm::dbd (
   $service_manage         = $::slurm::dbd::params::service_manage,
   $service_enable         = $::slurm::dbd::params::service_enable,
   $service_ensure         = $::slurm::dbd::params::service_ensure,
-  $service                = $::slurm::dbd::params::service,
+  $service_name           = $::slurm::dbd::params::service_name,
 
 ) inherits slurm::dbd::params {
 
@@ -107,7 +107,7 @@ class slurm::dbd (
   if $service_manage {
     validate_bool($service_enable)
     validate_string($service_ensure)
-    validate_string($service)
+    validate_string($service_name)
   }
 
   anchor { 'slurm::dbd::begin': } ->
