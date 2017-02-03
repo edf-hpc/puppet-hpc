@@ -42,7 +42,7 @@ class slurm::dbd::config inherits slurm::dbd {
       }
 
       cron { 'dbbackup':
-        command => $::slurm::dbd::db_backup_script,
+        command => $::slurm::dbd::db_backup_exec,
         user    => 'root',
         hour    => 2,
         minute  => 0,
