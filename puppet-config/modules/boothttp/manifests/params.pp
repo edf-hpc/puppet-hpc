@@ -23,8 +23,9 @@ class boothttp::params {
   ]
 
   $config_dir_http   = '/var/www'
-  $config_dir_source = '/path/to/sources'
-  $menu_source       = "${config_dir_source}/bootmenu.py"
+  # Wrong default value, must be set either by autolookup or by the calling
+  # profile.
+  $menu_source       = 'http://files.hpc.example.com/boot/cgi/bootmenu.py'
   $menu_config       = '/etc/hpc-config/bootmenu.yaml'
 
   $hpc_files = {}
