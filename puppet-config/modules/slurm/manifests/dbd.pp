@@ -78,9 +78,9 @@ class slurm::dbd (
 
     if $db_backup_enable {
 
-      validate_absolute_path($db_backup_script)
       validate_absolute_path($db_backup_file)
       validate_hash($db_options)
+      validate_hash($db_backup_options)
 
       $_db_backup_options = deep_merge($::slurm::dbd::params::db_backup_options_defaults, $db_backup_options)
     }

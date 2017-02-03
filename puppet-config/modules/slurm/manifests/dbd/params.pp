@@ -23,12 +23,11 @@ class slurm::dbd::params {
   $service_name     = 'slurmdbd'
 
   ### Configuration ###
-  $config_manage     = true
-  $config_file       = "${::slurm::config_dir}/slurmdbd.conf"
-  $db_file           = "${::slurm::config_dir}/slurm-mysql.conf"
-  $db_setup_exec     = '/usr/sbin/slurm-mysql-setup'
-  $db_backup_script  = '/usr/local/bin/slurmdbd-backup.sh'
-  $db_backup_file    = "${::slurm::config_dir}/slurmdbd-backup.vars"
+  $config_manage  = true
+  $config_file    = "${::slurm::config_dir}/slurmdbd.conf"
+  $db_file        = "${::slurm::config_dir}/slurm-mysql.conf"
+  $db_setup_exec  = '/usr/sbin/slurm-mysql-setup'
+  $db_backup_file = "${::slurm::config_dir}/slurmdbd-backup.vars"
 
   $config_options_defaults = {
     'DbdHost'           => 'localhost',
@@ -78,9 +77,10 @@ class slurm::dbd::params {
   }
 
   $db_backup_options_defaults = {
-    'BKDIR'                => '/var/backups/slurmdbd',
-    'ACCTDB'               => 'slurm_acct_db',
-    'DBMAINCONF'           => $db_client_file,
+    'BKDIR'      => '/var/backups/slurmdbd',
+    'ACCTDB'     => 'slurm_acct_db',
+    'DBMAINCONF' => $db_client_file,
+    'KEEP_OLD'   => 'false',
   }
 
   $sync_enable      = true
@@ -117,6 +117,7 @@ class slurm::dbd::params {
       $packages_manage = true
       $packages        = [
         'slurmdbd',
+        'slurmdbd-backup',
         'slurm-llnl-setup-mysql',
         'slurm-llnl-sync-accounts',
       ]
