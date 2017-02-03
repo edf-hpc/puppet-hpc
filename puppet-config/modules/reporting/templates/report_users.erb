@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 function usage ()
 {
@@ -26,7 +26,13 @@ if [ -z "${cluster}" -o -z "${email_pe}" ]; then
 fi
 
 log_file="/var/log/report.log"
-file_report="/tmp/user-reporting-${cluster}_$(date '+%d_%m_%Y')"
+file_report="/tmp/user-reporting-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
+file_tmp_mmrepquota="/tmp/.fmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
+total_tmp_mmrepquota="/tmp/.tmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
+
+# Report for quota
+mmrepquota <%= @config_options['name_gpfs'] %> --block-size auto > ${file_tmp_mmrepquota}
+mmrepquota <%= @config_options['name_gpfs'] %> > ${total_tmp_mmrepquota}
 
 # Recup conf via conf sssd
 # -------------------------
@@ -35,39 +41,88 @@ IFS="|" read ldapserver loginldapserver passldapserver baseldapserver <<<  "${cm
 
 listaccount=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} cn=${groupldap} | awk '/^member:/ {print$2}' | awk -F "," '{print$1}'| sed 's/uid=dummy//g')
 nb_users=$(echo ${listaccount} | tr " " "\n" | wc -l)
-
 grp=$(echo ${groupldap} | awk -F "-" '{print$NF}')
 nbusersubmit7=$(sacct -X -S $(date -d "7 days ago" +"%Y-%m-%dT00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
 nbusersubmit1=$(sacct -X -S $(date +"%Y-%m-01T00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
-consommation=$(sshare -h -P -o EffectvUsage -A $grp)
+totalhome=$(grep -E "$(echo $listaccount | sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/home / { sum += $4 } END {print sum/1024/1024}')
+totalscratch=$(grep -E "$(echo $listaccount | sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/scratch / { sum += $4 } END {print sum/1024/1024}')
+list_projets=$(awk -F ";" '/'${grp}'/ {print$1}' <%= @config_options['path_list_projets'] %>)
+grp_projets=$(ls -l <%= @config_options['path_dir_projets'] %> | grep -E $(echo ${list_projets}| sed 's/ /|/g') | grep -v root | awk '{print$4}')
+totalprojets=$(grep -E "$(echo "${grp_projets}"| sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/projets / { sum += $4 } END {print sum/1024/1024}')
+IFS="|" read cluster gp cons71 cons72 cons73 cons74 cons75 cons76 <<< "$(sreport job sizesbyaccount -n -P start=$(date -d "7 days ago" +"%Y-%m-%dT00:00:00") | grep $grp)"
+IFS="|" read cluster gp cons301 cons302 cons303 cons304 cons305 cons306 <<< "$(sreport job sizesbyaccount -n -P start=$(date +"%Y-%m-01T00:00:00") | grep $grp)"
 
 echo '<html><head>' > ${file_report}
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' >> ${file_report}
 echo '<title>weekly report</title>' >> ${file_report}
 echo '</head><body>' >> ${file_report}
 echo '<br><br>' >> ${file_report}
-echo '<a>Dear PP,<a><br><br><br>' >> ${file_report}
-echo '<a>The consommation of cluster for account <b>'$grp'</b> is currently at <b>'$consommation'</b> <b></a><br><br>' >> ${file_report}
+echo '<a>Dear PEP,<a><br><br><br>' >> ${file_report}
+
+echo '<a><u>Report the consommation of cluster for account <b>'$grp'</b> :</u></a><br><br>' >> ${file_report}
+echo '<table style="width:100%;text-align:center">' >>${file_report}
+echo '<tr><th rowspan=2 style="width:10%;background:#A5CEF7">Scince</th>' >>${file_report}
+echo '<th rowspan=2 style="width:10%;background:#A5CEF7">User submit at least 1 job</th>' >>${file_report}
+echo '<th colspan=5 style="width:10%;background:#A5CEF7">Job size reported in minutes</th>' >>${file_report}
+echo '<th rowspan=2 style="width:10%;background:#A5CEF7">% of cluster</th>' >>${file_report}
+echo '</tr>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7">0-49 CPUs</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7">50-249 CPUs</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7">250-499 CPUs</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7">500-999 CPUs</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7"> >=1000 CPUs</th>' >>${file_report}
+echo '</tr>' >>${file_report}
+echo '<tr><td>'$(date -d "7 days ago" +"%Y-%m-%d")'</td><td>'${nbusersubmit7}'</td><td>'$cons71'</td><td>'$cons72'</td><td>'$cons73'</td><td>'$cons74'</td><td>'$cons75'</td><td>'$cons76'</td></tr>' >>${file_report}
+echo '<tr><td>'$(date +"%Y-%m-01")'</td><td>'${nbusersubmit1}'</td><td>'$cons301'</td><td>'$cons302'</td><td>'$cons303'</td><td>'$cons304'</td><td>'$cons305'</td><td>'$cons306'</td><td>'$cons307'</td></tr>' >>${file_report}
+echo '</table><br><br>' >>${file_report}
+
+echo '<a><u>Report on the overall use of file systems :</u></a><br><br>' >> ${file_report}
 echo '<table style="width:80%;text-align:center">' >>${file_report}
-echo '<th style="width:20%;background:#A5CEF7">&nbsp;</th>' >>${file_report}
-echo '<th style="width:20%;background:#A5CEF7">User who submitted at least 1 job</th>' >>${file_report}
+echo '<th style="width:20%;background:#A5CEF7">File systeme</th>' >>${file_report}
+echo '<th style="width:20%;background:#A5CEF7">Total for '${grp}' group ( GB )</th>' >>${file_report}
+echo '<tr><td> /home </td><td>'${totalhome}'</td></tr>' >>${file_report}
+echo '<tr><td> /scratch </td><td>'${totalscratch}'</td></tr>' >>${file_report}
+echo '<tr><td> /projets </td><td>'${totalprojets}'</td></tr>' >>${file_report}
+echo '</table><br><br>' >>${file_report}
+
+echo '<a><u>Report quota for group projets :</u></a><br><br>' >> ${file_report}
+echo '<table style="width:80%;text-align:center">' >>${file_report}
+echo '<th style="width:20%;background:#A5CEF7">Groupe name</th>' >>${file_report}
+echo '<th style="width:20%;background:#A5CEF7">Usage</th>' >>${file_report}
+echo '<th style="width:20%;background:#A5CEF7">Limit hard</th>' >>${file_report}
 echo '</tr>' >>${file_report}
-echo '<tr><td>Since '$(date -d "7 days ago" +"%Y-%m-%d")'</td><td>'${nbusersubmit7}'</td></tr>' >>${file_report}
-echo '<tr><td>Since '$(date +"%Y-%m-01")'</td><td>'${nbusersubmit1}'</td></tr>' >>${file_report}
-echo '</table><br><hr><br><br>' >>${file_report}
-echo '<a>Please find include a list of the <b>'${nb_users}'</b> users of the <b>'${cluster}'</b> cluster belonging to the <b>'${groupldap}'</b> group:</a><br><br>' >> ${file_report}
+for prj in ${grp_projets};do
+	IFS="|" read uquota lquota <<< "$(awk '/^'${prj}'*.*projets / {print$4"|"$6}' ${file_tmp_mmrepquota})"
+	echo '<tr><td> '${prj}' </td><td>'${uquota}'</td></td><td>'${lquota}'</td></tr>' >>${file_report}
+done
+echo '</table><br><br>' >>${file_report}
+
+
+echo '<a><u>Report information for the <b>'${nb_users}'</b> users of the <b>'${cluster}'</b> cluster belonging to the <b>'${groupldap}'</b> group :</u></a><br><br>' >> ${file_report}
 echo '<table style="width:80%;text-align:left">' >>${file_report}
-echo '<th style="width:20%;background:#A5CEF7">Login</th>' >>${file_report}
-echo '<th style="width:20%;background:#A5CEF7">Status</th>' >>${file_report}
-echo '<th style="width:60%;background:#A5CEF7">mail<th>' >>${file_report}
+echo '<tr>' >>${file_report}
+echo '<th colspan=3 style="background:#A5CEF7;text-align:center">Information users</th>' >>${file_report}
+echo '<th colspan=2 style="background:#A5CEF7;text-align:center">Quota home</th>' >>${file_report}
+echo '<th colspan=2 style="background:#A5CEF7;text-align:center">Quota scratch</th>' >>${file_report}
 echo '</tr>' >>${file_report}
-echo '<tr><td>&nbsp;<td><td>&nbsp;<td><td>&nbsp;<td></tr>' >>${file_report}
+echo '<tr>' >>${file_report}
+echo '<th style="width:15%;background:#A5CEF7">login</th>' >>${file_report}
+echo '<th style="width:15%;background:#A5CEF7">status</th>' >>${file_report}
+echo '<th style="width:30%;background:#A5CEF7">mail</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7;text-align:center">usage</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7;text-align:center">limit</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7;text-align:center">usage</th>' >>${file_report}
+echo '<th style="width:10%;background:#A5CEF7;text-align:center">limit</th>' >>${file_report}
+echo '</tr>' >>${file_report}
+echo '<tr><td colspan=7 >&nbsp;<td></tr>' >>${file_report}
 
 for nni in ${listaccount};do
 
 	cmdldaprec=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} ${nni} | awk '/^uid:/ {login=$2};/^employeeType:/ {statut=$2};/^mail:/ {mail=$2}; {print login"|"statut"|"mail}' | tail -n 1 ) 	
 	IFS="|" read login statut mail <<<  "${cmdldaprec}"
-	echo '<tr><td>'${login}'</td><td>'${statut}'</td><td>'${mail}'</td></tr>' >>${file_report}
+	IFS="|" read uquotahome lquotahome <<< "$(awk '/^'${login}'*.*home / {print$4"|"$6}' ${file_tmp_mmrepquota})"
+	IFS="|" read uquotascratch lquotascratch <<< "$(awk '/^'${login}'*.*scratch / {print$4"|"$6}' ${file_tmp_mmrepquota})"
+	echo '<tr><td>'${login}'</td><td>'${statut}'</td><td>'${mail}'</td><td style="text-align:center">'${uquotahome}'</td><td style="text-align:center">'${lquotahome}'</td><td style="text-align:center">'${uquotascratch}'</td><td style="text-align:center">'${lquotascratch}'</td></tr>' >> ${file_report}
 	mailusercluster+="${mail} "
 
 done
