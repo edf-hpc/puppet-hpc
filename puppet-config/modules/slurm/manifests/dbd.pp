@@ -34,7 +34,7 @@ class slurm::dbd (
   $db_options             = {},
   $db_manage              = $::slurm::dbd::params::db_manage,
   $db_setup_exec          = $::slurm::dbd::params::db_setup_exec,
-  $db_backup_script       = $::slurm::dbd::params::db_backup_script,
+  $db_backup_exec         = $::slurm::dbd::params::db_backup_exec,
   $db_backup_file         = $::slurm::dbd::params::db_backup_file,
   $db_backup_options      = {},
   $sync_enable            = $::slurm::dbd::params::sync_enable,

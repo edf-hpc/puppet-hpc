@@ -27,6 +27,7 @@ class slurm::dbd::params {
   $config_file    = "${::slurm::config_dir}/slurmdbd.conf"
   $db_file        = "${::slurm::config_dir}/slurm-mysql.conf"
   $db_setup_exec  = '/usr/sbin/slurm-mysql-setup'
+  $db_backup_exec = '/usr/sbin/slurmdbd-backup'
   $db_backup_file = "${::slurm::config_dir}/slurmdbd-backup.vars"
 
   $config_options_defaults = {
