@@ -21,7 +21,7 @@ class slurm::dbd::service inherits slurm::dbd {
       fail('service_ensure parameter must be running or stopped')
     }
 
-    service { $::slurm::dbd::service:
+    service { $::slurm::dbd::service_name:
       ensure => $::slurm::dbd::service_ensure,
       enable => $::slurm::dbd::service_enable,
     }

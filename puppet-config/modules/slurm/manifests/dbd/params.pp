@@ -20,7 +20,7 @@ class slurm::dbd::params {
   $service_enable   = true
   $service_ensure   = 'running'
   $service_manage   = true
-  $service          = 'slurmdbd'
+  $service_name     = 'slurmdbd'
 
   ### Configuration ###
   $config_manage     = true
