@@ -155,8 +155,10 @@ profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 
 ##### BOOTSYSTEM
-boot_http_port: '3138'
-boothttp::port: "%{hiera('boot_http_port')}"
+boot_http_port:            '3138'
+boothttp::port:            "%{hiera('boot_http_port')}"
+boothttp::config_dir_http: "%{hiera('website_dir')}"
+boothttp::menu_source:     "%{hiera('private_files_dir')}/boot/cgi/bootmenu.py"
 
 ##### HA
 
