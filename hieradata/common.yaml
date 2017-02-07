@@ -724,3 +724,13 @@ profiles::consul::server::subservices:
 # Slurmweb
 slurmweb::racks_file:  '/etc/slurm-web/racks.xml'
 slurmweb::secret_file: '/etc/slurm-web/secret.key'
+
+
+##### Backup #####
+profiles::backup::collect_dir::sources:
+  'slurmdbd':
+    source_profiles:
+      - 'jobsched::server'
+    source_dir: '/var/backups/slurmdbd'
+
+hpc_backup::collect_dir::base_dir: "/var/backups/%{hiera('cluster_name')}"
