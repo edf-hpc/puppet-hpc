@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Hpc-config-push setup 
+# Hpc-config-push setup
 #
 # ## Relevant Autolookup
 # * `hpcconfig::push::config_options`  Parameters used to build config file for hpc-config-push
