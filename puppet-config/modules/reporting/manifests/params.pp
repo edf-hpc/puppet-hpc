@@ -16,6 +16,7 @@
 class reporting::params {
 
   $script_report_users = '/usr/local/sbin/report_users'
+  $script_report_orphan = '/usr/local/sbin/report_orphan_directory'
   $cron_reporting = '/etc/cron.d/cron_reporting'
 
 }
