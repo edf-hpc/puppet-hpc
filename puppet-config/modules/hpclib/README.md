@@ -55,6 +55,7 @@ found like:
 * Systemd services
 * Systemd tmpfiles
 * Sysctl settings
+* Rsync in a crontab
 
 ### Facts
 
@@ -258,6 +259,8 @@ Returns a hash describing `::dns::server::zones` resources for the current clust
 
 Returns an array with the hosts that have the profile given in
 parameter.
+
+``profile`` name should not contain the ``profiles::`` prefix.
 
 #### Function: `hpc_ha_vip_notify_scripts()`
 
