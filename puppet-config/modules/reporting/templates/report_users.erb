@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 function usage ()
 {
@@ -26,31 +26,41 @@ if [ -z "${cluster}" -o -z "${email_pe}" ]; then
 fi
 
 log_file="/var/log/report.log"
-file_report="/tmp/user-reporting-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
+file_report="/tmp/.user-reporting-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
 file_tmp_mmrepquota="/tmp/.fmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
 total_tmp_mmrepquota="/tmp/.tmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
 
-# Report for quota
-mmrepquota <%= @config_options['name_gpfs'] %> --block-size auto > ${file_tmp_mmrepquota}
-mmrepquota <%= @config_options['name_gpfs'] %> > ${total_tmp_mmrepquota}
+# Report for quota gpfs
+#-----------------------
+/usr/lpp/mmfs/bin/mmrepquota <%= @config_options['name_gpfs'] %> --block-size auto > ${file_tmp_mmrepquota}
+/usr/lpp/mmfs/bin/mmrepquota <%= @config_options['name_gpfs'] %> > ${total_tmp_mmrepquota}
 
-# Recup conf via conf sssd
-# -------------------------
+# Recupération configuration sssd
+# -------------------------------
 cmdsssd=$(awk '/^ldap_uri/{ldap_uri=$NF};/^ldap_default_bind_dn/{ldap_default_bind_dn=$NF};/^ldap_default_authtok/{ldap_default_authtok=$NF};/^ldap_search_base/{ldap_search_base=$NF} {print ldap_uri"|"ldap_default_bind_dn"|"ldap_default_authtok"|"ldap_search_base}' /etc/sssd/sssd.conf | tail -n 1 | sed 's/ldap_default_bi  nd_dn=//g;s/ldap_default_authtok=//g;s/ldap_search_base=//g;s/ldap_default_bind_dn=//g')
 IFS="|" read ldapserver loginldapserver passldapserver baseldapserver <<<  "${cmdsssd}"
 
+# List users in group ldap 
+#---------------------------
 listaccount=$(ldapsearch -x -LLL -H ${ldapserver} -D ${loginldapserver} -w ${passldapserver} -b ${baseldapserver} cn=${groupldap} | awk '/^member:/ {print$2}' | awk -F "," '{print$1}'| sed 's/uid=dummy//g')
 nb_users=$(echo ${listaccount} | tr " " "\n" | wc -l)
 grp=$(echo ${groupldap} | awk -F "-" '{print$NF}')
-nbusersubmit7=$(sacct -X -S $(date -d "7 days ago" +"%Y-%m-%dT00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
-nbusersubmit1=$(sacct -X -S $(date +"%Y-%m-01T00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
+
+# Statistiques via slurm
+#-------------------------
+nbusersubmit7=$(/usr/bin/sacct -X -S $(date -d "7 days ago" +"%Y-%m-%dT00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
+nbusersubmit1=$(/usr/bin/sacct -X -S $(date +"%Y-%m-01T00:00:00") -n -o user,account| grep $grp |sort -u|wc -l)
+IFS="|" read cluster gp cons71 cons72 cons73 cons74 cons75 cons76 <<< "$(/usr/bin/sreport job sizesbyaccount -n -P start=$(date -d "7 days ago" +"%Y-%m-%dT00:00:00") | grep $grp)"
+IFS="|" read cluster gp cons301 cons302 cons303 cons304 cons305 cons306 <<< "$(/usr/bin/sreport job sizesbyaccount -n -P start=$(date +"%Y-%m-01T00:00:00") | grep $grp)"
+
 totalhome=$(grep -E "$(echo $listaccount | sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/home / { sum += $4 } END {print sum/1024/1024}')
 totalscratch=$(grep -E "$(echo $listaccount | sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/scratch / { sum += $4 } END {print sum/1024/1024}')
+
+# Liste & stats répertoires projets
+#------------------------------------
 list_projets=$(awk -F ";" '/'${grp}'/ {print$1}' <%= @config_options['path_list_projets'] %>)
 grp_projets=$(ls -l <%= @config_options['path_dir_projets'] %> | grep -E $(echo ${list_projets}| sed 's/ /|/g') | grep -v root | awk '{print$4}')
 totalprojets=$(grep -E "$(echo "${grp_projets}"| sed 's/uid=//g;s/ /|/g')" ${total_tmp_mmrepquota} | awk '/projets / { sum += $4 } END {print sum/1024/1024}')
-IFS="|" read cluster gp cons71 cons72 cons73 cons74 cons75 cons76 <<< "$(sreport job sizesbyaccount -n -P start=$(date -d "7 days ago" +"%Y-%m-%dT00:00:00") | grep $grp)"
-IFS="|" read cluster gp cons301 cons302 cons303 cons304 cons305 cons306 <<< "$(sreport job sizesbyaccount -n -P start=$(date +"%Y-%m-01T00:00:00") | grep $grp)"
 
 echo '<html><head>' > ${file_report}
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' >> ${file_report}
@@ -135,5 +145,10 @@ echo '</a>' >> ${file_report}
 echo '<br><br><br><br><br></body></html>' >> ${file_report}
 
 # Envoi du mail
+#---------------
 cat ${file_report} | mailx -a "From: <%= @config_options['send_from'] %>" -a "Content-Type: text/html" -c "${email_copie}" -s "[$(echo ${cluster}|sed -e 's/.*/\U&/') |${groupldap}] : Weekly report of ${nb_users} users in the ${groupldap} at $(date +%m/%Y)" "${email_pe}"
+
+# Clean
+#-------
+rm -f ${file_report} ${file_tmp_mmrepquota} ${total_tmp_mmrepquota}
 
