@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Hpc-config-apply setup 
+# Hpc-config-apply setup
 #
 # ## Relevant Autolookup
 # * `hpcconfig::apply::config_options`  Parameters used to build config file for hpc-config-apply
