@@ -21,14 +21,14 @@ class consul::config inherits consul {
       ensure => directory,
       owner  => $::consul::system_user,
       group  => $::consul::system_user,
-      mode   => 0755,
+      mode   => '0755',
     }
 
     file { "${::consul::conf_dir}/10-${::consul::mode}.json" :
       content => template('consul/agent_json.erb'),
       owner   => $::consul::system_user,
       group   => $::consul::system_user,
-      mode    => 0644,
+      mode    => '0644',
       require => File[$::consul::conf_dir],
       notify  => Service[$::consul::services],
     }
@@ -38,7 +38,7 @@ class consul::config inherits consul {
         content => template('consul/services_json.erb'),
         owner   => $::consul::system_user,
         group   => $::consul::system_user,
-        mode    => 0644,
+        mode    => '0644',
         require => File[$::consul::conf_dir],
         notify  => Service[$::consul::services],
       }
@@ -48,7 +48,7 @@ class consul::config inherits consul {
       ensure => directory,
       owner  => $::consul::system_user,
       group  => $::consul::system_user,
-      mode   => 0755,
+      mode   => '0755',
     }
 
   }

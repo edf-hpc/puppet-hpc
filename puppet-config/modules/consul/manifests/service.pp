@@ -17,8 +17,8 @@ class consul::service inherits consul {
 
   if $::consul::services_manage {
     service { $::consul::services:
-      ensure  => $::consul::services_ensure,
-      enable  => $::consul::services_enable,
+      ensure => $::consul::services_ensure,
+      enable => $::consul::services_enable,
     }
   }
 }
