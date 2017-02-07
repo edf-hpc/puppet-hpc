@@ -1,11 +1,11 @@
 class profiles::clearsel::server {
-	$packages = [ 'clearsel' ]
+  $packages = [ 'clearsel' ]
 
-	package { $packages :
-		ensure => latest,
-	}
+  package { $packages :
+    ensure => latest,
+  }
 
-	include ::clearsel::server
+  include ::clearsel::server
 
 }
 
