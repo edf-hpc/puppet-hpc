@@ -16,10 +16,16 @@
 class reporting::config inherits reporting {
 
   $_template_reporting_users = 'reporting/report_users.erb'
+  $_template_reporting_orphan = 'reporting/report_orphan_directory.erb'
   $_template_cron_reporting = 'reporting/cron_report_users.erb'
 
   file { $script_report_users :
     content => template($_template_reporting_users),
+    mode    => '0750',
+  }
+
+  file { $script_report_orphan :
+    content => template($_template_reporting_orphan),
     mode    => '0750',
   }
 
