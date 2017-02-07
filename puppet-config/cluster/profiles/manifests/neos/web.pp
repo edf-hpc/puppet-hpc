@@ -19,7 +19,7 @@
 #
 # ## Hiera
 # * `profiles::neos::config_options` (`hiera_hash`) Import neos configuration
-#   to get some parameters 
+#   to get some parameters
 class profiles::neos::web {
   $neos_options = hiera_hash('profiles::neos::config_options')
   class { '::neos::web':
