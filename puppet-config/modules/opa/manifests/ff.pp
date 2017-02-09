@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Deploys Intel Omni-Path fast fabric management tools 
+# Deploys Intel Omni-Path fast fabric management tools
 #
 # @param packages        Array of packages to install (default:
 #                        ['opa-fastfabric'])

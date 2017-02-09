@@ -13,20 +13,8 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opa::fm::params {
+class opa::fm_gui::params {
   #### Module variables
-  $packages        = ['opa-fm']
+  $packages        = ['opa-fmgui']
   $packages_ensure = installed
-  $service         = 'opafm'
-  $service_ensure  = running
-  $service_enable  = true
-
-  $config_file     = '/etc/opa/opafm.xml'
-  $config_source   = undef
-
-  $fe_enable       = true
-  $fe_sslsecurity  = false
-  $devicegroups    = {}
-  $pmportgroups    = {}
-
 }
