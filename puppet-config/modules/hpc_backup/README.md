@@ -20,6 +20,7 @@ module provides tools to:
 
  * Collect some directory periodically and put them on the machine where the
    module is installed 
+ * Dump switches configuration
 
 ## Setup
 
@@ -33,6 +34,11 @@ To configure backup, you need a list of sources. This list is a set of roles
 and source directories. The module assumes the target host can connect to the
 source host through SSH without a password.
 
+## Usage
+
+### Class: collect_dir
+
+
 ```
 class { '::hpc_backup::collect_dir':
   sources => {
@@ -45,10 +51,6 @@ class { '::hpc_backup::collect_dir':
 }
 ```
 
-## Usage
-
-### Class: collect_dir
-
 Source parameters:
  * source_roles: Array of roles to include in the periodical backups
  * source_dir: Path of the source directory to backup
@@ -60,6 +62,22 @@ On the local machine, the target directories will have the name:
 ```
 
 Files disappearing from the source are automatically cleaned (``delete`` parameter).
+
+### Class: switches
+
+```
+class { '::hpc_backup::switches':
+  sources => {
+    'exos' => {
+      source_nodeset   => 'clswethadm[1-5]',
+    },
+  }
+  base_dir => '/var/backups/hpc-hardware',
+}
+```
+
+The type must be supported by a backup script of the form:
+``/usr/bin/backup-switches-exos``.
 
 ## Limitations
 

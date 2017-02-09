@@ -22,7 +22,7 @@ def hpc_backup_rsync_crons(sources, base_target_dir)
   # sources are of the form:
   #   'slurmdbd':
   #     source_profiles:
-  #       - 'profiles::jobsched::server'
+  #       - 'jobsched::server'
   #     source_dir: '/var/backups/slurmdbd'
   rsync_crons = Hash.new()
 
@@ -61,3 +61,33 @@ def hpc_backup_rsync_crons(sources, base_target_dir)
   return rsync_crons
 end
 
+def hpc_backup_switches_crons(sources, base_target_dir)
+  # Take a hash of sources and build hpc_backup::switches::cron descriptions
+  # sources are of the form:
+  #   'exos':
+  #     source_nodeset: 'sweth-cladm[1-5]'
+  switches_crons = Hash.new()
+
+  mandatory_params = ['source_nodeset']
+
+  sources.each do |source_type, source_params|
+    debug("Add source #{source_type} (#{source_params})")
+
+    if source_type =~ /[^A-Za-z0-9_\.\-]+/
+      raise "Source name '#{source_type}' invalid, valid chars: A-Za-z0-9_\.\-"
+    end
+
+    mandatory_params.each do |param_name|
+      if not source_params.key?(param_name)
+        raise "Source '#{source_type}' has no param '#{param_name}'"
+      end
+    end
+
+    switches_cron = Hash.new()
+    switches_cron['source_nodeset']  = source_params['source_nodeset']
+    switches_cron['target_dir']  = File.join(base_target_dir, "switches-#{source_params['source_type']}")
+    switches_crons[source_type] = switches_cron 
+  end
+
+  return switches_crons
+end
