@@ -63,11 +63,12 @@ the module.
 
 ## Usage
 
-The `opa` has two public classes. 
+The `opa` has three public classes. 
 `opa::ff` installs and configures the Intel OmniPath (OPA) FastFabric tools, 
 including the switches file.
 `opa::fm` installs and configures Intel OmniPath (OPA) Fabric Manager. It 
 depends on the `opa::ff` class.
+`opa::fm` installs Intel OmniPath (OPA) Fabric Manager GUI.
 
 
 ### opa::ff
@@ -157,6 +158,15 @@ class { '::opa::fm':
 
 If the `config_source` argument is defined, its value takes precedence over the
 individual parameters of the Fabric Manager XML configuration file.
+
+### opa::fm_gui
+
+This class only installs the FM GUI packages. Configuration is done in the tool
+itself. 
+
+```
+include ::opa::fm_gui
+```
 
 ## Limitations
 

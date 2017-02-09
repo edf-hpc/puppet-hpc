@@ -13,20 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opa::fm::params {
-  #### Module variables
-  $packages        = ['opa-fm']
-  $packages_ensure = installed
-  $service         = 'opafm'
-  $service_ensure  = running
-  $service_enable  = true
+# Intel OmniPAth Fabric Manager Graphical UI
+#
+# @param packages Array of packages to install (default: ['opa-fmgui'])
+# @param packages_ensure Target state for the packages (default: 'installed')
+class opa::fm_gui (
+  $packages        = $::opa::fm_gui::params::packages,
+  $packages_ensure = $::opa::fm_gui::params::packages_ensure,
+) inherits opa::fm_gui::params {
 
-  $config_file     = '/etc/opa/opafm.xml'
-  $config_source   = undef
+  validate_array($packages)
+  validate_string($packages_ensure)
 
-  $fe_enable       = true
-  $fe_sslsecurity  = false
-  $devicegroups    = {}
-  $pmportgroups    = {}
-
+  anchor { 'opa::fm_gui::begin': } ->
+  class { '::opa::fm_gui::install': } ->
+  anchor { 'opa::fm_gui::end': }
 }
