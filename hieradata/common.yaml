@@ -42,6 +42,7 @@ dns::client::options:
 
 ##### DHCP
 
+iscdhcp::bootmenu_url: "http://%{hiera('server_web_boot')}/cgi-bin/bootmenu.py?node=${hostname}"
 # This array contains iPXE specific options for ISC DHCP server. They must be
 # defined in DHCP server configuration in order to be used then in iPXE menus
 # and scripts. Please refer to iPXE documentation for reference:
