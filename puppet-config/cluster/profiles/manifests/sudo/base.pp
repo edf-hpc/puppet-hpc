@@ -16,11 +16,11 @@
 # Setup sudo
 #
 # ## Hiera
-# * `profiles::sudo::sudo_config_opts`
+# * `profiles::sudo::sudo_config_opts` Array of sudo config lines (default: [])
 class profiles::sudo::base {
 
   ## Hiera lookups
-  $sudo_config_options = hiera_array('profiles::sudo::sudo_config_opts')
+  $sudo_config_options = hiera_array('profiles::sudo::sudo_config_opts', [])
 
   # Pass config options as a class parameter
   class { '::sudo':
