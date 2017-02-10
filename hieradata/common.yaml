@@ -209,6 +209,8 @@ profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 
 ##### BOOTSYSTEM
 boot_http_port:            '3138'
+# HTTP base urls for boots
+server_web_boot:           "web-boot.service.%{hiera('virtual_domain')}:%{hiera('boot_http_port')}"
 boothttp::port:            "%{hiera('boot_http_port')}"
 boothttp::config_dir_http: "%{hiera('website_dir')}"
 boothttp::menu_source:     "%{hiera('private_files_dir')}/boot/cgi/bootmenu.py"
