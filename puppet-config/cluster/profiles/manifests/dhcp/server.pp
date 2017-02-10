@@ -18,13 +18,15 @@
 # ## Hiera
 # * `cluster_prefix`
 # * `boot_params`
-# * `profiles::dhcp::bootmenu_url`
 # * `profiles::dhcp::ipxebin`
 # * `profiles::dhcp::failover` (`hiera_hash`)
 # * `profiles::dhcp::sharednet` (`hiera_hash`)
 # * `profiles::dhcp::includes` (`hiera_hash`)
 # * `profiles::dhcp::default_options` (`hiera_array`)
 # * `profiles::dhcp::global_options` (`hiera_array`)
+#
+# ## Relevant Autolookups
+# * `iscdhcp::bootmenu_url`
 class profiles::dhcp::server {
 
   ## Hiera lookups
@@ -32,7 +34,6 @@ class profiles::dhcp::server {
   $global_options  = hiera_array('profiles::dhcp::global_options')
   $sharednet       = hiera_hash('profiles::dhcp::sharednet')
   $includes        = hiera_hash('profiles::dhcp::includes')
-  $bootmenu_url    = hiera('profiles::dhcp::bootmenu_url')
   $boot_params     = hiera_hash('boot_params', {})
 
   $my_address      = $::hostfile[$::hostname]
@@ -42,7 +43,6 @@ class profiles::dhcp::server {
   class { '::iscdhcp':
     my_address      => $my_address,
     dhcp_config     => $dhcp_config,
-    bootmenu_url    => $bootmenu_url,
     default_options => $default_options,
     global_options  => $global_options,
     sharednet       => $sharednet,
