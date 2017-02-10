@@ -17,6 +17,12 @@
 #
 # This just sets a script (/usr/local/sbin/pstate_set.sh) and launch it
 # during boot with a systemd unit
+#
+# @param script_file Absolute path of the script launched by the service
+# @param systemd_service_file Absolute path of the systemd service unit
+#          file
+# @param systemd_service_file_options Hash with the content of the systemd
+#          service unit file
 class pstate (
   $script_file                  = $pstate::params::script_file,
   $systemd_service_file         = $pstate::params::systemd_service_file,
