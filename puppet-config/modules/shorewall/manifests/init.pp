@@ -13,6 +13,31 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Installs and configure a Shorewall firewall
+#
+# @param service Service name
+# @param service_ensure Target state of the service (default: 'running')
+# @param service_enable Boolean: is the service starting at boot (default:
+#          true)
+# @param packages Array of package names
+# @param packages_ensure Target state of the packages (default: 'installed')
+# @param ip_forwarding Boolean: Is this host forwarding packets (is router)
+# @param config_dir Absolute path of the configuration directory (default:
+#          '/etc/shorewall')
+# @param config_file Absolute path of the main configuration file (default:
+#          '/etc/shorewall/shorewall.conf')
+# @param interfaces_file Absolute path of the interfaces configuration file
+#          (default: '/etc/shorewall/interfaces')
+# @param zones_file Absolute path of the zones configuration file
+#          (default: '/etc/shorewall/zones')
+# @param masq_file Absolute path of the masquerading configuration file
+#          (default: '/etc/shorewall/masq')
+# @param policy_file Absolute path of the policy configuration file
+#          (default: '/etc/shorewall/policy')
+# @param rules_file Absolute path of the rules configuration file
+#          (default: '/etc/shorewall/rules')
+# @param rules_file Absolute path of the default environment of the service
+#          (default: '/etc/default/shorewall')
 class shorewall (
   $service          = $::shorewall::params::service,
   $service_ensure   = $::shorewall::params::service_ensure,
