@@ -13,6 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Setup the puppet agent service
+#
+# @param service Service name
+# @param service_ensure Target state of the service (default: 'stopped')
+# @param service_enable Boolean: is the service starting at boot (default:
+#          false)
 class puppet (
   $service          = $::puppet::params::service,
   $service_ensure   = $::puppet::params::service_ensure,
