@@ -191,6 +191,13 @@ certificates::key_file:                    "%{hiera('cluster_name')}_ldap.key"
 certificates::decrypt_passwd:              "%{hiera('cluster_decrypt_password')}"
 openldap::replica::decrypt_passwd:         "%{hiera('cluster_decrypt_password')}"
 
+##### Sudo #####
+
+# basic sudo config lines
+profiles::sudo::sudo_config_opts:
+  - 'root  ALL =  (ALL) ALL'
+  - '%sudo  ALL =  (ALL) ALL'
+  - '#includedir /etc/sudoers.d'
 
 ##### HTTP
 apache::apache_version:          '2.4'
