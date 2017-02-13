@@ -13,6 +13,17 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Shorewall firewall rule
+# @param source Source zone and network address for the traffic
+# @param dest Destination zone and network address for the traffic
+# @param proto IP protocol used (tcp, udp...)
+# @param dport Destination port
+# @param sport Source port
+# @param origdest Original destination address (for NAT)
+# @param rule The full Shorewall rule as a string, if defined all parameters
+#          except order and comment are ignored
+# @param order Order of the rule in the configuration file
+# @param comment Comment string added to the file before the rule
 define shorewall::rule (
   $action   = 'REJECT',
   $source   = '-',

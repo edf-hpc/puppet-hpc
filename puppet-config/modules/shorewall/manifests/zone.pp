@@ -13,6 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Shorewall zone definition
+#
+# @param name Name of the zone
+# @param type Zone type (default: 'firewall')
+# @param options Array of options for the zone
+# @param comment Comment string added before the zone in the configuration
+#          file
 define shorewall::zone (
   $type    = 'firewall',
   $options = [],
