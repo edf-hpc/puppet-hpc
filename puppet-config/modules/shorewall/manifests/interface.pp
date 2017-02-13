@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Shorewall network interface definition
+#
+# @param zone Name of the zone associated with this interface
+# @param options Array of options to add to the interface (default: [])
 define shorewall::interface (
   $zone,
   $options = [],

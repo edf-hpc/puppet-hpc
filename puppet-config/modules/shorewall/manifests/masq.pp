@@ -13,6 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Masquerading (NAT) rules
+#
+# @param interface Name of the output network interface
+# @param source Source zone and network address of the masqueraded traffic
+# @param dest Destination zone and network address of the masqueraded
+#          traffic
+# @param comment String added to config file above the rule
 define shorewall::masq (
   $interface,
   $source,

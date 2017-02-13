@@ -13,6 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Shorewall policy (default rule)
+#
+# @param source Source zone and network for this policy
+# @param dest Destination zone and network for this policy
+# @param policy Action to apply (default: 'REJECT')
+# @param log_level Log to apply when policy is triggered (default: none)
+# @param order Order of the policy in the config file (default: 0)
 define shorewall::policy (
   $source,
   $dest,
