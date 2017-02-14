@@ -39,12 +39,6 @@ fi
 SSH_KEYS_DIR=${INTERNAL_REPO}/files/${CLUSTER}/hostkeys
 CLUSTER_YAML=${INTERNAL_REPO}/hieradata/${CLUSTER}/cluster.yaml
 NETWORK_YAML=${INTERNAL_REPO}/hieradata/${CLUSTER}/network.yaml
-ENCODING_KEY=$(grep cluster_decrypt_password ${CLUSTER_YAML} | eyaml decrypt --stdin 2>/dev/null | cut -d' ' -f2)
-
-if [ -z ${ENCODING_KEY} ]; then
-    echo "ERR: unable to parse cluster_decrypt_password in ${CLUSTER_YAML}"
-    exit 1
-fi
 
 if [ ! -d ${SSH_KEYS_DIR} ]; then
     echo "creating ${SSH_KEYS_DIR}"
@@ -58,7 +52,7 @@ function gen_key {
     if [ ! -f ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}.enc ]; then
         echo "generating ${HOST} ${TYPE} key"
         ssh-keygen -q -t $TYPE -N '' -f ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
-        openssl aes-256-cbc -in ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST} -out ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}.enc -k ${ENCODING_KEY}
+        puppet-hpc/scripts/encode-file.sh ${INTERNAL_REPO} ${CLUSTER} ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
         # remove unencrypted private key
         rm ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
     fi
