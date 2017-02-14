@@ -16,9 +16,11 @@
 #
 class hpc_apt::config inherits hpc_apt {
 
-  exec { 'add_foreign_arch':
-    command => "/usr/bin/dpkg --add-architecture ${::hpc_apt::foreign_arch}",
-    unless  => "/usr/bin/dpkg --print-foreign-architectures | grep ${::hpc_apt::foreign_arch}",
+  if $::hpc_apt::foreign_arch {
+    exec { 'add_foreign_arch':
+      command => "/usr/bin/dpkg --add-architecture ${::hpc_apt::foreign_arch}",
+      unless  => "/usr/bin/dpkg --print-foreign-architectures | grep ${::hpc_apt::foreign_arch}",
+    }
   }
 
   create_resources(apt::conf, $::hpc_apt::confs)

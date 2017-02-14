@@ -24,7 +24,7 @@
 class hpc_apt (
   $confs        = {},
   $sources      = {},
-  $foreign_arch = '',
+  $foreign_arch = undef,
 ) {
   include ::apt
 
