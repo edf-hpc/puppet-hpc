@@ -550,7 +550,7 @@ apt::disable_keys:         false
 apt::purge_sources_list:   true
 apt::purge_sources_list_d: true
 apt::purge_preferences_d:  true
-apt::update_timeout:       '10'
+apt::update_timeout:       10
 apt::proxy_host:           "apt.service.%{hiera('virtual_domain')}"
 apt::proxy_port:           3142
 
