@@ -35,6 +35,35 @@ profiles::ntp::client::site_servers:
 
 ##### DNS
 dns::server::virtual_domain: "%{hiera('virtual_domain')}"
+install_server_ip: "%{::ipaddress}" # May be required to change with the IP
+                                    # address of the first installation server
+                                    # on the administration network.
+# The virtual zone is configured with the following entries in dns server only
+# if dns::server::virtual_relay is false (default: true). This is useful on the
+# early stage on a cluster installation process when the services depends on the
+# virtual zone and consul cluster has not enough members to be bootstrapped yet.
+dns::server::virtual_entries:
+ - owner: '@'
+   proto: 'IN'
+   type:  'NS'
+   data:  "%{::fqdn}."
+ - owner: 'apt.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
+ - owner: 'web-boot.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
+ - owner: 'secret.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
+ - owner: 'http.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
+
 dns::client::options:
   - rotate
   - timeout:1
