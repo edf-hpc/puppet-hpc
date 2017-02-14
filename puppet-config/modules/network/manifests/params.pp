@@ -204,7 +204,12 @@ class network::params {
 
   $mlx4load    = 'yes'
   $net_topology        = hiera_hash('net_topology')
-  $ib_hostname         = join(["${net_topology['lowlatency']['prefixes']}", '$(hostname -s)'], '')
+  if $net_topology['lowlatency'] {
+    $ib_hostname = join(["${net_topology['lowlatency']['prefixes']}", '$(hostname -s)'], '')
+  } else {
+    notice("'lowlatency' network is not defined in net_topology. ib_hostname will be empty")
+    $ib_hostname = ''
+  }
   $ib_options_defaults = {
     'onboot'                       => 'yes',
     'node_desc'                    => $ib_hostname,
