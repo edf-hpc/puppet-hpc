@@ -24,10 +24,16 @@ define boothttp::printconfig () {
   # Calibre9 uses a hash passed as parameter directly written as a preseed
   # RH still uses a direct template
   if $_os == 'calibre9' {
-    $install_options = $::boothttp::install_options
+    # Test if install_options has key and fail if not. Otherwise, Puppet returns
+    # an empty string when accessing a missing key in a hash. Then, it leads to
+    # weird error in hpclib::print_config.
+    if !has_key($::boothttp::install_options, $_os) {
+      fail("install_options hash does not have key for os ${_os}")
+    }
+    $install_options = $::boothttp::install_options[$_os]
     hpclib::print_config{ $config_file:
       style     => 'keyval',
-      data      => $install_options[$_os],
+      data      => $install_options,
       separator => ' ',
     }
   } else {
