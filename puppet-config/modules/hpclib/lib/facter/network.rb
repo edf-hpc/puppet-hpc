@@ -95,6 +95,9 @@ if !masternetwork.nil? and masternetwork.length > 0
   mymasternet['networks'].each do |network,params|
     iface   = params['device']
     address = params['IP']
+    if not net_topology[network]
+      raise "Node #{h_name} uses a network (#{network}) that is not defined in 'net_topology'."
+    end
     nmask   = net_topology[network]['netmask']
     ### Build netconfig (iface -> Address)                   ###
     ### Structure: {"interface"=>["10.0.0.1/255.255.255.0"]} ###
