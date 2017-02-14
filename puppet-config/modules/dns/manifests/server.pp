@@ -83,8 +83,11 @@
 #           '/etc/bind/named.conf.options')
 # @param local_file Local domains configuration file (default:
 #           '/etc/bind/named.conf.local')
-# @param virtual_domain Domain name of the 'virtual' (consul) domain.
-#           (default: disabled)
+# @param virtual_domain Domain name of the virtual domain (default: 'virtual')
+# @param virtual_relay Boolean to define if requests to the virtual zones are
+#                      relayed to an external DNS server (default: true)
+# @param virtual_entries Array of entries of the virtual zone, unused if
+#                        `virtual_relay` is true (default: [])
 # @param zone_defaults Hash of default options for zones
 # @param config_options Hash of options for the DNS server
 # @param zones Hash of zones (default: {})
@@ -101,6 +104,8 @@ class dns::server (
   $local_file      = $::dns::server::params::local_file,
   $zone_defaults   = $::dns::server::params::zone_defaults,
   $virtual_domain  = $::dns::server::params::virtual_domain,
+  $virtual_relay   = $::dns::server::params::virtual_relay,
+  $virtual_entries = $::dns::server::params::virtual_entries,
   $config_options  = {},
   $zones           = {},
 ) inherits dns::server::params {
@@ -115,6 +120,9 @@ class dns::server (
   validate_absolute_path($config_file)
   validate_absolute_path($local_file)
   validate_hash($zone_defaults)
+  validate_string($virtual_domain)
+  validate_bool($virtual_relay)
+  validate_array($virtual_entries)
   validate_hash($config_options)
   validate_hash($zones)
 

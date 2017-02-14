@@ -26,7 +26,9 @@ class dns::server::params {
   $config_dir      = '/etc/bind'
   $config_file     = "${config_dir}/named.conf.options"
   $local_file      = "${config_dir}/named.conf.local"
-  $virtual_domain  = undef # disable by default
+  $virtual_domain  = 'virtual'
+  $virtual_entries = []
+  $virtual_relay   = true
 
   # Default values
   $config_options_default = {

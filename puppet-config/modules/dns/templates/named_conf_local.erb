@@ -23,7 +23,7 @@
 <% # Import Hash Table  -%>
 <% dns_options = @zone_options -%>
 
-<% if not @virtual_domain.nil? %>
+<% if @virtual_relay %>
 zone "<%= @virtual_domain -%>" IN {
   type forward;
   forward only;
