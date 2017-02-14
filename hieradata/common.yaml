@@ -238,7 +238,8 @@ profiles::http::scriptalias:     "%{hiera('profiles::http::mirror::docroot')}/cg
 profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
 
 ###### EYAML keys propagation service
-profiles::http::secret::port:          '1216'
+secret_port:                           '1216'
+profiles::http::secret::port:          "%{hiera('secret_port')}"
 profiles::http::secret::docroot:       '/var/www_secret'
 profiles::http::secret::keys_enc:      "%{hiera('private_files_dir')}/eyaml/keys.tar.xz.enc"
 profiles::http::secret::keys_password: "%{hiera('cluster_decrypt_password')}"
@@ -753,7 +754,7 @@ profiles::consul::server::subservices:
     check:
       id: 'http_secret_check'
       name: 'Local HTTP secret check'
-      http: "http://localhost:%{hiera('profiles::http::secret::port')}/"
+      http: "http://localhost:%{hiera('secret_port')}/"
       interval: '10s'
       timeout: '1s'
   - name: 'web-boot'
