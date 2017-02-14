@@ -36,5 +36,10 @@ class dns::server::config inherits dns::server {
 
     create_resources(dns::server::zone, $::dns::server::zones)
 
+    if ! $::dns::server::virtual_relay {
+      dns::server::zone { $::dns::server::virtual_domain:
+        entries => $::dns::server::virtual_entries,
+      }
+    }
   }
 }

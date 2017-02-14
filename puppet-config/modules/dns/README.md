@@ -48,6 +48,7 @@ class { '::dns::client':
 ```
 
 On a server:
+
 ```
 class { '::dns::server':
   config_options => {
@@ -91,8 +92,11 @@ On a real server, the zones hash must fully describe all forward and reverse
 zones. If the configuration is using `hpc-config`, it should use the function
 `hpc_dns_zones` from the `hpclib` module.
 
-The server also supports a `virtual_domain` parameter to setup forward to a
-consul DNS interface.
+The server also support a virtual zone for services. If the `virtual_relay`
+argument is true, all the requests to the `virtual_zones` are relayed to an
+external DNS server, typically DNS interface of the Consul discovery service.
+If `virtual_relay` is false, a virtual zone is declared and managed by bind with
+the entries given in `virtual_entries` array.
 
 ## Limitations
 
