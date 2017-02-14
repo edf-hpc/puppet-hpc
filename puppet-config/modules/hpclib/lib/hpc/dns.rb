@@ -25,6 +25,7 @@ $options = {
   :scope => {
     'environment' => Puppet[:environment],
     'cluster_name' => Facter.value(:cluster_name),
+    '::cluster_name' => Facter.value(:cluster_name),
   },
   :key => nil,
   :verbose => false,
