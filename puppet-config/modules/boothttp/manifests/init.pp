@@ -58,6 +58,7 @@ class boothttp (
   validate_hash($hpc_files)
   validate_hash($archives)
   validate_array($supported_os)
+  validate_hash($install_options)
   validate_string($menu_config)
   validate_hash($menu_config_options)
 
