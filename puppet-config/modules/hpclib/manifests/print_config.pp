@@ -139,6 +139,8 @@ define hpclib::print_config(
 
   $conf_template = 'hpclib/conf_template.erb'
 
+  debug("checking data type for file ${target}")
+
   case $style {
     ini : {
       validate_hash($data)
