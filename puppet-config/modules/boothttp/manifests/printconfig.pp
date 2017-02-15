@@ -21,15 +21,6 @@ define boothttp::printconfig () {
   $_os = $name
   $config_file = "${::boothttp::install::disk_dir}/${_os}/install_config"
 
-  # ensure directory of the $config_file exists
-  $_config_file_dir = dirname($config_file)
-  ensure_resource('file',
-                  $_config_file_dir,
-                  {
-                    ensure  => 'directory',
-                    require => File[$::boothttp::install::disk_dir],
-                  })
-
   # Calibre9 uses a hash passed as parameter directly written as a preseed
   # RH still uses a direct template
   if $_os == 'calibre9' {

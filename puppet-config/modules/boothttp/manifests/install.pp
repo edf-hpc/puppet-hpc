@@ -34,7 +34,12 @@ class boothttp::install inherits boothttp {
                     ensure  => 'directory',
                     require => File[$boothttp::config_dir_http],
                   })
-
+  ensure_resource('file',
+                  prefix($::boothttp::supported_os, $disk_dir),
+                  {
+                    ensure  => 'directory',
+                    require => File[$disk_dir],
+                  })
   $_menu_config_dir = dirname($::boothttp::menu_config)
   ensure_resource('file',
                   $_menu_config_dir,
