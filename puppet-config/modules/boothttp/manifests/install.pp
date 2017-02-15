@@ -23,13 +23,24 @@ class boothttp::install inherits boothttp {
   $menu_file = "${menu_dir}/bootmenu.py"
   $disk_dir  = "${boothttp::config_dir_http}/disk"
 
-  ensure_resource('file',$boothttp::config_dir_http,{'ensure' => 'directory'})
-  ensure_resource('file',$menu_dir,{'ensure' => 'directory'})
+  ensure_resource('file',
+                  $boothttp::config_dir_http,
+                  {
+                    ensure => 'directory',
+                  })
+  ensure_resource('file',
+                  [ $menu_dir, $disk_dir ],
+                  {
+                    ensure  => 'directory',
+                    require => File[$boothttp::config_dir_http],
+                  })
 
   $_menu_config_dir = dirname($::boothttp::menu_config)
   ensure_resource('file',
                   $_menu_config_dir,
-                  {'ensure' => 'directory'})
+                  {
+                    ensure => 'directory',
+                  })
 
   file { $menu_file:
     content => hpc_source_file($::boothttp::menu_source),
