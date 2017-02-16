@@ -85,7 +85,7 @@ def hpc_backup_switches_crons(sources, base_target_dir)
 
     switches_cron = Hash.new()
     switches_cron['source_nodeset']  = source_params['source_nodeset']
-    switches_cron['target_dir']  = File.join(base_target_dir, "switches-#{source_params['source_type']}")
+    switches_cron['target_dir']  = File.join(base_target_dir, "switches-#{source_type}")
     switches_crons[source_type] = switches_cron 
   end
 
