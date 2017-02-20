@@ -1,3 +1,249 @@
+hpc-config (0.11) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * mod:systemd Add a modules_load resource type
+  * mod:network load modules ib_ipoib on boot with OPA
+  * doc: move roles section into dedicated file
+  * doc scripts update build-gh-pages
+  * mod:cce Update to 1.3 conf file and documentation
+  * prof:cce Remove useless hiera variable
+  * mod:hpc_ha fix the ordering between scripts and service
+  * mod:hpc_ha hpc_ha::service is an empty shell, use keepalived::service
+  * mod:aufs New method to mount /usr subdirs
+  * prof:environment put aufs_remote in its own profile
+  * mod:aufs Create the mount points in overlay
+  * mod:filesystem Add module to handle mounts
+  * prof:filesystem mounts are done in stage first
+  * mod:hpc_ha Configure lvs (ipvsadm) sync interface
+  * mod:filesystem Handle dirs and sylinks like mounts
+  * prof:filesystem Handle dirs and symlinks like mounts
+  * prof:directories fix typo on class name
+  * mod:filesystem fix typo on variable name
+  * hiera sshd config, add a ClientAliveInterval
+  * mod:network Documentation
+  * mod:nfs Documentation
+  * mod:openldap Documentation and remove unused params
+  * mod:openldap Parameters documentation
+  * mod:openssh Documentation
+  * mod:opentracker Documentation
+  * mod:pam Documentation
+  * mod:postfix Documentation
+  * mod:systemd modules_load Finish documentation
+  * mod Add missing .yardopts
+  * prof:environment Move password profile from access
+  * mod:pam Lint fix (file mode quote)
+  * prof:s3 Lint fix (whitespace)
+  * mod:pam Debug pwquality
+  * mod:neos Refactor neos::web class, implement install_manage for neos
+  * prof:neos Use new neos:web parameters
+  * ex: Fix README.md table of content
+  * doc: Happy new Year!
+  * doc: gh-pages build script reuse git user and mail
+  * hiera: Set default rsyslog spool_dir to 200m
+  * doc: Remove redudant :toc: left
+  * mod:allinea Add a module/class for Allinea Licensing server
+  * prof:software Add a profile for allinea_licensing
+  * mod:cce Fix doc table of content
+  * mod:aptcacherng Add documentation
+  * mod:* prof:* Change year to 2017 in headers
+  * mod:carboncrelay Add documentation
+  * mod:carboncrelay Fix default type for arg (and lint fix)
+  * mod:boothttp Documentation (and lint fixes)
+  * mod:tftp Add documentation (and lint fixes)
+  * mod:hpc_ha Clean ip address in vserv notify script
+  * mod:proftpd Add documentation
+  * mod:slurm dbd service => service_name
+  * mod:slurm dbd: replace backup script by package
+  * mod:slurm dbd: Use new backup script from package
+  * mod:hpclib Add a rsync_cron resource
+  * mod:hpc_backup Add mod to collect directories for backup
+  * hiera Add hpc_backup configuration for slurmdbd
+  * prof::backup Add a collect_dir profile for dump centralisation
+  * prof:hpcconfig Lint fixes
+  * prof:monitoring Lint fixes
+  * prof:clearsel Lint fixes
+  * prof:neos Lint fixes
+  * mod:hpc_backup Add class to backup switch config
+  * prof:backup Add profile to backup Switches
+  * mod:clearsel Use new package path (/etc/hpc-hardware) for conf
+  * prof:clearsel Use new package name: hpc-hardware-edf
+  * mod:opa Add fm_gui public class (and Lint fixes)
+  * mod:vnc Add module for vnc server class
+  * prof:opa Add a profile for the FM GUI
+  * hiera: Add SRATCHDIR to variable sent and accepted by SSH
+  * mod:pstate Add documentation
+  * mod:puppet Add documentation
+  * mod:shorewall Add some documentation
+  * mod:shorewall Documentation
+  * mod:hpc_backup Switches backup: Fix target dir path
+
+  [ Rémi Palancher ]
+  * doc: allow modules to depend on systemd module
+  * doc: fix syntax in concepts chapter
+  * doc: fix script names in headings
+  * doc: fix syntax, rewording and ref to manpages
+  * doc: remove endless dashed lines
+  * doc: build HTML doc on base.asc
+  * doc: rename concepts chapter to software arch
+  * doc: complete overview chapter
+  * doc: add dir tree desc in guidelines
+  * doc: document pattern before external deps
+  * doc: re-order software architecture chapter
+  * doc: new diagrams in sw arch chapter
+  * example: update hiera.yaml
+  * doc: reword/complete hiera levels section
+  * doc: role4 is on clusterZ
+  * doc: hiera levels -> hiera layers
+  * doc: reword genericity levels section
+  * doc: reword the roles section of sw arch
+  * doc: move deps into dedicated file
+  * doc: fix path to roles manifest
+  * doc: enable syntax highlighting for puppet code
+  * doc: import svg image files in src
+  * mod:hpc_ha: support multiple parts notify scripts
+  * mod:hpclib: support multiple VIP notify scripts
+  * mod:hpclib: enable HA notify if vserv is defined
+  * mod:hpc_ha: remove dots from part notify scripts
+  * scripts: handle symlinks on dir in h-c-push
+  * scripts: explain why conf_copy in comment
+  * prof:cluster: make apt_conf hash optional
+  * doc: fix SVG rendering issues in HTML
+  * prof:gpfs: GPFS client after NFS mounts
+  * doc: clean-up README.md
+  * doc: add sensible data management explanations
+  * doc: remove cluster arch related stuff
+  * doc: replace frenchism with real english word
+  * hiera: remove monitoring plugins from consul srv
+  * prof:consul: use hiera_array for packages
+  * prof:auth: LDAP URI is now inserted in SSSD opts
+  * mod:hpc_rsyslog initial commit
+  * prof:log: use new hpc_rsyslog module for server
+  * prof:log: remove prod server_dir parameter
+  * hiera: use auto-lookup for rsyslog server_dir
+  * prof:log: update inline parameters doc
+  * prof:log: use auto-lookup for custom_config
+  * mod:hpc_rsyslog: add systemd service override
+  * prof:log: hiera_hash() service_override
+  * mod:hpclib: do not fail if vips are not set
+  * scripts: fix licensing headers
+  * mod:boottftp: set default tftp_dir to /srv/tftp
+  * prof:bootsystem: make tftp_config_options opt
+  * prof:nfs: make to_mount param optional in hiera
+  * hiera: add all required eyaml key service params
+  * hiera: add tftp_dir shared param
+  * hiera: remove unused tftp profile param
+  * mod:tftp: merge config options given in args
+  * scripts: add hostlist script
+  * scripts: add sync-ssh-hostkeys.sh
+  * mod:boothttp: change config_dir_http default value
+  * mod:boothttp: transform supported_os to array
+  * prof:dhcp: make boot_params a shared param
+  * prof:bootsystem: boot_params is now a shared param
+  * prof:bootsystem: replace prof params by autolookup
+  * mod:boothttp: move vhost from profile to module
+  * prof:bootsystem: remove vhost declaration
+  * mod:boothttp: add missing validate() on arg
+  * prof:bootsystem: use autolookup for http port
+  * hiera: define boot http port as autolookup
+  * prof:bootsystem: comment cleanup and code ordering
+  * mod:boothttp: set correct value for bootmenu.yaml
+  * mod:boothttp: set explicit value for menu_source
+  * hiera: add generic autolookups for boothttp
+  * hiera: add ipxe options in dhcp conf
+  * prof:dhcp: use autolookup for dhcp bootmenu URL
+  * hiera: define web_server_boot at the common layer
+  * hiera: define dhcp bootmenu URL autolookup
+  * prof:sudo: make config opts optional
+  * mod:sudo: fix default config_options type
+  * hiera: add basic sudo config lines
+  * scripts: add script to encode files
+  * script: use encode-file.sh in sync-ssh-hostkeys.sh
+  * mod:boothttp: ensure install_opts type and content
+  * mod:hpclib: add debug msg in print_config()
+  * mod:hpc_apt: make APT foreign arch optional
+  * mod:hpclib: add ::cluster_name fact in hiera scope
+  * mod:dns: manage virtual zone if relay if false
+  * hiera: add default dns virtual entries
+  * hiera: add default apt proxy host
+  * hiera: apt timeout is an integer
+  * hiera: add secret_port shared param
+  * doc: add missing community modules deps
+  * doc: update encryption bootstrap procedure
+  * mod:boothttp: ensure all required dir are created
+  * mod:boothttp: create config dir in install step
+  * scripts: introduce locate-param
+  * mod:hpcconfig: ensure s3cmd config dir is present
+  * hiera: also add rgw/s3-system in fake virtual zone
+  * script: follow symlinks for h-c-push in s3
+  * pkg: h-c-apply depends on lsb-release
+
+  [ Ana Guerrero Lopez ]
+  * doc: fix image file extension
+  * doc: spell checking
+  * doc: overview.asc proofreading
+  * fix typo on pattern_roles_profiles_hiera.svg
+  * doc: arch chapter proofreading
+  * doc: a few more changes for arch/deployment.asc
+  * mod:environment Remove enable PSM2-compact by default
+
+  [ Cécile YOSHIKAWA ]
+  * mod:gpfs Documentation
+  * doc: move overview in 1st dedicated chapter
+  * doc: move pattern to dedicated file
+  * doc: move internal repo doc into dedicated file
+  * doc: move genericity into dedicated file
+  * mod:hpc_apt add doc
+  * doc: fix encryption part
+
+  [ Benoit Boccard ]
+  * mod: hpc_apt: Add possibility to add a foreign architecture in dpkg config
+  * doc: move hiera doc in dedicated file
+  * doc: move cluster definition into dedicated file
+  * doc: move deployment into dedicated file
+  * Add s3cmd module
+  * mod: s3cmd: Add mode to config file
+  * Prof: Add s3::s3cmd profile
+  * Add hpcconfig module
+  * Add s3cmd module doc
+  * Add hpcconfig profiles
+  * Change class "opafm" in "opa::fm" and add "opa::ff" class to manage opa fastfabric tools
+  * Add profiles for opa module
+
+  [ Camille Mange ]
+  * Fix keepalived not restarted (and VIP down) when network/interfaces changes
+
+  [ Mehdi Dogguy ]
+  * mod aufs: new module
+  * mod:aufs Remove udba=reval from aufs mounts parameters
+  * mod:aufs Mount only some subdirs of /usr/share
+  * mod:aufs Fix typo
+  * mod:aufs Use double quotes so that variables are interpreted
+  * mod:aufs Fix options for fs_usr_share_man
+  * prof:log log::server after NFS mounts
+  * prof:log add a trailing slash after server_dir
+  * prof:log ::rsyslog::server assumes server_dir ends with a /
+
+  [ Philippe Lamare ]
+  * Ajout fichier sécurisé sur service passif
+  * Ajout cron pour les services passifs icinga
+  * Ajout de clearsel
+  * clearsel sur eocollect1
+
+  [ Nicolas Gilbert ]
+  * Modify eoservice monitoring agent
+  * mod:reporting: Add new modules reporting
+  * mod:reporting: Add files configuration et template
+  * mod: reporting: Add README & Add option -g to report_users
+  * mod: reporting: Add number user submit jobs since 31 days
+  * mod: opa: create /var/crash/opafm
+  * mod:reporting:reports_users add since 7 & 31 days
+  * mod: reporting: Mod var error
+  * mod: reporting: modif report users
+  * mod: reporting: correction path
+  * eole: reporting: add report ophan directory
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Mon, 20 Feb 2017 09:43:00 +0100
+
 hpc-config (0.10) calibre9; urgency=medium
 
   * Install pre-built manpages.
