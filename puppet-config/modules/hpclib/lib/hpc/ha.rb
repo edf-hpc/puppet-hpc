@@ -80,6 +80,7 @@ def get_host_vips(hostname)
     members = hpc_nodeset_expand(vip_items['members'])
     if members.include?(hostname)
 
+      function_debug(["Including vip #{vip_group} on #{hostname} (#{vip_items['master']}): #{members}"])
       is_master = vip_items['master'] == hostname
       priority = is_master ? 100 : 50
 
