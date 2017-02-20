@@ -421,123 +421,34 @@ profiles::clara::dist_mirror_source_server: "ftp.scibian.org"
 profiles::clara::hpc_mirror_source_server:  "ftp.scibian.org"
 profiles::clara::base_repos_root:           "%{hiera('website_dir')}/mirror"
 profiles::clara::repos:
-  #Suites Calibre 9
+  # scibian8
   'jessie':
     suite_name:  'jessie'
-    mirror_dir:  'calibre9/debian'
+    mirror_dir:  'debian'
     server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
     sections:    'main,contrib,non-free,main/debian-installer'
   'jessie-updates':
     suite_name:  'jessie-updates'
-    mirror_dir:  'calibre9/debian'
+    mirror_dir:  'debian'
     server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
   'jessie-security':
     suite_name:  'jessie/updates'
-    mirror_dir:  'calibre9/debian-security'
+    mirror_dir:  'debian-security'
     server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
   'jessie-backports':
     suite_name:  'jessie-backports'
     mirror_dir:  'debian'
     server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
-  'calibre9':
-    suite_name:  'calibre9'
-    mirror_dir:  'calibre9/calibre'
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+  'scibian8':
+    suite_name:  'scibian8'
+    mirror_dir:  'scibian8/scibian'
     server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
-  'calibre9-hpc':
-    suite_name:  'calibre9'
-    mirror_dir:  'calibre-hpc'
-    server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
-    archs:       'amd64'
-  'calibre9-applis':
-    suite_name:  'calibre9'
-    mirror_dir:  'calibre-applis'
-    server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
-    archs:       'amd64'
-  #Suites Calibre 8
-  'wheezy':
-    suite_name:  'wheezy'
-    mirror_dir:  'calibre8/debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre8/"
-    sections:    'main,contrib,non-free,main/debian-installer'
-  'wheezy-updates':
-    suite_name:  'wheezy-updates'
-    mirror_dir:  'calibre8/debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre8/"
-  'wheezy-security':
-    suite_name:  'wheezy/updates'
-    mirror_dir:  'calibre8/debian-security'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre8/"
-  'wheezy-backports':
-    suite_name:  'wheezy-backports'
-    mirror_dir:  'debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre9/"
-  'calibre8':
-    suite_name:  'calibre8'
-    mirror_dir:  'calibre8/calibre'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre8/"
-  'calibre8-hpc':
-    suite_name:  'calibre8'
-    mirror_dir:  'calibre-hpc'
-    server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre8/"
-    archs:       'amd64'
-  #Suites Calibre 7
-  'squeeze':
-    suite_name:  'squeeze'
-    mirror_dir:  'calibre7/debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-    archs:       'amd64'
-    sections:    'main,contrib,non-free,main/debian-installer'
-  'squeeze-security':
-    suite_name:  'squeeze/updates'
-    mirror_dir:  'calibre7/debian-security'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-    archs:       'amd64'
-  'squeeze-backports':
-    suite_name:  'squeeze-backports'
-    mirror_dir:  'debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-  'calibre7':
-    suite_name:  'calibre7'
-    mirror_dir:  'calibre7/calibre'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-  'calibre7-sp2':
-    suite_name:  'calibre7-sp2'
-    mirror_dir:  'calibre7/calibre'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-  'calibre7-sp4':
-    suite_name:  'calibre7-sp4'
-    mirror_dir:  'calibre7/calibre'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-  'calibre7-sp5':
-    suite_name:  'calibre7-sp5'
-    mirror_dir:  'calibre7/calibre'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-  'calibre7-hpc':
-    suite_name:  'calibre7'
-    mirror_dir:  'calibre-hpc'
-    server:      "%{hiera('profiles::clara::hpc_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/calibre7/"
-    archs:       'amd64'
+    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+
 clara::common_options:
   origin:      "%{hiera('cluster_repo_originator')}"
 clara::repo_options:
