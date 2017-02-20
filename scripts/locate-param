@@ -62,7 +62,7 @@ def explore_content(param, search, value):
 
     if type(value) is dict:
         for key, xval in value.items():
-            if check_interpolation(key, param):
+            if check_interpolation(key, search):
                 return True
             if explore_content(param, search, xval):
                 return True
