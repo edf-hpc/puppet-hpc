@@ -416,38 +416,41 @@ profiles::warewulf_nhc::config_options:
     command: 'check_file_test -c -r -w /dev/null /dev/zero'
 
 ##### CLARA
-# repos - repos.ini
-profiles::clara::dist_mirror_source_server: "ftp.scibian.org"
-profiles::clara::hpc_mirror_source_server:  "ftp.scibian.org"
-profiles::clara::base_repos_root:           "%{hiera('website_dir')}/mirror"
+
+# repository mirroring settings
+
+clara_debian_mirror_server:  'ftp.debian.org'
+clara_scibian_mirror_server: 'ftp.scibian.org'
+clara_base_repos_root:       "%{hiera('website_dir')}/mirror"
+
 profiles::clara::repos:
   # scibian8
   'jessie':
     suite_name:  'jessie'
     mirror_dir:  'debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+    server:      "%{hiera('clara_debian_mirror_server')}"
+    mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
     sections:    'main,contrib,non-free,main/debian-installer'
   'jessie-updates':
     suite_name:  'jessie-updates'
     mirror_dir:  'debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+    server:      "%{hiera('clara_debian_mirror_server')}"
+    mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
   'jessie-security':
     suite_name:  'jessie/updates'
     mirror_dir:  'debian-security'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+    server:      "%{hiera('clara_debian_mirror_server')}"
+    mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
   'jessie-backports':
     suite_name:  'jessie-backports'
     mirror_dir:  'debian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+    server:      "%{hiera('clara_debian_mirror_server')}"
+    mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
   'scibian8':
     suite_name:  'scibian8'
     mirror_dir:  'scibian8/scibian'
-    server:      "%{hiera('profiles::clara::dist_mirror_source_server')}"
-    mirror_root: "%{hiera('profiles::clara::base_repos_root')}/scibian8/"
+    server:      "%{hiera('clara_scibian_mirror_server')}"
+    mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
 
 clara::common_options:
   origin:      "%{hiera('cluster_repo_originator')}"
