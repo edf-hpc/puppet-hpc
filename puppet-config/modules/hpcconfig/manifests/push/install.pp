@@ -19,4 +19,14 @@ class hpcconfig::push::install inherits hpcconfig::push {
     ensure => $::hpcconfig::push::packages_ensure,
   }
 
+  # ensure directory of eyaml config file exists
+  ensure_resource('file',
+                  dirname($::hpcconfig::push::eyaml_config_file),
+                  {
+                    ensure => 'directory',
+                    owner  => 'root',
+                    group  => 'root',
+                    mode   => '0700',
+                  })
+
 }
