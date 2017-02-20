@@ -4,8 +4,6 @@ cluster_name:             'mycluster'
 cluster_prefix:           'my'
 domain:                   'hpc.example.com'
 virtual_domain:           'virtual'
-cluster_repo_originator:  'TeamHPC'
-cluster_repo_gpg_key:     '01234567'
 cluster_decrypt_password: 'password'
 # These values might be redefined for your site
 admin_dir:      '/var/admin'
@@ -453,9 +451,9 @@ profiles::clara::repos:
     mirror_root: "%{hiera('clara_base_repos_root')}/scibian8/"
 
 clara::common_options:
-  origin:      "%{hiera('cluster_repo_originator')}"
+  origin:      "%{hiera('clara_repo_originator')}"
 clara::repo_options:
-  gpg_key:     "%{hiera('cluster_repo_gpg_key')}"
+  gpg_key:     "%{hiera('clara_repo_gpg_key')}"
   clustername: "%{hiera('cluster_name')}"
   mirror_root: "%{hiera('profiles::http::mirror::docroot')}"
 clara::ipmi_options:
@@ -463,6 +461,11 @@ clara::ipmi_options:
 clara::keyring_source: "%{hiera('private_files_dir')}/repo/cluster_keyring.secret.gpg.enc"
 clara::password_options:
   ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
+
+# internal repository settings
+
+clara_repo_originator:  'TeamHPC'
+clara_repo_gpg_key:     '01234567'
 
 ##### Ftp
 proftpd::user_home: "/srv/ftp"
