@@ -15,7 +15,12 @@
 
 # Setup a local Xorg server and let it auto-confgure
 class profiles::xorg::auto {
-  class { '::xorg':
-    driver => 'auto'
-  }
+  # Make sure the xorg class is realized after the base packages are installed.
+  # The base module installs the scibian-hpc meta-packages which are supposed to
+  # depend on all the required packages for xorg to run on nvidia modules.
+  Package <| tag == 'base' |> ->
+  class { '::xorg':}
+
+  $instances = hiera_hash('profiles::xorg::instances')
+  create_resources(xorg::instance, $instances)
 }
