@@ -55,6 +55,8 @@
 #
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
+# * profiles::jobsched::server::ceph::enabled (`hiera`) Configure the ceph 
+#         StateSaveDir for this slurm instance
 # * profiles::jobsched::server::ceph::keys (`hiera_hash`) Keys to define on this
 #         node for CephFS kernel mounts
 # * profiles::jobsched::server::ceph::mounts (`hiera_hash`) Mounts to use for
@@ -62,8 +64,6 @@
 class profiles::jobsched::server {
 
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
-  $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', {})
-  $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
 
   class { '::slurm':
     config_options => $slurm_config_options
@@ -85,13 +85,17 @@ class profiles::jobsched::server {
   include ::slurm::ctld
   include ::munge
 
-  class { '::ceph::posix::client':
-    keys   => $ceph_keys,
-    mounts => $ceph_mounts,
+  if hiera('profiles::jobsched::server::ceph::enabled') {
+    $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', {})
+    $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
+    class { '::ceph::posix::client':
+      keys   => $ceph_keys,
+      mounts => $ceph_mounts,
+    }
+    Class['::ceph::posix::client'] -> Class['::slurm::ctld']
   }
 
   Class['::slurm'] -> Class['::slurm::ctld']
-  Class['::ceph::posix::client'] -> Class['::slurm::ctld']
   Class['::munge::service'] -> Class['::slurm::dbd::service'] -> Class['::slurm::ctld::service']
 
 }

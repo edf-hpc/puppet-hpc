@@ -314,6 +314,7 @@ profiles::jobsched::slurm_config_options:
   JobAcctGatherFrequency:      "60"
   ReturnToService:             "2"
   GresTypes:                   "gpu"
+profiles::jobsched::server::ceph::enabled: true
 
 ##### Slurm DBD database
 db_primary_server:      "%{hiera('cluster_prefix')}%{::my_db_server}1"
