@@ -420,6 +420,7 @@ profiles::warewulf_nhc::config_options:
 clara_debian_mirror_server:  'ftp.debian.org'
 clara_scibian_mirror_server: 'ftp.scibian.org'
 clara_base_repos_root:       "%{hiera('website_dir')}/mirror"
+clara_images_config_dir:     '/etc/clara/live'
 
 profiles::clara::repos:
   # scibian8
