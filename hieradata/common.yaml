@@ -63,6 +63,14 @@ dns::server::virtual_entries:
    proto: 'IN'
    type:  'A'
    data:  "%{hiera('install_server_ip')}"
+ - owner: 'rgw.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
+ - owner: 's3-system.service'
+   proto: 'IN'
+   type:  'A'
+   data:  "%{hiera('install_server_ip')}"
 
 dns::client::options:
   - rotate
