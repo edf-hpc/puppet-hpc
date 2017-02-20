@@ -10,7 +10,7 @@
 #
 # This file is part of puppet-hpc.
 #
-# HPCStats is free software: you can redistribute in and/or
+# puppet-hpc is free software: you can redistribute in and/or
 # modify it under the terms of the GNU General Public License,
 # version 2, as published by the Free Software Foundation.
 #
