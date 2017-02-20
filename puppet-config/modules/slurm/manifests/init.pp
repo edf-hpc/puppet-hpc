@@ -53,7 +53,7 @@ class slurm (
   $gres_file              = $::slurm::params::gres_file,
   $config_options         = {},
   $partitions_options     = $::slurm::params::partitions_options,
-  $gres_options           = {},
+  $gres_options           = [],
   $enable_generic_scripts = $::slurm::params::enable_generic_scripts,
 ) inherits slurm::params {
 
