@@ -462,6 +462,7 @@ clara::ipmi_options:
 clara::keyring_source: "%{hiera('private_files_dir')}/repo/cluster_keyring.secret.gpg.enc"
 clara::password_options:
   ASUPASSWD:            "%{hiera('cluster_decrypt_password')}"
+clara::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 
 # internal repository settings
 
