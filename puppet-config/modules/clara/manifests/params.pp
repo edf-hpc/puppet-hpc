@@ -185,6 +185,10 @@ class clara::params {
     },
   }
 
+  $apt_ssl_cert_source = undef
+  $apt_ssl_cert_file   = '/etc/certificates/clara-apt.pem'
+  $apt_ssl_key_source  = undef
+  $apt_ssl_key_file    = '/etc/certificates/clara-apt.key'
 
   $virt_file = '/etc/clara/virt.ini'
   $virt_options_defaults = {

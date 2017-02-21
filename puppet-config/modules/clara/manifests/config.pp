@@ -43,6 +43,40 @@ class clara::config inherits clara {
     owner   => 'root',
   }
 
+  if $::clara::apt_ssl_cert_source {
+
+    ensure_resource(file,
+                    dirname($::clara::apt_ssl_cert_file),
+                    { ensure => 'directory' })
+
+    hpclib::hpc_file { $::clara::apt_ssl_cert_file:
+      source => $::clara::apt_ssl_cert_source,
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      require => File[dirname($::clara::apt_ssl_cert_file)],
+    }
+
+  }
+
+  if $::clara::apt_ssl_key_source {
+
+    ensure_resource(file,
+                    dirname($::clara::apt_ssl_key_file),
+                    { ensure => 'directory' })
+
+    file { $::clara::apt_ssl_key_file:
+      ensure  => present,
+      content => decrypt($::clara::apt_ssl_key_source,
+                         $::clara::decrypt_passwd),
+      mode    => '0600',
+      owner   => 'root',
+      group   => 'root',
+      require => File[dirname($::clara::apt_ssl_key_file)],
+    }
+
+  }
+
   create_resources(hpclib::hpc_file, $::clara::virt_tpl_hpc_files)
 
   create_resources(file, $::clara::live_dirs)
