@@ -20,6 +20,8 @@
 # @param config_file         Main configuration file path (`config.ini`)
 # @param repos_file          Repository declaration file path (`repos.ini`)
 # @param repos_options       Content of the `repos_file` in a hash
+# @param keyring_manage      Boolean to control if internal repository GPG
+#                            keyring is managed by the module (default: false)
 # @param keyring_file        Encoded keyring secret file
 #                            (`cluster_keyring.secret.gpg.enc`) path
 # @param keyring_source      Encoded keyring secret file
@@ -61,6 +63,7 @@ class clara (
   $config_file         = $::clara::params::config_file,
   $repos_file          = $::clara::params::repos_file,
   $repos_options       = $::clara::params::repos_options,
+  $keyring_manage      = $::clara::params::keyring_manage,
   $keyring_file        = $::clara::params::keyring_file,
   $keyring_source      = $::clara::params::keyring_source,
   $password_file       = $::clara::params::password_file,
@@ -90,6 +93,7 @@ class clara (
   validate_absolute_path($config_file)
   validate_absolute_path($repos_file)
   validate_absolute_path($repos_file)
+  validate_bool($keyring_manage)
   validate_absolute_path($keyring_file)
   validate_string($keyring_source)
   validate_absolute_path($password_file)

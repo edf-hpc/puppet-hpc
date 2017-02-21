@@ -37,10 +37,12 @@ class clara::config inherits clara {
     backup => false,
   }
 
-  file { $::clara::keyring_file :
-    content => hpc_source_file($::clara::keyring_source),
-    mode    => '0600',
-    owner   => 'root',
+  if $::clara::keyring_manage {
+    file { $::clara::keyring_file :
+      content => hpc_source_file($::clara::keyring_source),
+      mode    => '0600',
+      owner   => 'root',
+    }
   }
 
   if $::clara::apt_ssl_cert_source {

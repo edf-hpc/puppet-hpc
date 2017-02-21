@@ -23,6 +23,7 @@ class clara::params {
   $repos_file = '/etc/clara/repos.ini'
   $repos_options = {}
 
+  $keyring_manage = false
   $keyring_file   = '/etc/clara/cluster_keyring.secret.gpg.enc'
   $keyring_source = 'puppet:///modules/clara/cluster_keyring.secret.gpg.enc'
 
