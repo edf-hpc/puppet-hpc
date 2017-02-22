@@ -23,6 +23,7 @@ class multipath::params {
     },
     'blacklist'            => {},
   }
+  $paths               = []
   $packages_ensure     = 'present'
   case $::osfamily {
     'Debian': {

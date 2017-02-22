@@ -23,9 +23,27 @@
 #####################################################################
 <% multipathcfg = @config_opts -%>
 <% multipathcfg.each do | key, block | -%>
-<%= key+' {' -%>
+<%= key -%> {
   <%- block.each do |key,value| -%>
+    <%- if value.is_a?(Hash) -%>
+  <%= key -%> {
+      <%- value.each do |key,xvalue| -%>
+    <%= key+' '+xvalue %>
+      <%- end -%>
+  }
+    <%- else -%>
   <%= key+' '+value %>
+    <%- end -%>
   <%- end -%>
-  <%= '}' %>
+}
 <% end -%>
+
+multipaths {
+<% @paths.each do |path| -%>
+  multipath {
+  <%- path.each do |key,value| -%>
+    <%= key+' '+value %>
+  <%- end -%>
+  }
+<%- end -%>
+}
