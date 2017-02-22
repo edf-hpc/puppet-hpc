@@ -51,7 +51,7 @@ function gen_key {
     # generate the key only if it does not exist
     if [ ! -f ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}.enc ]; then
         echo "generating ${HOST} ${TYPE} key"
-        ssh-keygen -q -t $TYPE -N '' -f ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
+        ssh-keygen -q -t $TYPE -N '' -C root@${HOST} -f ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
         puppet-hpc/scripts/encode-file.sh ${INTERNAL_REPO} ${CLUSTER} ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
         # remove unencrypted private key
         rm ${SSH_KEYS_DIR}/ssh_host_${TYPE}_key.${HOST}
