@@ -62,4 +62,7 @@ class nfs::params {
     'NEED_IDMAPD' => 'yes',
     'NEED_GSSD'   => '',
   }
+
+  $enable_gssd = false
+
 }
