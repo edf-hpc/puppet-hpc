@@ -1,3 +1,4 @@
+
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
@@ -13,18 +14,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+class filesystem::mounts::points inherits filesystem::mounts {
 
-# Setup mounts
-#
-# @param mounts Hash of `mount` resources
-class filesystem::mounts (
-  $mounts = {},
-) {
-  validate_hash($mounts)
+  ensure_resource(file,
+                  keys($::filesystem::mounts::mounts),
+                  { 
+                    ensure => 'directory',
+                  }) 
 
-  anchor { 'filesystem::mounts::begin': } ->
-  class { '::filesystem::mounts::points': } ->
-  class { '::filesystem::mounts::config': } ->
-  anchor { 'filesystem::mounts::end': }
 
 }
