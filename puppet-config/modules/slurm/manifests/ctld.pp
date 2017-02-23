@@ -55,11 +55,8 @@ class slurm::ctld (
   $submit_lua_options = {},
   $submit_qos_exec    = $::slurm::ctld::params::submit_qos_exec,
   $submit_qos_conf    = $::slurm::ctld::params::submit_qos_conf,
-  $wckeys_dir         = $::slurm::ctld::params::wckeys_dir,
-  $wckeysctl_file     = $::slurm::ctld::params::wckeysctl_file,
-  $wckeys_projets     = $::slurm::ctld::params::wckeys_projets,
-  $wckeys_metiers     = $::slurm::ctld::params::wckeys_metiers,
   $wckeys_data_files  = {},
+  $wckeysctl_file     = $::slurm::ctld::params::wckeysctl_file,
   $wckeysctl_options  = {},
   $packages_manage    = $::slurm::ctld::params::packages_manage,
   $packages_ensure    = $::slurm::ctld::params::packages_ensure,
@@ -94,10 +91,8 @@ class slurm::ctld (
                                         $submit_lua_options)
     }
     if $enable_wckeys {
-      validate_absolute_path($wckeys_dir)
       validate_hash($wckeys_data_files)
-      validate_string($wckeys_projets)
-      validate_string($wckeys_metiers)
+      validate_absolute_path($wckeysctl_file)
       validate_hash($wckeysctl_options)
       $_wckeysctl_options = deep_merge($::slurm::ctld::params::wckeysctl_options,
                                         $wckeysctl_options)
