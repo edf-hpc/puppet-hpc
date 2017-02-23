@@ -280,6 +280,7 @@ munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
 slurm_primary_server:      "%{hiera('cluster_prefix')}%{::my_jobsched_server}1"
 slurm_secondary_server:    "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 slurm_state_save_loc:      "/var/spool/slurmctld"
+slurm_wckeys_dir:          '/etc/slurm-llnl/wckeysctl'
 slurm::exec::enable_cgroup: true
 profiles::jobsched::slurm_config_options:
   ClusterName:                 "%{hiera('cluster_name')}"
