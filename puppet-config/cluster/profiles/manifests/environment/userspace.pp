@@ -17,24 +17,25 @@
 #
 # ## Hiera
 # * `profiles::environment::userspace::packages`
-# * `profiles::environment::userspace::gid`
 # * `profiles::environment::userspace::hidepid`
+#
+# ## Autolookups
+# * `hidepid::hidepid`
+# * `hidepid::gid`
 class profiles::environment::userspace {
 
   ## Hiera lookups
   $packages = hiera_array('profiles::environment::userspace::packages', [])
-  $gid      = hiera('profiles::environment::userspace::gid')
-  $hidepid  = hiera('profiles::environment::userspace::hidepid')
+  $hidepid  = hiera('profiles::environment::userspace::hidepid', false)
 
   class { '::base':
     packages => $packages,
   }
 
-  ## Hide processes from other users
-  class { '::hidepid':
-    gid     => $gid,
-    hidepid => $hidepid,
-    stage   => 'last',
+  if $hidepid == true {
+    ## Hide processes from other users
+    class { '::hidepid':
+      stage   => 'last',
+    }
   }
-
 }
