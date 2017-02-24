@@ -14,12 +14,14 @@
 ##########################################################################
 
 class openmpi (
-  $device_config  = $openmpi::params::device_config,
-  $default_config = $openmpi::params::default_config,
+  $mca_main_file    = $::openmpi::params::mca_main_file,
+  $mca_main_options = $::openmpi::params::mca_main_options,
+  $mca_param_files  = $::openmpi::params::mca_param_files,
 ) inherits openmpi::params {
 
-  validate_hash($device_config)
-  validate_hash($default_config)
+  validate_absolute_path($mca_main_file)
+  validate_hash($mca_main_options)
+  validate_hash($mca_param_files)
 
   anchor { 'openmpi::begin':} ->
   class { '::openmpi::config': } ->

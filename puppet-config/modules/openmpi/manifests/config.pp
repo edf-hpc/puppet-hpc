@@ -15,14 +15,12 @@
 
 class openmpi::config inherits openmpi {
 
-  hpclib::print_config { $::openmpi::device_config['path'] :
-    style => $::openmpi::device_config['style'],
-    data  => $::openmpi::device_config['data'],
+  hpclib::print_config { $::openmpi::mca_main_file :
+    style => 'keyval',
+    data  => $::openmpi::mca_main_options,
   }
 
-  hpclib::print_config { $::openmpi::default_config['path'] :
-    style => $::openmpi::default_config['style'],
-    data  => $::openmpi::default_config['data'],
-  }
+  create_resources(openmpi::mca_param_file,
+                   hpc_hmap($::openmpi::mca_param_files, 'data'))
 
 }

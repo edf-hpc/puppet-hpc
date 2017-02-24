@@ -15,7 +15,7 @@
 
 class openmpi::params {
 
-  $device_config  = {}
-  $default_config = {}
-
+  $mca_main_file    = "/etc/openmpi/openmpi-mca-params.conf"
+  $mca_main_options = {}
+  $mca_param_files  = {}
 }
