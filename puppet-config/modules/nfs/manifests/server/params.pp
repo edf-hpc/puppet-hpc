@@ -19,7 +19,7 @@ class nfs::server::params {
   $exports_file    = '/etc/exports'
   $packages_ensure = 'present'
   $service_ensure  = 'running'
-  $client          = [ { hosts   => 'localhost',
+  $clients         = [ { hosts   => 'localhost',
                          options => 'ro,sync' } ]
   case $::osfamily {
     'Debian': {
