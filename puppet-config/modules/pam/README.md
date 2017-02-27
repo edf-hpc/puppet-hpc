@@ -94,9 +94,13 @@ class{'::pam::limits':
 The module sets up a python script that is called to create the user
 directories (home and scratch) when a user logs in for the first time.
 
-This module sets directories to be owned by ``root:root`` with an ACL to
-authorize the user to write in the directory. This forbids the user to modify
-permission for his own home directory.
+With its default arguments, this module sets directories to be owned by
+``root:root`` with an POSIX ACL to authorize the user to write in the directory.
+This forbids the user to modify permission for his own home directory. The
+module accepts the ``noacl`` argument to behave like more classical mkhomedir
+module: the owner of the directories (home and scratch) is the user and the
+group is the primary group of the user, without POSIX ACL involved. This
+argument can be set using ``::pam::mkhomedir::mkhomedir_args`` array.
 
 ```
 include ::pam::mkhomedir
