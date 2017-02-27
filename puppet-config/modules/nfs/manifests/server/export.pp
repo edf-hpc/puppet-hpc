@@ -15,26 +15,22 @@
 
 # Export a local directory with NFS
 #
-# @param exportdir    Directory to export
-# @param host         Hosts authorized to connect to this export
-# @param options      Exports options (see `exports(5)`)
+# @param export    Directory to export
+# @param clients   Array of hosts/options pairs
 # @param exports_file file where the export is defined (default: `/etc/exports`)
 define nfs::server::export (
-  $exportdir,
-  $host         = '*',
-  $options      = 'ro,sync',
+  $export,
+  $clients      = $::nfs::server::params::clients,
   $exports_file = $::nfs::server::exports_file,
 ){
-  if $options {
-    $content = "${exportdir}    ${host}(${options})\n"
-  }
-  else {
-    $content = "${exportdir}    ${host}\n"
-  }
 
-  concat::fragment { "${exportdir}_on_${host}":
+  validate_absolute_path($export)
+  validate_array($clients)
+  validate_absolute_path($exports_file)
+
+  concat::fragment { "${export}_on_${$name}":
     ensure  => 'present',
-    content => $content,
+    content => template('nfs/export_fragment.erb'),
     target  => $exports_file,
   }
 

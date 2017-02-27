@@ -19,6 +19,8 @@ class nfs::server::params {
   $exports_file    = '/etc/exports'
   $packages_ensure = 'present'
   $service_ensure  = 'running'
+  $client          = [ { hosts   => 'localhost',
+                         options => 'ro,sync' } ]
   case $::osfamily {
     'Debian': {
       $packages = ['nfs-kernel-server']
