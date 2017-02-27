@@ -35,9 +35,12 @@ This module uses the concat Puppet modules.
 * Define exports with the resource `::nfs::server::export`
 
 ```
-::nfs::server::export{'data':
-  exportdir  => '/data',
-  options    => 'rw,sync',
+::nfs::server::export { 'data':
+  export  => '/data',
+  clients => [ { hosts   => 'localhost',
+                 options => 'rw,sync,no_root_squash', },
+               { hosts   => '*',
+                 options => 'ro', }, ],
 }
 
 ```
@@ -48,7 +51,7 @@ This module uses the concat Puppet modules.
 * Define exports with the resource `::nfs::client::mount`
 
 ```
-::nfs::client::mount{'nas':
+::nfs::client::mount { 'nas':
   server     => 'nas.hpc.example.com',
   exportdir  => '/unix/',
   mountpoint => '/mnt/.nas',
