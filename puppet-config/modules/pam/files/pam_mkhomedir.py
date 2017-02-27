@@ -21,6 +21,7 @@ home_dir = "/home"
 scratch_dir = "/scratch"
 
 debug_mode = False
+acl = True
 skel_dir = '/etc/skel'
 
 def debug(fmt, *args):
@@ -42,7 +43,7 @@ def create_user_dir(pamh, basedir, user, skel=False):
       debug ("-> unlink %s" % userdir)
       os.unlink(userdir)
       debug ("<- unlink %s" % userdir)
-    else:
+    elif acl:
       if os.system("setfacl -m u:%s:rwx %s" % (user, userdir)) != 0:
         syslog.syslog("Setting ACLs for user %s on %s failed!" % (user, userdir))
 
@@ -63,14 +64,18 @@ def create_user_dir(pamh, basedir, user, skel=False):
         for f in files:
             os.chown(os.path.join(root, f), uid, maingid)
     debug ("<- recursive chown %s" % userdir)
-    # Userdir
-    debug ("-> userdir chmod %s" % userdir)
-    os.chown(userdir, 0, 0)
-    os.chmod(userdir, 0700)
-    debug ("<- userdir chmod %s" % userdir)
-    # Set ACL on user's dir
-    if os.system("setfacl -m u:%s:rwx %s" % (user, userdir)) != 0:
-        syslog.syslog("Setting ACLs for user %s on %s failed!" % (user, userdir))
+    if acl:
+        # Userdir
+        debug ("-> userdir chmod %s" % userdir)
+        os.chown(userdir, 0, 0)
+        os.chmod(userdir, 0700)
+        debug ("<- userdir chmod %s" % userdir)
+        # Set ACL on user's dir
+        if os.system("setfacl -m u:%s:rwx %s" % (user, userdir)) != 0:
+            syslog.syslog("Setting ACLs for user %s on %s failed!" % (user, userdir))
+    else:
+        # give new dir to user (recursive chown does not include the userdir)
+        os.chown(userdir, uid, maingid)
 
 def pam_sm_authenticate(pamh, flags, argv):
   return pamh.PAM_SUCCESS
@@ -82,7 +87,7 @@ def pam_sm_acct_mgmt(pamh, flags, argv):
   return pamh.PAM_SUCCESS
 
 def pam_sm_open_session(pamh, flags, argv):
-  global debug_mode, skel_dir
+  global debug_mode, acl, skel_dir
 
   syslog.openlog("pam_mkhomedir", syslog.LOG_PID, syslog.LOG_AUTH)
   try:
@@ -92,6 +97,8 @@ def pam_sm_open_session(pamh, flags, argv):
 
   if "debug" in argv:
     debug_mode = True
+  if "noacl" in argv:
+    acl = False
 
   skel_dirs = [ d.replace("skel=", "") for d in argv if d.startswith("skel=") ]
   if skel_dirs:
