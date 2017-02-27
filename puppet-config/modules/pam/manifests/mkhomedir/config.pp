@@ -30,18 +30,20 @@ class pam::mkhomedir::config inherits pam::mkhomedir {
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
-    arguments => $::pam::mkhomedir::mkhomedir_file,
+    arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
+                        $::pam::mkhomedir::mkhomedir_args),
     position  => 'after #comment[ . = "end of pam-auth-update config" ]',
 }
 
-  pam {'"pam_mkhomedir_common_session_noninteractive':
+  pam {'pam_mkhomedir_common_session_noninteractive':
     ensure    => present,
     provider  => augeas,
     service   => 'common-session-noninteractive',
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
-    arguments => $::pam::mkhomedir::mkhomedir_file,
+    arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
+                        $::pam::mkhomedir::mkhomedir_args),
     position  => 'after #comment[ . = "end of pam-auth-update config" ]',
   }
 

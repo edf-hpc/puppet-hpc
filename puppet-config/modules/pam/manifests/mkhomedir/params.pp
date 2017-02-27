@@ -19,5 +19,6 @@ class pam::mkhomedir::params {
   $packages           = ['libpam-python', 'acl']
   $mkhomedir_file     = '/usr/share/pam/pam_mkhomedir.py'
   $mkhomedir_source   = 'puppet:///modules/pam/pam_mkhomedir.py'
+  $mkhomedir_args     = []
 
 }
