@@ -82,7 +82,6 @@
 #   ldap_search_timeout:       '3'
 #   ldap_network_timeout:      '2'
 #   ldap_pwd_policy:           ''
-#   case_sensitive:            "%{hiera('sssd::case_sensitive')}"
 #   account_cache_expiration:  '1'
 #   ldap_user_gecos:           'cn'
 #   ldap_schema:               'rfc2307bis'
