@@ -1,2 +1,2 @@
-sssd::case_sensitive: 'false'
+sssd_case_sensitive: 'false'
 certificates::certificates_owner: 'root'

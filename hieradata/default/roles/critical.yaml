@@ -11,5 +11,5 @@ profiles:
   - profiles::sudo::base
 
 profiles::network::gw_connect: 'administration'
-sssd::case_sensitive:          'true'
+sssd_case_sensitive:          'true'
 certificates_owner:            'openldap'
