@@ -76,7 +76,26 @@ class profiles::http::secret {
     docroot_group => 'www-data',
   }
 
-  shorewall::rule { 'secret_inbound':
+  shorewall::rule { 'secret_inbound_clstr_below_1024':
+    comment => 'Authorize connection to secret server from ports < 1024',
+    source  => 'clstr',
+    dest    => 'fw',
+    proto   => 'tcp',
+    dport   => $port,
+    sport   => ':1023',
+    action  => 'ACCEPT',
+    order   => 10,
+  }
+  shorewall::rule { 'secret_inbound_fw':
+    comment => 'Authorize connection to secret server from ports < 1024',
+    source  => 'fw',
+    dest    => 'fw',
+    proto   => 'tcp',
+    dport   => $port,
+    action  => 'ACCEPT',
+    order   => 10,
+  }
+  shorewall::rule { 'secret_inbound_clstr_above_1024':
     comment => 'Only authorize connection to secret server from ports < 1024',
     source  => 'clstr',
     dest    => 'fw',
@@ -85,5 +104,14 @@ class profiles::http::secret {
     sport   => '1024:',
     action  => 'REJECT',
     order   => 10,
+  }
+  shorewall::rule { 'secret_inbound_notclstr':
+    comment => 'Reject all connections to secret server not coming from clstr or fw',
+    source  => 'all',
+    dest    => 'fw',
+    proto   => 'tcp',
+    dport   => $port,
+    action  => 'REJECT',
+    order   => 11,
   }
 }
