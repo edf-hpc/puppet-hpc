@@ -20,6 +20,13 @@
 # that will forbid connection not originating from a port strictly below
 # 1024. This ensures the client is root.
 #
+# The configuration also ensures that the request are coming from the cluster
+# by restricting to the administration network in the vhost configuration and
+# with additional shorewall rules forbiding all connections not coming from
+# the cluster zone.
+#
+# localhost has no restrictions.
+#
 # This is used by the `hpc-config-apply` script.
 #
 # ## Profiles dependency
@@ -50,11 +57,6 @@ class profiles::http::secret {
   $cluster_prefix = hiera('cluster_prefix')
   $domain         = hiera('domain')
 
-  include apache
-
-  $servername = "${cluster_prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${domain}"]
-
   file { "${docroot}/keys.tar.xz":
     ensure  => present,
     content => decrypt($keys_enc, $keys_password),
@@ -62,11 +64,36 @@ class profiles::http::secret {
     group   => 'www-data',
     mode    => '0600',
   }
+  file { "${docroot}/index.html":
+    ensure  => present,
+    content => 'It works.',
+    owner   => 'www-data',
+    group   => 'www-data',
+    mode    => '0600',
+  }
 
 
-  # Pass config options as a class parameter
+  # Apache setup
+  $servername = "${cluster_prefix}${::puppet_role}"
+  $serveraliases = ["${servername}.${domain}"]
+
+  $role_ip_addr = $::hostfile[$servername]
+  $host_ip_addr = $::hostfile[$::hostname]
+  if $role_ip_addr {
+    $ip_list = ['127.0.0.1', $role_ip_addr, $host_ip_addr]
+  } else {
+    $ip_list = ['127.0.0.1', $host_ip_addr]
+  }
+  $admin_net = $::net_topology['administration']
+  if $admin_net {
+    $admin_net_address = "${admin_net['ipnetwork']}${admin_net['prefix_length']}"
+  } else {
+    fail('profiles::http::secret needs a defined "administration" network in the \$net_topology fact')
+  }
+  include apache
   apache::vhost { "${servername}_secret":
     servername    => $servername,
+    ip            => $ip_list,
     port          => $port,
     docroot       => $docroot,
     serveradmin   => $serveradmin,
@@ -74,8 +101,21 @@ class profiles::http::secret {
     serveraliases => $serveraliases,
     docroot_mode  => '0750',
     docroot_group => 'www-data',
+    directories   => [
+      {
+        path    => $docroot,
+        require => {
+          enforce => 'any',
+          requires => [
+            'local',
+            "ip ${admin_net_address}",
+          ],
+        }
+      },
+    ]
   }
 
+  # Firewall setup
   shorewall::rule { 'secret_inbound_clstr_below_1024':
     comment => 'Authorize connection to secret server from ports < 1024',
     source  => 'clstr',
