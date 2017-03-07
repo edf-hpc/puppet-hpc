@@ -9,6 +9,6 @@
   - private/%{cluster_name}/roles/%{puppet_role}
   - private/%{cluster_name}/cluster
   - private/%{cluster_name}/network
-  - private/organization
+  - private/org
   - generic/common
   - generic/%{osfamily}/common
