@@ -70,7 +70,7 @@ define hpc_ha::vip_notify_script (
     # containing dots.
     $_script_name = regsubst(basename($source), '\.', '-')
   } else {
-    $_script_name = 'common'
+    $_script_name = $name
   }
 
   file { "/etc/hpc_ha/${vrrp_instance_id}/${_part_dir}/vserv_${_vip_name}_notify_${_script_name}":
