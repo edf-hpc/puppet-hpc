@@ -213,6 +213,46 @@ def get_host_vservs(hostname)
   return host_vservs
 end
 
+def get_host_vip_partners(hostname, vip_name)
+
+  # This function returns the list of other hosts in this
+  # VIP as an array.
+  #
+  # Raises an error if the vip does not exists or if the
+  # current host is not a member
+  all_vips = get_vips()
+  vip = all_vips[vip_name]
+  if vip != nil
+    members = hpc_nodeset_expand(vip['members'])
+    if members.include?(hostname)
+      members.delete(hostname)
+      return members
+    else
+      raise "#{hostname} is not a member of vip #{vip_name}"
+    end
+  else
+    raise "vip #{vip_name} not found."
+  end
+end
+
+def get_host_vip_partner(hostname, vip_name)
+  # This function returns the other host in this VIP
+  #
+  # Raises an error if the vip does not exists, if the
+  # current host is not a member or if there is not exactly
+  # one partner.
+  partners = get_host_vip_partners(hostname, vip_name)
+  if partners.length != 1
+    raise "vip #{vip_name} should have only one partner (#{partner})."
+  end
+  return partners[0]
+end
+
+def hpc_ha_vip_partner(vip_name)
+  hostname = Facter.value(:hostname)
+  return get_host_vip_partner(hostname, vip_name)
+end
+
 def hpc_ha_vips()
   hostname = Facter.value(:hostname)
   return get_host_vips(hostname)

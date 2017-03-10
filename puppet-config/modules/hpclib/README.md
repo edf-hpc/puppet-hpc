@@ -262,6 +262,10 @@ parameter.
 
 ``profile`` name should not contain the ``profiles::`` prefix.
 
+#### Function: `hpc_ha_vip_partner(vip_name)`
+
+Returns the name of the other node in a two node vip. Value comes from hiera.
+
 #### Function: `hpc_ha_vip_notify_scripts()`
 
 Returns a hash describing `::hpc_ha::vip_notify_script` resources for the current host.
