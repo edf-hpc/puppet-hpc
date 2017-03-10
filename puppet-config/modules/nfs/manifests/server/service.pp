@@ -15,8 +15,10 @@
 
 class nfs::server::service inherits nfs::server {
 
-  service { $::nfs::server::service:
-    ensure => $::nfs::server::service_ensure,
+  if $::nfs::server::service_manage {
+    service { $::nfs::server::service:
+      ensure => $::nfs::server::service_ensure,
+    }
   }
 
 }

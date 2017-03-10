@@ -20,12 +20,15 @@
 # @param packages          Array of packages names
 # @param service_ensure    Ensure state of the service: `running` or
 #                          `stopped` (default: running)
+# @param service_manage    Boolean: true if puppet should manage the
+#                          service state
 # @param service           Name of the service
 # @param exports_file Path of the exports file (default: '/etc/exports')
 class nfs::server (
   $exports_file    = $::nfs::server::params::exports_file,
   $packages        = $::nfs::server::params::packages,
   $packages_ensure = $::nfs::server::params::packages_ensure,
+  $service_manage  = $::nfs::server::params::service_manage,
   $service         = $::nfs::server::params::service,
   $service_ensure  = $::nfs::server::params::service_ensure,
 ) inherits nfs::server::params {
@@ -34,6 +37,7 @@ class nfs::server (
   validate_absolute_path($exports_file)
   validate_array($packages)
   validate_string($packages_ensure)
+  validate_bool($service_manage)
   validate_string($service)
   validate_string($service_ensure)
 
