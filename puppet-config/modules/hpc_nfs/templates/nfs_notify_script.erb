@@ -126,7 +126,7 @@ function fence_is_off () {
       ;;
     'CLARA_IPMI')
       logger -st ${current_name}.info "INFO: $(hostname) Using clara ipmi to check node status"
-      if [[ "$(clara ipmi status ${partner} | awk '{print $6}')" == 'off' ]]
+      if [[ "$(clara ipmi status ${node} | awk '{print $6}')" == 'off' ]]
       then
         status=0
       else
@@ -193,7 +193,7 @@ function fence_partner () {
   then
     logger -st ${current_name}.info "INFO: $(hostname) Fencing successfull"
   else
-    logger -st ${current_name}.error "ERROR: $(hostname) Fencing failed"
+    logger -st ${current_name}.error "FATAL ERROR: $(hostname) Fencing failed"
     exit 1
   fi
 }
@@ -294,7 +294,7 @@ function fs_unexport_and_umount () {
   done
   if are_fs_mounted ${MOUNTPOINTS}
   then
-    logger -st ${current_name}.error "ERROR: $(hostname) Some FS are still mounted, turning off"
+    logger -st ${current_name}.error "FATAL ERROR: $(hostname) Some FS are still mounted, turning off"
     poweroff
     exit 1
   else
