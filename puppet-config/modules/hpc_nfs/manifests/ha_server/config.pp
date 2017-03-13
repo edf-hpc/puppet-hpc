@@ -42,6 +42,7 @@ class hpc_nfs::ha_server::config inherits hpc_nfs::ha_server {
     file { '/var/lib/nfs/v4recovery':
       ensure => 'link',
       target => $::hpc_nfs::ha_server::v4recovery_dir,
+      force  => true,
     }
   }
 
