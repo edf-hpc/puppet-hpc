@@ -83,12 +83,12 @@ function check_multipath () {
   status=0
   for device_name in ${devices}
   do
-    state="$(echo 'list multipaths status' | multipathd -k | grep "^${device_name} " | awk '{print $6}')"
-    if [[ "x${state}" == "xactive" ]]
+    paths="$(echo 'list multipaths status' | multipathd -k | grep "^${device_name} " | awk '{print $5}')"
+    if [[ "${paths}" -gt 0 ]]
     then
-      logger -st ${current_name}.info "INFO: $(hostname) Multipath for ${device_name} is active."
+      logger -st ${current_name}.info "INFO: $(hostname) Multipath for ${device_name} is OK (${paths} paths)."
     else
-      logger -st ${current_name}.error "ERROR: $(hostname) Multipath for ${device_name} is not active (${state})."
+      logger -st ${current_name}.error "ERROR: $(hostname) Multipath for ${device_name} has NO PATH (${paths} paths)."
       status=1
     fi
   done
