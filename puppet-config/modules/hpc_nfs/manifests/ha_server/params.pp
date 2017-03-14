@@ -14,7 +14,7 @@
 ##########################################################################
 
 class hpc_nfs::ha_server::params {
-  $fence_method   = 'DEBUG'
-  $mount_points   = []
-  $multipath_name = ''
+  $fence_method      = 'DEBUG'
+  $mount_points      = []
+  $multipath_devices = []
 }

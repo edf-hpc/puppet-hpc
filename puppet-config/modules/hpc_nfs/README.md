@@ -61,29 +61,29 @@ NFS:
 
 ## Mount points
 profiles::filesystem::directories:
-  '/storage':      {}
-  '/storage/data': {}
+  '/srv':      {}
+  '/srv/data': {}
 
 ## Mount
 profiles::filesystem::mounts:  
-  '/storage/data':
+  '/srv/data':
     ensure: 'present'
     atboot:  false
     device:  '/dev/mapper/cluster--san--a-data'
     fstype:  'ext4'
-    options: 'noauto'
+    options: 'noauto,nofail'
 
 ## NFS Exports
-#/storage        10.100.0.0/255.255.248.0(rw,sync,fsid=0,crossmnt,no_subtree_check)
-#/storage/data   10.100.0.0/255.255.248.0(rw,sync,no_subtree_check,no_root_squash)
+#/srv        10.100.0.0/255.255.248.0(rw,sync,fsid=0,crossmnt,no_subtree_check)
+#/srv/data   10.100.0.0/255.255.248.0(rw,sync,no_subtree_check,no_root_squash)
 profiles::nfs::to_export:
   exportroot:
-    export: '/storage'
+    export: '/srv'
     clients:
       - hosts:   '10.100.0.0/255.255.248.0'
         options: 'rw,sync,fsid=0,crossmnt,no_subtree_check'
   data:
-    export: '/storage/data'
+    export: '/srv/data'
     clients:
       - hosts:   '10.100.0.0/255.255.248.0'
         options: 'rw,sync,no_subtree_check,no_root_squash'
@@ -127,10 +127,12 @@ The matching `ha_server` parameters are:
 hpc_nfs::ha_server::lvm_vg:         'cluster-san-a'
 hpc_nfs::ha_server::fence_method:   'CLARA_IPMI'
 hpc_nfs::ha_server::vip_name:       'nas'
-hpc_nfs::ha_server::multipath_name: 'VOL-CLUSTER-A'
-hpc_nfs::ha_server::v4recovery_dir: '/storage/data/nfs/v4recovery'
+hpc_nfs::ha_server::v4recovery_dir: '/srv/data/nfs/v4recovery'
+hpc_nfs::ha_server::multipath_devices:
+ - 'VOL-CL-A'
+ - 'VOL-CL-B'
 hpc_nfs::ha_server::mount_points:
-  - '/storage/data'
+  - '/srv/data'
 ```
 
 ## Usage

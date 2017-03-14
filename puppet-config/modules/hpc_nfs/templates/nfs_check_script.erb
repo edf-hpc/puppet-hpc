@@ -38,8 +38,8 @@ VGNAME='<%= @lvm_vg %>'
 FENCE_METHOD='<%= @fence_method %>'
 # Puppet: partner
 PARTNER='<%= @partner %>'
-# Puppet: multipath_name
-MULTIPATH_NAME='<%= @multipath_name %>'
+# Puppet: multipath_devices
+MULTIPATH_DEVICES='<%= @multipath_devices.join(' ') %>'
 
 export LANG=C
 export LC_ALL=C
@@ -71,21 +71,27 @@ function vgtag_get () {
 }
 
 function check_multipath () {
-  local device_name="${1}"
-  if [[ -z "${device_name}" ]]
+  local devices="${@}"
+  if [[ -z "${devices}" ]]
   then
     logger -st ${current_name}.info "INFO: $(hostname) No multipath device given, skipping check"
     return 0
-  fi
-  state="$(echo 'list multipaths status' | multipathd -k | grep "^${device_name} " | awk '{print $6}')"
-  if [[ "x${state}" == "xactive" ]]
-  then
-    logger -st ${current_name}.info "INFO: $(hostname) Multipath is active."
-    status=0
   else
-    logger -st ${current_name}.error "ERROR: $(hostname) Multipath is not active (${state})."
-    status=1
+    logger -st ${current_name}.info "INFO: $(hostname) Checking multipath devices: ${devices}"
   fi
+  
+  status=0
+  for device_name in ${devices}
+  do
+    state="$(echo 'list multipaths status' | multipathd -k | grep "^${device_name} " | awk '{print $6}')"
+    if [[ "x${state}" == "xactive" ]]
+    then
+      logger -st ${current_name}.info "INFO: $(hostname) Multipath for ${device_name} is active."
+    else
+      logger -st ${current_name}.error "ERROR: $(hostname) Multipath for ${device_name} is not active (${state})."
+      status=1
+    fi
+  done
   return ${status} 
 }
 
@@ -137,14 +143,15 @@ function kill_keepalived () {
 }
 
 logger -st ${current_name}.info "INFO: $(hostname) Checking NFS HA state consistency."
+check_multipath ${MULTIPATH_DEVICES} || kill_keepalived
+
 if [[ "x$(vgtag_get)" == "x$(hostname)" ]]
 then
   logger -st ${current_name}.info "INFO: $(hostname) Having the tag, need to check."
-  check_multipath ${MULTIPATH_NAME} || kill_keepalived
   check_mount ${MOUNTPOINTS} || kill_keepalived
   check_nfs_server || kill_keepalived
   logger -st ${current_name}.info "INFO: $(hostname) All checks are OK"
 else
-  logger -st ${current_name}.info "INFO: $(hostname) Don't have the tag, nothing to check"
+  logger -st ${current_name}.info "INFO: $(hostname) Don't have the tag, no other check"
 fi
 
