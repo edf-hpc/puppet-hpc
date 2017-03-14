@@ -33,8 +33,8 @@ VGNAME='<%= @lvm_vg %>'
 FENCE_METHOD='<%= @fence_method %>'
 # Puppet: partner
 PARTNER='<%= @partner %>'
-# Puppet: ip_address
-IP_ADDRESS='<%= @ip_address %>'
+# Puppet: multipath_devices
+MULTIPATH_DEVICES='<%= @multipath_devices.join(' ') %>'
 
 export LANG=C
 export LC_ALL=C
@@ -307,12 +307,14 @@ function fs_unexport_and_umount () {
 logger -st ${current_name}.info "INFO: $(hostname) changed state for NFS, the new state is: ${target_state}."
 case "${target_state}" in
   "MASTER")
-    logger -st ${current_name}.info "INFO: $(hostname) becomes master"
+    logger -st ${current_name}.info "INFO: $(hostname) becomes MASTER"
     fs_mount_and_export
+    logger -st ${current_name}.info "INFO: $(hostname) is now MASTER"
   ;;
   "BACKUP")
-    logger -st ${current_name}.info "INFO: $(hostname) becomes backup"
+    logger -st ${current_name}.info "INFO: $(hostname) becomes BACKUP"
     fs_unexport_and_umount
+    logger -st ${current_name}.info "INFO: $(hostname) is now BACKUP"
   ;;
   *)
     logger -st ${current_name}.info "INFO: $(hostname) is neither master nor backup"
