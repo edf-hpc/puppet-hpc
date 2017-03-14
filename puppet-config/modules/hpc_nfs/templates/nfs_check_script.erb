@@ -120,6 +120,14 @@ function check_mount () {
       logger -st ${current_name}.error "ERROR: $(hostname) ${mount_point} is not mounted"
       status_to_return=1
     fi
+    # awk returns a line if the mount_point match and if 'ro' is in the options
+    if [[ "x$( awk "\$2==\"${mount_point}\" && \$4~/(^|,)ro(\$|,)/" /proc/mounts )" == "x" ]]
+    then
+      logger -st ${current_name}.info "INFO: $(hostname) ${mount_point} is not mounted read-only"
+    else
+      logger -st ${current_name}.error "ERROR: $(hostname) ${mount_point} mounted read-only"
+      status_to_return=1
+    fi
   done
   return ${status_to_return}     
 }
