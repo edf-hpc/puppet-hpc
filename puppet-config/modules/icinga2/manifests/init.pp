@@ -43,10 +43,6 @@ class icinga2 (
   $key_host_src,
   $crt_ca_src,
   $decrypt_passwd,
-  $notif_script,
-  $notif_script_src,
-  $notif_script_conf,
-  $notif_script_conf_src,
 ) inherits icinga2::params {
 
   validate_bool($install_manage)
@@ -96,14 +92,6 @@ class icinga2 (
     validate_string($crt_ca_src)
     validate_string($decrypt_passwd)
   }
-
-  if $install_manage {
-    validate_absolute_path($notif_script)
-    validate_absolute_path($notif_script_conf)
-    validate_string($notif_script_src)
-    validate_string($notif_script_conf_src)
-  }
-    
 
   anchor { 'icinga2::begin': } ->
   class { '::icinga2::install': } ->
