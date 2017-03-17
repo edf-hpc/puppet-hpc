@@ -30,6 +30,7 @@ This module sets up:
  - systemd-user-session
  - ssh keys generation script for users
  - MOTD
+ - (optional) Logging of user commands
 
 ### Setup Requirements
 
@@ -56,6 +57,11 @@ class{ '::environment':
   authorized_users_groups => 'rd,engineering',
 }
 ```  
+
+The `log_commands_enable` parameter sets up a `COMMAND_PROMPT` variable that
+logs the history of users. This features is meant to forward these logs to a
+SOC. By default logs are sent to the `local6` facility, this can be changed
+with `log_commands_facility`.
 
 ## Limitations
 

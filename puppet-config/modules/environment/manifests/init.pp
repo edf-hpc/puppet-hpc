@@ -48,6 +48,10 @@
 #           default: 'rsa')
 # @param autogen_key_length String representing the length of the generated key in
 #           bytes (default: '2048')
+# @param log_commands_enable Boolean: if true all bash history for all users will
+#           be logged (default: false)
+# @param log_commands_facility String with the name of the syslog facility to use
+#           for command logging (default: 'local6')
 # @param cluster Name of the cluster used in the SSH key names.
 class environment (
   $service_user_session         = $environment::params::service_user_session,
@@ -56,6 +60,8 @@ class environment (
   $authorized_users_groups      = $environment::params::authorized_users_groups,
   $autogen_key_type             = $environment::params::autogen_key_type,
   $autogen_key_length           = $environment::params::autogen_key_length,
+  $log_commands_enable          = $environment::params::log_commands_enable,
+  $log_commands_facility        = $environment::params::log_commands_facility,
   $cluster,
 ) inherits environment::params {
 
@@ -65,6 +71,8 @@ class environment (
   validate_string($authorized_users_groups)
   validate_string($autogen_key_type)
   validate_string($autogen_key_length)
+  validate_bool($log_commands_enable)
+  validate_string($log_commands_facility)
 
   anchor { 'environment::begin': } ->
   class { '::environment::config': } ->

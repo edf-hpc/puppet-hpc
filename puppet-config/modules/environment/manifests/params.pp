@@ -91,4 +91,7 @@ class environment::params {
   $autogen_key_type        = 'rsa'
   $autogen_key_length      = '2048'
   $authorized_users_groups = [ 'users' ]
+
+  $log_commands_enable   = false
+  $log_commands_facility = 'local6'
 }

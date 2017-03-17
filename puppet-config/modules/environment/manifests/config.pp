@@ -25,5 +25,10 @@ class environment::config inherits environment {
     content => template($::environment::ssh_autogenkeys_script_tpl),
   }
 
+  debug("Log Commands Enable: ${::environment::log_commands_enable} (${::environment::log_commands_facility})")
+  file { "${::environment::profiles_directory}/000_config.sh":
+    content => template('environment/000_config.sh.erb'),
+  }
+
   create_resources(file, $::environment::files, $::environment::files_defaults)
 }
