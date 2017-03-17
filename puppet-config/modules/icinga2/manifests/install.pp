@@ -61,5 +61,23 @@ class icinga2::install inherits icinga2 {
 
     create_resources(icinga2::ident, hpc_hmap($::icinga2::idents, 'src'))
 
+    file { $::icinga2::notif_script:
+      content => hpc_source_file($::icinga2::notif_script_src),
+      owner   => $::icinga2::user,
+      group   => $::icinga2::user,
+      mode    => '0755',
+      require => $packages_resources,
+    }
+
+    file { $::icinga2::notif_script_conf:
+      content => decrypt(
+                   $::icinga2::notif_script_conf_src,
+                   $::icinga2::decrypt_passwd
+                 ),
+      owner   => $::icinga2::user,
+      group   => $::icinga2::user,
+      mode    => '0400',
+      require => $packages_resources,
+    }
   }
 }
