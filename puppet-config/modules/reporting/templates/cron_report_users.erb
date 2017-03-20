@@ -3,4 +3,4 @@
 00 6 * * 1 <%= content['cron_exe_user'] %> /usr/local/sbin/report_users -g <%=reportusers%> -c <%= content['cron_cluster']%> -p <%= content['cron_dest_reportusers'] %> -s <%= content['cron_copie_reportusers']%>
 <%- end -%>
 # Reporting orphan directory
-01 6 * * 1 <%= @config_options['cron_exe_user'] %> /usr/local/sbin/report_orphan_directory -c <%= @config_options['cron_cluster'] %> -p <%= @config_options['cron_dest_reportorphan'] %> -s <%= @config_options['cron_copie_reportorphan'] %>
+01 6 * * 1 <%= @config_options['cron_exe_user'] %> /usr/local/sbin/report_orphan_directory -c <%= @config_options['cron_cluster'] %> -p <%= @config_options['cron_dest_reportorphan'] %> -s <%= @config_options['cron_copie_reportorphan'] %> -e <%= @config_options['exclude_dir_reportorphan'] %>
