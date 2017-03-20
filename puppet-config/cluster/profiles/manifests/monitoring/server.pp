@@ -15,12 +15,15 @@
 
 class profiles::monitoring::server {
 
-  $packages      = hiera_array('profiles::monitoring::server::packages', [])
-  $features      = hiera_array('profiles::monitoring::server::features', [])
-  $features_conf = hiera_hash('profiles::monitoring::features_conf', {})
-  $zones         = hiera_hash('profiles::monitoring::server::zones', {})
-  $endpoints     = hiera_hash('profiles::monitoring::server::endpoints', {})
-  $idents        = hiera_hash('profiles::monitoring::server::idents', {})
+  $packages              = hiera_array('profiles::monitoring::server::packages', [])
+  $features              = hiera_array('profiles::monitoring::server::features', [])
+  $features_conf         = hiera_hash('profiles::monitoring::features_conf', {})
+  $zones                 = hiera_hash('profiles::monitoring::server::zones', {})
+  $endpoints             = hiera_hash('profiles::monitoring::server::endpoints', {})
+  $idents                = hiera_hash('profiles::monitoring::server::idents', {})
+  $decrypt_password      = hiera('icinga2::decrypt_passwd')
+  $notif_script_conf     = hiera('profiles::monitoring::server::notif_script_conf')
+  $notif_script_conf_src = hiera('profiles::monitoring::server::notif_script_conf_src')
 
   class { '::icinga2':
     packages      => $packages,
@@ -29,6 +32,12 @@ class profiles::monitoring::server {
     zones         => $zones,
     endpoints     => $endpoints,
     idents        => $idents,
+  }
+
+  class { '::icinga2::notif':
+    notif_script_conf     => $notif_script_conf,
+    notif_script_conf_src => $notif_script_conf_src,
+    decrypt_password      => $decrypt_password,
   }
 
   include '::nscang::server'
