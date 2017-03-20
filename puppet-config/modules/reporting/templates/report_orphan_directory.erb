@@ -9,7 +9,7 @@ function usage ()
         exit 1
 }
 
-while getopts g:c:p:s:h x 2> /dev/null
+while getopts c:p:s:e:h x 2> /dev/null
 do
     case $x in
         \? )    usage                   ;;
@@ -17,6 +17,7 @@ do
          c )    cluster="$OPTARG"       ;;
          p )    email_pe="$OPTARG"      ;;
          s )    email_copie="$OPTARG"   ;;
+	 e )    excludedir="$OPTARG"    ;;
     esac
 done
 shift $(($OPTIND - 1))
@@ -34,7 +35,12 @@ file_report="/tmp/.user-orphelin_$(date '+%d_%m_%Y')"
 getent group $grp | awk -F ":" '{print$4}' | tr "," "\n" | sort -u | uniq | grep -v dummy > ${list_ldap_users}
 ls <%= @config_options['path_fileset_scratch'] %> <%= @config_options['path_fileset_home'] %> | tr " " "\n" | sort -u | uniq | grep -Ev '^opt|admin|^/|^$' > ${dirs_users}
 
-dir_orphelin=$(diff ${dirs_users} ${list_ldap_users} | grep "<" | sed 's/^<\ //g')
+if [ ! -z ${excludedir} ];then
+	dir_orphelin=$(diff ${dirs_users} ${list_ldap_users} | grep "<" | sed 's/^<\ //g' | grep -Ev ${excludedir} )
+else
+	dir_orphelin=$(diff ${dirs_users} ${list_ldap_users} | grep "<" | sed 's/^<\ //g' )
+fi
+
 nb_orphan=$(echo $dir_orphelin | tr " " "\n" | wc -l)
 
 echo '<html><head>' > ${file_report}
