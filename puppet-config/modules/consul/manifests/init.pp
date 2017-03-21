@@ -13,6 +13,45 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Install a Consul agent or server and provides ressources to configure it.
+#
+# @param packages Package list
+# @param packages_ensure Should packages be installed, latest or absent.
+# @param services Service name (default: 'conman')
+# @param services_ensure Should the service run or be stopped (default: running)
+# @param services_enable Should the service be enabled (default: true)
+# @param services_manage Should the service be managed (default: true)
+# @param config_manage Should the configuration files be managed (default: true)
+# @param system_user System user used tio run the service (default: 'consul')
+# @param conf_dir Directory where to put the configuration files 
+#                 (default: '/etc/consul.d')
+# @param data_dir Directory where to put the data files
+#                 (default: '/var/lib/consul')
+# @param mode Configure Consul in client or server mode
+#             (default: 'server')
+# @param domain Domain name for the consul DNS zone
+#               (default: 'virtual.')
+# @param datacenter Datacenter parameter for consul. Usefull when the consul
+#                   cluster is distributed accross several datacenters
+#                   (default: 'local')
+# @param binding IP adress to bind to
+#                (default: '127.0.0.1')
+# @param subservices Array containing services to check (default: undef) 
+# @param nodes Consul cluster members (default: [])
+# @param bootstrap Quorum number (default: 1)
+# @param key Key used to crypt data stream between Consul agents (default: )
+#
+# The parameter `subservices` is an array of subservices definitions, here is
+# an example, with only an http service to check:
+# subservices:
+#   - name: 'http'
+#     check:
+#       id: 'http_check'
+#       name: 'Local HTTP service check'
+#       http: 'http://localhost/'
+#       interval: '10s'
+#       timeout: '1s'
+
 class consul (
   $packages         = $::consul::params::packages,
   $packages_ensure  = $::consul::params::packages_ensure,
