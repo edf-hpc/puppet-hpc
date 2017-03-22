@@ -639,6 +639,8 @@ profiles::log::client::port:           '20514'
 profiles::log::client::remote_servers: []
 rsyslog::client::spool_size:           '200m'
 rsyslog::client::log_local:            true
+# not used directly but needed to load the relp module
+rsyslog::client::remote_type:          'relp'
 # This log_server_dir shared parameter is used only once in this hiera layer but
 # has proven to be useful in uper layers, typically to define logrotate rules.
 log_server_dir:                     "%{hiera('admin_dir')}/restricted/logs"
