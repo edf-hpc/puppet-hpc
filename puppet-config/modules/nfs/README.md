@@ -45,6 +45,21 @@ This module uses the concat Puppet modules.
 
 ```
 
+Options that goes into the default/sysconfig file is provided
+as a hash on the ``default_options`` parameters. The default
+are:
+
+```
+  {
+    'RPCNFSDCOUNT'    => '64',
+    'RPCNFSDPRIORITY' => '0',
+    'RPCMOUNTDOPTS'   => '--manage-gids',
+    'NEED_SVCGSSD'    => '',
+    'RPCSVCGSSDOPTS'  => '',
+  }
+```
+
+
 ### Client
 
 * Include the class `::nfs`

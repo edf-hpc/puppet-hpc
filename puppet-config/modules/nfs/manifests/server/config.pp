@@ -19,6 +19,11 @@ class nfs::server::config inherits nfs::server {
     ensure => 'present',
   }
 
+  hpclib::print_config { $::nfs::server::default_file:
+    style => 'keyval',
+    data  => $::nfs::server::_default_options,
+  }
+
   Nfs::Server::Export <| |>
 
 }

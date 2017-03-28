@@ -24,6 +24,9 @@
 #                          service state
 # @param service           Name of the service
 # @param exports_file Path of the exports file (default: '/etc/exports')
+# @param default_file Path of the file for the default env settings
+#          (default: '/etc/default/nfs-kernel-server')
+# @param default_options Hash of values for the default_file content
 class nfs::server (
   $exports_file    = $::nfs::server::params::exports_file,
   $packages        = $::nfs::server::params::packages,
@@ -31,6 +34,8 @@ class nfs::server (
   $service_manage  = $::nfs::server::params::service_manage,
   $service         = $::nfs::server::params::service,
   $service_ensure  = $::nfs::server::params::service_ensure,
+  $default_file    = $::nfs::server::params::default_file,
+  $default_options = {},
 ) inherits nfs::server::params {
   require ::nfs
 
@@ -40,6 +45,10 @@ class nfs::server (
   validate_bool($service_manage)
   validate_string($service)
   validate_string($service_ensure)
+  validate_absolute_path($default_file)
+  validate_hash($default_options)
+
+  $_default_options = deep_merge($default_options_defaults, $default_options)
 
   anchor { 'nfs::server::begin': } ->
   class { '::nfs::server::install': } ->

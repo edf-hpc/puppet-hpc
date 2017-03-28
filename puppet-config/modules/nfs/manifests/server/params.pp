@@ -26,8 +26,9 @@ class nfs::server::params {
 
   case $::osfamily {
     'Debian': {
-      $packages = ['nfs-kernel-server']
-      $service   = 'nfs-kernel-server'
+      $packages     = ['nfs-kernel-server']
+      $service      = 'nfs-kernel-server'
+      $default_file = '/etc/default/nfs-kernel-server'
     }
     'Redhat': {
       # Same as ::nfs::packages
@@ -40,10 +41,19 @@ class nfs::server::params {
           $service = 'nfs'
         }
       }
+      $default_file = '/etc/sysconfig/nfsd'
     }
     default: {
       fail ("Unsupported OS Family: ${::osfamily}")
     }
+  }
+
+  $default_options_defaults = {
+    'RPCNFSDCOUNT'    => '64',
+    'RPCNFSDPRIORITY' => '0',
+    'RPCMOUNTDOPTS'   => '--manage-gids',
+    'NEED_SVCGSSD'    => '',
+    'RPCSVCGSSDOPTS'  => '',
   }
 
 }
