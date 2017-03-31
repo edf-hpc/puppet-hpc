@@ -27,8 +27,8 @@ fi
 
 log_file="/var/log/report.log"
 file_report="/tmp/.user-reporting-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
-file_tmp_mmrepquota="/tmp/.fmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
-total_tmp_mmrepquota="/tmp/.tmmrepquotareport_${groupldap}_$(date '+%d_%m_%Y')"
+file_tmp_mmrepquota="/tmp/.fmmrepquotareport-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
+total_tmp_mmrepquota="/tmp/.tmmrepquotareport-${cluster}_${groupldap}_$(date '+%d_%m_%Y')"
 
 # Report for quota gpfs
 #-----------------------
