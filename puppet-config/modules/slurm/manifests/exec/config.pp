@@ -24,25 +24,6 @@ class slurm::exec::config inherits slurm::exec {
         notify => Class['::slurm::exec::service'],
       }
 
-      ensure_resource('file', $::slurm::exec::cgroup_rel_dir, {'ensure' => 'directory' })
-
-      file { $::slurm::exec::cgroup_relscript_file:
-        mode   => '0744', # must be executable only by root
-        owner  => 'root',
-        source => $::slurm::exec::cgroup_relscript_source,
-      }
-
-      $cgroup_links = [
-        $::slurm::exec::cgroup_relcpuset_file,
-        $::slurm::exec::cgroup_relfreezer_file,
-        $::slurm::exec::cgroup_relmem_file,
-      ]
-
-      file { $cgroup_links:
-        ensure  => link,
-        target  => $::slurm::exec::cgroup_relscript_file,
-        require => File[$::slurm::exec::cgroup_relscript_file],
-      }
     }
 
   }

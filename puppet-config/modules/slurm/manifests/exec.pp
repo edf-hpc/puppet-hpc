@@ -33,13 +33,7 @@
 class slurm::exec (
   $config_manage            = $::slurm::exec::params::config_manage,
   $enable_cgroup            = $::slurm::exec::params::enable_cgroup,
-  $cgroup_rel_dir           = $::slurm::exec::params::cgroup_rel_dir,
   $cgroup_file              = $::slurm::exec::params::cgroup_file,
-  $cgroup_relscript_file    = $::slurm::exec::params::cgroup_relscript_file,
-  $cgroup_relscript_source  = $::slurm::exec::params::cgroup_relscript_source,
-  $cgroup_relcpuset_file    = $::slurm::exec::params::cgroup_relcpuset_file,
-  $cgroup_relfreezer_file   = $::slurm::exec::params::cgroup_relfreezer_file,
-  $cgroup_relmem_file       = $::slurm::exec::params::cgroup_relmem_file,
   $cgroup_options           = {},
   $packages_manage          = $::slurm::exec::params::packages_manage,
   $packages_ensure          = $::slurm::exec::params::packages_ensure,
@@ -63,13 +57,7 @@ class slurm::exec (
 
 
   if $enable_cgroup {
-    validate_absolute_path($cgroup_rel_dir)
     validate_absolute_path($cgroup_file)
-    validate_absolute_path($cgroup_relscript_file)
-    validate_string($cgroup_relscript_source)
-    validate_absolute_path($cgroup_relcpuset_file)
-    validate_absolute_path($cgroup_relfreezer_file)
-    validate_absolute_path($cgroup_relmem_file)
     validate_hash($cgroup_options)
 
     $_cgroup_options = deep_merge($::slurm::exec::params::cgroup_options_defaults, $cgroup_options)

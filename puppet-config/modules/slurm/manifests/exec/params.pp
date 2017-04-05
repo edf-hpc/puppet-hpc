@@ -40,16 +40,9 @@ class slurm::exec::params {
 
   ### Cgroups ###
   $enable_cgroup           = true
-  $cgroup_rel_dir          = "${::slurm::config_dir}/cgroup"
   $cgroup_file             = "${::slurm::config_dir}/cgroup.conf"
-  $cgroup_relscript_file   = "${cgroup_rel_dir}/release_common"
-  $cgroup_relscript_source = '/usr/share/doc/slurmd/examples/cgroup.release_common'
-  $cgroup_relcpuset_file   = "${cgroup_rel_dir}/release_cpuset"
-  $cgroup_relfreezer_file  = "${cgroup_rel_dir}/release_freezer"
-  $cgroup_relmem_file      = "${cgroup_rel_dir}/release_memory"
   $cgroup_options_defaults = {
     'CgroupAutomount'       => 'no',
-    'CgroupReleaseAgentDir' => $cgroup_rel_dir,
     'ConstrainCores'        => 'yes',
     'ConstrainRAMspace'     => 'no',
     'TaskAffinity'          => 'yes',
