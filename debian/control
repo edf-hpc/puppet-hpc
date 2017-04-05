@@ -29,10 +29,11 @@ Depends:
  ${misc:Depends},
  python3,
  python3-boto,
+ python3-paramiko,
  python3-yaml
 Description: Push the Puppet HPC Configuration
  Puppet HPC Configuration is a collection of puppet modules and hiera
  configuration designed to install an HPC cluster.
  .
  This package provide the hpc-config-push script to push the configuration
- on a central location.
+ on a central location or a set of servers.

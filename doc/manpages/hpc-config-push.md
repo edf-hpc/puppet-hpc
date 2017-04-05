@@ -45,8 +45,9 @@ you downloaded with this documentation.
 `private-data` is a directory containing all the specific data for your cluster.
 It's advised to also keep this in git and simply fetch a copy.
 
-The destination should be shared between all the central storage servers. It must be
-accessible as a simple POSIX file system or via the Amazon S3 API.
+The destination should be shared between all the central storage servers. It
+must be accessible as a simple POSIX file system, via the Amazon S3 API or a
+set of SFTP servers.
 
 # CONFIGURATION FILE
 
@@ -62,7 +63,7 @@ The '[global]' section defines the defaults parameters used:
     environment = <default environment>
     version = <default version>
     destination = <default directory on central storage>
-    mode = <push mode, can be s3 or posix>
+    mode = <push mode, can be 's3', 'posix' or 'sftp'>
 
 Optionally, it can include a '[s3]' section:
 
@@ -72,6 +73,13 @@ Optionally, it can include a '[s3]' section:
     bucket_name = <bucket to use on s3>
     host = <host where to push data>
     port = <port to use>
+
+Or a '[sftp]' section:
+
+    [sftp]
+    hosts = <host>[,<host>...]
+    username = <SSH username>
+    private_key = <Private key file path>
 
 And/or a '[paths]' section:
 
@@ -108,11 +116,11 @@ the default value is used.
 
 # EXAMPLES
 
-To simply push the actual configuration in the default environment:
+To simply push the current configuration in the default environment:
 
     hpc-config-push
 
-To push the actual configuration in the 'test' environment:
+To push the current configuration in the 'test' environment:
 
     hpc-config-push -e test
 

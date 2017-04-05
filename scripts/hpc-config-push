@@ -37,6 +37,9 @@ import shutil
 import boto
 import boto.s3
 import boto.s3.connection
+import paramiko
+import stat
+import socket
 
 def conf_copy(src, dst, *, follow_symlinks=True):
     """Alternate copy function for shutil.copytree() in order to properly
@@ -72,6 +75,11 @@ class AppConf():
         self.s3_bucket_name = None
         self.s3_host = None
         self.s3_port = None
+
+        ## SFTP parameters
+        self.sftp_hosts = None
+        self.sftp_username = None
+        self.sftp_private_key = None
 
         # action
 
@@ -123,6 +131,9 @@ class AppConf():
         logger.debug("- s3_bucket_name: %s", str(self.s3_bucket_name))
         logger.debug("- s3_port: %s", str(self.s3_port))
         logger.debug("- s3_host: %s", str(self.s3_host))
+        logger.debug("- sftp_hosts: %s", str(self.sftp_hosts))
+        logger.debug("- sftp_username: %s", str(self.sftp_username))
+        logger.debug("- sftp_private_key: %s", str(self.sftp_private_key))
 
     @property
     def archive(self):
@@ -155,6 +166,10 @@ def parse_conf():
       "bucket_name = system\n"
       "host = rgw.service.virtual\n"
       "port = 7480\n"
+      "[sftp]\n"
+      "hosts = localhost\n"
+      "username = root\n"
+      "private_key = /root/.ssh/id_rsa\n"
       "[paths]\n"
       "tmp = /tmp/puppet-config-push\n"
       "puppethpc = puppet-hpc\n"
@@ -194,6 +209,9 @@ def parse_conf():
     conf.s3_bucket_name = parser.get('s3', 'bucket_name')
     conf.s3_host = parser.get('s3', 'host')
     conf.s3_port = int(parser.get('s3', 'port'))
+    conf.sftp_hosts = parser.get('sftp', 'hosts').split(',')
+    conf.sftp_username = parser.get('sftp', 'username')
+    conf.sftp_private_key = parser.get('sftp', 'private_key')
 
 def parse_args():
     """Parses CLI args, then set debug flag and configuration file path in
@@ -359,13 +377,8 @@ def _push_posix():
     shutil.copy(conf.facts_private, conf.destination)
 
 
-def _s3_upload(source_path, bucket, destination_path, clean=True):
+def _list_upload_file_paths(source_path):
     logger.debug('Upload path: %s', source_path)
-    #max size in bytes before uploading in parts. between 1 and 5 GB recommended
-    max_size = 20 * 1000 * 1000
-    #size of parts when uploading in parts
-    part_size = 6 * 1000 * 1000
-
     # List files to upload
     upload_file_paths = []
     if os.path.isfile(source_path):
@@ -377,17 +390,31 @@ def _s3_upload(source_path, bucket, destination_path, clean=True):
             # remove the source path and first /
             relative_path = absolute_path[(len(source_path)+1):]
             upload_file_paths.append(relative_path)
+    return upload_file_paths
+
+def _get_full_paths(source_path, destination_path, file_path):
+    # Determine file paths
+    if os.path.isfile(source_path):
+        source_file_path = source_path
+    else:
+        source_file_path = os.path.join(source_path, file_path)
+    logger.debug("Source file path is: %s (%s, %s)", source_file_path, source_path, file_path)
+    dest_file_path = os.path.join(destination_path, file_path)
+    logger.debug("Dest file path is: %s (%s, %s)", dest_file_path, destination_path, file_path)
+    return source_file_path, dest_file_path
+
+def _s3_upload(source_path, bucket, destination_path, clean=True):
+    #max size in bytes before uploading in parts. between 1 and 5 GB recommended
+    max_size = 20 * 1000 * 1000
+    #size of parts when uploading in parts
+    part_size = 6 * 1000 * 1000
+
+    upload_file_paths = _list_upload_file_paths(source_path)
 
     # Upload the files
     for file_path in upload_file_paths:
-        # Determine file paths
-        if os.path.isfile(source_path):
-            source_file_path = source_path
-        else:
-            source_file_path = os.path.join(source_path, file_path)
-            logger.debug("Source file path is: %s (%s, %s)", source_file_path, source_path, file_path)
-        dest_file_path = os.path.join(destination_path, file_path)
-        logger.debug("Dest file path is: %s (%s, %s)", dest_file_path, destination_path, file_path)
+        source_file_path, dest_file_path = _get_full_paths(
+            source_path, destination_path, file_path)
 
         # Create remote directory if necessary
         dest_dir_name = os.path.dirname(dest_file_path) + "/"
@@ -399,7 +426,7 @@ def _s3_upload(source_path, bucket, destination_path, clean=True):
             # Lookup parent
             dest_dir_name = os.path.dirname(dest_dir_name[:-1]) + "/"
             dest_dir = bucket.get_key(dest_dir_name)
-  
+
         # Determine upload method
         filesize = os.path.getsize(source_file_path)
         if filesize > max_size:
@@ -418,7 +445,7 @@ def _s3_upload(source_path, bucket, destination_path, clean=True):
             k = boto.s3.key.Key(bucket)
             k.key = dest_file_path
             bytes_written = k.set_contents_from_filename(source_file_path, policy='public-read')
-            logger.debug("S3 upload: %d/%d bytes written for %s", 
+            logger.debug("S3 upload: %d/%d bytes written for %s",
                 bytes_written, filesize, file_path)
 
 
@@ -458,12 +485,89 @@ def _push_s3():
     _s3_upload(conf.facts_private, bucket, conf.destination)
 
 
+def _sftp_is_dir(sftp_client, path):
+    try:
+        is_dir = stat.S_ISDIR(sftp_client.stat(path).st_mode)
+    except FileNotFoundError:
+        is_dir = False
+    return is_dir
+
+def _sftp_rmrf(sftp_client, path):
+    if _sftp_is_dir(sftp_client, path):
+        children = sftp_client.listdir(path)
+        for child in children:
+            child_path = os.path.join(path, child)
+            _sftp_rmrf(sftp_client, child_path)
+    else:
+        try:
+            sftp_client.remove(path)
+        except FileNotFoundError:
+            logger.debug("SFTP: Try to remove a missing file: %s" % path)
+
+def _sftp_mkdir(sftp_client, path):
+    if _sftp_is_dir(sftp_client, path):
+        return
+    else:
+        parent = os.path.dirname(path[:-1])
+        _sftp_mkdir(sftp_client, parent)
+    sftp_client.mkdir(path)
+
+def _sftp_upload(source_path, sftp_client, destination_path, clean=True):
+    upload_file_paths = _list_upload_file_paths(source_path)
+
+    # Upload the files
+    for file_path in upload_file_paths:
+        source_file_path, dest_file_path = _get_full_paths(
+            source_path, destination_path, file_path)
+        # Create remote directory if necessary
+        dest_dir_name = os.path.dirname(dest_file_path)
+        _sftp_mkdir(sftp_client, dest_dir_name)
+        sftp_client.put(source_file_path, dest_file_path)
+
+def _push_sftp():
+    logger.info("SFTP push: pushing data on hosts %s", conf.sftp_hosts)
+
+    key = paramiko.RSAKey.from_private_key_file(conf.sftp_private_key)
+    username = conf.sftp_username
+
+    for host in conf.sftp_hosts:
+        try:
+            transport = paramiko.Transport((host, 22))
+            transport.connect(username=username, pkey=key)
+        except socket.gaierror as e:
+            logger.error("SFTP push: Failed to connect to host %s" % host)
+            logger.info("SFTP push: Connection error: %s." % e)
+            continue
+        except paramiko.ssh_exception.SSHException as e:
+            logger.error("SFTP push: SSH failed to %s@%s" % (username, host))
+            logger.info("SFTP push: SSH error: %s." % e)
+            continue
+        sftp_client = paramiko.SFTPClient.from_transport(transport)
+
+        logger.debug("SFTP push: Cleaning destination %s", conf.destination)
+        _sftp_rmrf(sftp_client, conf.destination)
+
+        logger.debug("SFTP push: copying tarball")
+        _sftp_upload(conf.archive, sftp_client, conf.destination)
+
+        logger.debug("SFTP push: copying private files")
+        dir_files = os.path.join(conf.destination, 'files')
+        _sftp_upload(conf.dir_files_private, sftp_client, dir_files)
+        logger.debug("SFTP push: copying puppet conf")
+        _sftp_upload(conf.conf_puppet, sftp_client, conf.destination)
+        logger.debug("SFTP push: copying hiera conf")
+        _sftp_upload(conf.conf_hiera, sftp_client, conf.destination)
+        logger.debug("SFTP push: copying private facts")
+        _sftp_upload(conf.facts_private, sftp_client, conf.destination)
+
 def push():
 
     if conf.mode == 'posix':
         _push_posix()
     elif conf.mode == 's3':
         _push_s3()
+    elif conf.mode == 'sftp':
+        _push_sftp()
     else:
         logger.error("unsupported push mode %s", conf.mode)
         sys.exit(1)
@@ -504,6 +608,6 @@ def main():
         build_tarball()
         push()
         cleanup_run()
- 
+
 if __name__ == '__main__':
     main()
