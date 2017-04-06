@@ -1,3 +1,17 @@
+hpc-config (1.0.0) calibre9; urgency=medium
+
+  [ Rémi Palancher ]
+  * scripts: this is puppet-hpc
+  * scripts: fix locate interpolation in hash keys
+  * scripts: set hostname in comment of SSH host keys
+
+  [ Thomas Hamel ]
+  * scripts: h-c-push Add support for SFTP servers
+  * scripts: h-c-push: Explicitely set perms (posix)
+  * conf: push.conf: add sftp and posix sections
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Thu, 06 Apr 2017 10:22:56 +0100
+
 hpc-config (0.11) calibre9; urgency=medium
 
   [ Thomas Hamel ]
