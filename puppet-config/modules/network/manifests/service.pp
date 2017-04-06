@@ -25,11 +25,6 @@ class network::service inherits network {
   # Install systemd services on supported OS.
   if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
 
-    hpclib::systemd_tmpfile { $::network::systemd_tmpfile :
-      target => $::network::systemd_tmpfile,
-      config => $::network::systemd_tmpfile_options,
-    }
-
     hpclib::systemd_service { $::network::ifup_hotplug_service_file :
       target => $::network::ifup_hotplug_service_file,
       config => $::network::ifup_hotplug_service_params,

@@ -54,13 +54,12 @@ Basic usage is:
 class{'::network':
   defaultgw  => '10.1.0.1',
   fqdn       => 'clnode01.cluster.hpc.example.com',
-  ib_enable  => false,
   opa_enable => false,
 }
 ```
 
-The parameters ``ib_enable`` and ``opa_enable`` can be ommited. When they are
-true, they configure Mellanox Infiniband and Intel Omni-Path respectively.
+The parameter ``opa_enable`` can be ommited. When it is true, it configures
+Intel Omni-Path.
 
 ## Usage
 
@@ -115,25 +114,7 @@ configures ``irqbalance`` and systemd modules load.
 class{'::network':
   defaultgw  => '10.1.0.1',
   fqdn       => 'clnode01.cluster.hpc.example.com',
-  ib_enable  => false,
   opa_enable => true,
-}
-```
-
-### Mellanox Infiniband
-
-When enabled, Mellanox Infiniband will install the relevant packages and load
-the modules. Interface configuration (``ib0``) is done like any other
-interface.
-
-Mellanox Infiniband configures the ``openib`` service.
-
-```
-class{'::network':
-  defaultgw  => '10.1.0.1',
-  fqdn       => 'clnode01.cluster.hpc.example.com',
-  ib_enable  => true,
-  opa_enable => false,
 }
 ```
 
@@ -145,7 +126,6 @@ The IPoIB settings are shared between Mellanox Infiniband and Intel Omni-Path:
 class{'::network':
   defaultgw  => '10.1.0.1',
   fqdn       => 'clnode01.cluster.hpc.example.com',
-  ib_enable  => true,
   opa_enable => false,
   ib_mode    => 'datagram',
   ib_mtu     => '4096',

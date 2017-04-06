@@ -21,14 +21,6 @@ class network::config inherits network {
     changes => $::network::hostname_augeas_change,
   }
 
-  if $::network::ib_enable {
-    ::hpclib::print_config { $::network::ib_file:
-      style           => 'keyval',
-      data            => $::network::_ib_options,
-      upper_case_keys => true,
-    }
-  }
-
   if $::network::opa_enable {
     ::hpclib::print_config { $::network::irqbalance_config:
       style           => 'keyval',

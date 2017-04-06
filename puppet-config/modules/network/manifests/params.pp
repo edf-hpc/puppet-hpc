@@ -17,10 +17,7 @@ class network::params {
 
   $routednet = []
 
-  $ib_enable         = false
   $opa_enable        = false
-  $ib_udev_rule_file = '/etc/udev/rules.d/50-infiniband-permissions.rules'
-  $ib_file           = '/etc/infiniband/openib.conf'
   $ib_mtu            = '65520'
   $ib_mode           = 'connected'
   case $::osfamily {
@@ -34,20 +31,6 @@ class network::params {
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
       $bridge_packages  = ['bridge-utils']
-      $ib_packages      = [
-        'ibverbs-utils',
-        'infiniband-diags',
-        'libmlx4-1',
-        'libmlx5-1',
-        'libibverbs1',
-        'libibmad5',
-        'libibumad3',
-        'dapl2-utils',
-        'mlnx-ofed-kernel-utils',
-        'mlnx-ofed-kernel-modules',
-        'knem-kernel-module',
-        'mxm'
-      ]
       $opa_packages     = [
 #        'compat-rdma-dev-3.16.0-4-amd64',
         'compat-rdma-modules-3.16.0-4-amd64',
@@ -86,48 +69,6 @@ class network::params {
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
       $bridge_packages  = []
-      $ib_packages      = [
-        'ar_mgr',
-        'bupc',
-        'cc_mgr',
-        'dapl',
-        'dapl-utils',
-        'dump_pr',
-        'fca',
-        'hcoll',
-        'ibacm',
-        'ibdump',
-        'ibutils',
-        'ibutils2',
-        'infiniband-diags',
-        'infiniband-diags-compat',
-        'kmod-iser',
-        'kmod-kernel-mft-mlnx',
-        'kmod-knem-mlnx',
-        'kmod-mlnx-ofa_kernel',
-        'kmod-srp',
-        'knem-mlnx',
-        'libibmad',
-        'libibprof',
-        'libibumad',
-        'libibverbs',
-        'libibverbs-utils',
-        'libmlx4',
-        'libmlx5',
-        'librdmacm',
-        'librdmacm-devel',
-        'librdmacm-utils',
-        'mft',
-        'mlnx-ofa_kernel',
-        'mlnx-ofa_kernel-devel',
-        'mpfr',
-        'mstflint',
-        'mxm',
-        'ofed-scripts',
-        'perftest',
-        'qperf',
-        'rds-tools'
-      ]
       $opa_packages     = []
       $opa_kernel_modules = []
     }
@@ -145,8 +86,6 @@ class network::params {
     'options' => '--hintpolicy=exact'
   }
 
-  $systemd_tmpfile           = '/etc/tmpfiles.d/openibd.conf'
-  $systemd_tmpfile_options   = ['d    /run/network   0755 root root - -']
   $ifup_hotplug_service      = 'ifup-hotplug'
   $ifup_hotplug_service_file = "/etc/systemd/system/${ifup_hotplug_service}.service"
   $ifup_hotplug_service_link = "/etc/systemd/system/multi-user.target.wants/${ifup_hotplug_service}"
@@ -193,57 +132,6 @@ class network::params {
       target  => $ifup_hotplug_service_file,
       require => Hpclib::Systemd_service[$ifup_hotplug_service_file],
     },
-  }
-
-  $ib_rules    = {
-    umad  => 'KERNEL=="umad*", SYMLINK+="infiniband/%k", MODE="0666"',
-    uverb => 'KERNEL=="uverbs*", SYMLINK+="infiniband/%k", MODE="0666"',
-    issm  => 'KERNEL=="issm*", SYMLINK+="infiniband/%k", MODE="0666"',
-    rdma  => 'KERNEL=="rdma*", SYMLINK+="infiniband/%k", MODE="0666"',
-  }
-
-  $mlx4load    = 'yes'
-  $net_topology        = hiera_hash('net_topology')
-  if $net_topology['lowlatency'] {
-    $ib_hostname = join(["${net_topology['lowlatency']['prefixes']}", '$(hostname -s)'], '')
-  } else {
-    notice("'lowlatency' network is not defined in net_topology. ib_hostname will be empty")
-    $ib_hostname = ''
-  }
-  $ib_options_defaults = {
-    'onboot'                       => 'yes',
-    'node_desc'                    => $ib_hostname,
-    'node_desc_time_before_update' => '20',
-    'set_ipoib_channels'           => 'no',
-    'run_affinity_tuner'           => 'no',
-    'srpha_enable'                 => 'no',
-    'srp_daemon_enable'            => 'no',
-    'uverbs_load'                  => 'yes',
-    'ucm_load'                     => 'yes',
-    'umad_load'                    => 'yes',
-    'rdma_cm_load'                 => 'yes',
-    'rdma_ucm_load'                => 'yes',
-    'renice_ib_mad'                => 'no',
-    'run_sysctl'                   => 'yes',
-    'mthca_load'                   => 'no',
-    'qib_load'                     => 'no',
-    'ipath_load'                   => 'no',
-    'mlx4_vnic_load'               => 'no',
-    'mlx5_load'                    => 'yes',
-    'cxgb3_load'                   => 'no',
-    'cxgb4_load'                   => 'no',
-    'nes_load'                     => 'no',
-    'ipoib_load'                   => 'yes',
-    'set_ipoib_cm'                 => 'no',
-    'e_ipoib_load'                 => 'no',
-    'srp_load'                     => 'no',
-    'srpt_load'                    => 'no',
-    'sdp_load'                     => 'no',
-    'rds_load'                     => 'no',
-    'qlgc_vnic_load'               => 'no',
-    'srp_target_load'              => 'no',
-    'rds_load'                     => 'no',
-    'ehca_load'                    => 'no',
   }
 
   $bonding_options = {}
