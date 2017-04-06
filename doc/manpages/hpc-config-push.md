@@ -65,7 +65,13 @@ The '[global]' section defines the defaults parameters used:
     destination = <default directory on central storage>
     mode = <push mode, can be 's3', 'posix' or 'sftp'>
 
-Optionally, it can include a '[s3]' section:
+Optionally, it can include a '[posix]' section:
+
+    [posix]
+    file_mode = <dest files mode as (octal)>
+    dir_mode = <dest directories mode (octal)>
+
+Or a '[s3]' section:
 
     [s3]
     access_key = <access key for s3>

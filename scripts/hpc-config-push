@@ -69,6 +69,10 @@ class AppConf():
         ## Common parameters
         self.destination_root = None
 
+        ## Posix Parameters
+        self.posix_file_mode = None
+        self.posix_dir_mode = None
+
         ## S3 parameters
         self.s3_access_key = None
         self.s3_secret_key = None
@@ -126,6 +130,8 @@ class AppConf():
         logger.debug("- dir_hieradata_generic: %s", str(self.dir_hieradata_generic))
         logger.debug("- dir_hieradata_private: %s", str(self.dir_hieradata_private))
         logger.debug("- dir_files_private: %s", str(self.dir_files_private))
+        logger.debug("- posix_file_mode: %s", str(self.posix_file_mode))
+        logger.debug("- posix_dir_mode: %s", str(self.posix_dir_mode))
         logger.debug("- s3_access_key: %s", str(self.s3_access_key))
         logger.debug("- s3_secret_key: %s", str(self.s3_secret_key))
         logger.debug("- s3_bucket_name: %s", str(self.s3_bucket_name))
@@ -160,6 +166,9 @@ def parse_conf():
       "version = latest\n"
       "mode = posix\n"
       "destination = /var/www/html/hpc-config\n"
+      "[posix]\n"
+      "file_mode = 644\n"
+      "dir_mode = 755\n"
       "[s3]\n"
       "access_key = XXXXXXXX\n"
       "secret_key = YYYYYYYYYYYYYYYY\n"
@@ -212,6 +221,8 @@ def parse_conf():
     conf.sftp_hosts = parser.get('sftp', 'hosts').split(',')
     conf.sftp_username = parser.get('sftp', 'username')
     conf.sftp_private_key = parser.get('sftp', 'private_key')
+    conf.posix_file_mode = int(parser.get('posix', 'file_mode'), 8)
+    conf.posix_dir_mode = int(parser.get('posix', 'dir_mode'), 8)
 
 def parse_args():
     """Parses CLI args, then set debug flag and configuration file path in
@@ -375,6 +386,13 @@ def _push_posix():
     shutil.copy(conf.conf_hiera, conf.destination)
     logger.debug("posix push: copying private facts")
     shutil.copy(conf.facts_private, conf.destination)
+
+    # Set permissions
+    for root, dirs, files in os.walk(conf.destination):
+        for dir_name in dirs:
+            os.chmod(os.path.join(root, dir_name), conf.posix_dir_mode)
+        for file_name in files:
+            os.chmod(os.path.join(root, file_name), conf.posix_file_mode)
 
 
 def _list_upload_file_paths(source_path):
