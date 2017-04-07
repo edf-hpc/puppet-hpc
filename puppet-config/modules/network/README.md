@@ -108,6 +108,25 @@ class{'::network':
 }
 ```
 
+### Additional rotues
+
+It is possible to setup additional routes on interfaces with the `routednet`
+argument:
+
+```
+class{'::network':
+  routednet  => {
+    'eth0' => [
+      '10.0.1.0/24',
+      '10.0.2.0/24',
+    ],
+    'eth1' => [
+      '10.0.3.0/24',
+    ],
+  },
+}
+```
+
 ## Limitations
 
 This module is tested on Debian.

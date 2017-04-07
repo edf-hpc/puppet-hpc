@@ -36,18 +36,6 @@
 <% bndprim = String.new -%>
 <% bndmode = String.new -%>
 <% routecfg = Hash.new -%>
-<% ctrl = 0 -%>
-<% ## Parse the supplementary routes ##-%>
-<%- if routnet.length > 0  -%>
-  <%- routnet.each do | triplet| -%>
-    <%- rcfg = triplet.split('@') -%>
-    <%- if routecfg[rcfg[2].to_s].nil? -%>
-      <%- routecfg[rcfg[2].to_s] = Array.new -%>
-    <%- end -%>
-    <%- routecfg[rcfg[2]][ctrl] = rcfg[0].to_s+'@'+rcfg[1].to_s -%>
-    <%- ctrl += 1 -%>
-  <%- end -%>
-<%- end -%>
 <% ## Insert bridged interfaces in the netconfig ##-%>
 <%- bridgecfg.map do | bridge, value | -%>
   <%- if not netconfig.key?(bridge) -%>
@@ -135,9 +123,9 @@ iface <%= card %> inet manual
     # A default gateway is not necessary for this network
     <%- end -%>
   <%- end -%><% ### Address iteration End ###-%>
-  <%- if routecfg.include?(card) -%><% ### Card as supplementary routes ? ###-%>
-    <%- routecfg[card].each do | duplet| -%><% ### Iterate supplementary routes ###-%>
-<%= '    post-up ip route add '+duplet.split('@')[0]+'/'+duplet.split('@')[1]+' dev $IFACE' %>
+  <%- if routnet.key?(card) -%><% ### Card as supplementary routes ? ###-%>
+    <%- routnet[card].each do |route| -%><% ### Iterate supplementary routes ###-%>
+<%= '    post-up ip route add ' + route +' dev $IFACE' %>
     <%- end -%><% ### Routes iteration End ###-%>
   <%- else -%>
 <%= '    # This network has no supplementary routes' %>

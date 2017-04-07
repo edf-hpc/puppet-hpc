@@ -15,7 +15,7 @@
 
 class network::params {
 
-  $routednet = []
+  $routednet = {}
 
   $ib_mtu            = '65520'
   $ib_mode           = 'connected'

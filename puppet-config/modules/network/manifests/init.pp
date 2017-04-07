@@ -17,8 +17,7 @@
 #
 # @param defaultgw IP Address of the default gateway
 # @param fqdn Fully Qualified Domain Name of this host
-# @param routednet Direct routes for this host, array of triplets:
-#           `<IP network address>@<network prefix length>@<device>` (default: [])
+# @param routednet Hash of direct routes for this host (default: {})
 # @param hostname_augeas_path Augeas path of the file with the hostname
 # @param hostname_augeas_change Augeas rule to apply to change the hostname
 # @param bonding_packages List of packages to install to use bonding
@@ -61,7 +60,7 @@ class network (
 ) inherits network::params {
 
   validate_string($defaultgw)
-  validate_array($routednet)
+  validate_hash($routednet)
   validate_string($hostname_augeas_path)
   validate_string($hostname_augeas_change)
   validate_absolute_path($config_file)
