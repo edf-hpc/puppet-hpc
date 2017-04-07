@@ -20,12 +20,9 @@ Configures the network interfaces on this system. This module configures:
 - Hostname
 - Routing (default gateway and static routes)
 - Ethernet interfaces
+- IP-over-IB interfaces (either Infiniband or Intel Omni-Path)
 - Ethernet bonding
 - Bridges
-- Intel Omni-Path
-- Mellanox Infiniband
-
-Note: Intel Omni-Path and Mellanox Infiniband are mutually exclusive.
 
 The network module uses an interface list provided by the ``netconfig`` fact
 from the ``hpclib`` module. This fact uses data from the hiera
@@ -54,12 +51,8 @@ Basic usage is:
 class{'::network':
   defaultgw  => '10.1.0.1',
   fqdn       => 'clnode01.cluster.hpc.example.com',
-  opa_enable => false,
 }
 ```
-
-The parameter ``opa_enable`` can be ommited. When it is true, it configures
-Intel Omni-Path.
 
 ## Usage
 
@@ -102,22 +95,6 @@ class{'::network':
 }
 ```
 
-### Intel Omni-Path
-
-When enabled, Intel Omni-Path will install the relevant packages and load the
-modules. Interface configuration (``ib0``) is done like any other interface.
-
-Intel Omni-Path does not configures the ``rdma`` service but directly
-configures ``irqbalance`` and systemd modules load.
-
-```
-class{'::network':
-  defaultgw  => '10.1.0.1',
-  fqdn       => 'clnode01.cluster.hpc.example.com',
-  opa_enable => true,
-}
-```
-
 ### IPoIB
 
 The IPoIB settings are shared between Mellanox Infiniband and Intel Omni-Path:
@@ -126,7 +103,6 @@ The IPoIB settings are shared between Mellanox Infiniband and Intel Omni-Path:
 class{'::network':
   defaultgw  => '10.1.0.1',
   fqdn       => 'clnode01.cluster.hpc.example.com',
-  opa_enable => false,
   ib_mode    => 'datagram',
   ib_mtu     => '4096',
 }

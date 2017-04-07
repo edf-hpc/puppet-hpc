@@ -21,19 +21,6 @@ class network::config inherits network {
     changes => $::network::hostname_augeas_change,
   }
 
-  if $::network::opa_enable {
-    ::hpclib::print_config { $::network::irqbalance_config:
-      style           => 'keyval',
-      data            => $::network::irqbalance_options,
-      upper_case_keys => true,
-      notify          => Service[$::network::irqbalance_service],
-    }
-
-    ::systemd::modules_load { 'opa':
-      data => $::network::opa_kernel_modules
-    }
-  }
-
   host { 'localhost':
     ensure => present,
     ip     => '127.0.0.1',

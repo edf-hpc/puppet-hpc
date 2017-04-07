@@ -35,10 +35,6 @@
 #           for the ifup service
 # @param ifup_hotplug_files Hash with the definition of file resource for the
 #           ifup service wants link
-# @param opa_enable Enable the Intel OmniPath stack installation and configuration (default: false)
-# @param opa_packages List of packages for the Intel OmniPath stack
-# @param opa_kernel_modules Array of kernel modules to load during server boot
-# @param irqbalance_options Key/Value hash with the content of the irqbalance configuration
 # @param ib_mtu MTU for the IPoIB network (default: '65520')
 # @param ib_mode Mode for IPoIB, 'connected' or 'datagram' (default: 'connected')
 class network (
@@ -59,10 +55,6 @@ class network (
   $ifup_hotplug_service_params = $::network::params::ifup_hotplug_service_params,
   $ifup_hotplug_services       = $::network::params::ifup_hotplug_services,
   $ifup_hotplug_files          = $::network::params::ifup_hotplug_files,
-  $opa_enable                  = $::network::params::opa_enable,
-  $opa_packages                = $::network::params::opa_packages,
-  $opa_kernel_modules          = $::network::params::opa_kernel_modules,
-  $irqbalance_options          = $::network::params::irqbalance_options,
   $ib_mtu                      = $::network::params::ib_mtu,
   $ib_mode                     = $::network::params::ib_mode,
   $packages                    = [],
@@ -81,29 +73,20 @@ class network (
   validate_hash($ifup_hotplug_service_params)
   validate_hash($ifup_hotplug_services)
   validate_hash($ifup_hotplug_files)
-  validate_bool($opa_enable)
 
-  validate_hash($irqbalance_options)
   validate_hash($bonding_options)
   validate_hash($bridge_options)
 
   validate_integer($ib_mtu)
   validate_string($ib_mode)
 
-  validate_array($opa_kernel_modules)
-
-  # Bring all the package sources together
-  validate_array($opa_packages)
   validate_array($bonding_packages)
   validate_array($bridge_packages)
   validate_array($packages)
+
+  # merge bonding, bridge and base packages
   $_base_packages = concat($bonding_packages, $bridge_packages)
-  if $opa_enable {
-    $ibbonding_packages = concat($opa_packages, $_base_packages)
-  } else {
-    $ibbonding_packages = $_base_packages
-  }
-  $_packages = concat($ibbonding_packages, $packages)
+  $_packages = concat($_base_packages, $packages)
 
   # Anchor this as per #8040 - this ensures that classes won't float off and
   # mess everything up.  You can read about this at:
