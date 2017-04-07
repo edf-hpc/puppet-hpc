@@ -127,14 +127,6 @@ class infiniband::params {
     'ehca_load'                    => 'no',
   }
 
-  $ib_udev_rule_file = '/etc/udev/rules.d/50-infiniband-permissions.rules'
-  $ib_rules    = {
-    umad  => 'KERNEL=="umad*", SYMLINK+="infiniband/%k", MODE="0666"',
-    uverb => 'KERNEL=="uverbs*", SYMLINK+="infiniband/%k", MODE="0666"',
-    issm  => 'KERNEL=="issm*", SYMLINK+="infiniband/%k", MODE="0666"',
-    rdma  => 'KERNEL=="rdma*", SYMLINK+="infiniband/%k", MODE="0666"',
-  }
-
   $mlx4load    = 'yes'
 
   $systemd_tmpfile           = '/etc/tmpfiles.d/openibd.conf'

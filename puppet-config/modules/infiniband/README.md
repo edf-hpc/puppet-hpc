@@ -22,7 +22,6 @@ The module deploys the Mellanox OFED Linux software stack on nodes.
 
 * Mellanox OFED Linux node packages
 * OpenIB service configuration file 
-* Infiniband devices Udev rules
 
 ### Setup Requirements
 
