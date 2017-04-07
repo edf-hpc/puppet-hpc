@@ -18,7 +18,6 @@ class opa::params {
   case $::osfamily {
     'Debian': {
       $packages = [
-        #'compat-rdma-dev-3.16.0-4-amd64',
         'compat-rdma-modules-3.16.0-4-amd64',
         'hfi1-diagtools-sw',
         'hfi1-firmware',
@@ -27,16 +26,8 @@ class opa::params {
         'ibverbs-utils',
         'infiniband-diags',
         'libhfi1',
-        #'libhfi1-psm',  # dependency of hfi1-diagtools-sw
-        #'libibmad5',  # dependency of infiniband-diags (among others)
-        #'libibnetdisc5', # dependency of infiniband-diags (among others)
-        #'libibumad3', # dependency of infiniband-diags (among others)
-        #'libibverbs1', # dependency of rdmacm-utils
-        #'librdmacm1', # dependency of rdmacm-utils
         'opa-address-resolution',
-        #'opa-basic-tools', # dependency of opa-scripts
         'opa-scripts',
-        # 'qperf',
         'irqbalance',
         'rdmacm-utils',
         'rdma'
