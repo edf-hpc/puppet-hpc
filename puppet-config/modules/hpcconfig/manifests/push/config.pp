@@ -18,6 +18,7 @@ class hpcconfig::push::config inherits hpcconfig::push {
   hpclib::print_config { $::hpcconfig::push::config_file:
     style => 'ini',
     data  => $::hpcconfig::push::_config_options,
+    mode  => 0600,
   }
 
   hpclib::print_config { $::hpcconfig::push::eyaml_config_file:
