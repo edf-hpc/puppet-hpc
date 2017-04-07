@@ -28,8 +28,8 @@ class network::config inherits network {
 
   host { $::network::fqdn:
     ensure       => present,
-    ip           => '127.0.1.1',
-    host_aliases => $::hostname
+    ip           => $::hostfile[$::hostname],
+    host_aliases => $::hostname,
   }
 
   # $net_ifaces hash is used by create_resources to generate main network
