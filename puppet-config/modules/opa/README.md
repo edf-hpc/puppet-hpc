@@ -22,8 +22,9 @@ Intel FM GUI to get data from the FM through TLS/SSL.
 
 ## Setup
 
-### What opafm affects
+### What opa affects
 
+* OPA node stack
 * OPA Fabric Manager packages
 * OPA Fastfabric package
 * OPA Fabric Manager XML formatted configuration file
@@ -37,6 +38,9 @@ This module depends in:
 * `hpclib` module (`hpc_file()` function)
 
 ### Beginning with opa
+
+The module deploys the base Intel Omni-Path software stack on nodes but it also
+controls software components of the Omni-Path ecosystem (FE, FM, FM GUI).
 
 The module is able to define device groups (such as OPA switches groups) into
 the OPA FM XML configuration file and then set Performance Manager (PM) port
@@ -63,13 +67,25 @@ the module.
 
 ## Usage
 
-The `opa` has three public classes. 
-`opa::ff` installs and configures the Intel OmniPath (OPA) FastFabric tools, 
-including the switches file.
-`opa::fm` installs and configures Intel OmniPath (OPA) Fabric Manager. It 
-depends on the `opa::ff` class.
-`opa::fm` installs Intel OmniPath (OPA) Fabric Manager GUI.
+The `opa` module has four public classes:
 
+* `opa` installs and configure the base Intel OmniPath node stack.
+* `opa::ff` installs and configures the Intel OmniPath (OPA) FastFabric tools,
+  including the switches file.
+* `opa::fm` installs and configures Intel OmniPath (OPA) Fabric Manager. It
+  depends on the `opa::ff` class.
+* `opa::fm_gui` installs Intel OmniPath (OPA) Fabric Manager GUI.
+
+### opa
+
+This class installs the packages of the OPA node stack, ensure kernel modules
+are loaded and setup irqbalance service according to Intel specifications.
+
+Here is an example of public class instanciation:
+
+```
+include ::opa
+```
 
 ### opa::ff
 
@@ -80,7 +96,7 @@ Here is an example of public class instanciation with individual parameters:
 
 ```
 class { '::opa::fm':
-  switch_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/switches',
+  switch_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opa/switches',
 }
 ```
 In this example the switches file is downloaded from the given URL and deployed 
@@ -152,7 +168,7 @@ To give URL to a full OPA Fabric Manager XML configuration file, use the
 
 ```
 class { '::opa::fm':
-  config_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opafm/opafm.xml',
+  config_source => 'http://s3-system.service.virtual:7480/hpc-config/%{environment}/latest/files/opa/opafm.xml',
 }
 ```
 
