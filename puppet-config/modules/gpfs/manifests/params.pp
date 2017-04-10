@@ -28,13 +28,12 @@ class gpfs::params {
 
   # Packages to install
   # It is assumed that license files are managed with a
-  # special package : gpfs.lum for both Debian and Red Hat
+  # special package : no gpfs.lum for both Debian and Red Hat in 4.2.2.3
   case $::osfamily {
     'Debian': {
       $cl_base = [
         'gpfs.base',
         'gpfs.msg.en-us',
-        'gpfs.lum',
         'gpfs.gskit',
       ]
       case $::operatingsystemmajrelease {
@@ -57,7 +56,6 @@ class gpfs::params {
         'gpfs.msg.en_US',
         'gpfs.ext',
         'gpfs.gskit',
-        'gpfs.lum',
       ]
       case $::operatingsystemmajrelease {
         '7': {

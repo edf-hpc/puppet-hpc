@@ -21,7 +21,7 @@
 #                             (Default: 'password')
 # @param cl_packages          Packages to install for the client
 #                             (Default: ['gpfs.base', 'gpfs.msg.en-us', 
-#                             'gpfs.lum', 'gpfs.gskit', 
+#                             'gpfs.gskit', 
 #                             'gpfs.gpl-3.16.0-4-amd64'])
 # @param cl_packages_ensure   State of packages on the system 
 #                             (Default: 'present']
