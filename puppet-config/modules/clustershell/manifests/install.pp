@@ -14,8 +14,6 @@
 ##########################################################################
 
 class clustershell::install inherits clustershell {
-  package { $::clustershell::packages:
-    ensure => $::clustershell::packages_ensure
-  }
+  ensure_packages($::clustershell::packages, {'ensure' => $::clustershell::packages_ensure})
 }
 
