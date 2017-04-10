@@ -19,6 +19,7 @@ class infiniband::params {
   $packages_manage = true
   $packages_ensure = 'latest'
   $config_manage   = true
+  $service_manage  = true
 
   case $::osfamily {
     'Debian': {
@@ -137,4 +138,7 @@ class infiniband::params {
   $systemd_tmpfile           = '/etc/tmpfiles.d/openibd.conf'
   $systemd_tmpfile_options   = ['d    /run/network   0755 root root - -']
 
+  $service_name   = 'openibd'
+  $service_ensure = 'running'
+  $service_enable = true
 }
