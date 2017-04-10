@@ -15,6 +15,12 @@
 
 class network::params {
 
+  $install_manage  = true
+  $packages_manage = true
+  $packages_ensure = 'latest'
+  $config_manage   = true
+  $service_manage  = true
+
   $routednet = {}
 
   $ib_mtu            = '65520'
@@ -45,9 +51,11 @@ class network::params {
     }
   }
 
-  $ifup_hotplug_service      = 'ifup-hotplug'
-  $ifup_hotplug_service_file = "/etc/systemd/system/${ifup_hotplug_service}.service"
-  $ifup_hotplug_service_link = "/etc/systemd/system/multi-user.target.wants/${ifup_hotplug_service}"
+  $ifup_hotplug_service_name   = 'ifup-hotplug'
+  $ifup_hotplug_service_ensure = 'running'
+  $ifup_hotplug_service_enable = true
+  $ifup_hotplug_service_file   = "/etc/systemd/system/${ifup_hotplug_service_name}.service"
+  $ifup_hotplug_service_link   = "/etc/systemd/system/multi-user.target.wants/${ifup_hotplug_service_name}"
   case $::puppet_context {
     /diskless*/ : {
       # --force is needed to force reconfiguration of eth0 interface in order
@@ -74,22 +82,6 @@ class network::params {
     },
     'Install' => {
       'WantedBy'     => 'multi-user.target',
-    },
-  }
-
-  $ifup_hotplug_services = {
-    'ifup-hotplug' => {
-      ensure  => 'running',
-      enable  => true,
-      require => Hpclib::Systemd_service[$ifup_hotplug_service_file],
-    },
-  }
-
-  $ifup_hotplug_files = {
-    "${ifup_hotplug_service_link}" => {
-      ensure  => link,
-      target  => $ifup_hotplug_service_file,
-      require => Hpclib::Systemd_service[$ifup_hotplug_service_file],
     },
   }
 

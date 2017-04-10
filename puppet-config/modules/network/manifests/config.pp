@@ -15,28 +15,32 @@
 
 class network::config inherits network {
 
-  # Set hostname
-  augeas { $::network::hostname_augeas_path:
-    context => $::network::hostname_augeas_path,
-    changes => $::network::hostname_augeas_change,
-  }
+  if $::network::config_manage {
 
-  host { 'localhost':
-    ensure => present,
-    ip     => '127.0.0.1',
-  }
+    # Set hostname
+    augeas { $::network::hostname_augeas_path:
+      context => $::network::hostname_augeas_path,
+      changes => $::network::hostname_augeas_change,
+    }
 
-  host { $::network::fqdn:
-    ensure       => present,
-    ip           => $::hostfile[$::hostname],
-    host_aliases => $::hostname,
-  }
+    host { 'localhost':
+      ensure => present,
+      ip     => '127.0.0.1',
+    }
 
-  # $net_ifaces hash is used by create_resources to generate main network
-  # configuration file. On debian systems there is a single file.
-  # On RHEL systems there is a file for each interface. For this reason
-  # the hash is modified with the names of all interfaces in the case of RHEL.
-  $net_ifaces = $::ifaces_target
-  create_resources(network::print_config, $net_ifaces)
+    host { $::network::fqdn:
+      ensure       => present,
+      ip           => $::hostfile[$::hostname],
+      host_aliases => $::hostname,
+    }
+
+    # $net_ifaces hash is used by create_resources to generate main network
+    # configuration file. On debian systems there is a single file.
+    # On RHEL systems there is a file for each interface. For this reason
+    # the hash is modified with the names of all interfaces in the case of RHEL.
+    $net_ifaces = $::ifaces_target
+    create_resources(network::print_config, $net_ifaces)
+
+  }
 
 }

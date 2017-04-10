@@ -15,34 +15,15 @@
 
 class network::service inherits network {
 
-  # Install systemd services on supported OS.
-  if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
+  if $::network::service_manage {
+    # On Debian8, manage the ifup-hotplug service.
+    if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
 
-    hpclib::systemd_service { $::network::ifup_hotplug_service_file :
-      target => $::network::ifup_hotplug_service_file,
-      config => $::network::ifup_hotplug_service_params,
-    }
+      service { $::network::ifup_hotplug_service_name:
+        ensure  => $::network::ifup_hotplug_service_ensure,
+        enable  => $::network::ifup_hotplug_service_enable,
+      }
 
-    # Enable systemd service ifup-hotplug to ensure it is run at server boot.
-    # If service provider is systemd (calibre9 running production),
-    # use Puppet service type.
-    # If service provider is debian (calibre9 during the late_command
-    # of debian installer), use Puppet file type since systemd/systemctl is not
-    # running at this stage.
-    case $::puppet_context {
-      'ondisk', 'diskless-postinit': {
-        create_resources(service, $::network::ifup_hotplug_services)
-      }
-      'installer', 'diskless-preinit': {
-        create_resources(file, $::network::ifup_hotplug_files)
-      }
-      default : {
-        fail("Unsupported context '${::puppet_context}', should be: 'ondisk', 'diskless-postinit' 'installer', 'diskless-preinit'")
-      }
     }
   }
-  else {
-    notice('Unsupported service provider for class network::service.')
-  }
-
 }
