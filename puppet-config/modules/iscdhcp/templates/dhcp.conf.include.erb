@@ -17,6 +17,9 @@ group {
   <%- boot_params_expand.each do |nodes, options| -%>
     <%- if nodes.include?(key) -%>
       <%- ipxe = options['ipxebin']  -%>
+      <%- if @tftp and ipxe.nil? -%>
+         <%- fail("#{key}/#{nodes} DHCP config uses tftp but has no ipxebin attribute.") -%>
+      <%- end -%>
     <%- end -%>
   <%- end -%>
   <%- if (iplow..iphigh)===IPAddr.new(value['ipaddress']).to_i -%>
