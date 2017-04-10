@@ -248,6 +248,7 @@ profiles::sudo::sudo_config_opts:
 
 ##### HTTP
 apache::apache_version:          '2.4'
+apache::mpm_module:              'prefork' # for inventory
 profiles::http::port:            80
 profiles::http::error_log_file:  'error.log'
 profiles::http::log_level:       'warn'

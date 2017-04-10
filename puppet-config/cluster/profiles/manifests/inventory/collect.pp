@@ -28,9 +28,8 @@ class profiles::inventory::collect {
   $servername    = "${prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
-  class { '::apache' :
-    mpm_module => 'prefork',
-  }
+
+  include apache
   include apache::mod::php
 
   class { '::glpicollector':
