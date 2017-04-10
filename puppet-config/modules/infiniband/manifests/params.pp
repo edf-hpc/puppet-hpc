@@ -15,6 +15,11 @@
 
 class infiniband::params {
 
+  $install_manage  = true 
+  $packages_manage = true
+  $packages_ensure = 'latest'
+  $config_manage   = true
+
   case $::osfamily {
     'Debian': {
       $packages      = [
