@@ -15,9 +15,7 @@
 
 class boothttp::install inherits boothttp {
 
-  package { $::boothttp::packages:
-    ensure => $::boothttp::packages_ensure
-  }
+  ensure_packages($::boothttp::packages, {'ensure' => $::boothttp::packages_ensure})
 
   $menu_dir  = "${boothttp::config_dir_http}/cgi-bin"
   $menu_file = "${menu_dir}/bootmenu.py"
