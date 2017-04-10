@@ -15,13 +15,6 @@
 
 class network::service inherits network {
 
-  if $::network::opa_enable {
-    service { $::network::irqbalance_service :
-      ensure => $::network::irqbalance_ensure,
-      enable => $::network::irqbalance_enable,
-    }
-  }
-
   # Install systemd services on supported OS.
   if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
 
