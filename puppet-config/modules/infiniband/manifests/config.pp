@@ -20,4 +20,10 @@ class infiniband::config inherits infiniband {
     data            => $::infiniband::_ib_options,
     upper_case_keys => true,
   }
+
+  hpclib::systemd_tmpfile { $::infiniband::systemd_tmpfile :
+    target => $::infiniband::systemd_tmpfile,
+    config => $::infiniband::systemd_tmpfile_options,
+  }
+
 }

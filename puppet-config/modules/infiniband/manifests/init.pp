@@ -51,7 +51,6 @@ class infiniband (
   anchor { 'infiniband::begin': } ->
   class { '::infiniband::install': } ->
   class { '::infiniband::config': } ~>
-  class { '::infiniband::service': } ~>
   anchor { 'infiniband::end': }
 
 }
