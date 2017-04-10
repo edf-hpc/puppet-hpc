@@ -183,14 +183,18 @@ def get_host_vservs(hostname)
   return nil if all_vservs.nil?
 
   all_vservs.each do |vservs_group, vservs_items|
-
+    function_debug(["get_host_vservs: Considering vserv #{vservs_group} to host #{hostname}"])
     members = hpc_nodeset_expand(vservs_items['members'])
     network_type = vservs_items['network']
+    if not net_topology.include?(network_type)
+      raise "get_host_vservs: vserv #{vservs_group} uses a network not defined in net_topology (#{network_type})."
+    end
     netmask = net_topology[network_type]['prefix_length']
     ip = vservs_items['ip']
     ip2 = "#{ip}#{netmask}"
 
     if members.include?(hostname) and vservs_items.key?('port')
+      function_debug(["get_host_vservs: Add vserv #{vservs_group} to host #{hostname}"])
       new_vservs = Hash.new
       # The items in this hash must correspond to the parameters of the
       # hpc_ha::vserv class
