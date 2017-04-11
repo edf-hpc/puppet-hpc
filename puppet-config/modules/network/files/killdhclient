@@ -1,3 +1,4 @@
+#!/bin/sh
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
@@ -13,32 +14,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define network::print_config ($target = 'eth0') {
+# This script is designed to kill eventual instances of dhclient running on
+# network interfaces. This is typically usefull in diskless environment where
+# default /etc/network/interfaces files in live image is setup with dynamic
+# (DHCP) interfaces, initialized as this very early in the boot process (with
+# dhclient process) and then setup as static interface (with networking service
+# restart) by Puppet later. To make sure interfaces such as bond slaves,
+# configured in manual mode in Puppet version of /etc/network/interfaces, do not
+# have any dhclient process attached that would kill bonding setup after DHCP
+# request renewal, kill the process here.
 
-  case $::osfamily {
-    'Debian': {
-      $filename     = $::network::config_file
-      $tplname      = 'network/interfaces.erb'
-      $service_name = $::network::service_name
-    }
-    'Redhat': {
-      $filename     = "${::network::config_file}-${target}"
-      $tplname      = 'network/ifcfg.erb'
-      $service_name = "ifup@${target}"
+[ "$VERBOSITY" = 1 ] && set -x
 
-      service { $service_name:
-        ensure      => running,
-        refreshonly => true,
-      }
-    }
-    default: {
-      fail ("Unsupported OS Family '${::osfamily}', should be: 'Redhat', 'Debian'")
-    }
-  }
+# exit here on initial call with IFACE --all
+[ "$ADDRFAM" = meta ] && exit 0
 
-  file { $filename :
-    content => template($tplname),
-    notify  => Service[$service_name]
-  }
+# kill eventual dhclient running for IFACE
+echo "pre-up: killing dhclient for $IFACE"
+pkill -e -f "^dhclient.*$IFACE" || true
 
-}
+exit 0

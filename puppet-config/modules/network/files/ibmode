@@ -1,3 +1,4 @@
+#!/bin/sh
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
@@ -13,32 +14,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define network::print_config ($target = 'eth0') {
+# This script is designed to setup Infiniband and Omni-Path devices mode with
+# optional ib-mode parameter.
 
-  case $::osfamily {
-    'Debian': {
-      $filename     = $::network::config_file
-      $tplname      = 'network/interfaces.erb'
-      $service_name = $::network::service_name
-    }
-    'Redhat': {
-      $filename     = "${::network::config_file}-${target}"
-      $tplname      = 'network/ifcfg.erb'
-      $service_name = "ifup@${target}"
+[ -z "$IF_IB_MODE" ] && exit 0
 
-      service { $service_name:
-        ensure      => running,
-        refreshonly => true,
-      }
-    }
-    default: {
-      fail ("Unsupported OS Family '${::osfamily}', should be: 'Redhat', 'Debian'")
-    }
-  }
+echo "pre-up: setting IB mode $IF_IB_MODE on $IFACE"
+echo $IF_IB_MODE > /sys/class/net/$IFACE/mode || true
 
-  file { $filename :
-    content => template($tplname),
-    notify  => Service[$service_name]
-  }
-
-}
+exit 0

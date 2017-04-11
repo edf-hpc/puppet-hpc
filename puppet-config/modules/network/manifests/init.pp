@@ -21,10 +21,6 @@
 # @param bonding_packages List of packages to install to use bonding
 # @param bridge_packages List of packages to install to use bridges
 # @param packages_ensure Target state for the packages (default: 'latest')
-# @param ifup_hotplug_service_file ifup service unit file path
-# @param ifup_hotplug_service_link ifup service unit wants link path
-# @param ifup_hotplug_service_exec Command to ifup all hotplug interfaces
-# @param ifup_hotplug_service_params Content of the ifup service unit file
 # @param config_manage Public class manages the configuration (default: true)
 # @param config_file Path of the main network configuration file
 # @param defaultgw IP Address of the default gateway
@@ -37,48 +33,37 @@
 # @param ib_mtu MTU for the IPoIB network (default: '65520')
 # @param ib_mode Mode for IPoIB, 'connected' or 'datagram' (default: 'connected')
 # @param service_manage Public class manages the service (default: true)
-# @param ifup_hotplug_service_name ifup service name (default: 'ifup-hotplug')
-# @param ifup_hotplug_service_ensure state of ifup service (default: 'running')
-# @param ifup_hotplug_service_enable activation of ifup service at boottime
-#                                    (default: true)
+# @param service_name network manager service name (default: 'networking')
+# @param service_ensure network manager service state (default: 'running')
+# @param service_enable activation of network manager service at boottime
+#                       (default: true)
 class network (
-  $install_manage              = $::network::params::install_manage,
-  $packages_manage             = $::network::params::packages_manage,
-  $packages                    = [],
-  $bonding_packages            = $::network::params::bonding_packages,
-  $bridge_packages             = $::network::params::bridge_packages,
-  $packages_ensure             = $::network::params::packages_ensure,
-  $ifup_hotplug_service_file   = $::network::params::ifup_hotplug_service_file,
-  $ifup_hotplug_service_link   = $::network::params::ifup_hotplug_service_link,
-  $ifup_hotplug_service_exec   = $::network::params::ifup_hotplug_service_exec,
-  $ifup_hotplug_service_params = $::network::params::ifup_hotplug_service_params,
-  $config_manage               = $::network::params::config_manage,
-  $config_file                 = $::network::params::config_file,
+  $install_manage         = $::network::params::install_manage,
+  $packages_manage        = $::network::params::packages_manage,
+  $packages               = [],
+  $bonding_packages       = $::network::params::bonding_packages,
+  $bridge_packages        = $::network::params::bridge_packages,
+  $packages_ensure        = $::network::params::packages_ensure,
+  $config_manage          = $::network::params::config_manage,
+  $config_file            = $::network::params::config_file,
   $defaultgw,
   $fqdn,
-  $routednet                   = $::network::params::routednet,
-  $hostname_augeas_path        = $::network::params::hostname_augeas_path,
-  $hostname_augeas_change      = $::network::params::hostname_augeas_change,
-  $bonding_options             = $::network::params::bonding_options,
-  $bridge_options              = $::network::params::bridge_options,
-  $ib_mtu                      = $::network::params::ib_mtu,
-  $ib_mode                     = $::network::params::ib_mode,
-  $service_manage              = $::network::params::service_manage,
-  $ifup_hotplug_service_name   = $::network::params::ifup_hotplug_service_name,
-  $ifup_hotplug_service_ensure = $::network::params::ifup_hotplug_service_ensure,
-  $ifup_hotplug_service_enable = $::network::params::ifup_hotplug_service_enable,
+  $routednet              = $::network::params::routednet,
+  $hostname_augeas_path   = $::network::params::hostname_augeas_path,
+  $hostname_augeas_change = $::network::params::hostname_augeas_change,
+  $bonding_options        = $::network::params::bonding_options,
+  $bridge_options         = $::network::params::bridge_options,
+  $ib_mtu                 = $::network::params::ib_mtu,
+  $ib_mode                = $::network::params::ib_mode,
+  $service_manage         = $::network::params::service_manage,
+  $service_name           = $::network::params::service_name,
+  $service_ensure         = $::network::params::service_ensure,
+  $service_enable         = $::network::params::service_enable,
 ) inherits network::params {
 
   validate_bool($install_manage)
   validate_bool($packages_manage)
   validate_bool($config_manage)
-
-  if $install_manage {
-    validate_absolute_path($ifup_hotplug_service_file)
-    validate_absolute_path($ifup_hotplug_service_link)
-    validate_string($ifup_hotplug_service_exec)
-    validate_hash($ifup_hotplug_service_params)
-  }
 
   if $install_manage and $packages_manage {
     validate_array($packages)
@@ -103,9 +88,9 @@ class network (
   }
 
   if $service_manage {
-    validate_string($ifup_hotplug_service_name)
-    validate_string($ifup_hotplug_service_ensure)
-    validate_bool($ifup_hotplug_service_enable)
+    validate_string($service_name)
+    validate_string($service_ensure)
+    validate_bool($service_enable)
   }
 
   # Anchor this as per #8040 - this ensures that classes won't float off and

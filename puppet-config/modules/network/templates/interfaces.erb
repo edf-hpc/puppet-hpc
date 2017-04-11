@@ -23,111 +23,169 @@
 #####################################################################
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 #####################################################################
-<% # Import Hash Tables -%>
-<% require 'ipaddr' -%>
-<% netconfig = scope['::netconfig'] -%>
-<% defaultgw = scope['::network::defaultgw'] -%>
-<% bondcfg   = scope['::network::bonding_options'] -%>
-<% bridgecfg = scope['::network::bridge_options'] -%>
-<% routnet   = scope['::network::routednet'] -%>
-<% ib_mtu    = scope['::network::ib_mtu'] -%>
-<% ib_mode   = scope['::network::ib_mode'] -%>
-<% network_gw_set = String.new -%>
-<% bndprim = String.new -%>
-<% bndmode = String.new -%>
-<% routecfg = Hash.new -%>
-<% ## Insert bridged interfaces in the netconfig ##-%>
-<%- bridgecfg.map do | bridge, value | -%>
-  <%- if not netconfig.key?(bridge) -%>
-    <%- next -%>
-  <%- end -%>
-  <%- ports = value['ports'] -%>
-  <%- ports.each do | port | -%>
-    <%- if not netconfig.include?(port) -%>
-      <%- netconfig[port] = [] -%>
-    <%- end -%>
-  <%- end -%>
-<%- end -%>
-<% ## Initialization done, starting to actually write the file ##-%>
+<%-
+  require 'ipaddr'
+
+  netconfig = scope['::netconfig']
+  defaultgw = scope['::network::defaultgw']
+  bondcfg   = scope['::network::bonding_options']
+  bridgecfg = scope['::network::bridge_options']
+  routnet   = scope['::network::routednet']
+  ib_mtu    = scope['::network::ib_mtu']
+  ib_mode   = scope['::network::ib_mode']
+
+  network_gw_set = String.new
+  bndprim = String.new
+  bndmode = String.new
+  routecfg = Hash.new
+
+  # Insert bridged interfaces in the netconfig
+  bridgecfg.map do | bridge, value |
+    if not netconfig.key?(bridge)
+      next
+    end
+    ports = value['ports']
+    ports.each do | port |
+      if not netconfig.include?(port)
+        netconfig[port] = []
+      end
+    end
+  end
+
+  # Insert bonding slaves interfaces in the netconfig
+  bondcfg.map do | bond, value |
+    if not netconfig.key?(bond)
+      next
+    end
+    ports = value['slaves']
+    ports.each do | port |
+      if not netconfig.include?(port)
+        netconfig[port] = []
+      end
+    end
+  end
+
+  # Initialization done, starting to actually write the file
+-%>
+
 auto lo
 iface lo inet loopback
+<%-
 
-<% netconfig.sort.map do | card, value | -%><% ### Iterate cards (interface) ###-%>
-  <%- default_gw_set = false -%>
-<% ## Configuring  `card` ##-%>
+  # ifupdown is not able to solve dependencies between interfaces (ex: bridges
+  # -> bonding -> eth). Therefore, interfaces must be added in the correct order
+  # so that all interfaces can initialize properly. To do this, the eth/ib
+  # interfaces are selected first. Then, the logical bonding and bridges
+  # interfaces are appended.
+  netifs = Array.new
+  netifs.concat netconfig.keys.select{|k| k =~ /^eth/}.sort
+  netifs.concat netconfig.keys.select{|k| k =~ /^ib/}.sort
+  netifs.concat netconfig.keys.select{|k| k =~ /^bond/}.sort
+  netifs.concat netconfig.keys.select{|k| k =~ /^br/}.sort
+
+  # Iterate over the cards (interface)
+  netifs.each do |card|
+    ipaddrs = netconfig[card]
+    default_gw_set = false
+-%>
+
 ### <%= card %> Configuration ###
-allow-hotplug <%= card %>
+auto <%= card %>
+<%-
+    # If the card has no IP address, set it in manual mode (typically, this is a
+    # bridge port). Otherwise, set it in static mode.
+    if ipaddrs.empty?
+-%>
 iface <%= card %> inet manual
-<% ### Bonding Begin ###-%>
-  <%- if card.include?("bond") -%>
-    # Bonding of multiple interfaces
-    <%- bondcfg[card]['options'].split(' ').each do | opt | -%>
-      <%- opt_key = opt.split('=')[0] -%>
-      <%- opt_value = opt.split('=')[1] -%>
-      <%- unless opt_value.empty? -%>
-<%= '    bond-'+opt_key+' '+opt_value %>
-      <%- end -%>
-    <%- end -%>
-<%= '    slaves '+bondcfg[card]['slaves'].join(' ') %>
-    <%- bondcfg[card]['slaves'].each do | slcard | -%>
-<%= '    post-up ip link set '+slcard+' up' %>
-    <%- end -%>
-<% ### Bonding End ###-%>
-<% ### Bridging Begin ###-%>
-  <%- elsif card.include?("br") -%>
-    # Bridging of one or more interfaces
-<%= '    bridge_ports '+bridgecfg[card]['ports'].join(' ') %>
-<% ### Bridging End ###-%>
-<% ### Physical Begin ###-%>
-  <%- else -%>
-    # Interface not bonded
-<% ### Physical End ###-%>
-  <%- end -%>
-    post-up ip link set <%= card %> up
-  <%- value.each do | ipadd | -%><% ### Iterate Addresses for this card ###-%>
-<% ### Configure an address ###-%>
-    <%- if card.include?("bond") -%>
-    # clean slaves interface and kill all dhclient    
-      <%- bondcfg[card]['slaves'].each do | slcard | -%>
-    pre-up pkill -e -f "^dhclient.*<%= slcard %>" || true
-    pre-up ip addr del <%= ipadd %> dev <%= slcard %> || true
-      <%- end -%>
-    <%- else -%>
-    # clean dhclient
-    pre-up pkill -e -f "^dhclient.*$IFACE" || true
-    <%- end -%>
-    <%- if card.include?("ib") -%>
-    # Set mode
-    pre-up echo <%= ib_mode %> > /sys/class/net/$IFACE/mode || true
-    # Set mtu on ib cards
-    pre-up ip link set $IFACE mtu <%= ib_mtu %> || true
-    <%- end -%>
-    post-up ip addr add <%= ipadd %> dev $IFACE || true
-    pre-down ip addr del <%= ipadd %> dev $IFACE
-<% ### Configure the default gateway if this address is in the same subnet ###-%>
-    <%- begin -%>
-      <%- range = IPAddr.new(ipadd)  -%>
-    <%- rescue -%>
-      <%- scope.function_warning(["Invalid IP address: #{ipadd}"]) -%>
-      <%- next -%>
-    <%- end -%>
-    <%- unless defaultgw.empty? or default_gw_set -%>
-      <%- addtrg = IPAddr.new(defaultgw) -%>
-      <%- if range.include?(addtrg) -%>
-        <%- default_gw_set = true -%>
-    post-up ip route add default via <%= defaultgw %>
-      <%- else -%>
+<%-
+    else
+-%>
+iface <%= card %> inet static
+<%-
+    end
+
+    # Bonding
+    if card.include?("bond")
+      bondcfg[card]['options'].split(' ').each do | opt |
+        opt_key = opt.split('=')[0]
+        opt_value = opt.split('=')[1]
+        unless opt_value.empty?
+-%>
+    bond-<%= opt_key + ' ' + opt_value %>
+<%-
+       end
+     end
+-%>
+    slaves <%= bondcfg[card]['slaves'].join(' ') %>
+<%-
+    # Bridges
+    elsif card.include?("br")
+-%>
+    bridge_ports <%= bridgecfg[card]['ports'].join(' ') %>
+<%-
+    end
+
+    # If the card has at least an IP address, set it with static address
+    # parameter. The other optional addresses are appended with up commands, as
+    # documented in:
+    #   https://wiki.debian.org/NetworkConfiguration#iproute2_method
+    if not ipaddrs.empty?
+-%>
+    address <%= ipaddrs[0] %>
+<%-
+    end
+
+    unless defaultgw.empty? or default_gw_set
+      # Iterate over the IP addresses to find if the default gateway can be set on
+      # this card.
+      ipaddrs.each do |ipadd|
+        # Configure the default gateway if this address is in the same subnet
+        begin
+          range = IPAddr.new(ipadd)
+        rescue
+          scope.function_warning(["Invalid IP address: #{ipadd}"])
+          next
+        end
+        addtrg = IPAddr.new(defaultgw)
+        if range.include?(addtrg)
+          default_gw_set = true
+-%>
+    gateway <%= defaultgw %>
+<%-
+        else
+-%>
     # default gateway <%= defaultgw %> not in range <%= range %>
-      <%- end -%>
-    <%- else -%>
-    # A default gateway is not necessary for this network
-    <%- end -%>
-  <%- end -%><% ### Address iteration End ###-%>
-  <%- if routnet.key?(card) -%><% ### Card as supplementary routes ? ###-%>
-    <%- routnet[card].each do |route| -%><% ### Iterate supplementary routes ###-%>
-<%= '    post-up ip route add ' + route +' dev $IFACE' %>
-    <%- end -%><% ### Routes iteration End ###-%>
-  <%- else -%>
-<%= '    # This network has no supplementary routes' %>
-  <%- end -%><% ### Card as supplementary routes ? ###-%>
-<% end -%><% ### Card iteration End ###-%>
+<%-
+        end
+      end
+    end
+
+    # Apply specific parameters in interfaces is lowlatency netif (IB or similar)
+    if card.include?("ib")
+-%>
+    ib-mode <%= ib_mode %>
+    mtu <%= ib_mtu %>
+<%-
+    end
+
+    # Iterate over the secondary and more IP addresses of the card to set them
+    # with up/down `ip` commands.
+    if ipaddrs.count > 1
+      ipaddrs[1..-1].each do |ipaddr|
+-%>
+    up   ip addr add <%= ipaddr %> dev $IFACE
+    down ip addr del <%= ipaddr %> dev $IFACE
+<%-
+       end
+     end # Address iteration end
+
+     # Card has supplementary routes?
+     if routnet.key?(card)
+       routnet[card].each do |route|
+-%>
+    post-up ip route add <%= route %> dev $IFACE
+<%-
+      end # Routes iteration end
+    end
+  end # Card iteration end
+-%>

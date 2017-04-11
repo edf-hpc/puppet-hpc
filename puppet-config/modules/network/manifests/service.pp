@@ -16,14 +16,10 @@
 class network::service inherits network {
 
   if $::network::service_manage {
-    # On Debian8, manage the ifup-hotplug service.
-    if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
-
-      service { $::network::ifup_hotplug_service_name:
-        ensure  => $::network::ifup_hotplug_service_ensure,
-        enable  => $::network::ifup_hotplug_service_enable,
-      }
-
+    service { $::network::service_name:
+      ensure  => $::network::service_ensure,
+      enable  => $::network::service_enable,
     }
   }
+
 }

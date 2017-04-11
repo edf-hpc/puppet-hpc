@@ -51,39 +51,9 @@ class network::params {
     }
   }
 
-  $ifup_hotplug_service_name   = 'ifup-hotplug'
-  $ifup_hotplug_service_ensure = 'running'
-  $ifup_hotplug_service_enable = true
-  $ifup_hotplug_service_file   = "/etc/systemd/system/${ifup_hotplug_service_name}.service"
-  $ifup_hotplug_service_link   = "/etc/systemd/system/multi-user.target.wants/${ifup_hotplug_service_name}"
-  case $::puppet_context {
-    /diskless*/ : {
-      # --force is needed to force reconfiguration of eth0 interface in order
-      # to run all post-up rules (ex: default gateway)
-      $ifup_hotplug_service_exec = '/sbin/ifup --force --all --allow=hotplug'
-    }
-    default : {
-      $ifup_hotplug_service_exec = '/sbin/ifup --all --allow=hotplug'
-    }
-  }
-  $ifup_hotplug_service_params = {
-    'Unit'    => {
-      'Description'         => 'Mount all hotplug interfaces',
-      'After'               => 'network.target auditd.service',
-      'Before'              => 'network-online.target',
-      # Remove dependency on basic.target
-      'DefaultDependencies' => 'no',
-    },
-    'Service' => {
-      'Type'         => 'oneshot',
-      'KillMode'     => 'process',
-      'ExecStartPre' => '-/bin/mkdir -m 755 -p /run/network',
-      'ExecStart'    => $ifup_hotplug_service_exec,
-    },
-    'Install' => {
-      'WantedBy'     => 'multi-user.target',
-    },
-  }
+  $service_name   = 'networking'
+  $service_ensure = 'running'
+  $service_enable = true
 
   $bonding_options = {}
   $bridge_options = {}

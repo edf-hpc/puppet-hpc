@@ -13,32 +13,15 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define network::print_config ($target = 'eth0') {
+define network::ifupdown_part ($step) {
 
-  case $::osfamily {
-    'Debian': {
-      $filename     = $::network::config_file
-      $tplname      = 'network/interfaces.erb'
-      $service_name = $::network::service_name
-    }
-    'Redhat': {
-      $filename     = "${::network::config_file}-${target}"
-      $tplname      = 'network/ifcfg.erb'
-      $service_name = "ifup@${target}"
+  $_part_dir = "/etc/network/if-${step}.d"
 
-      service { $service_name:
-        ensure      => running,
-        refreshonly => true,
-      }
-    }
-    default: {
-      fail ("Unsupported OS Family '${::osfamily}', should be: 'Redhat', 'Debian'")
-    }
-  }
-
-  file { $filename :
-    content => template($tplname),
-    notify  => Service[$service_name]
+  file { "${_part_dir}/${name}":
+    source => "puppet:///modules/network/${name}",
+    owner => 'root',
+    group => 'root',
+    mode => '0755',
   }
 
 }

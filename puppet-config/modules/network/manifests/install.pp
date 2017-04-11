@@ -23,27 +23,16 @@ class network::install inherits network {
       }
     }
 
-    # On Debian8, install an ifup-hotplug systemd service file
-    if $::operatingsystem == 'Debian' and $::operatingsystemmajrelease >= '8' {
-
-      # install ifup hotplug service file and enables it
-      hpclib::systemd_service { $::network::ifup_hotplug_service_file :
-        target => $::network::ifup_hotplug_service_file,
-        config => $::network::ifup_hotplug_service_params,
-      }
-
-      # systemd does not run into debian-installer environment. If in this
-      # context, create the symlink for the service into the systemd target
-      # manually so that it is already enabled in the target at the first boot
-      # after the installer.
-      if $::puppet_context == 'installer' {
-        file { $::network::ifup_hotplug_service_link:
-          ensure  => link,
-          target  => $::network::ifup_hotplug_service_file,
-          require => File[$::network::ifup_hotplug_service_file],
-        }
+    # on Debian, install additional ifupdown run-parts scripts
+    if $::osfamily == 'Debian' {
+      # Files are delivered by the module and installation is hard-coded without
+      # any possibility to customize this because there is no reason to change
+      # and/or adapt this behaviour since it should works in all cases.
+      ::network::ifupdown_part { ['killdhclient', 'ibmode']:
+        step => 'pre-up',
       }
     }
+
   }
 
 }
