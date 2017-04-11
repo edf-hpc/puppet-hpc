@@ -25,6 +25,5 @@ class profiles::environment::modules {
   # Pass config options as a class parameter
   class { '::environment_modules':
     config_options => $config_options,
-    rootdirmodules => $rootdirmodules,
   }
 }
