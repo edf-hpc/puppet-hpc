@@ -46,7 +46,7 @@ class{ '::environment_modules':
     '/share/modulefiles/compiler',
     '/share/modulefiles/mpi',
   ],
-  rootdirmodules => 'rootdirmodules',
+  rootdirmodules => '/etc/modules',
 }
 ```  
 
