@@ -13,52 +13,46 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# HTTP server for package repository mirrors
+# HTTP server for system files (apt and hpc-config)
+#
+# This is meant to replace s3-system when ceph is not available.
+# File sync between the servers must be handled elsewhere
 #
 # ## Hiera
 # * `cluster_prefix`
 # * `domain`
 # * `website_dir`
-# * `profiles::http::error_log_file`
 # * `profiles::http::log_level`
-# * `profiles::http::mirror::docroot`
-# * `profiles::http::mirror::hpc_files` (`hiera_hash`) Create resource
-#                                       hpclib::hpc_file to add keys
-# * `profiles::http::port`
-# * `profiles::http::scriptalias`
+# * `profiles::http::system::port`
+# * `profiles::http::system::docroot`
 # * `profiles::http::serveradmin`
-class profiles::http::mirror {
+class profiles::http::system {
 
   ## Hiera lookups
-
-  $port           = hiera('profiles::http::port')
-  $docroot        = hiera('profiles::http::mirror::docroot')
   $serveradmin    = hiera('profiles::http::serveradmin')
-  $error_log_file = hiera('profiles::http::error_log_file')
   $log_level      = hiera('profiles::http::log_level')
-  $scriptalias    = hiera('profiles::http::scriptalias')
-  $website_dir    = hiera('website_dir')
+  $port           = hiera('profiles::http::system::port')
+  $docroot        = hiera('profiles::http::system::docroot')
   $cluster_prefix = hiera('cluster_prefix')
   $domain         = hiera('domain')
 
   include apache
 
-  ensure_resource(file, $website_dir, { ensure => directory})
-
-  $servername = "${cluster_prefix}${::my_http_mirror}"
+  $servername = "${cluster_prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
   # Pass config options as a class parameter
-  apache::vhost { $servername:
-    port           => $port,
-    docroot        => $docroot,
-    serveradmin    => $serveradmin,
-    error_log_file => $error_log_file,
-    log_level      => $log_level,
-    serveraliases  => $serveraliases,
-    scriptalias    => $scriptalias,
+  apache::vhost { "${servername}_system":
+    servername    => $servername,
+    port          => $port,
+    docroot       => $docroot,
+    serveradmin   => $serveradmin,
+    log_level     => $log_level,
+    serveraliases => $serveraliases,
+    docroot_mode  => '0750',
+    docroot_group => 'www-data',
   }
 
-  $hpc_files = hiera_hash('profiles::http::mirror::hpc_files')
+  $hpc_files = hiera_hash('profiles::http::system::hpc_files')
   create_resources(hpclib::hpc_file, $hpc_files)
 }

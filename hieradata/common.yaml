@@ -253,8 +253,6 @@ profiles::http::port:            80
 profiles::http::error_log_file:  'error.log'
 profiles::http::log_level:       'warn'
 profiles::http::serveradmin:     'webmaster@localhost'
-profiles::http::scriptalias:     "%{hiera('profiles::http::mirror::docroot')}/cgi-bin"
-profiles::http::mirror::docroot: "%{hiera('website_dir')}/mirror"
 
 ###### EYAML keys propagation service
 secret_port:                           '1216'
@@ -263,6 +261,7 @@ profiles::http::secret::docroot:       '/var/www_secret'
 profiles::http::secret::keys_enc:      "%{hiera('private_files_dir')}/eyaml/keys.tar.xz.enc"
 profiles::http::secret::keys_password: "%{hiera('cluster_decrypt_password')}"
 
+###### Diskless (serves torrent file)
 profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
 
@@ -273,6 +272,10 @@ server_web_boot:           "web-boot.service.%{hiera('virtual_domain')}:%{hiera(
 boothttp::port:            "%{hiera('boot_http_port')}"
 boothttp::config_dir_http: "%{hiera('website_dir')}"
 boothttp::menu_source:     "%{hiera('private_files_dir')}/boot/cgi/bootmenu.py"
+
+###### System (equivalent to s3-system when not available)
+profiles::http::system::docroot: "%{hiera('website_dir')}/system"
+profiles::http::system::port:    '3139'
 
 ##### HA
 
@@ -436,7 +439,7 @@ profiles::warewulf_nhc::config_options:
 
 # repository mirroring settings
 
-clara_base_repos_root:   "%{hiera('website_dir')}/mirror"
+clara_base_repos_root:   "%{hiera('profiles::http::system::docroot')}/mirror"
 clara_images_config_dir: '/etc/clara/live'
 
 profiles::clara::repos:
@@ -473,7 +476,7 @@ clara::common_options:
 clara::repo_options:
   gpg_key:     "%{hiera('clara_repo_gpg_key')}"
   clustername: "%{hiera('cluster_name')}"
-  mirror_root: "%{hiera('profiles::http::mirror::docroot')}"
+  mirror_root: "%{hiera('clara_base_repos_root')}"
 clara::ipmi_options:
   conmand:     "%{hiera('cluster_prefix')}%{my_conman_server}"
 clara::keyring_source: "%{hiera('private_files_dir')}/repo/cluster_keyring.secret.gpg.enc"
