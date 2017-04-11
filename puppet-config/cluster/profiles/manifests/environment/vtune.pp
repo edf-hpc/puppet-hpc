@@ -26,6 +26,5 @@ class profiles::environment::vtune {
   # Pass config options as a class parameter
   class { '::vtune':
     default_options => $default_options,
-    packages        => $packages,
   }
 }
