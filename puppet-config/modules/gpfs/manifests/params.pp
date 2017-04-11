@@ -97,12 +97,5 @@ class gpfs::params {
   $service                  = 'gpfs'
   $service_ensure  = running
   $service_enable  = true
-  $service_override_options = {
-    'Service' => {
-      'ExecStartPre' => '/bin/true',
-      'Restart'      => 'on-failure',
-      'RestartSec'   => '5',
-    },
-  }
 
 }
