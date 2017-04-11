@@ -29,10 +29,6 @@ from the ``hpclib`` module. This fact uses data from the hiera
 ``master_network`` to generate the interface list. It also uses data from the
 ``net_topology`` fact to get generic parameters for networks. 
 
-On Debian, the module configures all interfaces as manual, it relies on a
-special service it sets up (``ifup-hotplug``) to bring the interfaces up during
-boot or after changing the configuration.
-
 ## Setup
 
 ### What network affects
