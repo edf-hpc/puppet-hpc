@@ -77,13 +77,8 @@ class profiles::http::secret {
   $servername = "${cluster_prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
-  $role_ip_addr = $::hostfile[$servername]
   $host_ip_addr = $::hostfile[$::hostname]
-  if $role_ip_addr {
-    $ip_list = ['127.0.0.1', $role_ip_addr, $host_ip_addr]
-  } else {
-    $ip_list = ['127.0.0.1', $host_ip_addr]
-  }
+  $ip_list = ['127.0.0.1', $host_ip_addr]
   $admin_net = $::net_topology['administration']
   if $admin_net {
     $admin_net_address = "${admin_net['ipnetwork']}${admin_net['prefix_length']}"
