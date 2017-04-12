@@ -29,14 +29,21 @@ Configure `keepalived` resources and sets-up notify scripts in `/etc/hpc_ha`.
 
 ### Setup Requirements
 
-This module uses stdlib, hpclib and keepalived.
+This module depends on the following modules:
+
+* stdlib
+* hpclib
+* keepalived
+* systemd (for `systemd::unit_state`)
 
 ### Beginning with hpc_ha
 
 ## Usage
 
+Here is an example of class instanciation with a VIP and a virtual server:
+
 ```
-  class{ '::hpc_ha':
+  class { '::hpc_ha':
     vips => {
       'service' => {
         net_id      => 'wan',
@@ -56,8 +63,20 @@ This module uses stdlib, hpclib and keepalived.
         prefixes          => 'wan',
         network           => 'wan',
         vip_name          => 'public',
-      } 
+      }
     }
+  }
+```
+
+The module can also be told to not manage the HA service and control its state
+at boot time with the `service_manage` and `service_state` arguments
+respectively. For example:
+
+```
+  class { '::hpc_ha':
+    service_manage => false,
+    service_state =>  'disabled',
+  }
 ```
 
 ## Limitations

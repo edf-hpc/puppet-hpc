@@ -23,14 +23,26 @@
 # @param vips Hash describing `hpc_ha::vip` resources
 # @param vip_notify_scripts Hash describing `hpc_ha::vip_notify_script`
 #           resources
+# @param service_manage Does keepalived module manage the service (default:
+#                       true)
+# @param service_state Target keepalived systemd service state, only used when
+#                      service_manage is false (default: 'enabled')
 class hpc_ha (
   $default_notify_script = $::hpc_ha::params::default_notify_script,
   $vips                  = undef,
   $vip_notify_scripts    = undef,
   $vservs                = undef,
   $options               = $::hpc_ha::params::options,
+  $service_manage        = $::hpc_ha::params::service_manage,
+  $service_state         = $::hpc_ha::params::service_state,
 ) inherits hpc_ha::params {
-  include keepalived
+
+  validate_bool($service_manage)
+  validate_string($service_state)
+
+  class { '::keepalived':
+    service_manage => $service_manage,
+  }
 
   anchor { 'hpc_ha::begin': } ->
   class { '::hpc_ha::install': } ->

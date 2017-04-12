@@ -14,5 +14,14 @@
 ##########################################################################
 
 class hpc_ha::service inherits hpc_ha {
-}
 
+  # service_manage == false just means the keepalived community module does not
+  # manage the service resource. In this case, the hpc_ha module just ensures
+  # the systemd unit has the expected state.
+  unless $::hpc_ha::service_manage {
+    systemd::unit_state { 'keepalived':
+      state => $::hpc_ha::service_state,
+    }
+  }
+
+}

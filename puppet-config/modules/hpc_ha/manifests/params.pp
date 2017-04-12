@@ -33,4 +33,8 @@ class hpc_ha::params {
       'WantedBy' => 'multi-user.target',
     },
   }
+
+  $service_manage = true
+  $service_state  = 'enabled'
+
 }
