@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class infiniband::service inherits network {
+class infiniband::service inherits infiniband {
 
   if $::infiniband::service_manage {
 

@@ -33,7 +33,7 @@ class infiniband (
   $install_manage          = $::infiniband::params::install_manage,
   $packages_manage         = $::infiniband::params::packages_manage,
   $packages                = $::infiniband::params::packages,
-  $packages_ensure         = $::infiniband::params::packages_manage,
+  $packages_ensure         = $::infiniband::params::packages_ensure,
   $config_manage           = $::infiniband::params::config_manage,
   $ib_file                 = $::infiniband::params::ib_file,
   $ib_options              = {},
@@ -52,7 +52,7 @@ class infiniband (
 
   if $install_manage and $packages_manage {
     validate_array($packages)
-    valide_string($packages_ensure)
+    validate_string($packages_ensure)
   }
 
   if $config_manage {
