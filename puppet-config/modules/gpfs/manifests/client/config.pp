@@ -17,7 +17,8 @@
 class gpfs::client::config inherits gpfs::client {
 
   file { $gpfs::client::cl_config_dir :
-    ensure           => 'directory'
+    ensure           => 'directory',
+    notify           => Service[$gpfs::params::service],
   }
 
   # Configuration files to install
