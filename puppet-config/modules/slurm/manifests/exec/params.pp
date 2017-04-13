@@ -48,14 +48,6 @@ class slurm::exec::params {
     'TaskAffinity'          => 'yes',
   }
 
-
-  ### Custom scripts ###
-  $tmp_create_file = "${::slurm::scripts_dir}/TaskProlog.d/tmp_create.sh"
-  $tmp_create_src  = 'puppet:///modules/slurmd/tmp_create.sh'
-  $tmp_remove_file = "${::slurm::scripts_dir}/TaskEpilog.d/tmp_remove.sh"
-  $tmp_remove_src  = 'puppet:///modules/slurmd/tmp_remove.sh'
-
-
   ### Package ###
   $package_ensure = 'present'
   case $::osfamily {
