@@ -25,7 +25,16 @@
 # slurm_secondary_server:       "%{hiera('cluster_prefix')}%{::my_jobsched_server}2"
 # ```
 #
+# ## Slurm controller
+#
+# ```
+# slurmutils::jobsubmit::conf_options:
+#   CORES_PER_NODE: '28'
+#   ENFORCE_ACCOUNT: 'true'
+# ```
+#
 # ## SlurmDBD
+#
 # ```
 # slurmdbd_slurm_db_password: 'SLURM_PASSWORD_OVERRIDEME_IN_EYAML'
 # slurmdbd_slurmro_db_password: 'SLURMRO_PASSWORD_OVERRIDEME_IN_EYAML'
@@ -38,7 +47,7 @@
 #   StorageUser:       'slurm'
 #   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 #
-# slurm::dbd::db_options:
+# slurmutils::setupdb::conf_options:
 #   db:
 #     hosts:       'localhost'
 #     user:        'debian-sys-maint'
@@ -55,6 +64,8 @@
 #
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
+# * profiles::jobsched::server::sync_options (`hiera_hash`) Content of SlurmDBD
+#         accounting users synchronization utility configuration file.
 # * profiles::jobsched::server::ceph::enabled (`hiera`) Configure the ceph
 #         StateSaveDir for this slurm instance
 # * profiles::jobsched::server::ceph::keys (`hiera_hash`) Keys to define on this
@@ -63,28 +74,34 @@
 #         CephFS space
 class profiles::jobsched::server {
 
+  # slurm components
+
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
 
   class { '::slurm':
     config_options => $slurm_config_options
   }
 
-  $sync_options = hiera_hash('profiles::jobsched::server::sync_options')
-  $slurm_primary = hiera('slurm_primary_server')
-  if $::hostname == $slurm_primary {
-    $sync_cron_hour = hiera('profiles::jobsched::server::sync_cron_hour_primary')
-  } else {
-    $sync_cron_hour = hiera('profiles::jobsched::server::sync_cron_hour_secondary')
-  }
   $slurmdbd_config_options = hiera_hash('profiles::jobsched::server::slurmdbd_config_options')
+
   class { '::slurm::dbd':
     config_options => $slurmdbd_config_options,
-    sync_cron_hour => $sync_cron_hour,
-    sync_options   => $sync_options,
   }
+
   include ::slurm::ctld
   include ::munge
 
+  # slurm utilities
+
+  $sync_options = hiera_hash('profiles::jobsched::server::sync_options')
+  class { '::slurmutils::syncusers':
+    conf_options => $sync_options,
+  }
+  include ::slurmutils::jobsubmit
+  include ::slurmutils::backupdb
+  include ::slurmutils::setupdb
+
+  # optional slurmctld spool on CephFS
   if hiera('profiles::jobsched::server::ceph::enabled') {
     $ceph_keys = hiera_hash('profiles::jobsched::server::ceph::keys', {})
     $ceph_mounts = hiera_hash('profiles::jobsched::server::ceph::mounts')
