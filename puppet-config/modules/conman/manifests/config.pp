@@ -69,8 +69,8 @@ class conman::config inherits conman {
       sharedscripts => true,
       size          => '5M',
       rotate_every  => week,
-      postrotate    => "/usr/bin/systemctl kill -s SIGHUP ${::conman::service}",
-      firstaction   => "/usr/bin/systemctl is-active -q ${::conman::service}",
+      postrotate    => "/bin/systemctl kill -s SIGHUP ${::conman::service}",
+      firstaction   => "/bin/systemctl is-active -q ${::conman::service}",
     }
   }
 
