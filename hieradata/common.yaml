@@ -345,7 +345,7 @@ profiles::jobsched::server::slurmdbd_config_options:
   StorageHost:       "%{hiera('db_primary_server')}"
   StorageBackupHost: "%{hiera('db_secondary_server')}"
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
-slurm::dbd::db_options:
+slurmutils::setupdb::conf_options:
   db:
     password:    "%{hiera('mariadb::mysql_root_pwd')}"
   passwords:
@@ -355,14 +355,10 @@ slurm::dbd::db_options:
     controllers: "%{hiera('slurm_primary_server')}.%{hiera('domain')},%{hiera('slurm_secondary_server')}.%{hiera('domain')}"
     admins:      "%{hiera('cluster_prefix')}admin1.%{hiera('domain')}"
 
-
 profiles::jobsched::server::sync_options:
   main:
     cluster: "%{hiera('cluster_name')}"
     group:   "%{hiera('user_group')}"
-
-profiles::jobsched::server::sync_cron_hour_primary: 2
-profiles::jobsched::server::sync_cron_hour_secondary: 14
 
 ##### NHC
 profiles::warewulf_nhc::config_options:
