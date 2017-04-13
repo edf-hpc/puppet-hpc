@@ -54,8 +54,6 @@ class slurm::exec (
   validate_string($packages_ensure)
   validate_array($packages)
 
-
-
   if $enable_cgroup {
     validate_absolute_path($cgroup_file)
     validate_hash($cgroup_options)

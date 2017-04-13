@@ -82,5 +82,4 @@ class slurm::params {
     'PartitionName=local Nodes=localhost Default=YES MaxTime=INFINITE State=UP',
   ]
 
-
 }

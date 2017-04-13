@@ -66,7 +66,7 @@ class slurm::exec::params {
       ]
     }
     default: {
-      $packages_manage =  false
+      $packages_manage = false
     }
   }
 }
