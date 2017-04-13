@@ -55,7 +55,7 @@
 #
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
-# * profiles::jobsched::server::ceph::enabled (`hiera`) Configure the ceph 
+# * profiles::jobsched::server::ceph::enabled (`hiera`) Configure the ceph
 #         StateSaveDir for this slurm instance
 # * profiles::jobsched::server::ceph::keys (`hiera_hash`) Keys to define on this
 #         node for CephFS kernel mounts
