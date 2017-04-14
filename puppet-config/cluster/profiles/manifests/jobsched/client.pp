@@ -49,7 +49,6 @@ class profiles::jobsched::client {
   }
 
   # Install slurm and munge
-  $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
   class { '::slurm':
     config_options => $slurm_config_options
   }
