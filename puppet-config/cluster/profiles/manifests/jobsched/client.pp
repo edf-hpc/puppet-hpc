@@ -28,9 +28,26 @@
 #
 # ## Hiera
 #
+# * profiles::jobsched::gen_scripts::enabled (`hiera`) Use generic scripts?
+#         (default: true)
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
 class profiles::jobsched::client {
+
+  # Use generic scripts?
+  $use_genscripts = hiera('profiles::jobsched::gen_scripts::enabled', true)
+
+  # If use_genscripts is true, include genscript utility and merge its conf
+  # excerpt into slurm configuration hash extracted from hiera.
+  if $use_genscripts {
+    include ::slurmutils::genscripts
+    $slurm_config_options = deep_merge(
+      hiera_hash('profiles::jobsched::slurm_config_options'),
+      $::slurmutils::genscripts::params::genscripts_options)
+  } else {
+    $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+  }
+
   # Install slurm and munge
   $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
   class { '::slurm':
