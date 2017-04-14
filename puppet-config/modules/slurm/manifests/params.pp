@@ -27,10 +27,7 @@ class slurm::params {
     }
     'Debian': {
       $packages_manage = true
-      $packages = [
-        'slurm-client',
-        'slurm-llnl-generic-scripts-plugin',
-      ]
+      $packages = ['slurm-client']
     }
     default: {
       $packages_manage = false
@@ -66,17 +63,6 @@ class slurm::params {
     'AuthType'         => 'auth/munge',
     'CryptoType'       => 'crypto/munge',
     'Include'          => $partitions_file,
-  }
-
-  $config_options_generic_scripts = {
-    'Prolog'          => "${scripts_dir}/Prolog.sh",
-    'PrologSlurmctld' => "${scripts_dir}/PrologSlurmctld.sh",
-    'TaskProlog'      => "${scripts_dir}/TaskProlog.sh",
-    'SrunProlog'      => "${scripts_dir}/SrunProlog.sh",
-    'Epilog'          => "${scripts_dir}/Epilog.sh",
-    'EpilogSlurmctld' => "${scripts_dir}/EpilogSlurmctld.sh",
-    'TaskEpilog'      => "${scripts_dir}/TaskEpilog.sh",
-    'SrunEpilog'      => "${scripts_dir}/SrunEpilog.sh",
   }
 
   $partitions_options = [
