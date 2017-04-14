@@ -38,15 +38,11 @@ class slurm::params {
   $spank_pkg_prefix = 'slurm-wlm-spank-plugin-'
 
   ### Configuration ###
-  $bin_dir         = '/usr/lib/slurm'
   $config_dir      = '/etc/slurm-llnl'
-  $logs_dir        = '/var/log/slurm-llnl'
-  $scripts_dir     = "${bin_dir}/generic-scripts"
   $config_file     = "${config_dir}/slurm.conf"
   $partitions_file = "${config_dir}/partitions.conf"
   $gres_file       = "${config_dir}/gres.conf"
   $spank_conf_dir  = "${config_dir}/plugstack.conf.d"
-
   $topology_file   = "${config_dir}/topology.conf"
   $topology_options = [
     'SwitchName=switch1 Nodes=localhost',

@@ -15,11 +15,6 @@
 
 class slurm::config {
 
-  ensure_resource('file', $slurm::bin_dir,     {'ensure' => 'directory', mode => '0755' })
-  ensure_resource('file', $slurm::config_dir,  {'ensure' => 'directory', mode => '0755' })
-  ensure_resource('file', $slurm::logs_dir,    {'ensure' => 'directory', mode => '0755' })
-  ensure_resource('file', $slurm::scripts_dir, {'ensure' => 'directory', mode => '0755' })
-
   if $::slurm::enable_topology {
     hpclib::print_config { $::slurm::topology_file:
       style => 'linebyline',

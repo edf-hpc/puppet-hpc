@@ -49,10 +49,6 @@ class slurm (
   $topology_file          = $::slurm::params::topology_file,
   $topology_options       = $::slurm::params::topology_options,
   $packages               = $::slurm::params::packages,
-  $bin_dir                = $::slurm::params::bin_dir,
-  $config_dir             = $::slurm::params::config_dir,
-  $logs_dir               = $::slurm::params::logs_dir,
-  $scripts_dir            = $::slurm::params::scripts_dir,
   $config_file            = $::slurm::params::config_file,
   $partitions_file        = $::slurm::params::partitions_file,
   $gres_file              = $::slurm::params::gres_file,
@@ -79,10 +75,6 @@ class slurm (
   }
 
   validate_absolute_path($topology_file)
-  validate_absolute_path($bin_dir)
-  validate_absolute_path($config_dir)
-  validate_absolute_path($logs_dir)
-  validate_absolute_path($scripts_dir)
   validate_absolute_path($config_file)
   validate_absolute_path($partitions_file)
   validate_hash($config_options)
