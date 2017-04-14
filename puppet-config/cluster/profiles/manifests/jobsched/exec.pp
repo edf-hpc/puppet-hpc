@@ -34,6 +34,8 @@
 #         (default: true)
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
+# * profiles::jobsched::exec::cgroup_options (`hiera_hash`) Content of the slurm
+#         cgroup configuration file (default: {})
 # * profiles::warewulf_nhc::config_options (`hiera_hash`) Content of the
 #         NHC configuration file.
 class profiles::jobsched::exec {
@@ -57,7 +59,7 @@ class profiles::jobsched::exec {
     config_options => $slurm_config_options,
   }
   include ::munge
-  $cgroup_options = hiera_hash('profiles::jobsched::exec::cgroup_options')
+  $cgroup_options = hiera_hash('profiles::jobsched::exec::cgroup_options', {})
   class { '::slurm::exec':
     cgroup_options => $cgroup_options,
   }
