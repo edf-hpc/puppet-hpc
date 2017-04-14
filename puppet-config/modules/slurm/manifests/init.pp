@@ -37,6 +37,11 @@
 # @param enable_generic_scripts Configure Prolog/Epilog paths from
 #                               `slurm-llnl-generic-scripts` (default:
 #                               true)
+# @param spank_plugins     Hash of spank plugins to deploy (default: {})
+# @param spank_pkg_prefix  Prefix of spank plugins packages (default:
+#                          'slurm-wlm-spank-plugin-')
+# @param spank_conf_dir    Path to spank plugins configuration directory
+#                          (default: '/etc/slurm-llnl/plugstack.conf.d')
 class slurm (
   $packages_manage        = $::slurm::params::packages_manage,
   $packages_ensure        = $::slurm::params::packages_ensure,
@@ -55,6 +60,9 @@ class slurm (
   $partitions_options     = $::slurm::params::partitions_options,
   $gres_options           = [],
   $enable_generic_scripts = $::slurm::params::enable_generic_scripts,
+  $spank_plugins          = $::slurm::params::spank_plugins,
+  $spank_pkg_prefix       = $::slurm::params::spank_pkg_prefix,
+  $spank_conf_dir         = $::slurm::params::spank_conf_dir,
 ) inherits slurm::params {
 
   ### Validate params ###
@@ -62,6 +70,7 @@ class slurm (
   if $packages_manage {
     validate_string($packages_ensure)
     validate_array($packages)
+    validate_string($spank_pkg_prefix)
   }
 
   validate_bool($enable_topology)
@@ -80,6 +89,8 @@ class slurm (
   validate_array($partitions_options)
   validate_array($gres_options)
   validate_bool($enable_generic_scripts)
+  validate_hash($spank_plugins)
+  validate_absolute_path($spank_conf_dir)
 
   # Merge into $_config_options:
   #  $::slurm::params::config_options_defaults

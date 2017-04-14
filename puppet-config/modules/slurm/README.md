@@ -109,6 +109,35 @@ Cgroups are configured in a separate file, only used by the `exec` class. This
 class provides the parameters to configure the cgroups in Slurm. The main
 parameters are: `$enable_cgroup` and `cgroup_options`.
 
+### Spank plugins
+
+The `slurm` public class is able to install and manage the configuration of
+optional Spank plugins. This is enabled through the `spank_plugins` hash
+parameter. Here is an example usage of this parameter:
+
+```
+class { '::slurm':
+  spank_plugins => {
+    'plugin1' => {},
+    'plugin2' => {
+      conf => 'plugin2',
+      opts => {
+        enable => true,
+        plugin => '/path/to/plugin.so',
+        args   => ['array', 'of', 'args'],
+      },
+    },
+  },
+}
+```
+
+With this value for `spank_plugins`, the public class will install 2 plugins
+`plugin1` and `plugin2`. The class considers the package names are the keys of
+this hash prefixed by `spank_pkg_prefix` parameter. The configuration of
+`plugin1` will not be managed as its hash is empty. However, the `plugin2`
+configuration will be handled with the value of the `opts` key. The `conf` key
+is the configuration file name inside the Slurm plugstack (spank) configuration
+directory controlled by `spank_conf_dir` parameter.
 
 ## Limitations
 

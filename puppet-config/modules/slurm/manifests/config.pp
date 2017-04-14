@@ -42,4 +42,9 @@ class slurm::config {
     style => 'linebyline',
     data  => $::slurm::gres_options,
   }
+
+  # manage eventual spank plugins config
+  create_resources(::slurm::spank_conf,
+                   $::slurm::spank_plugins)
+
 }

@@ -30,14 +30,15 @@ class slurm::params {
       $packages = [
         'slurm-client',
         'slurm-llnl-generic-scripts-plugin',
-        'slurm-wlm-spank-plugin-oom-score-adj',
-        'slurm-wlm-spank-plugin-private-tmp',
       ]
     }
     default: {
       $packages_manage = false
     }
   }
+
+  $spank_plugins = {}
+  $spank_pkg_prefix = 'slurm-wlm-spank-plugin-'
 
   ### Configuration ###
   $bin_dir         = '/usr/lib/slurm'
@@ -47,6 +48,7 @@ class slurm::params {
   $config_file     = "${config_dir}/slurm.conf"
   $partitions_file = "${config_dir}/partitions.conf"
   $gres_file       = "${config_dir}/gres.conf"
+  $spank_conf_dir  = "${config_dir}/plugstack.conf.d"
 
   $topology_file   = "${config_dir}/topology.conf"
   $topology_options = [

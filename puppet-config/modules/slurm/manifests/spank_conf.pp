@@ -13,21 +13,34 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurm::install inherits slurm {
+# Manage spank plugin configuration file
+#
+# @param name Name of the spank plugin (ex: 'private-tmp')
+# @param conf Name of the configuration file in slurm plugstack directory (ex:
+#             'private-tmp')
+# @param opts Configuration parameters of the spank plugin
+define slurm::spank_conf (
+  $conf = undef,
+  $opts = undef,
+) {
 
-  if $::slurm::packages_manage {
-    package { $::slurm::packages:
-      ensure => $::slurm::packages_ensure,
+  if $conf == undef or $opts == undef {
+    debug("skip managing spank plugin ${name} configuration as it is not fully defined")
+  } else {
+
+    validate_string($conf)
+    validate_hash($opts)
+    validate_bool($opts['required'])
+    validate_absolute_path($opts['plugin'])
+    validate_array($opts['args'])
+
+    file { "${::slurm::spank_conf_dir}/${conf}.conf":
+      content => template('slurm/spank_conf.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
     }
 
-    # Install spank plugins. The package names are the prefixed keys of the
-    # spank plugins hash.
-    $_spank_pkgs = prefix(
-                     keys($::slurm::spank_plugins),
-                     $::slurm::spank_pkg_prefix)
-    $keys = keys($::slurm::spank_plugins)
-    package { $_spank_pkgs:
-      ensure => $::slurm::packages_ensure,
-    }
   }
+
 }
