@@ -27,6 +27,9 @@ private data and files and packaged Puppet modules.
     -V [VERSION], --version [VERSION]
                           Version of the pushed config
     --full-tmp-cleanup    Full tmp dir cleanup.
+    --enable-python-warnings
+                          Enable some python warnings (deprecation and
+                          future warnings are hidden by default)
 
 # DIRECTORY LAYOUT
 

@@ -40,6 +40,7 @@ import boto.s3.connection
 import paramiko
 import stat
 import socket
+import warnings
 
 def conf_copy(src, dst, *, follow_symlinks=True):
     """Alternate copy function for shutil.copytree() in order to properly
@@ -244,6 +245,9 @@ def parse_args():
     parser.add_argument('--full-tmp-cleanup',
                         help='Full tmp dir cleanup.',
                         action='store_true')
+    parser.add_argument('--enable-python-warnings',
+                        help="Don't hide some Python warnings.",
+                        action='store_true')
     args = parser.parse_args()
 
     if args.debug:
@@ -252,6 +256,11 @@ def parse_args():
         conf.conf_file = args.conf
 
     return args
+
+def setup_warnings(enable=False):
+    if not enable:
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        warnings.filterwarnings("ignore", category=FutureWarning)
 
 def setup_logger():
 
@@ -610,6 +619,7 @@ def main():
     # init
     #
     args = parse_args()
+    setup_warnings(args.enable_python_warnings)
     setup_logger()
     parse_conf()
     override_conf(args)
