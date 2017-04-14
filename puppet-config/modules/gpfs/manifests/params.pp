@@ -80,7 +80,6 @@ class gpfs::params {
   $cl_config_dir      = [
     '/var/mmfs',
     '/var/mmfs/gen',
-    '/var/lock',
     '/var/lock/subsys',
     '/usr/lpp',
     '/usr/lpp/mmfs',
