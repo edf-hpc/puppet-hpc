@@ -1,3 +1,10 @@
+hpc-config (1.0.1) calibre9; urgency=medium
+
+  [ Thomas Hamel ]
+  * scripts h-c-push Hide python warnings for deprecation and future
+
+ -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Tue, 18 Apr 2017 11:27:57 +0200
+
 hpc-config (1.0.0) calibre9; urgency=medium
 
   [ Rémi Palancher ]
