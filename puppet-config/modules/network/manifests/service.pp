@@ -14,11 +14,19 @@
 ##########################################################################
 
 class network::service inherits network {
-
   if $::network::service_manage {
     service { $::network::service_name:
-      ensure  => $::network::service_ensure,
-      enable  => $::network::service_enable,
+      ensure => $::network::service_ensure,
+      enable => $::network::service_enable,
+    }
+
+    # Test the network is really up before proceeding
+    exec { 'network_service_ping_gateway':
+      refreshonly => true,
+      subscribe   => Service[$::network::service_name],
+      command     => "/usr/bin/fping -r 30 -t 1000 -B 1 ${::network::defaultgw}",
+      # Proceed anyway if host is unreachable
+      returns     => [ 0, 1, 2],
     }
   }
 

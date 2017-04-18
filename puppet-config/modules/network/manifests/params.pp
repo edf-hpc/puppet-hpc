@@ -34,6 +34,7 @@ class network::params {
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
       $bridge_packages  = ['bridge-utils']
+      $utils_packages   = ['fping']
     }
     'Redhat': {
       ## Hostname
@@ -45,6 +46,7 @@ class network::params {
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
       $bridge_packages  = []
+      $utils_packages   = []
     }
     default: {
       fail("Unsupported OS Family: ${::osfamily}")

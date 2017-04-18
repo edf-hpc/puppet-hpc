@@ -18,6 +18,7 @@
 # @param install_manage  Public class manages the installation (default: true)
 # @param packages_manage Public class installs the packages (default: true)
 # @param packages List of packages to install for networks (default: [])
+# @param utils_packages Array of network utilities package names
 # @param bonding_packages List of packages to install to use bonding
 # @param bridge_packages List of packages to install to use bridges
 # @param packages_ensure Target state for the packages (default: 'latest')
@@ -43,6 +44,7 @@ class network (
   $packages               = [],
   $bonding_packages       = $::network::params::bonding_packages,
   $bridge_packages        = $::network::params::bridge_packages,
+  $utils_packages         = $::network::params::utils_packages,
   $packages_ensure        = $::network::params::packages_ensure,
   $config_manage          = $::network::params::config_manage,
   $config_file            = $::network::params::config_file,
@@ -70,9 +72,10 @@ class network (
     validate_array($bonding_packages)
     validate_array($bridge_packages)
     validate_string($packages_ensure)
-    # merge bonding, bridge and base packages
+    # merge bonding, bridge, utils and base packages
     $_base_packages = concat($bonding_packages, $bridge_packages)
-    $_packages = concat($_base_packages, $packages)
+    $_utils_packages = concat($_base_packages, $utils_packages)
+    $_packages = concat($_utils_packages, $packages)
   }
 
   if $config_manage {
