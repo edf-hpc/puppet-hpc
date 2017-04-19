@@ -17,7 +17,7 @@ class cpufreq::params {
 
 #### Module variables
 
-  $packages_ensure = 'latest'
+  $packages_ensure = 'present'
   $packages        = ['cpufrequtils']
   $default_file    = '/etc/default/cpufrequtils'
   $service         = 'cpufrequtils'
