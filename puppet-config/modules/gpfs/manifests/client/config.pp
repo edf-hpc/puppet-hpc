@@ -18,7 +18,6 @@ class gpfs::client::config inherits gpfs::client {
 
   file { $gpfs::client::cl_config_dir :
     ensure           => 'directory',
-    notify           => Service[$gpfs::params::service],
   }
 
   # Configuration files to install
@@ -30,6 +29,7 @@ class gpfs::client::config inherits gpfs::client {
     },
     "${gpfs::client::cl_key}" => {
       content  => decrypt($gpfs::client::cl_key_src, $gpfs::client::cl_decrypt_passwd),
+      notify           => Service[$gpfs::params::service],
     },
   }
   # Default settings to apply to all files
