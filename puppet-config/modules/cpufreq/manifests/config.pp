@@ -17,6 +17,6 @@ class cpufreq::config inherits cpufreq {
 
   hpclib::print_config { $::cpufreq::default_file :
     style => 'keyval',
-    data  => $::cpufreq::default_options,
+    data  => $::cpufreq::_default_options,
   }
 }
