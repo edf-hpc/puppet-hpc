@@ -305,7 +305,7 @@ profiles::jobsched::slurm_config_options:
   HealthCheckProgram:          "/usr/sbin/nhc"
   HealthCheckInterval:         "300"
   ResvOverRun:                 "10"
-  MaxJobCount:                 "5000"
+  MaxJobCount:                 "50000"
   SlurmctldTimeout:            "60"
   SlurmdTimeout:               "120"
   SelectType:                  "select/cons_res"
