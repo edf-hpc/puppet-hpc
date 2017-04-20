@@ -13,34 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Deploys fca package and service
+# Deploys fca service
 #
-# @param install_manage Public class manages the installation (default: true)
-# @param packages_manage Public class installs the packages (default: true)
-# @param packages List of packages for the OpenSM software (default: ['fca'])
-# @param packages_ensure Target state for the packages (default: 'present')
 # @param service_manage Public class manages the service state (default: true)
 # @param service_name Name of the service to manage (default: 'fca')
 # @param service_ensure Target state for the service (default: 'running')
 # @param service_enable The service starts at boot time (default: true)
-class fca (
-  $install_manage          = $::fca::params::install_manage,
-  $packages_manage         = $::fca::params::packages_manage,
-  $packages                = $::fca::params::packages,
-  $packages_ensure         = $::fca::params::packages_ensure,
+class fca::server (
   $service_manage          = $::fca::params::service_manage,
   $service_name            = $::fca::params::service_name,
   $service_ensure          = $::fca::params::service_ensure,
   $service_enable          = $::fca::params::service_enable,
-) inherits fca::params {
+) inherits fca::server::params {
 
-  validate_bool($install_manage)
-  validate_bool($packages_manage)
-
-  if $install_manage and $packages_manage {
-    validate_array($packages)
-    validate_string($packages_ensure)
-  }
+  include ::fca
 
   if $service_manage {
     validate_string($service_name)
@@ -48,9 +34,8 @@ class fca (
     validate_bool($service_enable)
   }
 
-  anchor { 'fca::begin': } ->
-  class { '::fca::install': } ->
-  class { '::fca::service': } ~>
-  anchor { 'fca::end': }
+  anchor { 'fca::server:begin': } ->
+  class { '::fca::server::service': } ~>
+  anchor { 'fca::server::end': }
 
 }

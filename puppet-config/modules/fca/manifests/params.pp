@@ -13,14 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class fca::install inherits fca {
+class fca::params {
 
-  if $::fca::install_manage {
-    if $::fca::packages_manage {
-      package { $::fca::packages:
-        ensure => $::fca::packages_ensure,
-      }
-    }
-  }
+  $install_manage  = true
+
+  $packages_manage = true
+  $packages_ensure = 'present'
+  $packages        = [ 'fca' ]
 
 }

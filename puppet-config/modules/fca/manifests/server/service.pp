@@ -13,13 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensm::service inherits opensm {
+class fca::server::service inherits fca::server {
 
-  if $::opensm::service_manage {
+  if $::fca::server::service_manage {
 
-    service { $::opensm::service_name:
-      ensure  => $::opensm::service_ensure,
-      enable  => $::opensm::service_enable,
+    service { $::fca::server::service_name:
+      ensure => $::fca::server::service_ensure,
+      enable => $::fca::server::service_enable,
     }
 
   }

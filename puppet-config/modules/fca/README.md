@@ -2,15 +2,14 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
     * [What fca affects](#what-fca-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with fca](#beginning-with-fca)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
 
 ## Module Description
 
@@ -34,12 +33,15 @@ N/A
 
 ## Usage
 
-The `fca` module has two public class `fca::client` and `fca::server`. Here is an example of
-the public class instanciation `fca::client` :
+The `fca` module has two public class `fca` and `fca::server`. Here is an example of
+the public class instanciation `fca` :
 
 ```
-include ::fca::client
+include ::fca
 ```
+
+The `fca` class installs the package and `fca::server` sets up the server. `fca` is
+automatically installed by `fca::server`.
 
 ## Limitations
 

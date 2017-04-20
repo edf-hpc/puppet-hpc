@@ -13,13 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class opensm::params {
-
-  $install_manage  = true
+class fca::server::params {
   $service_manage  = true
 
-  $packages_manage = true
-  $packages_ensure = 'present'
-  $packages        = [ 'fca' ]
-
+  $service_name = 'fca'
+  $service_ensure = 'running'
+  $service_enable = true
 }
