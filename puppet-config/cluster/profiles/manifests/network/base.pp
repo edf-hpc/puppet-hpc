@@ -46,6 +46,9 @@ class profiles::network::base {
     class { '::infiniband':
       stage => 'first',
     }
+    class { '::fca':
+      stage => 'first',
+    }
   }
   if $opa_enable {
     class { '::opa':
