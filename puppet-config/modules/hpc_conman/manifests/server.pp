@@ -43,7 +43,7 @@ class hpc_conman::server (
     hpc_ha::vip_notify_script { 'conman':
       ensure   => present,
       vip_name => $vip_name,
-      source   => 'puppet:///modules/hpc_conman/conman_ha_notify.sh'
+      source   => 'hpc_conman/conman_ha_notify.sh'
     }
   } else {
     $service_ensure = 'running'
