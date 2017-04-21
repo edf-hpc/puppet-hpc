@@ -126,6 +126,31 @@ The Slurm configuration parameters required to enable usage of the generic
 scripts can be extracted from the module with the
 `slurmutils::genscripts::params::genscripts_options` hash parameter.
 
+### Power Management (Server)
+
+The Slurm power management utility is deployed by the `pwmgt::ctld` public class:
+
+```
+class { '::pwmgt::ctld':
+  priv_key_enc   => 'http://system.hpc.example.com/private_files/pwmgt/ssh_rsa_slurm.enc',
+  decrypt_passwd => 'password',
+}
+```
+
+The configuration is done by the `slurmutils::pwmgt::ctld::config_options` hash parameter.
+
+### Power Management (Exec Nodes)
+
+The Slurm power management utility is deployed by the `pwmgt::exec` public class:
+
+```
+class { '::pwmgt::exec':
+  pub_key => 'RSA Public KEY',
+}
+```
+
+The configuration is done by the `slurmutils::pwmgt::exec::config_options` hash parameter.
+
 ## Limitations
 
 This module is mainly tested on Debian, but it is meant to also work with RHEL and
