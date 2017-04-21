@@ -52,6 +52,7 @@ class profiles::jobsched::client {
   # If use_genscripts is true, include genscript utility and merge its conf
   # excerpt into slurm configuration hash extracted from hiera.
   if $use_genscripts {
+    include ::slurmutils::genscripts
     $slurm_config_options_genscripts = deep_merge(
       $slurm_config_options_pwmgt,
       $::slurmutils::genscripts::params::genscripts_options)
