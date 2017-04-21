@@ -34,19 +34,36 @@
 #         configuration file.
 class profiles::jobsched::client {
 
+  # Use power management?
+  $use_pwmgt = hiera('profiles::jobsched::pwmgt::enabled', false)
+
+  # If use_pwmgt is true, include pwmgt utility and merge its conf
+  # excerpt into slurm configuration hash extracted from hiera.
+  if $use_pwmgt {
+    include ::slurmutils::pwmgt::ctld::params
+    $slurm_config_options_pwmgt = $::slurmutils::pwmgt::ctld::params::pwmgt_options
+  } else {
+    $slurm_config_options_pwmgt = {}
+  }
+
   # Use generic scripts?
   $use_genscripts = hiera('profiles::jobsched::gen_scripts::enabled', true)
 
   # If use_genscripts is true, include genscript utility and merge its conf
   # excerpt into slurm configuration hash extracted from hiera.
   if $use_genscripts {
-    include ::slurmutils::genscripts
-    $slurm_config_options = deep_merge(
-      hiera_hash('profiles::jobsched::slurm_config_options'),
+    $slurm_config_options_genscripts = deep_merge(
+      $slurm_config_options_pwmgt,
       $::slurmutils::genscripts::params::genscripts_options)
   } else {
-    $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+    $slurm_config_options_genscripts = $slurm_config_options_pwmgt
   }
+
+  # Finally merge with options from hiera (those takes precedence)
+  $slurm_config_options = deep_merge(
+      $slurm_config_options_genscripts,
+      hiera_hash('profiles::jobsched::slurm_config_options')
+  )
 
   # Install slurm and munge
   class { '::slurm':

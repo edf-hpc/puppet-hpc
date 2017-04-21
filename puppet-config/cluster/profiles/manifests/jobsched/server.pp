@@ -64,6 +64,8 @@
 #
 # * profiles::jobsched::gen_scripts::enabled (`hiera`) Use generic scripts?
 #         (default: true)
+# * profiles::jobsched::pwmgt::enabled (`hiera`) Use power management ?
+#         (default: false)
 # * profiles::jobsched::slurm_config_options (`hiera_hash`) Content of the slurm
 #         configuration file.
 # * profiles::jobsched::server::sync_options (`hiera_hash`) Content of SlurmDBD
@@ -76,6 +78,18 @@
 #         CephFS space
 class profiles::jobsched::server {
 
+  # Use power management?
+  $use_pwmgt = hiera('profiles::jobsched::pwmgt::enabled', false)
+
+  # If use_pwmgt is true, include pwmgt utility and merge its conf
+  # excerpt into slurm configuration hash extracted from hiera.
+  if $use_pwmgt {
+    include ::slurmutils::pwmgt::ctld
+    $slurm_config_options_pwmgt = $::slurmutils::pwmgt::ctld::params::pwmgt_options
+  } else {
+    $slurm_config_options_pwmgt = {}
+  }
+
   # Use generic scripts?
   $use_genscripts = hiera('profiles::jobsched::gen_scripts::enabled', true)
 
@@ -83,15 +97,20 @@ class profiles::jobsched::server {
   # excerpt into slurm configuration hash extracted from hiera.
   if $use_genscripts {
     include ::slurmutils::genscripts
-    $slurm_config_options = deep_merge(
-      hiera_hash('profiles::jobsched::slurm_config_options'),
+    $slurm_config_options_genscripts = deep_merge(
+      $slurm_config_options_pwmgt,
       $::slurmutils::genscripts::params::genscripts_options)
   } else {
-    $slurm_config_options = hiera_hash('profiles::jobsched::slurm_config_options')
+    $slurm_config_options_genscripts = $slurm_config_options_pwmgt
   }
 
-  # slurm components
+  # Finally merge with options from hiera (those takes precedence)
+  $slurm_config_options = deep_merge(
+      $slurm_config_options_genscripts,
+      hiera_hash('profiles::jobsched::slurm_config_options')
+  )
 
+  # slurm components
   class { '::slurm':
     config_options => $slurm_config_options
   }
