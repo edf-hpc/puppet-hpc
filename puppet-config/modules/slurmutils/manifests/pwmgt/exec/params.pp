@@ -17,7 +17,7 @@ class slurmutils::pwmgt::exec::params {
 
   $install_manage  = true
   $packages_manage = true
-  $packages        = ['slurm-pwmgt-nodes']
+  $packages        = ['slurm-pwmgt-stop-wrapper']
   $packages_ensure = 'latest'
 
   $config_manage   = true
