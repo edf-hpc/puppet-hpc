@@ -13,31 +13,14 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class ipmi::params {
+class ipmi::install inherits ipmi {
 
-  $install_manage  = true
-
-  $packages_manage = true
-  $packages_ensure = 'present'
-
-  case $::osfamily {
-    'Debian' : {
-      $use_systemd_modules  = true
-      $modules_load_name    = 'ipmievd'
-      $config_options       = [ 'ipmi_si', 'ipmi_devintf' ]
-      $packages             = [ 'ipmitool' ]
-    }
-    'RedHat' : {
-      $use_systemd_modules  = false
-      $config_file          = '/etc/sysconfig/modules/ipmi.modules'
-      $config_file_template = 'tuning/modulesrhel.erb'
-      $config_options       = [ 'ipmi_devintf' ]
-      $config_file_mode     = '0750'
-      # Not tested
-      $packages             = []
-    }
-    default : {
-      fail("${::osfamily} is not supported")
+  if $::ipmi::install_manage {
+    if $::ipmi::packages_manage {
+      package { $::ipmi::packages:
+        ensure => $::ipmi::packages_ensure,
+      }
     }
   }
+
 }

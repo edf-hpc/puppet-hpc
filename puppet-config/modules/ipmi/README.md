@@ -21,6 +21,10 @@ Loads IPMI kernel modules.
 This modules configures the OS to load IPMI kernel modules during the boot
 sequence.
 
+On Debian, by default the modules removes ipmi_poweroff from the list of
+the loaded modules. It does not always work on some hardware (notably:
+IBM X3550M4).
+
 ## Setup
 
 ### What ipmi affects
@@ -38,6 +42,9 @@ None
 ```
 include ::ipmi
 ```
+
+The list of modules is provided with the `config_options` array.
+
 
 ## Limitations
 

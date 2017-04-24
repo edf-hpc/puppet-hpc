@@ -15,9 +15,14 @@
 
 class ipmi::config inherits ipmi {
 
-  file { $::ipmi::config_file :
-    ensure  => present,
-    content => template($::ipmi::config_file_template),
+  if $::ipmi::use_systemd_modules {
+    ::systemd::modules_load { $::ipmi::modules_load_name:
+      data => $::ipmi::config_options
+    }
+  } else {
+    file { $::ipmi::config_file :
+      ensure  => present,
+      content => template($::ipmi::config_file_template),
+    }
   }
-
 }
