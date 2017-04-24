@@ -46,5 +46,5 @@ class slurmutils::pwmgt::ctld::params {
   }
 
   $priv_key_manage = true
-  $priv_key_file = '/etc/slurm-llnl/pwmgt/ssh_rsa_slurm'
+  $priv_key_file = '/etc/slurm-llnl/pwmgt/id_rsa_slurm'
 }
