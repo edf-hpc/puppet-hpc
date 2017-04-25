@@ -860,8 +860,9 @@
     <!-- Priority is used during initial negotiation, higher Priority wins. -->
     <!-- ElevatedPriority is assumed by winning master, this can prevent -->
     <!-- fallback when previous master comes back on line.  -->
-    <Priority>0</Priority> <!-- 0 to 15, higher wins -->
-    <ElevatedPriority>0</ElevatedPriority> <!-- 0 to 15, higher wins -->
+    <!-- Priority and ElevatedPriority added by puppet -->
+    <Priority><%= @priority[@hostname]['basepriority'] %></Priority> <!-- 0 to 15, higher wins -->
+    <ElevatedPriority><%= @priority[@hostname]['elevatedpriority'] %></ElevatedPriority> <!-- 0 to 15, higher wins -->
 
     <!-- Sets log level option for SM, PM and FE -->
     <!-- 0 = disable vast majority of logging output -->

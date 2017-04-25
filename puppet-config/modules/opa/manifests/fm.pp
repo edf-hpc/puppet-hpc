@@ -30,6 +30,7 @@
 # @param devicegroups    Hash of device groups definitions (default: {})
 # @param pmportgroups    Hash of Performance Manager (PM) port groups
 #                        definitions (default: {})
+# @param priority        Hash of priority (default: {})
 class opa::fm (
   $packages        = $::opa::fm::params::packages,
   $packages_ensure = $::opa::fm::params::packages_ensure,
@@ -42,6 +43,7 @@ class opa::fm (
   $fe_sslsecurity  = $::opa::fm::params::fe_sslsecurity,
   $devicegroups    = $::opa::fm::params::devicegroups,
   $pmportgroups    = $::opa::fm::params::pmportgroups,
+  $priority        = $::opa::fm::params::priority,
 ) inherits opa::fm::params {
 
   validate_array($packages)
@@ -55,6 +57,7 @@ class opa::fm (
   validate_bool($fe_sslsecurity)
   validate_hash($devicegroups)
   validate_hash($pmportgroups)
+  validate_hash($priority)
 
   anchor { 'opa::fm::begin': } ->
   class { '::opa::fm::install': } ->

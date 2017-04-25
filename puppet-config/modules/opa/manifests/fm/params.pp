@@ -28,5 +28,6 @@ class opa::fm::params {
   $fe_sslsecurity  = false
   $devicegroups    = {}
   $pmportgroups    = {}
+  $priority        = {}
 
 }
