@@ -17,5 +17,5 @@
 
 class profiles::infiniband::sm {
   include '::opensm'
-  include '::fca::server'
+  include '::fca'
 }
