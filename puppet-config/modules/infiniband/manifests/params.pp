@@ -35,7 +35,6 @@ class infiniband::params {
         'mlnx-ofed-kernel-utils',
         'mlnx-ofed-kernel-modules',
         'knem-kernel-module',
-        'mxm'
       ]
     }
     'Redhat': {
