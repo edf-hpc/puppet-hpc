@@ -33,15 +33,14 @@ N/A
 
 ## Usage
 
-The `fca` module has two public class `fca` and `fca::server`. Here is an example of
-the public class instanciation `fca` :
+The `fca` module has one public class `fca`. Here is an example of this public
+class instanciation:
 
 ```
 include ::fca
 ```
 
-The `fca` class installs the package and `fca::server` sets up the server. `fca` is
-automatically installed by `fca::server`.
+The `fca` class deploys the server components of Mellanox FCA.
 
 ## Limitations
 

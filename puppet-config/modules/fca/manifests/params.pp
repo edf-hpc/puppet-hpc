@@ -16,9 +16,13 @@
 class fca::params {
 
   $install_manage  = true
-
   $packages_manage = true
   $packages_ensure = 'present'
   $packages        = [ 'fca' ]
+
+  $service_manage  = true
+  $service_name    = 'fca'
+  $service_ensure  = 'running'
+  $service_enable  = true
 
 }

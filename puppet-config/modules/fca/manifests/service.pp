@@ -13,13 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class fca::server::service inherits fca::server {
+class fca::service inherits fca {
 
-  if $::fca::server::service_manage {
+  if $::fca::service_manage {
 
-    service { $::fca::server::service_name:
-      ensure => $::fca::server::service_ensure,
-      enable => $::fca::server::service_enable,
+    service { $::fca::service_name:
+      ensure => $::fca::service_ensure,
+      enable => $::fca::service_enable,
     }
 
   }
