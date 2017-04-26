@@ -15,24 +15,34 @@
 
 class pam::mkhomedir::config inherits pam::mkhomedir {
 
+  # The pam entry is also written by pam-auth-update, so we make sure it
+  # is written in the pam-auth-update block to avoid a double entry.
+
   pam { 'pam_mkhomedir_common_session':
     ensure    => present,
+    provider  => augeas,
     service   => 'common-session',
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
     arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
                         $::pam::mkhomedir::mkhomedir_args),
+    position  => 'before #comment[ . = "end of pam-auth-update config" ]'
   }
 
   pam {'pam_mkhomedir_common_session_noninteractive':
     ensure    => present,
+    provider  => augeas,
     service   => 'common-session-noninteractive',
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
     arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
                         $::pam::mkhomedir::mkhomedir_args),
+    position  => 'before #comment[ . = "end of pam-auth-update config" ]'
   }
+
+  Package<| |> -> Pam['pam_mkhomedir_common_session']
+  Package<| |> -> Pam['pam_mkhomedir_common_session_noninteractive']
 
 }

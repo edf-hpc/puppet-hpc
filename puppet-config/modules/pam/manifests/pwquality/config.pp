@@ -30,4 +30,6 @@ class pam::pwquality::config inherits pam::pwquality {
     refreshonly => true
   }
 
+  Exec['refresh common-password for pwquality'] -> Pam<| |>
+
 }
