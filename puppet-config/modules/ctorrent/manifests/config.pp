@@ -18,6 +18,8 @@ class ctorrent::config inherits ctorrent {
   file { $::ctorrent::default_file :
     ensure  => present,
     content => template('ctorrent/ctorrent_conf.erb'),
+    owner   => 'root',
+    group   => 'root',
     require => Package[$::ctorrent::packages],
     notify  => Service[$::ctorrent::service],
   }
@@ -26,6 +28,8 @@ class ctorrent::config inherits ctorrent {
     ensure  => present,
     source  => 'puppet:///modules/ctorrent/ctorrent.init',
     mode    => '0755',
+    owner   => 'root',
+    group   => 'root',
     require => Package[$::ctorrent::packages],
   }
 }
