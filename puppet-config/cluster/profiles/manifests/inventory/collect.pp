@@ -23,16 +23,20 @@
 #
 class profiles::inventory::collect {
 
-  $prefix        = hiera('cluster_prefix')
-  $domain        = hiera('domain')
-  $servername    = "${prefix}${::puppet_role}"
-  $serveraliases = ["${servername}.${domain}"]
+  $prefix          = hiera('cluster_prefix')
+  $domain          = hiera('domain')
+  $virtual_address = $::hostfile["${prefix}${::puppet_role}"]
+  $servername      = "${prefix}${::puppet_role}"
+  $serveraliases   = ["${servername}.${domain}"]
 
 
   include apache
   include apache::mod::php
 
   class { '::glpicollector':
+    virtual_address => $virtual_address,
+    servername      => $servername,
+    serveraliases   => $serveraliases,
   }
 
 }
