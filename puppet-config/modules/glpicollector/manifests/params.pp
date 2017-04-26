@@ -19,6 +19,8 @@ class glpicollector::params {
 
 #### Defaults values
 
+  $port                = '3140'
+  $config_dir_http     = '/var/www/glpi'
   $collected_files_dir = '/var/tmp/GLPI'
   $hpc_files           = {}
 }

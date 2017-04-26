@@ -15,8 +15,6 @@
 
 class glpicollector::install inherits glpicollector {
 
-  create_resources(hpclib::hpc_file, $::glpicollector::hpc_files)
-
   file { $::glpicollector::collected_files_dir :
     ensure => directory,
     owner  => 'www-data',
