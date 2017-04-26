@@ -860,7 +860,6 @@
     <!-- Priority is used during initial negotiation, higher Priority wins. -->
     <!-- ElevatedPriority is assumed by winning master, this can prevent -->
     <!-- fallback when previous master comes back on line.  -->
-    <!-- Priority and ElevatedPriority added by puppet -->
     <Priority><%= @priority[@hostname]['basepriority'] %></Priority> <!-- 0 to 15, higher wins -->
     <ElevatedPriority><%= @priority[@hostname]['elevatedpriority'] %></ElevatedPriority> <!-- 0 to 15, higher wins -->
 
