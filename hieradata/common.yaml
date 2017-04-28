@@ -346,8 +346,6 @@ profiles::jobsched::server::slurmdbd_config_options:
   StorageBackupHost: "%{hiera('db_secondary_server')}"
   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 slurmutils::setupdb::conf_options:
-  db:
-    password:    "%{hiera('mariadb::mysql_root_pwd')}"
   passwords:
     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
