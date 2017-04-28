@@ -39,7 +39,6 @@ class{'::mariadb':
     'clbatch1',
     'clbatch2',
   ],
-  mysql_root_pwd => 'passW0rd',
 }
 ```
 

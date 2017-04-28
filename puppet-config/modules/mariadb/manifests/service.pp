@@ -21,11 +21,9 @@ class mariadb::service {
       fail('service_ensure parameter must be running or stopped')
     }
 
-
     service { $mariadb::service_name :
       ensure => $mariadb::service_ensure,
       enable => $mariadb::service_enable,
-      name   => $mariadb::service_name,
     }
   }
 }

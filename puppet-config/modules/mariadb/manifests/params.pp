@@ -18,6 +18,7 @@ class mariadb::params {
   $config_manage     = true
   $service_enable    = true
   $service_ensure    = 'running'
+  $service_name      = 'mariadb'
   $nodes             = [ 'localhost' ]
 
   ### Package ###
@@ -30,33 +31,10 @@ class mariadb::params {
     }
     'Debian': {
       $package_manage       = true
-      $package_name         = ['mariadb-galera-server']
-      $mariadb_preseed_file = '/var/local/mysql-server.preseed'
-      $mariadb_preseed_tmpl = 'mariadb/mysql-server.preseed.erb'
+      $package_name         = ['mariadb-server']
       $service_manage       = true
-      $conf_dir_path        = '/etc/mysql'
-      $galera_dir_path      = "${conf_dir_path}/conf.d"
-      $main_conf_file       = "${conf_dir_path}/debian.cnf"
-      $service_name         = 'mysql'
-      $galera_conf_file     = "${galera_dir_path}/galera.cnf"
-      $galera_conf_tmpl     = 'db/galera.erb'
+      $galera_conf_file     = '/etc/mysql/mariadb.conf.d/galera.cnf'
       $disable_log_error    = true
-      $mysql_conf_options   = {
-        'client'              => {
-          'host'                => 'localhost',
-          'user'                => 'debian-sys-maint',
-          'password'            => '',
-          'socket'              => '/var/run/mysqld/mysqld.sock',
-        },
-
-        'mysql_upgrade'       => {
-          'host'                => 'localhost',
-          'user'                => 'debian-sys-maint',
-          'password'            => '',
-          'socket'              => '/var/run/mysqld/mysqld.sock',
-          'basedir'             => '/usr',
-        },
-      }
 
       $galera_conf_options  = {
         mysqld => {
@@ -66,6 +44,7 @@ class mariadb::params {
           'query_cache_size'         => '0',
           'query_cache_type'         => '0',
           'bind-address'             => '0.0.0.0',
+          'wsrep_on'                 => 'ON',
           'wsrep_provider'           => '/usr/lib/galera/libgalera_smm.so',
           'wsrep_cluster_name'       => '"galera_cluster"',
           'wsrep_sst_method'         => 'rsync',
