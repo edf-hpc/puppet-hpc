@@ -26,8 +26,8 @@ class slurmutils::setupdb::params {
   $conf_options_defaults = {
     'db' => {
       'hosts'    => 'localhost',
-      'user'     => 'debian-sys-maint',
-      'password' => 'password',
+      'user'     => 'root',
+      'password' => '',
     },
     'passwords' => {
       'slurm'    => 'password',
