@@ -48,10 +48,6 @@
 #   StoragePass:       "%{hiera('slurmdbd_slurm_db_password')}"
 #
 # slurmutils::setupdb::conf_options:
-#   db:
-#     hosts:       'localhost'
-#     user:        'debian-sys-maint'
-#     password:    "%{hiera('mariadb::mysql_root_pwd')}"
 #   passwords:
 #     slurm:       "%{hiera('slurmdbd_slurm_db_password')}"
 #     slurmro:     "%{hiera('slurmdbd_slurmro_db_password')}"
