@@ -35,4 +35,5 @@ if ! defined(Class['icinga2::admin']) {
     content => decrypt($src, $::icinga2::decrypt_passwd),
   }
 }
+
 }
