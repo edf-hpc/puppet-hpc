@@ -15,7 +15,8 @@
 
 class consul::params {
 
-  $packages        = ['consul']
+  $packages        = ['consul',
+                      'consult']
   $packages_ensure = 'latest'
   $packages_manage = true
   $services        = ['consul']
