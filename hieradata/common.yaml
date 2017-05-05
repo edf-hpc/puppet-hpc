@@ -652,11 +652,6 @@ rsyslog::server::custom_config:     'rsyslog/server-hostname.conf.erb'
 consul::domain: "%{hiera('virtual_domain')}"
 consul::datacenter: "%{hiera('cluster_name')}"
 
-profiles::consul::client::packages:
-  - consul
-  - consult
-profiles::consul::server::packages:
-  - consul
 profiles::consul::server::subservices:
   - name: 'http'
     check:
