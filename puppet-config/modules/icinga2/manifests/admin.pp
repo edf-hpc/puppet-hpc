@@ -18,6 +18,10 @@ class icinga2::admin ($cron_file, $cron_source, $pass_file, $pass_source, $decry
 	file { [ $cron_file ] :
 		content => hpc_source_file($cron_source),
 	}
+
+	file { [ $conf_check_file ] :
+                content => hpc_source_file($conf_check_source),
+        }
 	
 	$dir=dirname("$pass_file")
 	file { [ "$dir" ]:
