@@ -18,11 +18,6 @@ class profiles::consul::server {
   # TODO: migrate all comments to the profile documentation in Puppet Strings
   # format.
 
-  # The list of packages is different for the client and server profiles. For
-  # this reason, we cannot use autolookup for this parameter, there are
-  # variables specific to each profile.
-  $packages    = hiera_array('profiles::consul::server::packages')
-
   # Even though all consul agent (client and servers) could potentially have
   # services, in our architecture only the servers actually have services. We
   # could eventually define the services by autolookup in the hiera private
@@ -60,7 +55,6 @@ class profiles::consul::server {
   $bootstrap = size(hpc_get_hosts_by_profile('consul::server')) / 2 + 1
 
   class { '::consul':
-    packages    => $packages,
     mode        => 'server',
     binding     => $binding,
     nodes       => $nodes,

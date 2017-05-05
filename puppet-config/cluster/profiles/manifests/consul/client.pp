@@ -18,11 +18,6 @@ class profiles::consul::client {
   # TODO: migrate all comments to the profile documentation in Puppet Strings
   # format.
 
-  # The list of packages is different for the client and server profiles. For
-  # this reason, we cannot use autolookup for this parameter, there are
-  # variables specific to each profile.
-  $packages   = hiera_array('profiles::consul::client::packages')
-
   # The binding IP address is the IP address of the interface on the
   # administration network.
   $binding    = $::hostfile[$::hostname]
@@ -33,7 +28,6 @@ class profiles::consul::client {
                        hpc_get_hosts_by_profile('consul::server'))
 
   class { '::consul':
-    packages        => $packages,
     mode            => 'client',
     binding         => $binding,
     nodes           => $nodes
