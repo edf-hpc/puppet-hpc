@@ -32,7 +32,15 @@ class profiles::consul::server {
   # consul services configuration file.
   $has_subservices = hiera('profiles::consul::server::has_subservices', true)
   if $has_subservices {
-    $subservices = hiera_array('profiles::consul::server::subservices')
+    $base_subservices = hiera_array('profiles::consul::server::subservices')
+    # If the ceph class is defined, also include ceph services in consul
+    # configuration
+    if defined(Class['::ceph']) {
+      $subservices = merge($base_subservices,
+                           hiera_array('profiles::consul::server::ceph_subservices'))
+    } else {
+      $subservices = $base_subservices
+    }
   } else {
     $subservices = undef
   }
