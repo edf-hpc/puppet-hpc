@@ -29,7 +29,18 @@ class profiles::consul::server {
   # roles specific YAML files but it means duplicating services definitions.
   # These services definitions are rather generic in our architecture, then it
   # is better to define them only once in common.yaml for all clusters.
-  $subservices = hiera_array('profiles::consul::server::subservices')
+  #
+  # The has_subservices parameter allows to disable consul services
+  # configuration on very specific servers. Its default value is true. In this
+  # case, the profile extracts the array of services from hiera. Otherwise, the
+  # subservices is set to undef which make the consul module not manage the
+  # consul services configuration file.
+  $has_subservices = hiera('profiles::consul::server::has_subservices', true)
+  if $has_subservices {
+    $subservices = hiera_array('profiles::consul::server::subservices')
+  } else {
+    $subservices = undef
+  }
 
   # The binding IP address is the IP address of the interface on the
   # administration network.
