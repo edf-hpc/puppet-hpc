@@ -33,11 +33,11 @@ class profiles::consul::server {
   $has_subservices = hiera('profiles::consul::server::has_subservices', true)
   if $has_subservices {
     $base_subservices = hiera_array('profiles::consul::server::subservices')
-    # If the ceph class is defined, also include ceph services in consul
+    # If node has ceph::server profile, also include ceph services in consul
     # configuration
-    if defined(Class['::ceph']) {
-      $subservices = merge($base_subservices,
-                           hiera_array('profiles::consul::server::ceph_subservices'))
+    if $::hostname in hpc_get_hosts_by_profile('ceph::server') {
+      $subservices = concat($base_subservices,
+                            hiera_array('profiles::consul::server::ceph_subservices'))
     } else {
       $subservices = $base_subservices
     }
