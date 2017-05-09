@@ -7,7 +7,9 @@ class profiles::monitoring::admin {
   $pass_file = hiera('profiles::monitoring::admin::pass_file')
   $pass_source = hiera('profiles::monitoring::admin::pass_source')
   $decrypt_password = hiera('icinga2::decrypt_passwd')
+  $node_cfg = hiera('profiles::monitoring::admin::nodecfg')
   class { '::icinga2::admin':
+    node_cfg => $node_cfg,
     cron_file   => $cron_file,
     cron_source => $cron_source,
     conf_check_file => $conf_check_file,

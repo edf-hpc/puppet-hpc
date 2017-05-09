@@ -1,4 +1,7 @@
-class icinga2::admin ($cron_file, $cron_source, $pass_file, $pass_source, $decrypt_password, $conf_check_file, $conf_check_source) {
+class icinga2::admin ($cron_file, $cron_source, $pass_file, $pass_source, $decrypt_password, $conf_check_file, $conf_check_source, $node_cfg) {
+
+   if $hostname == $node_cfg {
+
 	validate_absolute_path($cron_file)
 	validate_string($cron_source)
 	validate_absolute_path($conf_check_file)
@@ -28,4 +31,5 @@ class icinga2::admin ($cron_file, $cron_source, $pass_file, $pass_source, $decry
 		mode    => '0400',
 		content => decrypt($pass_source, $decrypt_password),
 	}
+    }
 }
