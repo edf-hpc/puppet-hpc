@@ -21,11 +21,13 @@ class icinga2::ibsurv ($node_cfg, $cron_file, $cron_source, $getiberr_file, $get
 	}
 
 	file { [ "$getiberr_file" ] :
-		content => hpc_source_file($getiberr_source),		
+		content => hpc_source_file($getiberr_source),
+ 		mode   => '0750',
         }
 
 	file { [ "$managedb_file" ] :
                 content => hpc_source_file($managedb_source),
+		mode   => '0750',
         }
 
 	file { [ "$createdb_file" ] :
