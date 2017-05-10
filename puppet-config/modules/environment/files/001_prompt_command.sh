@@ -32,13 +32,25 @@ esac
 #
 if [[ "x${LOG_COMMANDS}" == "xtrue" ]]
 then
-  log_facility="${LOG_COMMANDS_FACILITY:-local6}"
-  log_command="history -a >(tee -a ~/.bash_history | logger -p '${log_facility}.info' -t \"\$USER[\$$] \$SSH_CONNECTION\")"
-  if [ -n "${PROMPT_COMMAND}" ]
+  # Verify that the default HISTFILE (in the home) is writable,
+  # this can be not the case when there is no home for the user.
+  if ! touch "${HISTFILE}" 2> /dev/null
   then
-    PROMPT_COMMAND="${PROMPT_COMMAND};${log_command}"
+    export HISTFILE="$(mktemp --tmpdir ${USER}_histfile_XXXXXXXXX)"
+  fi
+
+  if ! [ -f "${HISTFILE}" ]
+  then
+    logger -p '${log_facility}.info' -t "$USER[$$] $SSH_CONNECTION" "No history file '${HISTFILE}', can't log user commands for this shell."
   else
-    PROMPT_COMMAND="${log_command}"
+    log_facility="${LOG_COMMANDS_FACILITY:-local6}"
+    log_command="history -a >(tee -a ${HISTFILE} | logger -p '${log_facility}.info' -t \"\$USER[\$$] \$SSH_CONNECTION\")"
+    if [ -n "${PROMPT_COMMAND}" ]
+    then
+      PROMPT_COMMAND="${PROMPT_COMMAND};${log_command}"
+    else
+      PROMPT_COMMAND="${log_command}"
+    fi
   fi
 fi
 
