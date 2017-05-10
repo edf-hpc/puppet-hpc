@@ -13,26 +13,23 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class reporting (
-  $script_report_users   = $reporting::params::script_report_users,
-  $script_report_orphan  = $reporting::params::script_report_orphan,
-  $cron_reporting        = $reporting::params::cron_reporting,
-  $config_options        = {},
-  $config_report_users   = {},
-  $config_report_orphan  = {},
-) inherits reporting::params {
+class reporting ($script_report_users_source, $script_report_orphan_source, $cron_reporting_source, $node_cfg) {
 
-  validate_absolute_path($script_report_users)
-  validate_absolute_path($script_report_orphan)
-  validate_absolute_path($cron_reporting)
-  validate_hash($config_report_users)
-  validate_hash($config_report_orphan)
-  validate_hash($config_options)
+   if $hostname == $node_cfg {
 
-  $_config_options=deep_merge($reporting::params::config_options_defaults, $config_report_users, $config_report_orphan, $config_options)
+        file { [ "/usr/local/sbin/report_users" ] :
+                content => hpc_source_file($script_report_users_source),
+                mode    => '0750',
+          }
 
-  anchor { 'reporting::begin': } ->
-  class { '::reporting::config': } ->
-  anchor { 'reporting::end': }
+          file { [ "/usr/local/sbin/report_orphan_directory" ] :
+                content => hpc_source_file($script_report_orphan_source),
+                mode    => '0750',
+          }
+
+          file { [ "/etc/cron.d/cron_reporting" ] :
+                content => hpc_source_file($cron_reporting_source),
+          }
+    }
 
 }

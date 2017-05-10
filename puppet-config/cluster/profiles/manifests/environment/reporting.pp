@@ -13,7 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# - `reporting::config_options` Options for reporting
 class profiles::environment::reporting {
-  class { '::reporting': }
+
+   $script_report_users_source = hiera('profiles::environment::reporting::script_report_users_source')
+   $script_report_orphan_source = hiera('profiles::environment::reporting::script_report_orphan_source')
+   $cron_reporting_source = hiera('profiles::environment::reporting::cron_reporting_source')
+   $node_cfg = hiera('profiles::environment::reporting::node_cfg')
+
+  class { '::reporting' : 
+        script_report_users_source => $script_report_users_source,
+	script_report_orphan_source => $script_report_orphan_source,
+	cron_reporting_source => $cron_reporting_source,
+	node_cfg => $node_cfg,
+  }
+
 }
+
