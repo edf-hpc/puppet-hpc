@@ -16,18 +16,13 @@
 # Host tuning for admin nodes
 #
 # ## Hiera
-# * `profiles::hardware::admin_tuning::config_file`
-# * `profiles::hardware::admin_tuning::config_options` (`hiera_hash`)
+# * `profiles::hardware::admin_tuning::sysctl` (`hiera_hash`)
 class profiles::hardware::admin_tuning {
 
   ## Hiera lookups
-  $config_file    = hiera('profiles::hardware::admin_tuning::config_file')
-  $config_options = hiera_hash('profiles::hardware::admin_tuning::config_options')
+  $sysctl = hiera_hash('profiles::hardware::admin_tuning::sysctl')
 
-  # Call to hpclib::sysctl
-  hpclib::sysctl { $config_file :
-    config      => $config_options,
-    sysctl_file => $config_file,
+  class { '::kernel':
+    sysctl => $sysctl,
   }
-
 }
