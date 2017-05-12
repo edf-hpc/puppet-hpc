@@ -20,11 +20,11 @@ class profiles::environment::reporting {
    $cron_reporting_source = hiera('profiles::environment::reporting::cron_reporting_source')
    $node_cfg = hiera('profiles::environment::reporting::node_cfg')
 
-  class { '::reporting' : 
+  class { '::reporting' :
         script_report_users_source => $script_report_users_source,
-	script_report_orphan_source => $script_report_orphan_source,
-	cron_reporting_source => $cron_reporting_source,
-	node_cfg => $node_cfg,
+        script_report_orphan_source => $script_report_orphan_source,
+        cron_reporting_source => $cron_reporting_source,
+        node_cfg => $node_cfg,
   }
 
 }
