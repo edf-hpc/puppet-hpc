@@ -33,6 +33,8 @@
 # @param bridge_options Hash with the bridges configuration for this host
 # @param ib_mtu MTU for the IPoIB network (default: '65520')
 # @param ib_mode Mode for IPoIB, 'connected' or 'datagram' (default: 'connected')
+# @param eth_no_offload_ifs Array of Ethernet interfaces on which offloading
+#          should be explicitely disabled (default: [])
 # @param service_manage Public class manages the service (default: true)
 # @param service_name network manager service name (default: 'networking')
 # @param service_ensure network manager service state (default: 'running')
@@ -57,6 +59,7 @@ class network (
   $bridge_options         = $::network::params::bridge_options,
   $ib_mtu                 = $::network::params::ib_mtu,
   $ib_mode                = $::network::params::ib_mode,
+  $eth_no_offload_ifs     = $::network::params::eth_no_offload_ifs,
   $service_manage         = $::network::params::service_manage,
   $service_name           = $::network::params::service_name,
   $service_ensure         = $::network::params::service_ensure,
@@ -88,6 +91,7 @@ class network (
     validate_hash($bridge_options)
     validate_integer($ib_mtu)
     validate_string($ib_mode)
+    validate_array($eth_no_offload_ifs)
   }
 
   if $service_manage {

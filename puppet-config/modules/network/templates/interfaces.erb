@@ -26,13 +26,14 @@
 <%-
   require 'ipaddr'
 
-  netconfig = scope['::netconfig']
-  defaultgw = scope['::network::defaultgw']
-  bondcfg   = scope['::network::bonding_options']
-  bridgecfg = scope['::network::bridge_options']
-  routnet   = scope['::network::routednet']
-  ib_mtu    = scope['::network::ib_mtu']
-  ib_mode   = scope['::network::ib_mode']
+  netconfig          = scope['::netconfig']
+  defaultgw          = scope['::network::defaultgw']
+  bondcfg            = scope['::network::bonding_options']
+  bridgecfg          = scope['::network::bridge_options']
+  routnet            = scope['::network::routednet']
+  ib_mtu             = scope['::network::ib_mtu']
+  ib_mode            = scope['::network::ib_mode']
+  eth_no_offload_ifs = scope['::network::eth_no_offload_ifs']
 
   network_gw_set = String.new
   bndprim = String.new
@@ -165,6 +166,16 @@ iface <%= card %> inet static
 -%>
     ib-mode <%= ib_mode %>
     mtu <%= ib_mtu %>
+<%-
+    end
+
+    # Disable offloading if it has been requested for this interface
+    if eth_no_offload_ifs.include?(card)
+-%>
+    # Offloading disabled
+    offload-tx  off
+    offload-sg  off
+    offload-tso off
 <%-
     end
 

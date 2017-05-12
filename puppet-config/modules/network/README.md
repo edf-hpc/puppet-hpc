@@ -104,6 +104,22 @@ class{'::network':
 }
 ```
 
+
+### Ethernet Offloading
+
+The modern ethernet cards can offload some packets computation from the main
+CPU. This is generally optimal to leave these parameters alone. On some
+occasion, this offloading can generate problems and it is best to disable it.
+
+To do this with with the network module, you can provide a list of interfaces
+where this offloading must be disabled:
+
+```
+class{'::network':
+  eth_no_offload_ifs => ['eth3']
+}
+```
+
 ### Additional rotues
 
 It is possible to setup additional routes on interfaces with the `routednet`

@@ -25,6 +25,9 @@ class network::params {
 
   $ib_mtu            = '65520'
   $ib_mode           = 'connected'
+
+  $eth_no_offload_ifs = []
+
   case $::osfamily {
     'Debian': {
       ## Hostname
@@ -34,7 +37,10 @@ class network::params {
       $config_file      = '/etc/network/interfaces'
       $bonding_packages = ['ifenslave-2.6']
       $bridge_packages  = ['bridge-utils']
-      $utils_packages   = ['fping']
+      $utils_packages   = [
+        'fping',
+        'ethtool',
+      ]
     }
     'Redhat': {
       ## Hostname
