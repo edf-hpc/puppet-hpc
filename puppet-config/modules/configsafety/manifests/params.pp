@@ -21,11 +21,11 @@ class configsafety::params {
   $configsafety_exclude_files_rsync     = '/etc/config-safety/exclude-files-rsync'
   $configsafety_path_incl_dar           = '/etc/config-safety/path-incl-dar'
   $configsafety_cron_configsafety       = '/etc/cron.d/config-safety'
-  
+
 
   $config_options_defaults = {
     'bck_name'       		=> 'configsafety',
-    # Dar 
+    # Dar
     'path_bck_dar_dir'         	=> 'noset',
     'path_incl_dar_file'      	=> '/etc/config-safety/path-incl-dar',
     'dest_host_dar_bck'         => 'noset',
