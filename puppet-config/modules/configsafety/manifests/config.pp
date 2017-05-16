@@ -18,27 +18,28 @@ class configsafety::config inherits configsafety {
 if $hostname == $node_cfg {
 
   $_template_config_files = 'configsafety/config-safety.conf.erb'
-  $_template_exclude_files_rsync = 'configsafety/exclude-files-rsync.erb'
-  $_template_path_incl_dar = 'configsafety/path-incl-dar.erb'
-  $_template_cron_configsafety = 'configsafety/config-safety.cron.erb'
 
   file { $configsafety_config_files :
     content => template($_template_config_files),
     mode    => '0600',
   }
-  
-  file { $configsafety_exclude_files_rsync :
-    content => template($_template_exclude_files_rsync),
-    mode    => '0600',
+
+  hpclib::print_config{ $configsafety_exclude_files_rsync:
+    style     => 'linebyline',
+    data      => $config_excl_files_rsync,
+    mode      => '0600',
   }
-  
-  file { $configsafety_path_incl_dar :
-    content => template($_template_path_incl_dar),
-    mode    => '0600',
+
+  hpclib::print_config{ $configsafety_path_incl_dar:
+    style     => 'linebyline',
+    data      => $config_path_incl_dar,
+    mode      => '0600',
   }
-  
-  file { $configsafety_cron_configsafety :
-    content => template($_template_cron_configsafety),
+
+  hpclib::print_config{ $configsafety_cron_configsafety:
+    style     => 'linebyline',
+    data      => $config_cron_configsafety,
+    mode      => '0600',
   }
 
 }

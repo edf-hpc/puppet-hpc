@@ -21,10 +21,10 @@ class configsafety (
   $packages         			= $configsafety::params::packages,
   $packages_ensure  			= $configsafety::params::packages_ensure,
   $config_options   			= {},
-  $config_excl_files_rsync		= {},
-  $config_path_incl_dar                 = {},
-  $config_cron_configsafety             = {},
-  $node_cfg				= {},
+  $config_excl_files_rsync		= [],
+  $config_path_incl_dar                 = [],
+  $config_cron_configsafety             = [],
+  $node_cfg				= '',
 ) inherits configsafety::params {
 
   validate_absolute_path($configsafety_config_files)
@@ -34,6 +34,7 @@ class configsafety (
   validate_array($packages)
   validate_string($packages_ensure)
   validate_hash($config_options)
+  validate_string($node_cfg)
 
   $_config_options=deep_merge($configsafety::params::config_options_defaults, $config_options)
 
