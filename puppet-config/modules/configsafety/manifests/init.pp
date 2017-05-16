@@ -17,24 +17,23 @@ class configsafety (
   $configsafety_config_files		= $configsafety::params::configsafety_config_files,
   $configsafety_exclude_files_rsync	= $configsafety::params::configsafety_exclude_files_rsync,
   $configsafety_path_incl_dar		= $configsafety::params::configsafety_path_incl_dar,
-  $configsafety_cron_configsafety	= $configsafety::params::configsafety_cron_configsafety,
   $packages         			= $configsafety::params::packages,
   $packages_ensure  			= $configsafety::params::packages_ensure,
   $config_options   			= {},
   $config_excl_files_rsync		= [],
   $config_path_incl_dar                 = [],
-  $config_cron_configsafety             = [],
+  $crontab_entries                      = {},
   $node_cfg				= '',
 ) inherits configsafety::params {
 
   validate_absolute_path($configsafety_config_files)
   validate_absolute_path($configsafety_exclude_files_rsync)
   validate_absolute_path($configsafety_path_incl_dar)
-  validate_absolute_path($configsafety_cron_configsafety)
   validate_array($packages)
   validate_string($packages_ensure)
   validate_hash($config_options)
   validate_string($node_cfg)
+  validate_hash($crontab_entries)
 
   $_config_options=deep_merge($configsafety::params::config_options_defaults, $config_options)
 

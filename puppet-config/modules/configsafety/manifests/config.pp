@@ -35,11 +35,7 @@ if $hostname == $node_cfg {
     mode      => '0600',
   }
 
-  hpclib::print_config{ $configsafety_cron_configsafety:
-    style     => 'linebyline',
-    data      => $config_cron_configsafety,
-    mode      => '0600',
-  }
+  create_resources (cron, $::configsafety::crontab_entries)
 
 }
 

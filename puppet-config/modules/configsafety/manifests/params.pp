@@ -20,7 +20,6 @@ class configsafety::params {
   $configsafety_config_files            = '/etc/config-safety/config-safety.conf'
   $configsafety_exclude_files_rsync     = '/etc/config-safety/exclude-files-rsync'
   $configsafety_path_incl_dar           = '/etc/config-safety/path-incl-dar'
-  $configsafety_cron_configsafety       = '/etc/cron.d/config-safety'
 
   $config_options_defaults = {
     'BCKNAME' => '"configsafety"',
