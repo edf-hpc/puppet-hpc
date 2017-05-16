@@ -1,0 +1,42 @@
+#
+# Config file for script config-safety 
+#
+
+# Backup name ( /!\ The name must be different if multiple backups on the same server )
+BCKNAME="<%= @_config_options['bck_name'] %>"
+
+# Log
+LOG="/var/log/config-safety/backup-${BCKNAME}-status.log"			
+
+# ============================ BACKUP BY DAR ============================ #
+
+# Backup dir ( ex: /home ) 
+PATHADMIN="<%= @_config_options['path_bck_dar_dir'] %>"
+# Include another dir
+PATH_INCL="<%= @_config_options['path_incl_dar_file'] %>"
+	           
+# Destination dir backup ( ex: "ssh -i /etc/config-safety/id_rsa login@servername" or empty if local/mount dir )
+DESTBCK="<%= @_config_options['dest_host_dar_bck'] %>" 
+# Path backup dir ( ex: "/home/save-dir" )
+PATHBCK="<%= @_config_options['dest_path_dar_back_dir'] %>"	 				    
+
+# Catalogue
+CATALOGUE="<%= @_config_options['path_catalogue_dar_file'] %>"
+
+# Retention ( Number of day retention for full backup )
+NBRET="<%= @_config_options['day_ret_dar'] %>" 
+
+# ============================ BACKUP BY RSYNC ============================ #
+
+# Backup dir ( ex: /home )
+RPATHADMIN="<%= @_config_options['path_bck_rsync_dir'] %>"
+
+# Rsync option
+RSYNCOPT="<%= @_config_options['rsync_opt'] %>"
+# Option connection backup dir (ex: "ssh -i '/etc/config-safety/id_rsa' -o 'GSSAPIAuthentication=no' login@servername")
+RSSH="<%= @_config_options['dest_host_rsync_bck'] %>"
+# Path backup dir ( ex: "/home/save-dir" of "192.168.1.20:/home/save-dir" )
+RPATHBCK="<%= @_config_options['dest_path_rsync_back_dir'] %>"
+# Exclude files or dir ( ex "/etc/config-safety/exclude-rsync" leave blank if not necessary )
+EXCLUDE="<%= @_config_options['path_excl_rsync_file'] %>"
+
