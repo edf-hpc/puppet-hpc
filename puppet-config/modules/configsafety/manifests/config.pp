@@ -17,11 +17,10 @@ class configsafety::config inherits configsafety {
 
 if $hostname == $node_cfg {
 
-  $_template_config_files = 'configsafety/config-safety.conf.erb'
-
-  file { $configsafety_config_files :
-    content => template($_template_config_files),
-    mode    => '0600',
+  hpclib::print_config{ $configsafety_config_files:
+    style     => 'keyval',
+    data      => $_config_options,
+    mode      => '0600',
   }
 
   hpclib::print_config{ $configsafety_exclude_files_rsync:

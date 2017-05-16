@@ -22,22 +22,22 @@ class configsafety::params {
   $configsafety_path_incl_dar           = '/etc/config-safety/path-incl-dar'
   $configsafety_cron_configsafety       = '/etc/cron.d/config-safety'
 
-
   $config_options_defaults = {
-    'bck_name'       		=> 'configsafety',
+    'BCKNAME' => '"configsafety"',
+    'LOG' => '"/var/log/config-safety/backup-configsafety-status.log"',
     # Dar
-    'path_bck_dar_dir'         	=> 'noset',
-    'path_incl_dar_file'      	=> '/etc/config-safety/path-incl-dar',
-    'dest_host_dar_bck'         => 'noset',
-    'dest_path_dar_back_dir'    => ' noset',
-    'path_catalogue_dar_file'   => '/etc/config-safety/catalogue',
-    'day_ret_dar'       	=> '5',
+    'PATHADMIN' => '"noset"',
+    'PATH_INCL' => '"/etc/config-safety/path-incl-dar"',
+    'DESTBCK' => '"noset"',
+    'PATHBCK' => '"noset"',
+    'CATALOGUE' => '"/etc/config-safety/catalogue"',
+    'NBRET' => '"5"',
     # Rsync
-    'path_bck_rsync_dir'    	=> 'noset',
-    'rsync_opt' 		=> 'rsync -rltgoDv --del --ignore-errors --force',
-    'dest_host_rsync_bck' 	=> 'noset',
-    'dest_path_rsync_back_dir'  => 'noset',
-    'path_excl_rsync_file'  	=> '/etc/config-safety/exclude-files-rsync',
+    'RPATHADMIN' => '"noset"',
+    'RSYNCOPT' => '"rsync -rltgoDv --del --ignore-errors --force"',
+    'RSSH' => '"noset"',
+    'RPATHBCK' => '"noset"',
+    'EXCLUDE' => '"/etc/config-safety/exclude-files-rsync"',
   }
 
 }
