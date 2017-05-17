@@ -24,15 +24,22 @@ class configsafety (
   $config_path_incl_dar                 = [],
   $crontab_entries                      = {},
   $node_cfg				= '',
+  $configsafety_mod_ssh_enable          = {},
+  $configsafety_ssh_key_file            = {},
+  $configsafety_ssh_key_source          = {},
+  $decrypt_passwd,
 ) inherits configsafety::params {
 
   validate_absolute_path($configsafety_config_files)
   validate_absolute_path($configsafety_exclude_files_rsync)
   validate_absolute_path($configsafety_path_incl_dar)
+  validate_absolute_path($configsafety_ssh_key_file)
   validate_array($packages)
   validate_string($packages_ensure)
   validate_hash($config_options)
   validate_string($node_cfg)
+  validate_string($decrypt_passwd)
+  validate_string($configsafety_ssh_key_source)
   validate_hash($crontab_entries)
 
   $_config_options=deep_merge($configsafety::params::config_options_defaults, $config_options)

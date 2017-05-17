@@ -37,6 +37,17 @@ if $hostname == $node_cfg {
 
   create_resources (cron, $::configsafety::crontab_entries)
 
+  if $configsafety_mod_ssh_enable == 'yes' {
+
+        file { $configsafety_ssh_key_file :
+                owner   => 'root',
+                group   => 'root',
+                mode    => '0600',
+                content => decrypt($configsafety_ssh_key_source,$decrypt_passwd),
+        }
+
+  }
+
 }
 
 }
