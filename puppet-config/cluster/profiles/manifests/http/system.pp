@@ -40,6 +40,7 @@ class profiles::http::system {
   $domain          = hiera('domain')
 
   include apache
+  include apache::mod::php
 
   $servername = "${cluster_prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
