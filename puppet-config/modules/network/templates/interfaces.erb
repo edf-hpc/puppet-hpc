@@ -114,11 +114,20 @@ iface <%= card %> inet static
 -%>
     bond-<%= opt_key + ' ' + opt_value %>
 <%-
-       end
-     end
+        end
+      end
+      slaves = bondcfg[card]['slaves']
 -%>
-    slaves <%= bondcfg[card]['slaves'].join(' ') %>
+    slaves <%= slaves.join(' ') %>
 <%-
+      if not ipaddrs.empty?
+        # Clean potential IP address from DHCP on slave interfaces
+        slaves.each do | slave |
+-%>
+    pre-up ip addr del <%= ipaddrs[0] %> dev <%= slave %> || true
+<%-
+        end
+      end
     # Bridges
     elsif card.include?("br")
 -%>
@@ -126,26 +135,9 @@ iface <%= card %> inet static
 <%-
     end
 
-    # Remove addr from slaves
-    if card.include?("bond") and not ipaddrs.empty?
-      slaves = bondcfg[card]['slaves']
-      slaves.each do | slave |
--%>
-    pre-up ip addr del <%= ipaddrs[0] %> dev <%= slave %> || true
-<%-
-      end
-    end
-
-    # If the card has at least an IP address, set it with static address
-    # parameter. The other optional addresses are appended with up commands, as
-    # documented in:
-    #   https://wiki.debian.org/NetworkConfiguration#iproute2_method
-    if not ipaddrs.empty?
--%>
-    address <%= ipaddrs[0] %>
-<%-
-    end
-
+    main_address = nil
+    main_address_has_default_gw = false
+    sec_addresses = Array.new()
     unless defaultgw.empty? or default_gw_set
       # Iterate over the IP addresses to find if the default gateway can be set on
       # this card.
@@ -160,14 +152,36 @@ iface <%= card %> inet static
         addtrg = IPAddr.new(defaultgw)
         if range.include?(addtrg)
           default_gw_set = true
+          main_address_has_default_gw = true
+          main_address = ipadd
+        else
+          sec_addresses.push(ipadd)
+        end
+      end
+    end
+
+    # If there is no default gateway on any address of this card, the first
+    # is promoted
+    if not main_address_has_default_gw and not sec_addresses.empty?
+      main_address = sec_addresses.shift
+    end
+
+    # If the card has at least an IP address, set it with static address
+    # parameter. The other optional addresses are appended with up commands, as
+    # documented in:
+    #   https://wiki.debian.org/NetworkConfiguration#iproute2_method
+    if main_address
+-%>
+    address <%= main_address %>
+<%-
+      if main_address_has_default_gw
 -%>
     gateway <%= defaultgw %>
 <%-
-        else
+      else
 -%>
-    # default gateway <%= defaultgw %> not in range <%= range %>
+    # default gateway <%= defaultgw %> not in range for this interface
 <%-
-        end
       end
     end
 
@@ -191,8 +205,8 @@ iface <%= card %> inet static
 
     # Iterate over the secondary and more IP addresses of the card to set them
     # with up/down `ip` commands.
-    if ipaddrs.count > 1
-      ipaddrs[1..-1].each do |ipaddr|
+    if not sec_addresses.empty?
+      sec_addresses.each do |ipaddr|
 -%>
     up   ip addr add <%= ipaddr %> dev $IFACE
     down ip addr del <%= ipaddr %> dev $IFACE
