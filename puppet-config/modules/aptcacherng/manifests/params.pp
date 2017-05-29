@@ -24,17 +24,18 @@ class aptcacherng::params {
 
   #### Default values
   $config_options_defaults = {
-    'CacheDir'     => '/var/cache/apt-cacher-ng',
-    'LogDir'       => '/var/log/apt-cacher-ng',
-    'Port'         => '3142',
-    'Remap-debrep' => 'file:deb_mirror*.gz /debian ; file:backends_debian',
-    'Remap-uburep' => 'file:ubuntu_mirrors /ubuntu ; file:backends_ubuntu',
-    'Remap-debvol' => 'file:debvol_mirror*.gz /debian-volatile ; file:backends_debvol',
-    'Remap-fedora' => 'file:fedora_mirrors',
-    'Remap-epel'   => 'file:epel_mirrors',
-    'Remap-slrep'  => 'file:sl_mirrors',
-    'ReportPage'   => 'acng-report.html',
-    'ExTreshold'   => '4',
-    'LocalDirs'    => 'acng-doc /usr/share/doc/apt-cacher-ng',
+    'CacheDir'       => '/var/cache/apt-cacher-ng',
+    'LogDir'         => '/var/log/apt-cacher-ng',
+    'Port'           => '3142',
+    'Remap-debrep'   => 'file:deb_mirror*.gz /debian ; file:backends_debian',
+    'Remap-uburep'   => 'file:ubuntu_mirrors /ubuntu ; file:backends_ubuntu',
+    'Remap-debvol'   => 'file:debvol_mirror*.gz /debian-volatile ; file:backends_debvol',
+    'Remap-fedora'   => 'file:fedora_mirrors',
+    'Remap-epel'     => 'file:epel_mirrors',
+    'Remap-slrep'    => 'file:sl_mirrors',
+    'ReportPage'     => 'acng-report.html',
+    'ExTreshold'     => '4',
+    'LocalDirs'      => 'acng-doc /usr/share/doc/apt-cacher-ng',
+    'VfilePatternEx' => '(^|.*/).*(\.img)$',
   }
 }
