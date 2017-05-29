@@ -1,6 +1,6 @@
 require 'yaml'
 require 'hiera'
-require_relative 'role'
+require(File.expand_path('role', File.dirname(__FILE__)))
 
 # Please maintain this list in the documentation (README.md)
 tracked_profiles=['server','relay','mirror','replica','tracker', 'proxy']
