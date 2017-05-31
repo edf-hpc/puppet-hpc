@@ -20,7 +20,19 @@ class fusioninventory::params {
   $packages        = [ 'fusioninventory-agent' ]
   $packages_ensure = 'present'
   $config_file     = '/etc/fusioninventory/agent.cfg'
-  $default_file    = '/etc/default/fusioninventory-agent'
+
+  case $::osfamily {
+    'Debian': {
+      $default_file = '/etc/default/fusioninventory-agent'
+    }
+    'Redhat': {
+      $default_file = '/etc/sysconfig/fusioninventory-agent'
+    }
+    default: {
+      fail("Unsupported OS Family: ${::osfamily}")
+    }
+  }
+
 
 #### Defaults values
 
