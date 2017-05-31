@@ -51,6 +51,14 @@ class profiles::cluster::common {
     Class['::apt::update'] -> Package<| title != "apt-transport-https" |>
   }
 
+  if $::osfamily == 'RedHat' {
+    $yumrepos = hiera_hash('profiles::cluster::yumrepos')
+    class { '::hpc_yum':
+      stage => 'first',
+      repos => $yumrepos,
+    }
+  }
+
   # Disable the Puppet agent
   class { '::puppet':
     stage     => 'first',
