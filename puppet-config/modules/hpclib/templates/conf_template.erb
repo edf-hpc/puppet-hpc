@@ -50,13 +50,13 @@ end
 <%= @comments %>####################################################################
 <% case style -%>
   <%- when 'ini' -%>
-  <%- conf.each do | section, content | -%>
+  <%- conf.sort.map do | section, content | -%>
 <%= '['+section+']' %>
     <%- if not content.is_a?(::Hash)
           raise "Content of section #{section} (#{@name}) is not a Hash (#{content}), not valid for an 'ini' style file."   
         end
     -%>
-    <%- content.each do | key, kcont | -%>
+    <%- content.sort.map do | key, kcont | -%>
 <%= entry_to_string(key, kcont) %>
     <%- end -%>
 
