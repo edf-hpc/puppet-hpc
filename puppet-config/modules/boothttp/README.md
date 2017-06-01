@@ -23,7 +23,7 @@ resources through HTTP. This include:
  * Resources used by the installer: config files, preseed/kickstart...
 
 The installer configuration uses a list of supported os, the default list only
-includes `calibre9`.
+includes `calibre9` and `rhel6`.
 
 The module setup the files to serve and the virtual host configuration of the
 HTTP server (apache).
@@ -105,6 +105,41 @@ The ``install_options`` provides parameters for all installers, with preseed
 the data is used as-is in the preseed file. With kickstart files, the data is
 injected with a template.
 
+This is an example of a 'rhel6' install_options set :
+
+```
+  'rhel6':
+    crypted_rootpw: "PASSWORD HASH"
+    install:
+      url:   'http://hpc.example.com/repos/rhel6'
+      proxy: "http://apt.service.virtual:3142"
+    additional_repos:
+      'el6-epel':
+        baseurl:  'http://hpc.example.com/repos/el6-epel'
+        proxy:    "http://apt.service.virtual:3142"
+      'el6-puppet':
+        baseurl:  'http://hpc.example.com/repos/el6-puppet'
+        proxy:    "http://apt.service.virtual:3142"
+      'el6-hpc':
+        baseurl: 'http://hpc.example.com/repos/rpm-hpc/el6'
+        proxy:    "http://apt.service.virtual:3142"
+    lang:              'en_US.UTF-8'
+    keyboard:          'fr'
+    timezone:          'Europe/Paris'
+    system_disk:       'sda'
+    bootloader_append: 'console=ttyS0,115200n8r crashkernel=auto'
+    packages:
+      - 'hpc-config-apply'
+      - 'puppet'
+      - 'rubygem-hiera-eyaml'
+    post_command: >
+      wget http://web-boot.service.virtual/disk/rhel6/hpc-config.conf -O /etc/hpc-config.conf;
+      mkdir -p /var/lib/puppet/facts.d;
+      hpc-config-apply -vvv 2>&1 > /var/log/hpc-config-apply.install.log;
+      chmod 600 /var/log/hpc-config-apply.install.log;
+
+```
+
 The ``menu_config_options`` depends of the format that the boot menu uses.
 
 ## Limitations
@@ -113,7 +148,9 @@ The boot menu is not provided directly by this module, the module only provides
 option to deploy it.
 
 This module is mainly tested on Debian, boothttp is not packaged on RHEL and
-derivatives.
+derivatives (it can deploy RHEL systems though).
+
+RHEL deployment template does not support complex partitioning.
 
 ## Development
 

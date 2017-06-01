@@ -1,13 +1,19 @@
 #########  Kickstart file for RHEL Servers of the cluster ############
+<%- 
+  all_options = scope['::boothttp::install_options']
+  options = all_options['rhel6']
+-%>
 
 ### The default installation mode. You must specify the type of installation ###
 ### from cdrom, harddrive, nfs, liveimg, or url (for FTP, HTTP, or HTTPS installations). ###
 ### The install command and the installation method command must be on separate lines. ###
 install
-url --url http://<%= @virtual_address %>/mirror/rhel6/rhel
+url --url <%= options['install']['url'] %> --proxy=<%= options['install']['proxy'] %>
 
-### Configures additional yum repositories that may be used as sources for package installation ### 
-repo --name=rhel-cluster --baseurl=http://<%= @virtual_address %>/mirror/rhel6/rhel-cluster
+### Configures additional yum repositories that may be used as sources for package installation ###
+<%- options['additional_repos'].each do | name, repo_options | -%>
+repo --name=<%= name %> --baseurl=<%= repo_options['baseurl'] %> --proxy=<%= repo_options['proxy'] %>
+<%- end -%>
 
 ### Perform the Kickstart installation in text mode ###
 text
@@ -16,13 +22,13 @@ text
 reboot
 
 ### Sets the language to use during installation and the default language on the installed system. ###
-lang fr_FR.UTF-8
+lang <%= options['lang'] %>
 
 ### Sets one or more available keyboard layouts for the system. ###
-keyboard fr
+keyboard <%= options['keyboard'] %>
 
 ### Sets the system time zone to timezone. ###
-timezone Europe/Paris
+timezone <%= options['timezone'] %>
 
 ### Configures network information for the target system and activates network devices in the installation environment. ###
 network --onboot yes --device eth0 --bootproto dhcp --noipv6
@@ -36,16 +42,16 @@ unsupported_hardware
 #zerombr
 
 ### Removes partitions from the system, prior to creation of new partitions. ###
-clearpart --drives=sda --all
+clearpart --drives=<%= options['system_disk'] %> --all
 
 ### Causes the installation program to ignore the specified disks. ###
-ignoredisk --only-use=sda 
+ignoredisk --only-use=<%= options['system_disk'] %> 
 
 ### Creates a partition on the system. ###
 part /boot/efi --fstype=efi --grow --maxsize=200 --size=20
-part /boot --asprimary --ondrive=sda --fstype=ext3 --size=250
-part swap --recommended --ondrive=sda
-part pv.01 --asprimary --size 1 --grow --ondrive=sda
+part /boot --asprimary --ondrive=<%= options['system_disk'] %> --fstype=ext3 --size=250
+part swap --recommended --ondrive=<%= options['system_disk'] %>
+part pv.01 --asprimary --size 1 --grow --ondrive=<%= options['system_disk'] %>
 
 ### Creates a Logical Volume Management (LVM) group. ###
 volgroup sysvg pv.01
@@ -56,16 +62,16 @@ logvol /var --fstype=ext4 --vgname=sysvg --size=15000 --name=var
 logvol /tmp --fstype=ext4 --vgname=sysvg --size=10000 --name=tmp
 
 ### Specifies how the boot loader should be installed. ###
-bootloader --location=mbr --driveorder=sda --append="console=ttyS0,115200n8r crashkernel=auto"
+bootloader --location=mbr --driveorder=<%= options['system_disk'] %> --append="<%= options['bootloader_append'] %>"
 
 ### If present, X is not configured on the installed system. ###
 skipx
 
 ### During the installation, you can interact with the installation program and monitor its progress over an SSH connection. ###
-sshpw --username=installer installer --plaintext
+#sshpw --username=installer installer --plaintext
 
 ### Sets the system's root password ###
-rootpw --plaintext <%= %>
+rootpw --iscrypted <%= options['crypted_rootpw'] %>
 
 ### Sets up the authentication options for the system ###
 authconfig --enableshadow --passalgo=sha512
@@ -80,81 +86,10 @@ selinux --disabled
 reboot
 
 %packages --nobase 
-anacron
-at
-bc
-coreutils
-#cpuspeed
-cryptsetup-luks
-dhclient
-dmraid
-dos2unix
-dosfstools
-e2fsprogs
-expect
-git
-gnupg
-grub
-kernel-firmware
-kernel-headers
-lftp
-libselinux-ruby
-lm_sensors
-logwatch
-lsof
-lvm2
-mailx
-make
-man
-mcelog
-mdadm
-mgetty
-mlocate
-nano
-nc
-net-snmp
-net-tools
-nfs-utils
-ntp
-numactl
-OpenIPMI-tools
-openssh-clients
-openssh-server
-parted
-patch
-portmap
-puppet
-quota
-redhat-lsb
-rsync
-ruby
-sysstat
-sudo
-sg3_utils.x86_64
-tcpdump
-telnet
-tftp
-traceroute
-tree
-vim-enhanced
-wget
-yum
-#yum-security
-yum-utils
+<%- options['packages'].each do | package| -%>
+<%= package %>
+<%- end -%>
 
-# Paquet LSI
-#Lib_Utils
-#MegaCli
-
-#Paquets DDN
-#ddn-ibsrp.noarch
-
--dhcpv6-client
--iptables-ipv6
--system-config-securitylevel-tui
--wireless-tools
--rhpl
-#-openib
 %end
 
 %pre 
@@ -174,16 +109,13 @@ done
 }
 
 remove_modules
-echo "All qla* modules removed"
+echo "All SAN modules (${MODULES}) removed"
 %end
 
 %post --log=/mnt/sysimage/root/ks-post.log
 dhclient eth0
-wget http://<%= @virtual_address %>/disk/rhel6/postinstall.sh -O /bin/postinstall.sh
-chmod 755 /bin/postinstall.sh
-/bin/postinstall.sh
-rm /bin/postinstall.sh
 # Remove the anaconda blacklist because it is not used anymore in
 #  the running machine.
 rm /etc/modprobe.d/anaconda.conf
+<%= options['post_command'] %>
 %end
