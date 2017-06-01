@@ -1,4 +1,4 @@
-#########################################################################
+##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2017 EDF S.A.                                      #
@@ -13,25 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpcconfig::apply::params {
-  $service_manage = true
-  $service_name = 'hpc-config-apply'
-  $service_ensure = undef
-  $service_enable = true
-
-  $packages                 = ['hpc-config-apply']
-  $packages_ensure          = 'latest'
-  $config_file              = '/etc/hpc-config.conf'
-  $config_options_defaults  = {
-    'DEFAULT' => {
-      environment => {
-        value => 'production',
-      },
-      tmpdir      => {
-        comment => 'Using /var/tmp to more easily manipulate /tmp mountpoint during a puppet run.',
-        value   => '/var/tmp',
-      },
-    },
+class hpcconfig::apply::service inherits hpcconfig::apply {
+  if $::hpcconfig::apply::service_manage {
+    service { $::hpcconfig::apply::service_name:
+      ensure => $::hpcconfig::apply::service_ensure,
+      enable => $::hpcconfig::apply::service_enable,
+    }
   }
-
 }
+
