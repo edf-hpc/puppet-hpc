@@ -175,13 +175,6 @@ profiles::bootsystem::server::listen_networks:
 profiles::openssh::server::config_augeas:
   - 'set MaxStartups 8192'
   - 'set PermitRootLogin yes'
-  - 'set X11UseLocalhost no'
-  - 'set ClientAliveInterval 300'
-  - 'set AcceptEnv/1 LANG'
-  - 'set AcceptEnv/2 LC_*'
-  - 'set AcceptEnv/3 SLURM_*'
-  - 'set AcceptEnv/4 SCRATCHDIR'
-  - 'set AcceptEnv/5 SUDO_*'
 
 openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
 openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
