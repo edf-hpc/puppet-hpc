@@ -26,13 +26,15 @@
 # @param service_ensure      Ensure state of the service: `running` or
 #                            `stopped` (default: running)
 # @param service_enable      Service started at boot (default: true)
-# @param service             Name of the service
+# @param service_name        Name of the service
 # @param cluster             Name of the cluster for comment (default:
 #                            'cluster')
 # @param root_public_key     String of the RSA public key
 # @param hostkeys_source_dir Base URL to fetch the source keys (default:
 #                            'openssh')
 # @param hostkeys_dir Path of the directory where the host keys will be put
+# @param host_private_key_types List of supported host key types (default
+#          Debian:rsa,dsa,ecdsa,ed25519, default Redhat:rsa,dsa)
 # @param host_private_key_rsa Basename of the private RSA key (source and
 #          destination)
 # @param host_public_key_rsa Basename of the public RSA key (destination only)
@@ -52,11 +54,12 @@ class openssh::server (
   $config_file              = $::openssh::server::params::config_file,
   $config_augeas            = $::openssh::server::params::config_augeas,
   $augeas_context           = $::openssh::server::params::augeas_context,
-  $service                  = $::openssh::server::params::service,
+  $service_name             = $::openssh::server::params::service_name,
   $service_enable           = $::openssh::server::params::service_enable,
   $service_ensure           = $::openssh::server::params::service_ensure,
   $cluster                  = $::openssh::server::params::cluster,
   $root_public_key          = $::openssh::server::params::root_public_key,
+  $host_private_key_types   = $::openssh::server::params::host_private_key_types,
   $host_private_key_rsa     = $::openssh::server::params::host_private_key_rsa,
   $host_public_key_rsa      = $::openssh::server::params::host_public_key_rsa,
   $host_private_key_dsa     = $::openssh::server::params::host_private_key_dsa,
@@ -70,6 +73,7 @@ class openssh::server (
   $decrypt_passwd           = $::openssh::server::params::decrypt_passwd,
 ) inherits openssh::server::params {
 
+  validate_string($service_name)
   validate_array($packages)
   validate_string($packages_ensure)
   validate_absolute_path($config_file)
@@ -77,6 +81,7 @@ class openssh::server (
   validate_absolute_path($augeas_context)
   validate_string($root_public_key)
 
+  validate_array($host_private_key_types)
   validate_string($host_private_key_rsa)
   validate_string($host_public_key_rsa)
   validate_string($host_private_key_dsa)

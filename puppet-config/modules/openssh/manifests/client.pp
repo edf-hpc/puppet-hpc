@@ -14,7 +14,7 @@
 ##########################################################################
 
 # Setup system wide OpenSSH client options
-# 
+#
 # @param packages Array of package names to install
 # @param packages_ensure Target state of the packages (default: 'latest')
 # @param config_file Path of the ssh client config file (default:

@@ -19,22 +19,25 @@ class openssh::server::params {
   $packages_ensure = 'latest'
   $config_file     = '/etc/ssh/sshd_config'
   $augeas_context  = "/files/${config_file}"
-  $service         = 'ssh'
   $service_ensure  = 'running'
   $service_enable  = true
 
   case $::osfamily {
     'Debian' : {
+      $service_name = 'ssh'
       $packages = [
         'ssh',
         'openssh-server',
       ]
+      $host_private_key_types = ['rsa', 'dsa', 'ecdsa', 'ed25519']
     }
     'RedHat' : {
+      $service_name = 'sshd'
       $packages = [
         'openssh',
         'openssh-server',
       ]
+      $host_private_key_types = ['rsa', 'dsa']
     }
     default : {
       $packages = [

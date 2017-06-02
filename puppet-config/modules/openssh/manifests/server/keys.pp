@@ -42,84 +42,91 @@ class openssh::server::keys inherits openssh::server {
   $target_dir = $::openssh::server::hostkeys_dir
   $source_dir = $::openssh::server::hostkeys_source_dir
 
-  file { "${target_dir}/${::openssh::server::host_private_key_rsa}":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-    content => decrypt(
-                prefix(
-                  $search_suffixes,
-                  "${source_dir}/${::openssh::server::host_private_key_rsa}"
+  if member($::openssh::server::host_private_key_types, 'rsa') {
+    file { "${target_dir}/${::openssh::server::host_private_key_rsa}":
+      ensure  => 'present',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+      content => decrypt(
+                  prefix(
+                    $search_suffixes,
+                    "${source_dir}/${::openssh::server::host_private_key_rsa}"
+                  ),
+                  $::openssh::server::decrypt_passwd
                 ),
-                $::openssh::server::decrypt_passwd
-              ),
-  }
-  exec { 'openssh_server_update_host_public_key_rsa':
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_rsa} >  ${target_dir}/${::openssh::server::host_public_key_rsa}",
-    refreshonly => true,
-    subscribe   => File["${target_dir}/${::openssh::server::host_private_key_rsa}"],
+    }
+    exec { 'openssh_server_update_host_public_key_rsa':
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_rsa} >  ${target_dir}/${::openssh::server::host_public_key_rsa}",
+      refreshonly => true,
+      subscribe   => File["${target_dir}/${::openssh::server::host_private_key_rsa}"],
+    }
   }
 
-  file { "${target_dir}/${::openssh::server::host_private_key_dsa}":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-    content => decrypt(
-                prefix(
-                  $search_suffixes,
-                  "${source_dir}/${::openssh::server::host_private_key_dsa}"
+  if member($::openssh::server::host_private_key_types, 'dsa') {
+    file { "${target_dir}/${::openssh::server::host_private_key_dsa}":
+      ensure  => 'present',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+      content => decrypt(
+                  prefix(
+                    $search_suffixes,
+                    "${source_dir}/${::openssh::server::host_private_key_dsa}"
+                  ),
+                  $::openssh::server::decrypt_passwd
                 ),
-                $::openssh::server::decrypt_passwd
-              ),
-  }
-  exec { 'openssh_server_update_host_public_key_dsa':
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_dsa} >  ${target_dir}/${::openssh::server::host_public_key_dsa}",
-    refreshonly => true,
-    subscribe   => File["${target_dir}/${::openssh::server::host_private_key_dsa}"],
+    }
+    exec { 'openssh_server_update_host_public_key_dsa':
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_dsa} >  ${target_dir}/${::openssh::server::host_public_key_dsa}",
+      refreshonly => true,
+      subscribe   => File["${target_dir}/${::openssh::server::host_private_key_dsa}"],
+    }
   }
 
-  file { "${target_dir}/${::openssh::server::host_private_key_ecdsa}":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-    content => decrypt(
-                prefix(
-                  $search_suffixes,
-                  "${source_dir}/${::openssh::server::host_private_key_ecdsa}"
+  if member($::openssh::server::host_private_key_types, 'ecdsa') {
+    file { "${target_dir}/${::openssh::server::host_private_key_ecdsa}":
+      ensure  => 'present',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+      content => decrypt(
+                  prefix(
+                    $search_suffixes,
+                    "${source_dir}/${::openssh::server::host_private_key_ecdsa}"
+                  ),
+                  $::openssh::server::decrypt_passwd
                 ),
-                $::openssh::server::decrypt_passwd
-              ),
-  }
-  exec { 'openssh_server_update_host_public_key_ecdsa':
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_ecdsa} >  ${target_dir}/${::openssh::server::host_public_key_ecdsa}",
-    refreshonly => true,
-    subscribe   => File["${target_dir}/${::openssh::server::host_private_key_ecdsa}"],
+    }
+    exec { 'openssh_server_update_host_public_key_ecdsa':
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_ecdsa} >  ${target_dir}/${::openssh::server::host_public_key_ecdsa}",
+      refreshonly => true,
+      subscribe   => File["${target_dir}/${::openssh::server::host_private_key_ecdsa}"],
+    }
   }
 
-  file { "${target_dir}/${::openssh::server::host_private_key_ed25519}":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0600',
-    content => decrypt(
-                prefix(
-                  $search_suffixes,
-                  "${source_dir}/${::openssh::server::host_private_key_ed25519}"
+  if member($::openssh::server::host_private_key_types, 'ed25519') {
+    file { "${target_dir}/${::openssh::server::host_private_key_ed25519}":
+      ensure  => 'present',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+      content => decrypt(
+                  prefix(
+                    $search_suffixes,
+                    "${source_dir}/${::openssh::server::host_private_key_ed25519}"
+                  ),
+                  $::openssh::server::decrypt_passwd
                 ),
-                $::openssh::server::decrypt_passwd
-              ),
+    }
+    exec { 'openssh_server_update_host_public_key_ed25519':
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_ed25519} >  ${target_dir}/${::openssh::server::host_public_key_ed25519}",
+      refreshonly => true,
+      subscribe   => File["${target_dir}/${::openssh::server::host_private_key_ed25519}"],
+    }
   }
-  exec { 'openssh_server_update_host_public_key_ed25519':
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command     => "ssh-keygen -y -f ${target_dir}/${::openssh::server::host_private_key_ed25519} >  ${target_dir}/${::openssh::server::host_public_key_ed25519}",
-    refreshonly => true,
-    subscribe   => File["${target_dir}/${::openssh::server::host_private_key_ed25519}"],
-  }
-
 }

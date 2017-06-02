@@ -15,7 +15,7 @@
 
 class openssh::server::service inherits openssh::server {
 
-  service { $::openssh::server::service:
+  service { $::openssh::server::service_name:
     ensure  => $::openssh::server::service_ensure,
     enable  => $::openssh::server::service_enable,
     require => Package[$::openssh::server::packages],
