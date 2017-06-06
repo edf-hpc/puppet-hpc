@@ -390,6 +390,10 @@ profiles::warewulf_nhc::config_options:
     comment: 'In out-of-band contexts, enable all checks'
     nodes:   '*'
     command: 'export NHC_CHECK_ALL=1'
+  20_mcelog:
+    comment: 'Default of 9 corrected errors is too small'
+    nodes:   '*'
+    command: 'export MCELOG_MAX_CORRECTED_RATE=100'
   eth0:
     comment: 'Checks for an active ethernet interface named "eth0."'
     nodes:   '*'
