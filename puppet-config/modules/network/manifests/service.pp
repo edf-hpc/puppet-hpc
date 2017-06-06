@@ -23,8 +23,9 @@ class network::service inherits network {
     # Test the network is really up before proceeding
     exec { 'network_service_ping_gateway':
       refreshonly => true,
+      path        => '/usr/bin:/usr/sbin',
       subscribe   => Service[$::network::service_name],
-      command     => "/usr/bin/fping -r 30 -t 1000 -B 1 ${::network::defaultgw}",
+      command     => "fping -r 30 -t 1000 -B 1 ${::network::defaultgw}",
       # Proceed anyway if host is unreachable
       returns     => [ 0, 1, 2],
     }

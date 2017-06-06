@@ -92,6 +92,10 @@ class network (
     validate_integer($ib_mtu)
     validate_string($ib_mode)
     validate_array($eth_no_offload_ifs)
+
+    if $::osfamily == 'RedHat' and size($eth_no_offload_ifs) > 0 {
+      warning("RedHat OS family does not supports the eth_no_offload_ifs parameter. It will be ignored (${eth_no_offload_ifs})")
+    }
   }
 
   if $service_manage {

@@ -2,15 +2,14 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
     * [What dns affects](#what-network-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with dns](#beginning-with-network)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
 
 ## Module Description
 Configures the network on this system
@@ -23,17 +22,22 @@ Configures the network interfaces on this system. This module configures:
 - IP-over-IB interfaces (either Infiniband or Intel Omni-Path)
 - Ethernet bonding
 - Bridges
+- Disabling hardware offloading (Debian Only)
 
 The network module uses an interface list provided by the ``netconfig`` fact
 from the ``hpclib`` module. This fact uses data from the hiera
 ``master_network`` to generate the interface list. It also uses data from the
 ``net_topology`` fact to get generic parameters for networks. 
 
+This module supports OS Families: Debian and RedHat (RHEL, CentOS...)
+
 ## Setup
 
 ### What network affects
 
 On Debian, this module takes over ``/etc/network/interfaces`` configuration file.
+
+On RedHat (RHEL, CentOS...), the files ``/etc/sysconfig/ifcfg-<dev>`` are overwritten.
 
 ### Setup Requirements
 
@@ -120,6 +124,8 @@ class{'::network':
 }
 ```
 
+This feature is only supported on Debian.
+
 ### Additional rotues
 
 It is possible to setup additional routes on interfaces with the `routednet`
@@ -141,7 +147,7 @@ class{'::network':
 
 ## Limitations
 
-This module is tested on Debian.
+No feature to disable hardware offloading on RedHat.
 
 ## Development
 

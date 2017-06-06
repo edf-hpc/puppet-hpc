@@ -15,21 +15,15 @@
 
 define network::print_config ($target = 'eth0') {
 
+  $service_name = $::network::service_name
   case $::osfamily {
     'Debian': {
       $filename     = $::network::config_file
       $tplname      = 'network/interfaces.erb'
-      $service_name = $::network::service_name
     }
     'Redhat': {
       $filename     = "${::network::config_file}-${target}"
       $tplname      = 'network/ifcfg.erb'
-      $service_name = "ifup@${target}"
-
-      service { $service_name:
-        ensure      => running,
-        refreshonly => true,
-      }
     }
     default: {
       fail ("Unsupported OS Family '${::osfamily}', should be: 'Redhat', 'Debian'")

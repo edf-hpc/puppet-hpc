@@ -38,8 +38,16 @@ class network::config inherits network {
     # configuration file. On debian systems there is a single file.
     # On RHEL systems there is a file for each interface. For this reason
     # the hash is modified with the names of all interfaces in the case of RHEL.
-    $net_ifaces = $::ifaces_target
-    create_resources(network::print_config, $net_ifaces)
+    if $::osfamily == 'RedHat' {
+      $net_ifaces = $::ifaces_target
+      # Get ifaces not explicitely in master_network but implicitely
+      # declared by bridges and bond interfaces
+      $implicit_ifaces = hpc_network_implicit_ifaces($net_ifaces, $::network::bonding_options, $::network::bridge_options)
+      $all_ifaces = merge($implicit_ifaces, $net_ifaces)
+    } else {
+      $all_ifaces = $::ifaces_target
+    }
+    create_resources(network::print_config, $all_ifaces)
 
   }
 

@@ -30,6 +30,7 @@ class network::params {
 
   case $::osfamily {
     'Debian': {
+      $service_name = 'networking'
       ## Hostname
       $hostname_augeas_path   = '/files/etc/hostname'
       $hostname_augeas_change = "set hostname ${::hostname}"
@@ -43,6 +44,7 @@ class network::params {
       ]
     }
     'Redhat': {
+      $service_name = 'network'
       ## Hostname
       $hostname_augeas_path   = '/files/etc/sysconfig/network'
       $hostname_augeas_change = "set HOSTNAME ${::hostname}"
@@ -51,15 +53,14 @@ class network::params {
       ## Interfaces
       $config_file      = '/etc/sysconfig/network-scripts/ifcfg'
       $bonding_packages = ['net-tools']
-      $bridge_packages  = []
-      $utils_packages   = []
+      $bridge_packages  = ['bridge-utils']
+      $utils_packages   = ['fping']
     }
     default: {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   }
 
-  $service_name   = 'networking'
   $service_ensure = 'running'
   $service_enable = true
 

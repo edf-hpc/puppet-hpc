@@ -1,7 +1,7 @@
 <% ########################################################################## -%>
 <% #  Puppet configuration file                                             # -%>
 <% #                                                                        # -%>
-<% #  Copyright (C) 2014-2015 EDF S.A.                                      # -%>
+<% #  Copyright (C) 2014-2017 EDF S.A.                                      # -%>
 <% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
 <% #                                                                        # -%>
 <% #  This program is free software; you can redistribute in and/or         # -%>
@@ -22,55 +22,127 @@
 #####################################################################
 # TEMPLATE: {<%= @module_name %>}/<%= File.basename(__FILE__) %>} PARAM = [ <%= @target %> ]
 #####################################################################
-<% require 'ipaddr' -%>
-<% netconfig = MasterNetwork::NETCONFIG -%>
-<% defaultgw = @net_cm_defaultgw -%>
-<% bondcfg = @net_cm_bondcfg -%>
-<% ia = 0 -%>
-<% is = 0 -%>
-<% printmode = 'master' -%>
-<% bondiface = String.new -%>
-<% netconfig.each_key do | key| -%>
-  <%- if key.include?("bond") then -%>
-    <%- bondcfg[key]['slaves'].each do | iface| -%>
-      <%- if iface == @target -%>
-        <%- bondiface = key -%>
-        <%- printmode = 'slave' -%>
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
-<% end -%>
-<%= "NAME="+@target %>
-<% case printmode when 'master' -%>
-  <%- if netconfig.has_key?(@target) -%>
-    <%- netconfig[@target].each do | addr | -%>
-<%= "DEVICE="+@target %>
-<%= "BOOTPROTO=none" %>
-<%= "ONBOOT=yes" %>
-<%= "USERCTL=no" %>
-<%= "NM_CONTROLLED=no" %>
-<%= "IPADDR"+ia.to_s+"="+addr.split("/")[0] %>
-<%= "NETMASK"+ia.to_s+"="+addr.split("/")[1] %>
-        <%- ia += 1 -%>
-      <%- if @target.include?("bond") -%>
-<%= "TYPE=Bond" %>
-<%= "BONDING_OPTS="+'"'+bondcfg[@target]["options"]+'"' %>
-<%= "BONDING_MASTER=yes" %>
-         <%- bondcfg[@target]["slaves"].each do -%>
-<%= "BONDING_SLAVE"+is.to_s+"="+bondcfg[@target]["slaves"][is] %>
-         <%- is += 1 -%>
-         <%- end -%>
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
-<%- when 'slave' -%>
-  <%- if @target.include?("ib") -%>
-<%= "TYPE=InfiniBand" %>
-  <%- else -%>
-<%= "TYPE=Ethernet" %>
-  <%- end -%>
-<%= "SLAVE=yes" %>
-<%= "DEVICE="+@target %>
-<%= "ONBOOT=yes" %>
-<%= "MASTER="+bondiface %>
-<% end -%>
+<%-
+  require 'ipaddr'
+
+  netconfig          = scope['::netconfig']
+  defaultgw          = scope['::network::defaultgw']
+  bondcfg            = scope['::network::bonding_options']
+  bridgecfg          = scope['::network::bridge_options']
+  routnet            = scope['::network::routednet']
+  ib_mtu             = scope['::network::ib_mtu']
+  ib_mode            = scope['::network::ib_mode']
+  eth_no_offload_ifs = scope['::network::eth_no_offload_ifs']
+
+  network_gw_set = String.new
+  bndprim = String.new
+  bndmode = String.new
+  routecfg = Hash.new
+  masters = Hash.new
+  bridges = Hash.new
+
+  # Insert bridged interfaces in the netconfig
+  bridgecfg.map do | bridge, value |
+    if not netconfig.key?(bridge)
+      next
+    end
+    ports = value['ports']
+    ports.each do | port |
+      bridges[port] = bridge
+      if not netconfig.key?(port)
+        netconfig[port] = []
+      end
+    end
+  end
+
+  # Insert bonding slaves interfaces in the netconfig
+  bondcfg.map do | bond, value |
+    if not netconfig.key?(bond)
+      next
+    end
+    ports = value['slaves']
+    ports.each do | port |
+      masters[port] = bond
+      if not netconfig.key?(port)
+        netconfig[port] = []
+      end
+    end
+  end
+
+
+  # On RHEL we only manage one card per file, this is the name
+  # of the resource
+  card = @target
+  ipaddrs = netconfig[card]
+  debug("#{netconfig.inspect} : netconfig['#{card.inspect}'] = #{netconfig[card.inspect]}")
+
+  # Initialization done, starting to actually write the file
+-%>
+NAME=<%= card %>
+DEVICE=<%= card %>
+ONBOOT=yes
+<%-
+  if masters.has_key?(card)
+-%>
+SLAVE=yes
+MASTER=<%= masters[card] %>
+<%-
+  elsif bridges.has_key?(card)
+-%>
+BRIDGE=<%= bridges[card] %>
+<%-
+  elsif not ipaddrs.empty?
+-%>
+BOOTPROTO=none
+USERCTL=no
+NM_CONTROLLED=no
+<%-
+    addr_counter = 0
+    ipaddrs.each do |addr|
+-%>
+IPADDR<%= addr_counter %>=<%= addr.split("/")[0] %>
+NETMASK<%= addr_counter %>=<%= addr.split("/")[1] %>
+<%-
+      # Configure the default gateway if this address is in the same subnet
+      begin
+        range = IPAddr.new(addr)
+      rescue
+        scope.function_warning(["Invalid IP address: #{ipadd}"])
+        next
+      end
+      addtrg = IPAddr.new(defaultgw)
+      if range.include?(addtrg)
+-%>
+GATEWAY=<%= defaultgw %>
+<%-
+      end
+
+      addr_counter += 1
+    end
+  else
+-%>
+# The interface has no IP address and is not part of a bridge or
+# a bond.
+<%-
+  end
+
+  if card.include?("bond")
+-%>
+TYPE=Bond
+BONDING_OPTS="<%= bondcfg[card]['options'] %>"
+BONDING_MASTER=yes
+<%-
+  elsif card.include?("ib")
+-%>
+TYPE=InfiniBand
+<%-
+  elsif card.include?("br")
+-%>
+TYPE=Bridge
+<%-
+  else
+-%>
+TYPE=Ethernet
+<%-
+  end
+-%>
