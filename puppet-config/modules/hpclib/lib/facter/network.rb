@@ -58,7 +58,6 @@ net_topology = hiera.lookup(
   options[:resolution_type]
 )
 
-
 ### Begin parsing ###
 if !masternetwork.nil? and masternetwork.length > 0
   ### Set mymasternet used to generate local network config ###
@@ -107,7 +106,9 @@ if !masternetwork.nil? and masternetwork.length > 0
           netconfig[iface] = Array.new
         end
         netconfig[iface].push(address+"/"+nmask)
-        ifaces_target[iface] = {'target' => iface} if os == 'Redhat'
+        if os == 'RedHat'
+          ifaces_target[iface] = {'target' => iface}
+        end
       end
     end
     ### Build mynet_topology (net name -> iface association)
