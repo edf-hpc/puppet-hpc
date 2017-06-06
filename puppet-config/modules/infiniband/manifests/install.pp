@@ -17,7 +17,7 @@ class infiniband::install inherits infiniband {
 
   if $::infiniband::install_manage {
     if $::infiniband::packages_manage {
-      package { $::infiniband::packages:
+      package { $::infiniband::_packages:
         ensure => $::infiniband::packages_ensure,
       }
     }

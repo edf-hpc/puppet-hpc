@@ -2,25 +2,31 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
     * [What infiniband affects](#what-infiniband-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with infiniband](#beginning-with-infiniband)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
 
 ## Module Description
 
-The module deploys the Mellanox OFED Linux software stack on nodes.
+The module deploys the Infiniband OFED Linux software stack on nodes.
+
+It can deploy two types of stacks:
+
+* the ``mlnx`` stack is the stack from Mellanox. It works on Debian and
+  RedHat.
+* the ``native`` stack is packaged by the distribution. Only supported on
+  RedHat.
 
 ## Setup
 
 ### What infiniband affects
 
-* Mellanox OFED Linux node packages
+* OFED Linux node packages
 * OpenIB service configuration file 
 
 ### Setup Requirements
@@ -53,9 +59,23 @@ class { '::infiniband':
 }
 ```
 
+The stack is selected by using the parameter ``ofed_version``, that have the values
+``mlnx`` for the Mellanox stack and ``native`` for the stack packaged by the
+distribution. By default, the ``mlnx`` stack is selected since it is usually the one
+providing the best performance.
+
+```
+class { '::infiniband':
+  ofed_version => 'native',
+}
+```
+
+Changing the stack can also change the name of the service or the name of the configuration
+files.
+
 ## Limitations
 
-This module is mainly tested on Debian.
+No ``native`` stack on Debian.
 
 ## Development
 

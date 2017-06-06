@@ -15,7 +15,7 @@
 
 class infiniband::params {
 
-  $install_manage  = true 
+  $install_manage  = true
   $packages_manage = true
   $packages_ensure = 'latest'
   $config_manage   = true
@@ -23,70 +23,113 @@ class infiniband::params {
 
   case $::osfamily {
     'Debian': {
-      $packages      = [
-        'ibverbs-utils',
-        'infiniband-diags',
-        'libmlx4-1',
-        'libmlx5-1',
-        'libibverbs1',
-        'libibmad5',
-        'libibumad3',
-        'dapl2-utils',
-        'mlnx-ofed-kernel-utils',
-        'mlnx-ofed-kernel-modules',
-        'knem-kernel-module',
-      ]
+      $ofed_version = 'mlnx'
+      $ofed_packages = {
+        'mlnx' => [
+          'ibverbs-utils',
+          'infiniband-diags',
+          'libmlx4-1',
+          'libmlx5-1',
+          'libibverbs1',
+          'libibmad5',
+          'libibumad3',
+          'dapl2-utils',
+          'mlnx-ofed-kernel-utils',
+          'mlnx-ofed-kernel-modules',
+          'knem-kernel-module',
+        ],
+      }
     }
     'Redhat': {
-      $packages      = [
-        'ar_mgr',
-        'bupc',
-        'cc_mgr',
-        'dapl',
-        'dapl-utils',
-        'dump_pr',
-        'fca',
-        'hcoll',
-        'ibacm',
-        'ibdump',
-        'ibutils',
-        'ibutils2',
-        'infiniband-diags',
-        'infiniband-diags-compat',
-        'kmod-iser',
-        'kmod-kernel-mft-mlnx',
-        'kmod-knem-mlnx',
-        'kmod-mlnx-ofa_kernel',
-        'kmod-srp',
-        'knem-mlnx',
-        'libibmad',
-        'libibprof',
-        'libibumad',
-        'libibverbs',
-        'libibverbs-utils',
-        'libmlx4',
-        'libmlx5',
-        'librdmacm',
-        'librdmacm-devel',
-        'librdmacm-utils',
-        'mft',
-        'mlnx-ofa_kernel',
-        'mlnx-ofa_kernel-devel',
-        'mpfr',
-        'mstflint',
-        'mxm',
-        'ofed-scripts',
-        'perftest',
-        'qperf',
-        'rds-tools'
-      ]
+      $ofed_version = 'mlnx'
+      $ofed_packages = {
+        'mlnx' => [
+          'ar_mgr',
+          'bupc',
+          'cc_mgr',
+          'dapl',
+          'dapl-utils',
+          'dump_pr',
+          'fca',
+          'hcoll',
+          'ibacm',
+          'ibdump',
+          'ibutils',
+          'ibutils2',
+          'infiniband-diags',
+          'infiniband-diags-compat',
+          'kmod-iser',
+          'kmod-kernel-mft-mlnx',
+          'kmod-knem-mlnx',
+          'kmod-mlnx-ofa_kernel',
+          'kmod-srp',
+          'knem-mlnx',
+          'libibmad',
+          'libibprof',
+          'libibumad',
+          'libibverbs',
+          'libibverbs-utils',
+          'libmlx4',
+          'libmlx5',
+          'librdmacm',
+          'librdmacm-devel',
+          'librdmacm-utils',
+          'mft',
+          'mlnx-ofa_kernel',
+          'mlnx-ofa_kernel-devel',
+          'mpfr',
+          'mstflint',
+          'mxm',
+          'ofed-scripts',
+          'perftest',
+          'qperf',
+          'rds-tools'
+        ],
+        'native' => [
+          'libibcm',
+          'libibverbs',
+          'libibverbs-utils',
+          'librdmacm',
+          'librdmacm-utils',
+          'rdma',
+          'dapl',
+          'ibacm',
+          'ibsim',
+          'ibutils',
+          'libcxgb3',
+          'libibmad',
+          'libibumad',
+          'libipathverbs',
+          'libmlx4',
+          'libmthca',
+          'libnes',
+          'rds-tools',
+          'compat-dapl',
+          'glusterfs-rdma',
+          'infiniband-diags',
+          'libibcommon',
+          'mstflint',
+          'opensm',
+          'perftest',
+          'qperf',
+          'srptools',
+        ],
+      }
     }
     default: {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   }
 
-  $ib_file           = '/etc/infiniband/openib.conf'
+  $ofed_ib_file = {
+    'mlnx'   => '/etc/infiniband/openib.conf',
+    'native' => '/etc/rdma/rdma.conf',
+  }
+
+  $ofed_service_name = {
+    'mlnx'   => 'openibd',
+    'native' => 'rdma',
+  }
 
   $net_topology        = hiera_hash('net_topology')
   if $net_topology['lowlatency'] {
@@ -137,7 +180,6 @@ class infiniband::params {
   $systemd_tmpfile           = '/etc/tmpfiles.d/openibd.conf'
   $systemd_tmpfile_options   = ['d    /run/network   0755 root root - -']
 
-  $service_name   = 'openibd'
   $service_ensure = 'running'
   $service_enable = true
 }

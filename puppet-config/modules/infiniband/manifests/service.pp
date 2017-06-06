@@ -17,9 +17,9 @@ class infiniband::service inherits infiniband {
 
   if $::infiniband::service_manage {
 
-    service { $::infiniband::service_name:
-      ensure  => $::infiniband::service_ensure,
-      enable  => $::infiniband::service_enable,
+    service { $::infiniband::_service_name:
+      ensure => $::infiniband::service_ensure,
+      enable => $::infiniband::service_enable,
     }
 
   }

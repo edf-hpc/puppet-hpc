@@ -16,15 +16,17 @@
 class infiniband::config inherits infiniband {
 
   if $::infiniband::config_manage {
-    hpclib::print_config { $::infiniband::ib_file:
+    hpclib::print_config { $::infiniband::_ib_file:
       style           => 'keyval',
       data            => $::infiniband::_ib_options,
       upper_case_keys => true,
     }
 
-    hpclib::systemd_tmpfile { $::infiniband::systemd_tmpfile :
-      target => $::infiniband::systemd_tmpfile,
-      config => $::infiniband::systemd_tmpfile_options,
+    if $::osfamily == 'Debian' {
+      hpclib::systemd_tmpfile { $::infiniband::systemd_tmpfile :
+        target => $::infiniband::systemd_tmpfile,
+        config => $::infiniband::systemd_tmpfile_options,
+      }
     }
   }
 
