@@ -146,8 +146,9 @@ file
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
-derivatives.
+Server class is tested on RedHat (RHEL, CentOS) and Debian.
+
+Client class is tested only on Debian.
 
 ## Development
 
