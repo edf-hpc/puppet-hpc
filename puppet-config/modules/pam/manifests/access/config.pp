@@ -37,6 +37,7 @@ class pam::access::config inherits pam::access {
     }
     'RedHat': {
       exec { $::pam::access::exec:
+        path    => '/bin:/usr/bin:/sbin:/usr/sbin',
         command => $::pam::access::exec,
       }
     }

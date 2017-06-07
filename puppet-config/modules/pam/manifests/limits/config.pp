@@ -36,7 +36,7 @@ class pam::limits::config inherits pam::limits {
       }
     }
     'RedHat': {
-      notice('pam_limits activation not implemented for Redhat.')
+      debug('pam_limits activation not implemented for Redhat. Because it is activated by default.')
     }
     default: {
       fail("Unsupported OS Family: ${::osfamily}, should be 'Debian' or 'Redhat'.")

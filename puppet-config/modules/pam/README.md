@@ -157,9 +157,8 @@ the `login_defs_options` parameter of the `::environment`` class of Puppet HPC.
 
 ## Limitations
 
-Some modules do not supports Redhat:
+Some modules do not supports RedHat:
 
-* `limits`
 * ``mkhomedir``
 * `sss`
 * `slurm`
