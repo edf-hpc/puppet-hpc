@@ -100,8 +100,9 @@ the entries given in `virtual_entries` array.
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
-derivatives.
+dns::client is tested on Debian and RedHat (RHEL, CentOS).
+
+dns::server is only tested on Debian.
 
 ## Development
 
