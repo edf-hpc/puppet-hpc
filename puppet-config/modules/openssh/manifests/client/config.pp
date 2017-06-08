@@ -21,4 +21,10 @@ class openssh::client::config inherits openssh::client {
     changes => $::openssh::client::config_augeas,
   }
 
+  if $::openssh::client::known_hosts_source {
+    hpclib::hpc_file { $::openssh::client::known_hosts_file:
+      source => $::openssh::client::known_hosts_source,
+    }
+  }
+
 }

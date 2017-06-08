@@ -16,9 +16,10 @@
 class openssh::client::params {
 
   #### Module variables
-  $packages_ensure = 'latest'
-  $config_file     = '/etc/ssh/ssh_config'
-  $augeas_context  = "/files${config_file}/Host"
+  $packages_ensure  = 'latest'
+  $config_file      = '/etc/ssh/ssh_config'
+  $augeas_context   = "/files${config_file}/Host"
+  $known_hosts_file = '/etc/ssh/ssh_known_hosts'
   case $::osfamily {
     'Debian' : {
       $packages = ['openssh-client']
