@@ -26,10 +26,42 @@
 
 import yaml
 import sys
+import argparse
+import os
+import re
 
-def usage():
-    print(__file__, "<yaml>")
-    sys.exit(1)
+def parse_args():
+    parser = argparse.ArgumentParser(
+      description='List hosts from a puppet-hpc hiera yaml file.',
+      argument_default=argparse.SUPPRESS
+    )
+
+    parser.add_argument('privatedata_path',
+                        help='Puppet HPC private data directory.')
+
+    parser.add_argument('cluster_name',
+                        help='Name of the cluster.')
+
+    parser.add_argument('--ipaddr', '-i',
+                        dest='ipaddr', action='store_true',
+                        help='Output IP addresses.')
+    parser.set_defaults(ipaddr=False)
+
+    parser.add_argument('--alias', '-a',
+                        dest='alias', action='store_true',
+                        help='Output host aliases.')
+    parser.set_defaults(alias=False)
+
+    parser.add_argument('--fqdn', '-f',
+                        dest='fqdn', action='store_true',
+                        help='Output FQDNs.')
+    parser.set_defaults(fqdn=False)
+
+    parser.add_argument('--domain', '-d',
+                        dest='domain',
+                        nargs='?', help='Also output aliases with this domain.')
+
+    return parser.parse_args()
 
 def load_yaml(file_path):
 
@@ -40,14 +72,67 @@ def load_yaml(file_path):
             print(exc)
             sys.exit(1)
 
+# Return the list of roles having a roles/<role>.yaml
+def get_defined_roles(hiera_cluster_path):
+    roles = []
+    filenames = os.listdir(os.path.join(hiera_cluster_path, 'roles'))
+    for filename in filenames:
+        if filename.endswith('.yaml'):
+            roles.append(filename[:-5])
+    return roles
+
+def get_host_data(hostname, data):
+    aliases = []
+    ipaddrs = []
+    fqdn = None
+    if 'fqdn' in data.keys():
+        fqdn = data['fqdn']
+    for netname in ['administration', 'lowlatency', 'management']:
+        if netname in data['networks'].keys():
+            netdata = data['networks'][netname]
+            if 'hostname' in netdata.keys() and netdata['hostname'] != hostname:
+                aliases.append(netdata['hostname'])
+            if 'IP' in netdata.keys():
+                ipaddrs.append(netdata['IP'])
+
+    return fqdn, aliases, ipaddrs
+
+def get_host_role(hostname, cluster_prefix):
+    host_re = re.compile('%s(?P<role>\D+)(?P<id>\d+)' % cluster_prefix)
+    m = host_re.match(hostname)
+    if m is not None:
+        return m.group('role')
+    else:
+        return 'default'
+
+def print_host_line(hostname, fqdn, aliases, ipaddrs, args):
+    sys.stdout.write(hostname)
+    if args.fqdn and fqdn is not None:
+        sys.stdout.write(' %s' % fqdn)
+    if args.alias:
+        for alias in aliases:
+            sys.stdout.write(' %s' % alias)
+            if 'domain' in args:
+                sys.stdout.write(' %s.%s' % (alias, args.domain))
+    if args.ipaddr:
+        for ipaddr in ipaddrs:
+            sys.stdout.write(' %s' % ipaddr)
+    sys.stdout.write('\n')
+
 def main():
+    args = parse_args()
+    hiera_cluster_path = os.path.join(args.privatedata_path, 'hieradata', args.cluster_name)
+    net_yaml     = load_yaml(os.path.join(hiera_cluster_path, 'network.yaml'))
+    cluster_yaml = load_yaml(os.path.join(hiera_cluster_path, 'cluster.yaml'))
+    defined_roles = get_defined_roles(hiera_cluster_path)
+    cluster_prefix = cluster_yaml['cluster_prefix']
+    master_network = net_yaml['master_network']
 
-    if len(sys.argv) != 2:
-        usage()
-
-    yaml_path = sys.argv[1]
-    yaml = load_yaml(yaml_path)
-    print('\n'.join(sorted(yaml['master_network'].keys())))
+    for hostname, data in master_network.items():
+        role = get_host_role(hostname, cluster_prefix)
+        if role in defined_roles:
+            fqdn, aliases, ipaddrs = get_host_data(hostname, data)
+            print_host_line(hostname, fqdn, aliases, ipaddrs, args)
 
 if __name__ == '__main__':
 
