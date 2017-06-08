@@ -198,6 +198,7 @@ profiles::openssh::client::identities:
     config_file:    '/root/.ssh/config'
     host:           '*'
     decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
+openssh::client::known_hosts_source: "%{hiera('private_files_dir')}/ssh/known_hosts"
 
 ##### Codes packages
 codes::packages:
