@@ -93,8 +93,24 @@ definitions. In *Puppet HPC*, the roles are defined in hiera (key: `profiles`).
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
-derivatives.
+This module is mainly tested on Debian. Some profiles are also tested on RedHat (RHEL,
+CentOS).
+
+List of profiles that are tested on RedHat:
+
+- ``profiles::access::base``
+- ``profiles::cluster::common``
+- ``profiles::dns::client``
+- ``profiles::environment::limits``
+- ``profiles::hardware::ipmi``
+- ``profiles::hpcconfig::apply``
+- ``profiles::log::client``
+- ``profiles::network::base``
+- ``profiles::ntp::client``
+- ``profiles::openssh::server``
+
+Some of these profiles might have further limitationson RedHat. See the relevant generic
+modules documentation.
 
 ## Development
 
