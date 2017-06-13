@@ -19,10 +19,10 @@ to="root@$(hostname)"
 
 if [ -r /etc/${CMD}.conf ]
 then
-	. /etc/${CMD}.conf
+        . /etc/${CMD}.conf
 else
-	echo "Configuration file not found: /etc/${CMD}.conf"
-	exit 1
+        echo "Configuration file not found: /etc/${CMD}.conf"
+        exit 1
 fi
 
 daydate=`date +"%Y-%m-%d"`
@@ -39,7 +39,7 @@ error () {
 }
 
 print_help () {
-    
+
     echo "
 USAGE 1: $CMD add NNI -d date_end
 Add user **** to local sudoers group ${grplocal}  ( date format YYYYMMDD )
@@ -77,103 +77,104 @@ fi
 
 add_nni () {
 
-	if [ "$#" -le "2" -o "$2" != "-d" ] ; then
-		error "Syntax error"
-	fi
+        if [ "$#" -le "2" -o "$2" != "-d" ] ; then
+                error "Syntax error"
+        fi
 
-	login=$1
-	date_end=$3
+        login=$1
+        date_end=$3
 
-	# Verification de l'existence de l'utilisateur dans le ldap
-	if [ -z "$(getent passwd $login)" ];then
-		error "Opération impossible le login $login n'existe pas"
-	fi  
+        # Verification de l'existence de l'utilisateur dans le ldap
+        if [ -z "$(getent passwd $login)" ];then
+                error "Opération impossible le login $login n'existe pas"
+        fi
 
-	# Verification de la date 
-	var=$(date -d $date_end 2>&1 1>/dev/null)
-	date_jour=$(date +"%Y%m%d")
+        # Verification de la date 
+        var=$(date -d $date_end 2>&1 1>/dev/null)
+        date_jour=$(date +"%Y%m%d")
 
-	if [ $? != 0 ];then
-        	error "La date n'est pas au bon format ou elle n'existe pas"
-	fi
-	if [ $date_end -lt $date_jour ];then
-        	error "La date insérée est antérieure à la date du jour "
-	fi
+        if [ $? != 0 ];then
+                error "La date n'est pas au bon format ou elle n'existe pas"
+        fi
+        if [ $date_end -lt $date_jour ];then
+                error "La date insérée est antérieure à la date du jour "
+        fi
 
-	# Verification de la présence ou non de l'utilisateur dans le groupe
-	if [ -n "$( getent group $grplocal | grep $login )" ];then
-	        error "Opération impossible l'utilisateur possédent déjà  le groupe $grplocal "
-	else
-		/usr/sbin/addgroup $login $grplocal
-		echo -e "[ $daydate ] - Ajout du groupe $grplocal au compte $login jusq'au $date_end" >> $log
-		echo -e "$date_jour:$login:$date_end" >> $groupsat
-	fi
+        # Verification de la présence ou non de l'utilisateur dans le groupe
+        if [ -n "$( getent group $grplocal | grep $login )" ];then
+                error "Opération impossible l'utilisateur possédent déjà  le groupe $grplocal "
+        else
+                /usr/sbin/addgroup $login $grplocal
+                echo -e "[ $daydate ] - Ajout du groupe $grplocal au compte $login jusq'au $date_end" >> $log
+                echo -e "$date_jour:$login:$date_end" >> $groupsat
+        fi
 }
 
 del_nni () {
 
 
-	# Verification de la syntaxe
-	if [ "$#" -lt "1" ] ; then
-		error "Syntax error"
-	fi
-	login=$1
+        # Verification de la syntaxe
+        if [ "$#" -lt "1" ] ; then
+                error "Syntax error"
+        fi
+        login=$1
 
-	# Verification de l'existence de l'utilisateur dans le ldap
-	if [ -z "$(getent passwd $login)" ];then
-		error "Opération impossible le login $login n'existe pas"	
-	fi
+        # Verification de l'existence de l'utilisateur dans le ldap
+        if [ -z "$(getent passwd $login)" ];then
+                error "Opération impossible le login $login n'existe pas"
+        fi
 
-	# Verification de la présence ou non de l'utilisateur dans le groupe
-	if [ -z "$( getent group $grplocal | grep $login )" ];then
-		error "Opération impossible l'utilisateur ne posséde pas le groupe $grplocal "
-	else
-		/usr/sbin/delgroup $login $grplocal 
-		pkill -9 -u $login
-		echo -e "[ $daydate ] - Supression du compte $login du groupe $grplocal " >> $log
-		sed -i "/"$login"/d" $groupsat
-	fi
+        # Verification de la présence ou non de l'utilisateur dans le groupe
+        if [ -z "$( getent group $grplocal | grep $login )" ];then
+                error "Opération impossible l'utilisateur ne posséde pas le groupe $grplocal "
+        else
+                /usr/sbin/delgroup $login $grplocal
+                pkill -9 -u $login
+                echo -e "[ $daydate ] - Supression du compte $login du groupe $grplocal " >> $log
+                sed -i "/"$login"/d" $groupsat
+        fi
 
 }
 
 mod_nni () {
 
-	if [ "$#" -le "2" -o "$2" != "-d" ] ; then
-		error "Syntax error"
-	fi
+        if [ "$#" -le "2" -o "$2" != "-d" ] ; then
+                error "Syntax error"
+        fi
 
-	login=$1
-	date_end=$3
+        login=$1
+        date_end=$3
 
-	# Verification de l'existence de l'utilisateur dans le ldap
-	if [ -z "$(getent passwd $login)" ];then
-		error "Opération impossible le login $login n'existe pas"
-	fi  
+        # Verification de l'existence de l'utilisateur dans le ldap
+        if [ -z "$(getent passwd $login)" ];then
+                error "Opération impossible le login $login n'existe pas"
+        fi
 
-	# Verification de la date 
-	var=$(date -d $date_end 2>&1 1>/dev/null)
-	date_jour=$(date +"%Y%m%d")
+        # Verification de la date 
+        var=$(date -d $date_end 2>&1 1>/dev/null)
+        date_jour=$(date +"%Y%m%d")
 
-	if [ $? != 0 ];then
-        	error "La date n'est pas au bon format ou elle n'existe pas"
-	fi
-	if [ $date_end -lt $date_jour ];then
-        	error "La date insérée est antérieure à la date du jour "
-	fi
+        if [ $? != 0 ];then
+                error "La date n'est pas au bon format ou elle n'existe pas"
+        fi
+        if [ $date_end -lt $date_jour ];then
+                error "La date insérée est antérieure à la date du jour "
+        fi
 
-	# Verification de la présence ou non de l'utilisateur dans le groupe
-	if [ -n "$( getent group $grplocal | grep $login )" ];then
-	        echo -e "[ $daydate ] - Modification de la date de fin de validité du compte $login" >>$log
-		sed -i "/"$login"/d" $groupsat
-		echo -e "$date_jour:$login:$date_end" >> $groupsat
-	else
-		error "Opération impossible: l'utilisateur ne posséde pas le groupe $grpcal"
-	fi
+        # Verification de la présence ou non de l'utilisateur dans le groupe
+        if [ -n "$( getent group $grplocal | grep $login )" ];then
+                echo -e "[ $daydate ] - Modification de la date de fin de validité du compte $login" >>$log
+                sed -i "/"$login"/d" $groupsat
+                echo -e "$date_jour:$login:$date_end" >> $groupsat
+        else
+                error "Opération impossible: l'utilisateur ne posséde pas le groupe $grpcal"
+        fi
 
 }
+
 check_at () {
 
-	if [ ! -f $groupsat ];then
+        if [ ! -f $groupsat ];then
                 sujetmail="[ $cluster ] /!\ Error du script ${CMD}"
                 echo "" > $bodymail
                 echo "Bonjour," >> $bodymail
@@ -182,24 +183,24 @@ check_at () {
                 echo "" >> $bodymail
                 echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
         fi
-	date_jour=$(date +%Y%m%d)
-	check_perim=$(cat $groupsat)
-	for i in $check_perim;do
-		date_perimuser=$(echo $i | awk -F  ":" '{print$3}')
-		login=$(echo $i | awk -F  ":" '{print$2}')
-		if [ $date_perimuser -lt $date_jour ];then
-			sujetmail="[ $cluster ] Suppression du compte $login du group ${grplocal}"
-			echo "" > $bodymail
-			echo "Bonjour," >> $bodymail
-			echo "" >> $bodymail
-			echo "Le compte $login etant arrive a expiration, il a ete supprime du group $grplocal" >> $bodymail
-			echo "Les connexions actives ont ete killees" >> $bodymail			
-			echo "" >> $bodymail
-			status_at >> $bodymail
-			del_nni $login && echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
-		fi
-	done
-	listadmin=$(getent group $grplocal | awk -F ":" '{print$4}' | tr "," " ")
+        date_jour=$(date +%Y%m%d)
+        check_perim=$(cat $groupsat)
+        for i in $check_perim;do
+                date_perimuser=$(echo $i | awk -F  ":" '{print$3}')
+                login=$(echo $i | awk -F  ":" '{print$2}')
+                if [ $date_perimuser -lt $date_jour ];then
+                        sujetmail="[ $cluster ] Suppression du compte $login du group ${grplocal}"
+                        echo "" > $bodymail
+                        echo "Bonjour," >> $bodymail
+                        echo "" >> $bodymail
+                        echo "Le compte $login etant arrive a expiration, il a ete supprime du group $grplocal" >> $bodymail
+                        echo "Les connexions actives ont ete killees" >> $bodymail
+                        echo "" >> $bodymail
+                        status_at >> $bodymail
+                        del_nni $login && echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
+                fi
+        done
+        listadmin=$(getent group $grplocal | awk -F ":" '{print$4}' | tr "," " ")
         for a in $listadmin;do
                 grep $a $groupsat 1>/dev/null
                 if [ $? != "0" ];then
@@ -214,11 +215,11 @@ check_at () {
                         del_nni $a && echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
                 fi
         done
-	listuseradmin=$(awk -F ":" '{print$2}' ${groupsat})
+        listuseradmin=$(awk -F ":" '{print$2}' ${groupsat})
         for x in $listuseradmin;do
                 grep $x /etc/group 1>/dev/null
                 if [ $? != 0 ];then
-			/etc/init.d/sssd restart
+                        /etc/init.d/sssd restart
                         /usr/sbin/addgroup $x $grplocal
                         sujetmail="[ $cluster ] /!\ User $x absent du group $grplocal"
                         echo "" > $bodymail
@@ -231,27 +232,26 @@ check_at () {
                 fi
         done
 
-	echo ""
-	echo -e "$ok Check status date d expiration des comptes dans le group $grplocal $fcd"
+        echo ""
+        echo -e "$ok Check status date d expiration des comptes dans le group $grplocal $fcd"
         status_at
 }
 
 status_at () {
 
-	lign15='---------------'
-	echo ""
-	printf "%15s %15s %15s\n" Date_de_debut NNI Date_de_Fin
-	printf "%15s %15s %15s\n" $lign15 $lign15 $lign15
-	listusers=$(cat $groupsat)
-	for i in $listusers;do
-		begin_day=$(date -d $(echo $i | awk -F ":" '{print$1}' ) "+%Y-%m-%d")
-		end_day=$(date -d $(echo $i | awk -F ":" '{print$3}' ) "+%Y-%m-%d")
-		nni=$(echo $i | awk -F ":" '{print$2}' )
-		printf "%15s %15s %15s\n" $begin_day $nni $end_day
-	done
-	echo ""
+        lign15='---------------'
+        echo ""
+        printf "%15s %15s %15s\n" Date_de_debut NNI Date_de_Fin
+        printf "%15s %15s %15s\n" $lign15 $lign15 $lign15
+        listusers=$(cat $groupsat)
+        for i in $listusers;do
+                begin_day=$(date -d $(echo $i | awk -F ":" '{print$1}' ) "+%Y-%m-%d")
+                end_day=$(date -d $(echo $i | awk -F ":" '{print$3}' ) "+%Y-%m-%d")
+                nni=$(echo $i | awk -F ":" '{print$2}' )
+                printf "%15s %15s %15s\n" $begin_day $nni $end_day
+        done
+        echo ""
 }
-
 
 ACTION=${1}
 shift
