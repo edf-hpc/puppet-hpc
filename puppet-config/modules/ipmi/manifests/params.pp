@@ -30,11 +30,14 @@ class ipmi::params {
     'RedHat' : {
       $use_systemd_modules  = false
       $config_file          = '/etc/sysconfig/modules/ipmi.modules'
-      $config_file_template = 'tuning/modulesrhel.erb'
+      $config_file_template = 'ipmi/modulesrhel.erb'
       $config_options       = [ 'ipmi_devintf' ]
       $config_file_mode     = '0750'
       # Not tested
-      $packages             = []
+      $packages             = [
+        'OpenIPMI',
+        'ipmitool',
+      ]
     }
     default : {
       fail("${::osfamily} is not supported")
