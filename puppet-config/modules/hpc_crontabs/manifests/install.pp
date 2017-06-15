@@ -13,13 +13,20 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class hpc_crontabs::config inherits hpc_crontabs {
+class hpc_crontabs::install inherits hpc_crontabs {
 
+  # ensure destination directory exists
+  ensure_resource(file,
+                  $crontabs_dir_destination,
+                  { ensure => 'directory' })
+
+  # then create source symlink
   file { $crontabs_dir_source :
       ensure  => 'link',
       target  => $crontabs_dir_destination,
       replace => true,
       force   => true,
-    }
+      require => File[$crontabs_dir_destination],
+  }
 
 }

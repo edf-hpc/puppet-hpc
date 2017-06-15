@@ -29,7 +29,7 @@ class hpc_crontabs (
   validate_absolute_path($crontabs_dir_destination)
 
   anchor { 'hpc_crontabs::begin': } ->
-  class { '::hpc_crontabs::config': } ->
+  class { '::hpc_crontabs::install': } ->
   anchor { 'hpc_crontabs::end': }
 
 }
