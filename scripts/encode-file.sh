@@ -34,7 +34,7 @@ SRC_FILE=$3
 ENC_FILE=${SRC_FILE}.enc
 
 CLUSTER_YAML=${INTERNAL_REPO}/hieradata/${CLUSTER}/cluster.yaml
-ENCODING_KEY=$(grep cluster_decrypt_password ${CLUSTER_YAML} | eyaml decrypt --stdin 2>/dev/null | cut -d' ' -f2)
+ENCODING_KEY=$(grep ^cluster_decrypt_password ${CLUSTER_YAML} | eyaml decrypt --stdin 2>/dev/null | tr -s ' ' |cut -d' ' -f2)
 
 if [ -z ${ENCODING_KEY} ]; then
     echo "ERR: unable to parse cluster_decrypt_password in ${CLUSTER_YAML}"
