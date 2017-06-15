@@ -17,9 +17,10 @@
 # ## Hiera
 # * `profiles::hardware::cpu_scaling::cpufreq_enable` Boolean to control if
 #                                                     cpufreq method is
-#                                                     used
+#                                                     used (default: false)
 # * `profiles::hardware::cpu_scaling::pstate_enable` Boolean to control if
-#                                                    psate method is used
+#                                                    pstate method is used
+#                                                    (default: false)
 #
 # ## Relevant Autolookups
 # * `pstate::script_file` Absolute path of the script launched by the service
@@ -34,6 +35,13 @@
 #                              configuration file
 
 class profiles::hardware::cpu_scaling {
+
+  $cpufreq_enable = hiera('profiles::hardware::cpu_scaling::cpufreq_enable',
+                          false)
+  $pstate_enable = hiera('profiles::hardware::cpu_scaling::pstate_enable',
+                         false)
+
+
   if $cpufreq_enable {
     include ::cpufreq
   }
