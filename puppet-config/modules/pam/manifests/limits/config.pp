@@ -18,9 +18,19 @@ class pam::limits::config inherits pam::limits {
   # config_options has a key for each rule that is not written
   # to the file
   $options_array = values ($::pam::limits::config_options)
+
+
+  # on EL6, ruby 1.8 makes options_array order non deterministic
+  # this is a workaround.
+  if $::osfamily == 'RedHat' {
+    $final_options_array = sort($options_array)
+  } else {
+    $final_options_array = $options_array
+  }
+
   hpclib::print_config { $::pam::limits::config_file :
     style => 'linebyline',
-    data  => $options_array,
+    data  => $final_options_array,
   }
 
   case $::osfamily {

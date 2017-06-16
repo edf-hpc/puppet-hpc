@@ -157,13 +157,16 @@ the `login_defs_options` parameter of the `::environment`` class of Puppet HPC.
 
 ## Limitations
 
-Some modules do not supports RedHat:
+Some modules do not supports RedHat (CentOS, RHEL...):
 
 * ``mkhomedir``
 * `sss`
 * `slurm`
 * `pwquality`
 * `umask`
+
+On RedHat, the order of the limits file entries are not preserved, the
+content of the file is sorted.
 
 ## Development
 
