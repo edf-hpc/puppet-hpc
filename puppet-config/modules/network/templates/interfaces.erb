@@ -126,6 +126,16 @@ iface <%= card %> inet static
 <%-
     end
 
+    # Remove addr from slaves
+    if card.include?("bond") and not ipaddrs.empty?
+      slaves = bondcfg[card]['slaves']
+      slaves.each do | slave |
+-%>
+    pre-up ip addr del <%= ipaddrs[0] %> dev <%= slave %> || true
+<%-
+      end
+    end
+
     # If the card has at least an IP address, set it with static address
     # parameter. The other optional addresses are appended with up commands, as
     # documented in:
