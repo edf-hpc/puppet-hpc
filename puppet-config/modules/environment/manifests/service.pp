@@ -15,9 +15,11 @@
 
 class environment::service inherits environment {
 
-  hpclib::systemd_service { $::environment::service_user_session:
-    target => $::environment::service_user_session,
-    config => $::environment::service_user_session_options,
+  if ! ( $::osfamily == 'RedHat' and $::operatingsystemmajrelease < 7 ){
+    hpclib::systemd_service { $::environment::service_user_session:
+      target => $::environment::service_user_session,
+      config => $::environment::service_user_session_options,
+    }
   }
 
 }

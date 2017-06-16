@@ -69,8 +69,9 @@ with `log_commands_facility`.
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
-derivatives.
+This module is mainly tested on Debian.
+
+The `service` class is tested on RedHat (RHEL, CentOS...).
 
 ## Development
 
