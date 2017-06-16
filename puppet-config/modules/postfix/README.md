@@ -63,7 +63,9 @@ class { '::postfix':
 
 ## Limitations
 
-The module is only tested on Debian.
+The client configuration is tested on RedHat (CentOS, RHEL...) and Debian.
+
+Usage as a relay is only tested on Debian.
 
 ## Development
 
