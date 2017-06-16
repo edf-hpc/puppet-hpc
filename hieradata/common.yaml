@@ -153,12 +153,18 @@ profiles::dhcp::global_options:
   - 'arch code 93 = unsigned integer 16'
 
 
-##### SSMTP
+##### SSMTP Client (Debian)
 profiles::ssmtp::config_options:
   mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
   rewritedomain: "%{::hostname}.%{hiera('domain')}"
 
-##### POSTFIX
+##### POSTFIX Client (RedHat 6)
+postfix::config_options:
+  relayhost:           "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
+  myhostname:          "%{hostname}"
+  mydomain:            "%{hiera('domain')}"
+
+##### POSTFIX Relay
 profiles::postfix::relay::config_options:
   myhostname:          "%{hostname}"
   mydomain:            "%{hiera('domain')}"
