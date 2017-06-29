@@ -37,7 +37,7 @@ Include the megaraid class.
 
 ## Limitations
 
-This module only supports Debian.
+This module supports Debian and RedHat GNU/Linux distributions.
 
 ## Development
 

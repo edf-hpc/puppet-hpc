@@ -14,10 +14,23 @@
 ##########################################################################
 
 class megaraid::params {
-  $packages = [
-    'ibm-megacli',
-  ]
+
+  case $::osfamily {
+    'RedHat': {
+      $packages = [
+        'MegaCli',
+      ]
+    }
+    'Debian': {
+      $packages = [
+        'ibm-megacli',
+      ]
+    }
+    default: {
+      error("module does not support OS family ${::osfamily}")
+    }
+  }
+
   $packages_ensure = 'installed'
 
 }
-
