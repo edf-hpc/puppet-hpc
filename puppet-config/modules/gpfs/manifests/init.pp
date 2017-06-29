@@ -13,30 +13,30 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Deploys the GPFS client. 
+# Deploys the GPFS components. 
 # 
 # @param cl_dir_mode	      Permissions for directories (Default: '755)
 # @param cl_file_mode	      Permissions for files (Default: '640')
 # @param cl_decrypt_passwd    Password to decrypt encrypted files 
 #                             (Default: 'password')
-# @param cl_packages          Packages to install for the client
+# @param cl_packages          Packages to install
 #                             (Default: ['gpfs.base', 'gpfs.msg.en-us', 
 #                             'gpfs.gskit', 
 #                             'gpfs.gpl-3.16.0-4-amd64'])
 # @param cl_packages_ensure   State of packages on the system 
 #                             (Default: 'present']
 # @param cl_config_dir        List (array) of directory paths that must exist
-#                             to configure gpfs when installing the client
+#                             to configure gpfs when installing the components
 #                             (Default: ['/var/mmfs', '/var/mmfs/gen', 
 #                             '/var/lock', '/var/lock/subsys', '/usr/lpp',
 #                             '/usr/lpp/mmfs', '/usr/lpp/mmfs/lib', 
 #                             '/var/mmfs/ssl', '/var/mmfs/ssl/stage',])
 # @param cl_config            Absolute path of the configuration file for 
-#                             the gpfs client (Default: '/var/mmfs/gen/mmsdrfs')
+#                             GPFS (Default: '/var/mmfs/gen/mmsdrfs')
 # @param cl_config_src        Path of the encrypted source of the configuration
 #                             file (Default: 'gpfs/mmsdrfs.enc')
-# @param cl_key               Absolute path of the SSL key file used by the gpfs
-#                             client for internal communications
+# @param cl_key               Absolute path of the SSL key file used by GPFS for
+#                             inter-clusters communications
 #                             (Default:'/var/mmfs/ssl/stage/genkeyData1') 
 # @param cl_key_src           Path of the encrypted source of the SSL key file
 #                             (Default: 'gpfs/genkeyData1.enc')
@@ -46,7 +46,7 @@
 #                             Hash to configure the service
 # @param public_key           Public authorized key for SSH communications to 
 #                             add for the root user  
-class gpfs::client (
+class gpfs (
   $cl_dir_mode              = $gpfs::params::cl_dir_mode,
   $cl_file_mod              = $gpfs::params::cl_file_mode,
   $cl_decrypt_passwd        = $gpfs::params::cl_decrypt_passwd,
@@ -78,10 +78,10 @@ class gpfs::client (
   validate_string($service)
   validate_hash($service_override_options)
 
-  anchor { 'gpfs::client::begin': } ->
-  class { '::gpfs::client::install': } ->
-  class { '::gpfs::client::config': } ->
-  class { '::gpfs::client::service': } ->
-  anchor { 'gpfs::client::end': }
+  anchor { 'gpfs::begin': } ->
+  class { '::gpfs::install': } ->
+  class { '::gpfs::config': } ->
+  class { '::gpfs::service': } ->
+  anchor { 'gpfs::end': }
 
 }

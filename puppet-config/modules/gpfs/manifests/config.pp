@@ -14,33 +14,33 @@
 ##########################################################################
 
 #
-class gpfs::client::config inherits gpfs::client {
+class gpfs::config inherits gpfs {
 
-  file { $gpfs::client::cl_config_dir :
+  file { $gpfs::cl_config_dir :
     ensure           => 'directory',
   }
 
   # Configuration files to install
   # It is assumed specified configuration files are encrypted
   $gpfs_cl_files = {
-    "${gpfs::client::cl_config}" => {
-      content  => decrypt($gpfs::client::cl_config_src, $gpfs::client::cl_decrypt_passwd),
-      mode     => $gpfs::client::cl_file_mode,
+    "${gpfs::cl_config}" => {
+      content  => decrypt($gpfs::cl_config_src, $gpfs::cl_decrypt_passwd),
+      mode     => $gpfs::cl_file_mode,
     },
-    "${gpfs::client::cl_key}" => {
-      content  => decrypt($gpfs::client::cl_key_src, $gpfs::client::cl_decrypt_passwd),
+    "${gpfs::cl_key}" => {
+      content  => decrypt($gpfs::cl_key_src, $gpfs::cl_decrypt_passwd),
       notify           => Service[$gpfs::params::service],
     },
   }
   # Default settings to apply to all files
   $gpfs_cl_files_def = {
-    require    => Package[$gpfs::client::cl_packages],
+    require    => Package[$gpfs::cl_packages],
   }
   create_resources(file,$gpfs_cl_files,$gpfs_cl_files_def)
 
-  ssh_authorized_key { "gpfs_${::gpfs::client::cluster}" :
+  ssh_authorized_key { "gpfs_${::gpfs::cluster}" :
     ensure => 'present',
-    key    => $::gpfs::client::public_key,
+    key    => $::gpfs::public_key,
     type   => 'ssh-rsa',
     user   => 'root',
   }

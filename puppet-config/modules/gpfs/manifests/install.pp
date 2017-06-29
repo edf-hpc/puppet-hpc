@@ -14,12 +14,10 @@
 ##########################################################################
 
 #
-class gpfs::server::install inherits gpfs::server {
+class gpfs::install inherits gpfs {
 
-  if ! empty( $gpfs::server::sr_packages) {
-    package { $gpfs::server::sr_packages :
-      ensure  => $gpfs::server::sr_packages_ensure,
-    }
+  package { $gpfs::cl_packages :
+    ensure  => $gpfs::cl_packages_ensure,
   }
 
 }

@@ -18,13 +18,13 @@ GPFS (or Spectrum Scale) is a high-performance clustered file system.
 
 ## Module Description
 
-This module deploys different elements of GPFS: client, server or ressources to export directories stored on the GPFS over NFS protocol.
+This module deploys the software component required on GPFS nodes.
 
 ## Setup
 
 ### What gpfs affects
 
-The module installs the GPFS software in both client and server modes. However the server mode has not been tested yet.
+The module installs the GPFS software in both client and server modes.
 
 ### Setup Requirements
 
@@ -38,23 +38,14 @@ N/A
 
 ## Usage
 
-The gpfs module has two public classes:
+The gpfs module has one public classes:
 
-* `gpfs::client`
-* `gpfs::server` (not tested)
+* `gpfs`
 
-
-As their name suggest, they respectively manage the client and server parts of
-the GPFS software.
-
-The module gpfs also manages a ressource:
-
-* `gpfs::nfs::export` (not tested)
-
-The client public class expects at least a public key and optionnally a few other arguments:
+The public class expects at least a public key and optionnally a few other arguments:
 
 ```
-class { '::gpfs::client':
+class { '::gpfs':
   public_key               => 'ENCRYPTION_KEY',
   cluster                  => 'cluster_name',
   cl_decrypt_passwd        => 'CHANGEME',
@@ -73,7 +64,7 @@ class { '::gpfs::client':
 
 ## Limitations
 
-This module is mainly tested on Debian, except for the server class that should be used on RHEL.
+This module is mainly tested on Debian.
 
 ## Development
 
