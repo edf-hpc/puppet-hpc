@@ -68,7 +68,6 @@ class gpfs::params {
   $packages        = concat($_base_pkgs, $_kernel_pkg)
   $packages_ensure = 'present'
 
-  $dir_mode        = '755'
   $file_mode       = '640'
   $cluster         = 'cluster'
 

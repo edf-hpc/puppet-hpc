@@ -20,7 +20,6 @@
 # @param packages_manage Public class installs the packages (default: true)
 # @param packages_ensure Target state for the packages (default: 'present')
 # @param config_manage   Public class manages the configuration (default: true)
-# @param dir_mode	 Permissions for directories (Default: '755)
 # @param file_mode	 Permissions for files (Default: '640')
 # @param config_dirs     List (array) of directory paths that must exist
 #                        to configure gpfs when installing the components
@@ -53,7 +52,6 @@ class gpfs (
   $packages_manage          = $::gpfs::params::packages_manage,
   $packages_ensure          = $::gpfs::params::packages_ensure,
   $config_manage            = $::gpfs::params::service_manage,
-  $dir_mode                 = $::gpfs::params::dir_mode,
   $file_mode                = $::gpfs::params::file_mode,
   $config_dirs              = $::gpfs::params::config_dirs,
   $config_file              = $::gpfs::params::config_file,
@@ -81,7 +79,6 @@ class gpfs (
   }
 
   if $config_manage {
-    validate_string($dir_mode)
     validate_string($file_mode)
     validate_string($decrypt_passwd)
     validate_array($config_dirs)
