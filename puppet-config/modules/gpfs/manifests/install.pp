@@ -16,8 +16,12 @@
 #
 class gpfs::install inherits gpfs {
 
-  package { $gpfs::cl_packages :
-    ensure  => $gpfs::cl_packages_ensure,
+  if $::gpfs::install_manage {
+    if $::gpfs::packages_manage {
+      package { $::gpfs::packages :
+        ensure => $::gpfs::packages_ensure,
+      }
+    }
   }
 
 }

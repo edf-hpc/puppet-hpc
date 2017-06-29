@@ -15,9 +15,10 @@
 
 class gpfs::service inherits gpfs {
 
-  service { $::gpfs::service:
-    ensure => $::gpfs::service_ensure,
-    enable => $::gpfs::service_enable,
+  if $::gpfs::service_manage {
+    service { $::gpfs::service_name:
+      ensure => $::gpfs::service_ensure,
+      enable => $::gpfs::service_enable,
+    }
   }
-
 }

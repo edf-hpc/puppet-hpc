@@ -48,10 +48,9 @@ The public class expects at least a public key and optionnally a few other argum
 class { '::gpfs':
   public_key               => 'ENCRYPTION_KEY',
   cluster                  => 'cluster_name',
-  cl_decrypt_passwd        => 'CHANGEME',
-  cl_key_src               => 'gpfs/genkeyData1.enc',
-  cl_config_src            => 'gpfs/mmsdrfs.enc',
-  cl_perf_src              => 'gpfs/perf.enc',
+  decrypt_passwd           => 'CHANGEME',
+  key_src                  => 'gpfs/genkeyData1.enc',
+  config_src               => 'gpfs/mmsdrfs.enc',
   service_override_options => {
     'Service' => {
       'ExecStartPre' => '/bin/true',

@@ -14,69 +14,91 @@
 ##########################################################################
 
 # Deploys the GPFS components. 
-# 
-# @param cl_dir_mode	      Permissions for directories (Default: '755)
-# @param cl_file_mode	      Permissions for files (Default: '640')
-# @param cl_decrypt_passwd    Password to decrypt encrypted files 
-#                             (Default: 'password')
-# @param cl_packages          Packages to install
-#                             (Default: ['gpfs.base', 'gpfs.msg.en-us', 
-#                             'gpfs.gskit', 
-#                             'gpfs.gpl-3.16.0-4-amd64'])
-# @param cl_packages_ensure   State of packages on the system 
-#                             (Default: 'present']
-# @param cl_config_dir        List (array) of directory paths that must exist
-#                             to configure gpfs when installing the components
-#                             (Default: ['/var/mmfs', '/var/mmfs/gen', 
-#                             '/var/lock', '/var/lock/subsys', '/usr/lpp',
-#                             '/usr/lpp/mmfs', '/usr/lpp/mmfs/lib', 
-#                             '/var/mmfs/ssl', '/var/mmfs/ssl/stage',])
-# @param cl_config            Absolute path of the configuration file for 
-#                             GPFS (Default: '/var/mmfs/gen/mmsdrfs')
-# @param cl_config_src        Path of the encrypted source of the configuration
-#                             file (Default: 'gpfs/mmsdrfs.enc')
-# @param cl_key               Absolute path of the SSL key file used by GPFS for
-#                             inter-clusters communications
-#                             (Default:'/var/mmfs/ssl/stage/genkeyData1') 
-# @param cl_key_src           Path of the encrypted source of the SSL key file
-#                             (Default: 'gpfs/genkeyData1.enc')
-# @param cluster              Name of the current cluster (Default: 'cluster')
-# @param service              Name of the service (Default: 'gpfs')
+#
+# @param install_manage  Public class manages the installation (default: true)
+# @param packages        Packages to install (default: OS dependant)
+# @param packages_manage Public class installs the packages (default: true)
+# @param packages_ensure Target state for the packages (default: 'present')
+# @param config_manage   Public class manages the configuration (default: true)
+# @param dir_mode	 Permissions for directories (Default: '755)
+# @param file_mode	 Permissions for files (Default: '640')
+# @param config_dirs     List (array) of directory paths that must exist
+#                        to configure gpfs when installing the components
+#                        (Default: ['/var/mmfs', '/var/mmfs/gen',
+#                        '/var/lock', '/var/lock/subsys', '/usr/lpp',
+#                        '/usr/lpp/mmfs', '/usr/lpp/mmfs/lib',
+#                        '/var/mmfs/ssl', '/var/mmfs/ssl/stage',])
+# @param config_file     Absolute path of the configuration file for
+#                        GPFS (Default: '/var/mmfs/gen/mmsdrfs')
+# @param config_src      Path of the encrypted source of the configuration
+#                        file (Default: 'gpfs/mmsdrfs.enc')
+# @param key_file        Absolute path of the SSL key file used by GPFS for
+#                        inter-clusters communications
+#                        (Default:'/var/mmfs/ssl/stage/genkeyData1')
+# @param key_src         Path of the encrypted source of the SSL key file
+#                        (Default: 'gpfs/genkeyData1.enc')
+# @param cluster         Name of the current cluster (Default: 'cluster')
+# @param service_manage  Public class manages the service state (default: true)
+# @param service_name    Name of the service (Default: 'gpfs')
+# @param service_ensure  Target state for the service (default: 'running')
+# @param service_enable  The service starts at boot time (default: true)
 # @param service_override_options
-#                             Hash to configure the service
-# @param public_key           Public authorized key for SSH communications to 
-#                             add for the root user  
+#                        Hash to configure the service
+# @param public_key      Public authorized key for SSH communications to
+#                        add for the root user
+# @param decrypt_passwd  Password to decrypt encrypted files
 class gpfs (
-  $cl_dir_mode              = $gpfs::params::cl_dir_mode,
-  $cl_file_mod              = $gpfs::params::cl_file_mode,
-  $cl_decrypt_passwd        = $gpfs::params::cl_decrypt_passwd,
-  $cl_packages              = $gpfs::params::cl_packages,
-  $cl_packages_ensure       = $gpfs::params::cl_packages_ensure,
-  $cl_config_dir            = $gpfs::params::cl_config_dir,
-  $cl_config                = $gpfs::params::cl_config,
-  $cl_config_src            = $gpfs::params::cl_config_src,
-  $cl_key                   = $gpfs::params::cl_key,
-  $cl_key_src               = $gpfs::params::cl_key_src,
-  $cluster                  = $gpfs::params::cluster,
-  $service                  = $gpfs::params::service,
-  $service_override_options = $gpfs::params::service_override_options,
+  $install_manage           = $::gpfs::params::install_manage,
+  $packages                 = $::gpfs::params::packages,
+  $packages_manage          = $::gpfs::params::packages_manage,
+  $packages_ensure          = $::gpfs::params::packages_ensure,
+  $config_manage            = $::gpfs::params::service_manage,
+  $dir_mode                 = $::gpfs::params::dir_mode,
+  $file_mode                = $::gpfs::params::file_mode,
+  $config_dirs              = $::gpfs::params::config_dirs,
+  $config_file              = $::gpfs::params::config_file,
+  $config_src               = $::gpfs::params::config_src,
+  $key_file                 = $::gpfs::params::key_file,
+  $key_src                  = $::gpfs::params::key_src,
+  $cluster                  = $::gpfs::params::cluster,
+  $service_manage           = $::gpfs::params::service_manage,
+  $service_name             = $::gpfs::params::service_name,
+  $service_ensure           = $::gpfs::params::service_ensure,
+  $service_enable           = $::gpfs::params::service_enable,
+  $service_override_options = $::gpfs::params::service_override_options,
   $public_key,
+  $decrypt_passwd,
 ) inherits gpfs::params {
 
-  validate_string($cl_dir_mode)
-  validate_string($cl_file_mod)
-  validate_string($cl_decrypt_passwd)
-  validate_array($cl_packages)
-  validate_string($cl_packages_ensure)
-  validate_array($cl_config_dir)
-  validate_absolute_path($cl_config)
-  validate_string($cl_config_src)
-  validate_absolute_path($cl_key)
-  validate_string($cl_key_src)
-  validate_string($cluster)
-  validate_string($public_key)
-  validate_string($service)
-  validate_hash($service_override_options)
+  validate_bool($install_manage)
+  validate_bool($packages_manage)
+  validate_bool($service_manage)
+  validate_bool($config_manage)
+
+  if $install_manage and $packages_manage {
+    validate_array($packages)
+    validate_string($packages_ensure)
+  }
+
+  if $config_manage {
+    validate_string($dir_mode)
+    validate_string($file_mode)
+    validate_string($decrypt_passwd)
+    validate_array($config_dirs)
+    validate_absolute_path($config_file)
+    validate_string($config_src)
+    validate_absolute_path($key_file)
+    validate_string($key_src)
+    validate_string($cluster)
+    validate_string($public_key)
+  }
+
+  if $service_manage {
+    validate_string($service_name)
+    validate_string($service_ensure)
+    validate_bool($service_enable)
+    validate_hash($service_override_options)
+  }
 
   anchor { 'gpfs::begin': } ->
   class { '::gpfs::install': } ->

@@ -16,68 +16,63 @@
 #
 class gpfs::params {
 
-  # File and directory modes
-  $cl_dir_mode        = '755'
-  $cl_file_mode       = '640'
+  $install_manage  = true
+  $packages_manage = true
+  $service_manage  = true
+  $config_manage   = true
 
-  # Password to decrypt encrypted files
-  $cl_decrypt_passwd  = 'password'
-
-  # Cluster name
-  $cluster = 'cluster'
-
-  # Packages to install
-  # It is assumed that license files are managed with a
-  # special package : no gpfs.lum for both Debian and Red Hat in 4.2.2.3
   case $::osfamily {
     'Debian': {
-      $cl_base = [
+      $_base_pkgs = [
         'gpfs.base',
         'gpfs.msg.en-us',
         'gpfs.gskit',
       ]
       case $::operatingsystemmajrelease {
         '8': {
-          $cl_kernel = ['gpfs.gpl-3.16.0-4-amd64']
+          $_kernel_pkg = ['gpfs.gpl-3.16.0-4-amd64']
         }
         '7': {
-          $cl_kernel = ['gpfs.gpl-3.2.0-4-amd64']
+          $_kernel_pkg = ['gpfs.gpl-3.2.0-4-amd64']
         }
         default: {
           fail("Unsupported OS major release '${::operatingsystemmajrelease}', should be: '6', '7'.")
         }
       }
-      $sr_packages        = []
-      $sr_packages_ensure = ''
     }
     'Redhat': {
-      $cl_base = [
+      $_base_pkgs = [
         'gpfs.base',
         'gpfs.msg.en_US',
         'gpfs.ext',
         'gpfs.gskit',
+        'gpfs.docs',
+        'set_dma_latency',
       ]
       case $::operatingsystemmajrelease {
         '7': {
-          $cl_kernel = ['gpfs.gplbin-3.10.0-123.el7.x86_64']
+          $_kernel_pkg = ['gpfs.gplbin-3.10.0-123.el7.x86_64']
         }
         '6': {
-          $cl_kernel = ['gpfs.gplbin-2.6.32-431.el6.x86_64']
+          $_kernel_pkg = ['gpfs.gplbin-2.6.32-431.el6.x86_64']
         }
         default: {
           fail("Unsupported OS major release '${::operatingsystemmajrelease}', should be: '6', '7'.")
         }
       }
-      $sr_packages        = ['gpfs.docs','set_dma_latency']
-      $sr_packages_ensure = 'present'
     }
     default: {
       fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
     }
   }
-  $cl_packages        = [$cl_base, $cl_kernel]
-  $cl_packages_ensure = 'present'
-  $cl_config_dir      = [
+  $packages        = concat($_base_pkgs, $_kernel_pkg)
+  $packages_ensure = 'present'
+
+  $dir_mode        = '755'
+  $file_mode       = '640'
+  $cluster         = 'cluster'
+
+  $config_dirs     = [
     '/var/mmfs',
     '/var/mmfs/gen',
     '/var/lock/subsys',
@@ -87,14 +82,15 @@ class gpfs::params {
     '/var/mmfs/ssl',
     '/var/mmfs/ssl/stage',
   ]
-  $cl_config          = '/var/mmfs/gen/mmsdrfs'
-  $cl_config_src      = 'gpfs/mmsdrfs.enc'
-  $cl_key             = '/var/mmfs/ssl/stage/genkeyData1'
-  $cl_key_src         = 'gpfs/genkeyData1.enc'
+  $config_file = '/var/mmfs/gen/mmsdrfs'
+  $config_src  = 'gpfs/mmsdrfs.enc'
+  $key_file    = '/var/mmfs/ssl/stage/genkeyData1'
+  $key_src     = 'gpfs/genkeyData1.enc'
 
 
-  $service                  = 'gpfs'
-  $service_ensure  = running
-  $service_enable  = true
+  $service_name             = 'gpfs'
+  $service_ensure           = 'running'
+  $service_enable           = true
+  $service_override_options = {}
 
 }
