@@ -13,18 +13,18 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# GPFS -  Client
+# GPFS -  Node
 #
 # ## Hiera
 # * `cluster_name`
 
-class profiles::gpfs::client {
+class profiles::gpfs::node {
 
   # Hiera lookups
   $cluster = hiera('cluster_name')
 
   # Install gpfs client
-  class { '::gpfs::client':
+  class { '::gpfs':
     cluster => $cluster,
   }
 
@@ -36,6 +36,6 @@ class profiles::gpfs::client {
   # The observation was that the GPFS line vanished from the fstab when the GPFS
   # mount command is run. To avoid this conflicting corner case, make sure the
   # potential NFS mounts are processed before the GPFS client class.
-  Mount <| tag == 'nfs' |> -> Class['::gpfs::client']
+  Mount <| tag == 'nfs' |> -> Class['::gpfs']
 
 }
