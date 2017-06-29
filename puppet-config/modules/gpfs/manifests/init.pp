@@ -21,12 +21,6 @@
 # @param packages_ensure Target state for the packages (default: 'present')
 # @param config_manage   Public class manages the configuration (default: true)
 # @param file_mode	 Permissions for files (Default: '640')
-# @param config_dirs     List (array) of directory paths that must exist
-#                        to configure gpfs when installing the components
-#                        (Default: ['/var/mmfs', '/var/mmfs/gen',
-#                        '/var/lock', '/var/lock/subsys', '/usr/lpp',
-#                        '/usr/lpp/mmfs', '/usr/lpp/mmfs/lib',
-#                        '/var/mmfs/ssl', '/var/mmfs/ssl/stage',])
 # @param config_file     Absolute path of the configuration file for
 #                        GPFS (Default: '/var/mmfs/gen/mmsdrfs')
 # @param config_src      Path of the encrypted source of the configuration
@@ -53,7 +47,6 @@ class gpfs (
   $packages_ensure          = $::gpfs::params::packages_ensure,
   $config_manage            = $::gpfs::params::service_manage,
   $file_mode                = $::gpfs::params::file_mode,
-  $config_dirs              = $::gpfs::params::config_dirs,
   $config_file              = $::gpfs::params::config_file,
   $config_src               = $::gpfs::params::config_src,
   $key_file                 = $::gpfs::params::key_file,
@@ -81,7 +74,6 @@ class gpfs (
   if $config_manage {
     validate_string($file_mode)
     validate_string($decrypt_passwd)
-    validate_array($config_dirs)
     validate_absolute_path($config_file)
     validate_string($config_src)
     validate_absolute_path($key_file)

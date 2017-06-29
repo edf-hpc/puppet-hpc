@@ -68,24 +68,12 @@ class gpfs::params {
   $packages        = concat($_base_pkgs, $_kernel_pkg)
   $packages_ensure = 'present'
 
-  $file_mode       = '640'
-  $cluster         = 'cluster'
-
-  $config_dirs     = [
-    '/var/mmfs',
-    '/var/mmfs/gen',
-    '/var/lock/subsys',
-    '/usr/lpp',
-    '/usr/lpp/mmfs',
-    '/usr/lpp/mmfs/lib',
-    '/var/mmfs/ssl',
-    '/var/mmfs/ssl/stage',
-  ]
   $config_file = '/var/mmfs/gen/mmsdrfs'
   $config_src  = 'gpfs/mmsdrfs.enc'
   $key_file    = '/var/mmfs/ssl/stage/genkeyData1'
   $key_src     = 'gpfs/genkeyData1.enc'
-
+  $file_mode   = '640'
+  $cluster     = 'cluster'
 
   $service_name             = 'gpfs'
   $service_ensure           = 'running'

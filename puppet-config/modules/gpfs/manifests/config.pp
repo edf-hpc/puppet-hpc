@@ -17,9 +17,6 @@
 class gpfs::config inherits gpfs {
 
   if $config_manage {
-    file { $gpfs::config_dirs :
-      ensure  => 'directory',
-    }
 
     file { $::gpfs::config_file:
       content  => decrypt($::gpfs::config_src, $::gpfs::decrypt_passwd),
