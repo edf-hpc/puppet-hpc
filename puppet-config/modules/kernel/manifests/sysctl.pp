@@ -46,6 +46,12 @@ define kernel::sysctl (
     }
   }
 
+  # Ensure the directory of sysctl configuration file exist. This is notably
+  # needed on RHEL6 where the /etc/sysctl.d directory does not exist by default.
+  ensure_resource(file,
+                  dirname($_file),
+                  { ensure => 'directory' })
+
   hpclib::print_config { $_file:
     style => 'keyval',
     data  => $params,
