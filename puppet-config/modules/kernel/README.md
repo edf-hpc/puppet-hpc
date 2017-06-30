@@ -76,7 +76,8 @@ https://www.freedesktop.org/software/systemd/man/sysctl.d.html
 
 This module is supported on Debian and RedHat 6 and derivatives.
 
-Sysctl udev rules are not supported on RedHat 6 and derivatives.
+This module is tested on Debian and RHEL. It may works with other GNU/Linux
+distributions but has not been tested further.
 
 ## Development
 
