@@ -35,28 +35,25 @@
 # @param service_name    Name of the service (Default: 'gpfs')
 # @param service_ensure  Target state for the service (default: 'running')
 # @param service_enable  The service starts at boot time (default: true)
-# @param service_override_options
-#                        Hash to configure the service
 # @param public_key      Public authorized key for SSH communications to
 #                        add for the root user
 # @param decrypt_passwd  Password to decrypt encrypted files
 class gpfs (
-  $install_manage           = $::gpfs::params::install_manage,
-  $packages                 = $::gpfs::params::packages,
-  $packages_manage          = $::gpfs::params::packages_manage,
-  $packages_ensure          = $::gpfs::params::packages_ensure,
-  $config_manage            = $::gpfs::params::service_manage,
-  $file_mode                = $::gpfs::params::file_mode,
-  $config_file              = $::gpfs::params::config_file,
-  $config_src               = $::gpfs::params::config_src,
-  $key_file                 = $::gpfs::params::key_file,
-  $key_src                  = $::gpfs::params::key_src,
-  $cluster                  = $::gpfs::params::cluster,
-  $service_manage           = $::gpfs::params::service_manage,
-  $service_name             = $::gpfs::params::service_name,
-  $service_ensure           = $::gpfs::params::service_ensure,
-  $service_enable           = $::gpfs::params::service_enable,
-  $service_override_options = $::gpfs::params::service_override_options,
+  $install_manage  = $::gpfs::params::install_manage,
+  $packages        = $::gpfs::params::packages,
+  $packages_manage = $::gpfs::params::packages_manage,
+  $packages_ensure = $::gpfs::params::packages_ensure,
+  $config_manage   = $::gpfs::params::service_manage,
+  $file_mode       = $::gpfs::params::file_mode,
+  $config_file     = $::gpfs::params::config_file,
+  $config_src      = $::gpfs::params::config_src,
+  $key_file        = $::gpfs::params::key_file,
+  $key_src         = $::gpfs::params::key_src,
+  $cluster         = $::gpfs::params::cluster,
+  $service_manage  = $::gpfs::params::service_manage,
+  $service_name    = $::gpfs::params::service_name,
+  $service_ensure  = $::gpfs::params::service_ensure,
+  $service_enable  = $::gpfs::params::service_enable,
   $public_key,
   $decrypt_passwd,
 ) inherits gpfs::params {
@@ -86,7 +83,6 @@ class gpfs (
     validate_string($service_name)
     validate_string($service_ensure)
     validate_bool($service_enable)
-    validate_hash($service_override_options)
   }
 
   anchor { 'gpfs::begin': } ->

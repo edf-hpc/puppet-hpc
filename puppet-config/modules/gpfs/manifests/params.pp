@@ -75,9 +75,8 @@ class gpfs::params {
   $file_mode   = '640'
   $cluster     = 'cluster'
 
-  $service_name             = 'gpfs'
-  $service_ensure           = 'running'
-  $service_enable           = true
-  $service_override_options = {}
+  $service_name   = 'gpfs'
+  $service_ensure = 'running'
+  $service_enable = true
 
 }
