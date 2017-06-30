@@ -16,16 +16,26 @@
 # GPFS -  Node
 #
 # ## Hiera
-# * `cluster_name`
-
+#
+# * `profiles::gpfs::cluster`  Name of current node GPFS cluster
+# * `profiles::gpfs::clusters  Hash of all GPFS clusters settings
+#
+# ## Relevant autolookups
+#
+# * `gpfs::decrypt_passwd`
 class profiles::gpfs::node {
 
   # Hiera lookups
-  $cluster = hiera('cluster_name')
+  $cluster = hiera('profiles::gpfs::cluster')
+  $clusters = hiera_hash('profiles::gpfs::clusters')
+  $settings = $clusters[$cluster]
 
-  # Install gpfs client
+  # Install GPFS node software components
   class { '::gpfs':
-    cluster => $cluster,
+    cluster    => $cluster,
+    public_key => $settings['pubkey'],
+    key_src    => $settings['key_src'],
+    config_src => $settings['config_src'],
   }
 
   # Make sure all potential NFS mount have been realized before realizing the
