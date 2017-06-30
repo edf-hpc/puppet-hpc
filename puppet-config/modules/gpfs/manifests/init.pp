@@ -19,6 +19,9 @@
 # @param packages        Packages to install (default: OS dependant)
 # @param packages_manage Public class installs the packages (default: true)
 # @param packages_ensure Target state for the packages (default: 'present')
+# @param lum_files       Optional hash of LUM files to install (default: {})
+# @param lum_hpc_files   Optional hash of LUM files to install with
+#                        hpclib::hpc_file (default: {})
 # @param config_manage   Public class manages the configuration (default: true)
 # @param file_mode	 Permissions for files (Default: '640')
 # @param config_file     Absolute path of the configuration file for
@@ -43,6 +46,8 @@ class gpfs (
   $packages        = $::gpfs::params::packages,
   $packages_manage = $::gpfs::params::packages_manage,
   $packages_ensure = $::gpfs::params::packages_ensure,
+  $lum_files       = $::gpfs::params::lum_files,
+  $lum_hpc_files   = $::gpfs::params::lum_hpc_files,
   $config_manage   = $::gpfs::params::service_manage,
   $file_mode       = $::gpfs::params::file_mode,
   $config_file     = $::gpfs::params::config_file,
@@ -66,6 +71,11 @@ class gpfs (
   if $install_manage and $packages_manage {
     validate_array($packages)
     validate_string($packages_ensure)
+  }
+
+  if $install_manage {
+    validate_hash($lum_files)
+    validate_hash($lum_hpc_files)
   }
 
   if $config_manage {

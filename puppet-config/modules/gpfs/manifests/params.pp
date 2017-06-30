@@ -67,6 +67,8 @@ class gpfs::params {
   }
   $packages        = concat($_base_pkgs, $_kernel_pkg)
   $packages_ensure = 'present'
+  $lum_files       = {}
+  $lum_hpc_files   = {}
 
   $config_file = '/var/mmfs/gen/mmsdrfs'
   $config_src  = 'gpfs/mmsdrfs.enc'

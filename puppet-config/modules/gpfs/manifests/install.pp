@@ -17,9 +17,16 @@
 class gpfs::install inherits gpfs {
 
   if $::gpfs::install_manage {
+
+    create_resources(file, $::gpfs::lum_files)
+    create_resources(hpclib::hpc_file,
+                     $::gpfs::lum_hpc_files,
+                     { require => File[keys($::gpfs::lum_files)] })
+
     if $::gpfs::packages_manage {
       package { $::gpfs::packages :
-        ensure => $::gpfs::packages_ensure,
+        ensure  => $::gpfs::packages_ensure,
+        require => File[keys($::gpfs::lum_hpc_files)],
       }
     }
   }
