@@ -13,29 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Setup kernel parameters
-#
-# @param config_manage Public class manages the configuration (default: true)
-# @param sysctl Hash of sysctl parameters (default: {})
-# @param udev_rules Hash of udev rules (default: {})
-# @param modprobes Hash of kernel module modprobe settings (default: {})
-class kernel (
-  $config_manage = $::kernel::params::config_manage,
-  $sysctl        = $::kernel::params::sysctl,
-  $udev_rules    = $::kernel::params::udev_rules,
-  $modprobes     = $::kernel::params::modprobes,
-) inherits kernel::params {
+# Deploys kernel module parameters file
 
-  validate_bool($config_manage)
+define kernel::modprobe (
+  $file = undef,
+  $lines,
+) {
 
-  if $config_manage {
-    validate_hash($sysctl)
-    validate_hash($udev_rules)
-    validate_hash($modprobes)
+  if $file == undef {
+    $_file = "${::kernel::params::modprobe_dir}/${name}.conf"
+  } else {
+    $_file = $file
   }
 
-  anchor { 'kernel::begin': } ->
-  class { '::kernel::config': } ->
-  anchor { 'kernel::end': }
+  validate_array($lines)
+
+  hpclib::print_config { $_file:
+    style => 'linebyline',
+    data  => $lines,
+  }
 
 }

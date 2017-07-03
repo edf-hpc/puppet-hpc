@@ -34,5 +34,7 @@ class kernel::params {
   $sysctl_dir    = '/etc/sysctl.d'
   $udev_rules    = {}
   $udev_dir      = '/etc/udev/rules.d'
+  $modprobes     = {}
+  $modprobe_dir  = '/etc/modprobe.d'
 
 }

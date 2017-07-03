@@ -21,5 +21,7 @@ class kernel::config inherits kernel {
 
     create_resources(kernel::udev, $::kernel::udev_rules)
 
+    create_resources(kernel::modprobe, $::kernel::modprobes)
+
   }
 }

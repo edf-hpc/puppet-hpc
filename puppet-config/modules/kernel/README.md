@@ -21,6 +21,7 @@ The module setup Linux kernel subsystems.
 
 * Sysctl parameters
 * Udev rules
+* Modprobe kernel module settings
 
 ### Setup Requirements
 
@@ -60,6 +61,11 @@ class { '::kernel':
   udev_rules => {
     'custom' => {
       rules => [ "ACTION==\"add\", SUBSYSTEM==\"module\" ],
+    },
+  },
+  modprobes => {
+    mymod => {
+       lines => [ 'options mymod opt=val' ],
     },
   },
 }
