@@ -109,10 +109,8 @@ class infiniband::params {
           'infiniband-diags',
           'libibcommon',
           'mstflint',
-          'opensm',
           'perftest',
           'qperf',
-          'srptools',
         ],
       }
     }
