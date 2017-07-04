@@ -391,7 +391,7 @@ slurmutils::setupdb::conf_options:
 profiles::jobsched::server::sync_options:
   main:
     cluster: "%{hiera('cluster_name')}"
-    group:   "%{hiera('user_group')}"
+    groups:  "%{hiera('user_group')}"
 
 ##### NHC
 warewulf_nhc::devicequery_src: "%{hiera('private_files_dir')}/warewulf_nhc/deviceQuery"
