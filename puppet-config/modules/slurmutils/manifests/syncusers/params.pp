@@ -29,7 +29,7 @@ class slurmutils::syncusers::params {
     main => {
       org     => 'org',
       cluster => 'cluster',
-      group   => 'users',
+      groups  => 'users',
       policy  => 'global_account',
     },
     global_account => {
