@@ -49,7 +49,11 @@ class { '::gpfs':
   public_key     => 'ENCRYPTION_KEY',
   cluster        => 'cluster_name',
   decrypt_passwd => 'CHANGEME',
-  key_src        => 'gpfs/genkeyData1.enc',
+  ssl_keys       => {
+    'genkeyData1' => {
+      src        => 'gpfs/genkeyData1.enc',
+    },
+  },
   config_src     => 'gpfs/mmsdrfs.enc',
 }
 ```

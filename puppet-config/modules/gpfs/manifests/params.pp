@@ -74,8 +74,8 @@ class gpfs::params {
   $config_src          = 'gpfs/mmsdrfs.enc'
   $ssh_private_key_src = undef
   $ssh_hosts           = '*'
-  $key_file            = '/var/mmfs/ssl/stage/genkeyData1'
-  $key_src             = 'gpfs/genkeyData1.enc'
+  $ssl_keys            = {}
+  $ssl_key_dir         = '/var/mmfs/ssl/stage'
   $file_mode           = '640'
   $cluster             = 'cluster'
 

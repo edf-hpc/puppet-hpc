@@ -33,11 +33,8 @@
 #                        communications (default: undef)
 # @param ssh_hosts       Hosts associated to SSH private key in configuration
 #                        (default: '*')
-# @param key_file        Absolute path of the SSL key file used by GPFS for
-#                        inter-clusters communications
-#                        (Default:'/var/mmfs/ssl/stage/genkeyData1')
-# @param key_src         Path of the encrypted source of the SSL key file
-#                        (Default: 'gpfs/genkeyData1.enc')
+# @param ssl_keys        Hash of SSL keys definitions used by GPFS for
+#                        inter-clusters communications (default: {})
 # @param cluster         Name of the current cluster (Default: 'cluster')
 # @param service_manage  Public class manages the service state (default: true)
 # @param service_name    Name of the service (Default: 'gpfs')
@@ -59,8 +56,7 @@ class gpfs (
   $config_src          = $::gpfs::params::config_src,
   $ssh_private_key_src = $::gpfs::params::ssh_priv_key_src,
   $ssh_hosts           = $::gpfs::params::ssh_hosts,
-  $key_file            = $::gpfs::params::key_file,
-  $key_src             = $::gpfs::params::key_src,
+  $ssl_keys            = $::gpfs::params::ssl_keys,
   $cluster             = $::gpfs::params::cluster,
   $service_manage      = $::gpfs::params::service_manage,
   $service_name        = $::gpfs::params::service_name,
@@ -94,8 +90,7 @@ class gpfs (
       validate_string($ssh_private_key_src)
       validate_string($ssh_hosts)
     }
-    validate_absolute_path($key_file)
-    validate_string($key_src)
+    validate_hash($ssl_keys)
     validate_string($cluster)
     validate_string($ssh_public_key)
   }

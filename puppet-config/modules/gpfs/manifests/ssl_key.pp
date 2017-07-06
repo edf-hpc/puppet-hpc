@@ -13,33 +13,21 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-#
-class gpfs::config inherits gpfs {
+define gpfs::ssl_key (
+  $file = undef,
+  $src,
+) {
 
-  if $config_manage {
+  if $file == undef {
+    $_file = "${::gpfs::params::ssl_key_dir}/${name}"
+  } else {
+    $_file = $file
+  }
 
-    file { $::gpfs::config_file:
-      content  => decrypt($::gpfs::config_src, $::gpfs::decrypt_passwd),
-      mode     => $::gpfs::file_mode,
-    }
-
-    create_resources(gpfs::ssl_key, $::gpfs::ssl_keys)
-
-    ssh_authorized_key { "gpfs_${::gpfs::cluster}" :
-      ensure => 'present',
-      key    => $::gpfs::ssh_public_key,
-      type   => 'ssh-rsa',
-      user   => 'root',
-    }
-
-    # setup GPFS cluster internal SSH private key if defined
-    if $::gpfs::ssh_private_key_src != undef {
-      openssh::client::identity { "gpfs_${::gpfs::cluster}":
-        key_enc        => $::gpfs::ssh_private_key_src,
-        key_file       => "/root/.ssh/id_rsa_gpfs_${::gpfs::cluster}",
-        host           => $::gpfs::ssh_hosts,
-        decrypt_passwd => $::gpfs::decrypt_passwd,
-      }
-    }
+  file { $_file:
+    content  => decrypt($src, $::gpfs::decrypt_passwd),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0400',
   }
 }
