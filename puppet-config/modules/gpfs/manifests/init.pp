@@ -28,6 +28,11 @@
 #                        GPFS (Default: '/var/mmfs/gen/mmsdrfs')
 # @param config_src      Path of the encrypted source of the configuration
 #                        file (Default: 'gpfs/mmsdrfs.enc')
+# @param ssh_private_key_src
+#                        URL to private SSH file for inter-cluster
+#                        communications (default: undef)
+# @param ssh_hosts       Hosts associated to SSH private key in configuration
+#                        (default: '*')
 # @param key_file        Absolute path of the SSL key file used by GPFS for
 #                        inter-clusters communications
 #                        (Default:'/var/mmfs/ssl/stage/genkeyData1')
@@ -38,28 +43,30 @@
 # @param service_name    Name of the service (Default: 'gpfs')
 # @param service_ensure  Target state for the service (default: 'running')
 # @param service_enable  The service starts at boot time (default: true)
-# @param public_key      Public authorized key for SSH communications to
+# @param ssh_public_key  Public authorized key for SSH communications to
 #                        add for the root user
 # @param decrypt_passwd  Password to decrypt encrypted files
 class gpfs (
-  $install_manage  = $::gpfs::params::install_manage,
-  $packages        = $::gpfs::params::packages,
-  $packages_manage = $::gpfs::params::packages_manage,
-  $packages_ensure = $::gpfs::params::packages_ensure,
-  $lum_files       = $::gpfs::params::lum_files,
-  $lum_hpc_files   = $::gpfs::params::lum_hpc_files,
-  $config_manage   = $::gpfs::params::service_manage,
-  $file_mode       = $::gpfs::params::file_mode,
-  $config_file     = $::gpfs::params::config_file,
-  $config_src      = $::gpfs::params::config_src,
-  $key_file        = $::gpfs::params::key_file,
-  $key_src         = $::gpfs::params::key_src,
-  $cluster         = $::gpfs::params::cluster,
-  $service_manage  = $::gpfs::params::service_manage,
-  $service_name    = $::gpfs::params::service_name,
-  $service_ensure  = $::gpfs::params::service_ensure,
-  $service_enable  = $::gpfs::params::service_enable,
-  $public_key,
+  $install_manage      = $::gpfs::params::install_manage,
+  $packages            = $::gpfs::params::packages,
+  $packages_manage     = $::gpfs::params::packages_manage,
+  $packages_ensure     = $::gpfs::params::packages_ensure,
+  $lum_files           = $::gpfs::params::lum_files,
+  $lum_hpc_files       = $::gpfs::params::lum_hpc_files,
+  $config_manage       = $::gpfs::params::service_manage,
+  $file_mode           = $::gpfs::params::file_mode,
+  $config_file         = $::gpfs::params::config_file,
+  $config_src          = $::gpfs::params::config_src,
+  $ssh_private_key_src = $::gpfs::params::ssh_priv_key_src,
+  $ssh_hosts           = $::gpfs::params::ssh_hosts,
+  $key_file            = $::gpfs::params::key_file,
+  $key_src             = $::gpfs::params::key_src,
+  $cluster             = $::gpfs::params::cluster,
+  $service_manage      = $::gpfs::params::service_manage,
+  $service_name        = $::gpfs::params::service_name,
+  $service_ensure      = $::gpfs::params::service_ensure,
+  $service_enable      = $::gpfs::params::service_enable,
+  $ssh_public_key,
   $decrypt_passwd,
 ) inherits gpfs::params {
 
@@ -83,10 +90,14 @@ class gpfs (
     validate_string($decrypt_passwd)
     validate_absolute_path($config_file)
     validate_string($config_src)
+    if $ssh_private_key_src != undef {
+      validate_string($ssh_private_key_src)
+      validate_string($ssh_hosts)
+    }
     validate_absolute_path($key_file)
     validate_string($key_src)
     validate_string($cluster)
-    validate_string($public_key)
+    validate_string($ssh_public_key)
   }
 
   if $service_manage {

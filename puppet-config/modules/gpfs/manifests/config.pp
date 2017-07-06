@@ -30,9 +30,19 @@ class gpfs::config inherits gpfs {
 
     ssh_authorized_key { "gpfs_${::gpfs::cluster}" :
       ensure => 'present',
-      key    => $::gpfs::public_key,
+      key    => $::gpfs::ssh_public_key,
       type   => 'ssh-rsa',
       user   => 'root',
+    }
+
+    # setup GPFS cluster internal SSH private key if defined
+    if $::gpfs::ssh_private_key_src != undef {
+      openssh::client::identity { "gpfs_${::gpfs::cluster}":
+        key_enc        => $::gpfs::ssh_private_key_src,
+        key_file       => "/root/.ssh/id_rsa_gpfs_${::gpfs::cluster}",
+        host           => $::gpfs::ssh_hosts,
+        decrypt_passwd => $::gpfs::decrypt_passwd,
+      }
     }
   }
 }

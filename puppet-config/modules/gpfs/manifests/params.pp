@@ -70,12 +70,14 @@ class gpfs::params {
   $lum_files       = {}
   $lum_hpc_files   = {}
 
-  $config_file = '/var/mmfs/gen/mmsdrfs'
-  $config_src  = 'gpfs/mmsdrfs.enc'
-  $key_file    = '/var/mmfs/ssl/stage/genkeyData1'
-  $key_src     = 'gpfs/genkeyData1.enc'
-  $file_mode   = '640'
-  $cluster     = 'cluster'
+  $config_file         = '/var/mmfs/gen/mmsdrfs'
+  $config_src          = 'gpfs/mmsdrfs.enc'
+  $ssh_private_key_src = undef
+  $ssh_hosts           = '*'
+  $key_file            = '/var/mmfs/ssl/stage/genkeyData1'
+  $key_src             = 'gpfs/genkeyData1.enc'
+  $file_mode           = '640'
+  $cluster             = 'cluster'
 
   $service_name   = 'gpfs'
   $service_ensure = 'running'
