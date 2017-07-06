@@ -32,10 +32,12 @@ class profiles::gpfs::node {
 
   # Install GPFS node software components
   class { '::gpfs':
-    cluster    => $cluster,
-    public_key => $settings['pubkey'],
-    key_src    => $settings['key_src'],
-    config_src => $settings['config_src'],
+    cluster             => $cluster,
+    ssh_public_key      => $settings['pubkey'],
+    ssh_private_key_src => $settings['privkey'],
+    ssh_hosts           => $settings['hosts'],
+    key_src             => $settings['key_src'],
+    config_src          => $settings['config_src'],
   }
 
   # Make sure all potential NFS mount have been realized before realizing the
