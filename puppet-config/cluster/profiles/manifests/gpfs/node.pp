@@ -31,6 +31,12 @@ class profiles::gpfs::node {
   $settings = $clusters[$cluster]
 
   # Install GPFS node software components
+  #
+  # Some keys may not be present in the $settings hash (ex: privkey, hosts)
+  # since these parameters are optional by nature (one may not want to deploy
+  # specific SSH private keys on nodes for GPFS). In this case, puppet basically
+  # ignores the missing keys and set the class argument to undef. It is then the
+  # class job's to manage this case.
   class { '::gpfs':
     cluster             => $cluster,
     ssh_public_key      => $settings['pubkey'],
