@@ -36,7 +36,7 @@ class profiles::gpfs::node {
     ssh_public_key      => $settings['pubkey'],
     ssh_private_key_src => $settings['privkey'],
     ssh_hosts           => $settings['hosts'],
-    key_src             => $settings['key_src'],
+    ssl_keys            => $settings['ssl_keys'],
     config_src          => $settings['config_src'],
   }
 
