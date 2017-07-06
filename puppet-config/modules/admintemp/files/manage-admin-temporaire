@@ -179,7 +179,7 @@ check_at () {
                 echo "" > $bodymail
                 echo "Bonjour," >> $bodymail
                 echo "" >> $bodymail
-                echo "Impossible de controler les admins temporaires , le fichier $groupsat n'est pas present"
+                echo "Impossible de controler les admins temporaires , le fichier $groupsat n'est pas present" >> $bodymail
                 echo "" >> $bodymail
                 echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
         fi
@@ -225,7 +225,7 @@ check_at () {
                         echo "" > $bodymail
                         echo "Bonjour," >> $bodymail
                         echo "" >> $bodymail
-                        echo "Le compte $x à été rajouté au group $grplocal car il était absent du group $grplocal"
+                        echo "Le compte $x à été rajouté au group $grplocal car il était absent du group $grplocal" >> $bodymail
                         echo "" >> $bodymail
                         status_at >> $bodymail
                         echo -e "Content-Type:text/plain;charset=\"utf-8\"\nSubject: $sujetmail\nFrom:$from\nTo:$to\n`cat $bodymail`\n" |/usr/sbin/sendmail -f "$from" "$to"
