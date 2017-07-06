@@ -25,7 +25,7 @@ class openssh::client::params {
       $packages = ['openssh-client']
     }
     'RedHat' : {
-      $packages = ['openssh-client']
+      $packages = ['openssh-clients']
     }
     default : {
       $packages = ['openssh-client']
