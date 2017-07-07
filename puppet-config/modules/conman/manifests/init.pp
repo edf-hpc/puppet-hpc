@@ -31,19 +31,20 @@
 #   - 'seropts'  => '115200,8n1'
 #   - 'ipmiopts' => 'U:admin,P:admin'
 #
-# These two hash defines the general parameters of the service and can be 
+# These two hash defines the general parameters of the service and can be
 # overrided parameter by parameter.
 # @param packages Package list
 # @param packages_ensure Should packages be installed, latest or absent.
 # @param service Service name (default: 'conman')
-# @param service_ensure Should the service run or be stopped (default: running)
+# @param service_ensure Should the service run or be stopped (default: running),
+#          also supports 'ignore' to explicitely not change the state.
 # @param service_enable Should the service be enabled (default: true)
 # @param logrotate Should the logs be rotated (default: true)
 # @param server_options Supplementary server parameters for conman service
 #             (default: {})
 # @param global_options Supplementary global parameters for conman service
 #             (default: {})
-# @param service_override Params to override systemd service parameters 
+# @param service_override Params to override systemd service parameters
 #             (default: {})
 class conman (
   $packages        = $::conman::params::packages,

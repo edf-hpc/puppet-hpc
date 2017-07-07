@@ -14,8 +14,14 @@
 ##########################################################################
 
 class conman::service inherits conman {
+  if $::conman::service_ensure == 'ignore' {
+    $ensure = undef
+  } else {
+    $ensure = $::conman::service_ensure
+  }
+
   service { $::conman::service:
-    ensure => $::conman::service_ensure,
+    ensure => $ensure,
     enable => $::conman::service_enable,
   }
 }
