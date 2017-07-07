@@ -37,7 +37,7 @@ class hpc_conman::server (
   if $vip_name {
     #Service start is controlled by the HA script to follow
     #the VIP
-    $service_ensure = undef
+    $service_ensure = 'ignore'
     $service_enable = false
 
     hpc_ha::vip_notify_script { 'conman':
