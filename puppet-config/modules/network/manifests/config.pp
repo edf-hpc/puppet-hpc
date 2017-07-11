@@ -34,6 +34,8 @@ class network::config inherits network {
       host_aliases => $::hostname,
     }
 
+    create_resources(host, $hosts, { ensure => 'present' })
+
     # $net_ifaces hash is used by create_resources to generate main network
     # configuration file. On debian systems there is a single file.
     # On RHEL systems there is a file for each interface. For this reason

@@ -21,6 +21,7 @@ class network::params {
   $config_manage   = true
   $service_manage  = true
 
+  $hosts     = {}
   $routednet = {}
 
   $ib_mtu            = '65520'

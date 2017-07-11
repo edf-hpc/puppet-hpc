@@ -24,6 +24,7 @@
 # @param packages_ensure Target state for the packages (default: 'latest')
 # @param config_manage Public class manages the configuration (default: true)
 # @param config_file Path of the main network configuration file
+# @param hosts Hash of hosts entries (default : {})
 # @param defaultgw IP Address of the default gateway
 # @param fqdn Fully Qualified Domain Name of this host
 # @param routednet Hash of direct routes for this host (default: {})
@@ -50,6 +51,7 @@ class network (
   $packages_ensure        = $::network::params::packages_ensure,
   $config_manage          = $::network::params::config_manage,
   $config_file            = $::network::params::config_file,
+  $hosts                  = $::network::params::hosts,
   $defaultgw,
   $fqdn,
   $routednet              = $::network::params::routednet,
@@ -82,6 +84,7 @@ class network (
   }
 
   if $config_manage {
+    validate_hash($hosts)
     validate_string($defaultgw)
     validate_hash($routednet)
     validate_string($hostname_augeas_path)
