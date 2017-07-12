@@ -25,11 +25,14 @@ class gpfs::config inherits gpfs {
 
     create_resources(gpfs::ssl_key, $::gpfs::ssl_keys)
 
-    ssh_authorized_key { "gpfs_${::gpfs::cluster}" :
-      ensure => 'present',
-      key    => $::gpfs::ssh_public_key,
-      type   => 'ssh-rsa',
-      user   => 'root',
+    # setup GPFS cluster internal SSH public key if defined
+    if $::gpfs::ssh_public_key != undef {
+      ssh_authorized_key { "gpfs_${::gpfs::cluster}" :
+        ensure => 'present',
+        key    => $::gpfs::ssh_public_key,
+        type   => 'ssh-rsa',
+        user   => 'root',
+      }
     }
 
     # setup GPFS cluster internal SSH private key if defined
