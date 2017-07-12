@@ -24,8 +24,8 @@ class cpufreq::params {
   $service_ensure  = running
   $service_enable  = true
 
-#### Defaults values
-  $default_options_default = {
+  #### Defaults values
+  $default_options_defaults = {
     'ENABLE'    => '"true"',
     'GOVERNOR'  => '"performance"',
     'MAX_SPEED' => '"0"',
