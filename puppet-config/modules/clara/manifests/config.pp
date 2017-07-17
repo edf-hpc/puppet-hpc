@@ -52,7 +52,7 @@ class clara::config inherits clara {
                     { ensure => 'directory' })
 
     hpclib::hpc_file { $::clara::apt_ssl_cert_file:
-      source => $::clara::apt_ssl_cert_source,
+      source  => $::clara::apt_ssl_cert_source,
       mode    => '0644',
       owner   => 'root',
       group   => 'root',
@@ -69,8 +69,8 @@ class clara::config inherits clara {
 
     file { $::clara::apt_ssl_key_file:
       ensure  => present,
-      content => decrypt($::clara::apt_ssl_key_source,
-                         $::clara::decrypt_passwd),
+      content => decrypt( $::clara::apt_ssl_key_source,
+                          $::clara::decrypt_passwd),
       mode    => '0600',
       owner   => 'root',
       group   => 'root',

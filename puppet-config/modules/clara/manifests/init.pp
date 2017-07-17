@@ -146,7 +146,7 @@ class clara (
   if $apt_ssl_key_source {
     validate_string($apt_ssl_key_source)
     validate_absolute_path($apt_ssl_key_file)
-    validate_string($decrypt_password)
+    validate_string($decrypt_passwd)
   }
 
   anchor { 'clara::begin': } ->
