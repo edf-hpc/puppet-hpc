@@ -15,4 +15,11 @@
 
 class hpc_crontabs::params {
   $crontabs_dir_source = '/var/spool/cron/crontabs'
+  # Default mode is: drwx-wx--T
+  $crontabs_dir_params_defaults = {
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'crontab',
+    mode   => '1730',
+  }
 }

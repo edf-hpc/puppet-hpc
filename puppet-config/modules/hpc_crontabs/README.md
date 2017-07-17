@@ -51,6 +51,11 @@ class { '::hpc_crontabs':
 The destination directory must be exclusive to a node since all cronjob files
 in there will be considered by `crond` daemon.
 
+``crontabs_dir_destination`` is created with the same permissions as
+``/var/spool/cron/crontabs/`` on Debian (``drwx-wx--T``). These settings can be
+overriden with the ``crontabs_dir_params`` class parameter. This hash accepts
+the same parameters as the ``file`` resource.
+
 ## Limitations
 
 This module is mainly tested on Debian but it surely works with RHEL and

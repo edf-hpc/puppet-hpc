@@ -18,15 +18,22 @@
 #
 # @param crontabs_dir_source Path to the original crontabs directory on the
 #                            system (default: '/var/spool/cron/crontabs')
-# @param crontabs_dir_destination Path to the target crontabs directory
-#
+# @param crontabs_dir_destination Path to the target crontabs directory (no
+#          defaults)
+# @param crontabs_dir_params Hash with directory parameters, merge with
+#          defaults identical to Debian.
 class hpc_crontabs (
+  $crontabs_dir_destination,
   $crontabs_dir_source      = $hpc_crontabs::params::crontabs_dir_source,
-  $crontabs_dir_destination = '',
+  $crontabs_dir_params      = {},
 ) inherits hpc_crontabs::params {
 
   validate_absolute_path($crontabs_dir_source)
   validate_absolute_path($crontabs_dir_destination)
+  validate_hash($crontabs_dir_params)
+
+  $_crontabs_dir_params = deep_merge( $::hpc_crontabs::params::crontabs_dir_params_defaults,
+                                      $crontabs_dir_params)
 
   anchor { 'hpc_crontabs::begin': } ->
   class { '::hpc_crontabs::install': } ->

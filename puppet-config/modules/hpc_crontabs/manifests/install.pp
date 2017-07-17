@@ -17,16 +17,16 @@ class hpc_crontabs::install inherits hpc_crontabs {
 
   # ensure destination directory exists
   ensure_resource(file,
-                  $crontabs_dir_destination,
-                  { ensure => 'directory' })
+                  $hpc_crontabs::crontabs_dir_destination,
+                  $hpc_crontabs::_crontabs_dir_params)
 
   # then create source symlink
-  file { $crontabs_dir_source :
+  file { $hpc_crontabs::crontabs_dir_source :
       ensure  => 'link',
-      target  => $crontabs_dir_destination,
+      target  => $hpc_crontabs::crontabs_dir_destination,
       replace => true,
       force   => true,
-      require => File[$crontabs_dir_destination],
+      require => File[$hpc_crontabs::crontabs_dir_destination],
   }
 
 }
