@@ -14,6 +14,8 @@
 ##########################################################################
 
 class environment::config inherits environment {
+  $aliases = $::environment::aliases
+  $env_variables = $::environment::env_variables
 
   hpclib::print_config{ $::environment::login_defs_file :
     style     => 'keyval',
@@ -21,20 +23,86 @@ class environment::config inherits environment {
     data      => $::environment::_login_defs_options,
   }
 
-  file { $::environment::motd_path :
-    ensure  => file,
+  file {'/etc/motd':
+    ensure  => 'present',
     content => template('environment/motd.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
   }
 
-  file { $::environment::ssh_autogenkeys_script:
-    path    => "${::environment::profiles_directory}/${::environment::ssh_autogenkeys_script}",
-    content => template($::environment::ssh_autogenkeys_script_tpl),
+  file {'/etc/bash.bashrc':
+    ensure => 'present',
+    source => 'puppet:///modules/environment/bash.bashrc',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
+  file {'/etc/profile':
+    ensure => 'present',
+    source => 'puppet:///modules/environment/profile',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
   }
 
   debug("Log Commands Enable: ${::environment::log_commands_enable} (${::environment::log_commands_facility})")
-  file { "${::environment::profiles_directory}/000_config.sh":
+  file { '/etc/profile.d/000_config.sh':
+    ensure  => 'present',
     content => template('environment/000_config.sh.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
   }
 
-  create_resources(file, $::environment::files, $::environment::files_defaults)
+  file {'/etc/profile.d/000_TTY.sh':
+    ensure => 'present',
+    source => 'puppet:///modules/environment/000_TTY.sh',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
+  file {'/etc/profile.d/001_prompt_command.sh':
+    ensure => 'present',
+    source => 'puppet:///modules/environment/001_prompt_command.sh',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
+  file {'/etc/profile.d/001_PS1.sh':
+    ensure => 'present',
+    source => 'puppet:///modules/environment/001_PS1.sh',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
+  file { '/etc/profile.d/010_aliases.sh':
+    ensure  => 'present',
+    content => template('environment/010_aliases.sh.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
+  file { '/etc/profile.d/010_env_variables.sh':
+    ensure  => 'present',
+    content => template('environment/010_env_variables.sh.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
+  file { '/etc/profile.d/ssh_keys_autogen.sh':
+    ensure  => 'present',
+    content => template('environment/ssh_keys_autogen.sh.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
 }
+

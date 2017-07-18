@@ -20,48 +20,9 @@ class environment::params {
   $packages                         = ['bash-completion']
   $packages_ensure                  = 'present'
   $service_user_session             = '/etc/systemd/system/systemd-user-sessions.service'
-  $motd_path                        = '/etc/motd'
-  $bashrc_config                    = '/etc/bash.bashrc'
-  $bashrc_config_src                = 'puppet:///modules/environment/bash.bashrc'
-  $profile_config                   = '/etc/profile'
-  $profile_config_src               = 'puppet:///modules/environment/profile'
-  $profiles_directory               = '/etc/profile.d'
-  $ssh_cm_dirprof_src               = 'puppet:///modules/ssh'
-  $tty_profile_script               = '000_TTY.sh'
-  $tty_profile_script_src           = 'puppet:///modules/environment/000_TTY.sh'
-  $promptcommand_profile_script     = '001_prompt_command.sh'
-  $promptcommand_profile_script_src = 'puppet:///modules/environment/001_prompt_command.sh'
-  $ps1_profilescript                = '001_PS1.sh'
-  $ps1_profilescript_src            = 'puppet:///modules/environment/001_PS1.sh'
-  $ssh_autogenkeys_script           = 'ssh_keys_autogen.sh'
-  $ssh_autogenkeys_script_tpl       = 'environment/ssh_keys_autogen.sh.erb'
-  $files_defaults                   = {
-    'ensure' => 'present',
-    'owner'  => 'root',
-    'group'  => 'root',
-    'mode'   => '0644',
-  }
 
-  $files = {
-    "${bashrc_config}"                => {
-      source  => $bashrc_config_src,
-    },
-    "${profile_config}"               => {
-      source  => $profile_config_src,
-    },
-    "${tty_profile_script}"           => {
-      path    => "${profiles_directory}/${tty_profile_script}",
-      source  => $tty_profile_script_src,
-    },
-    "${promptcommand_profile_script}" => {
-      path    => "${profiles_directory}/${promptcommand_profile_script}",
-      source  => $promptcommand_profile_script_src,
-    },
-    "${ps1_profilescript}"            => {
-      path    => "${profiles_directory}/${ps1_profilescript}",
-      source  => $ps1_profilescript_src,
-    },
-  }
+  $aliases = {}
+  $env_variables = {}
 
   #### Defaults values
   $motd_content = {

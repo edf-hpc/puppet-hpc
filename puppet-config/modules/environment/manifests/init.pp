@@ -52,20 +52,30 @@
 #           be logged (default: false)
 # @param log_commands_facility String with the name of the syslog facility to use
 #           for command logging (default: 'local6')
+<<<<<<< HEAD
 # @param login_defs_options Hash with keyval options for the /etc/login.defs
 # @param login_defs_file Path of the login.defs file (default: /etc/login.defs)
 # @param cluster Name of the cluster used in the SSH key names.
+# @param aliases hash with aliases that should be defined in the user profile (
+#          default: {})
+# @param env_variables hash with environmenat variables that should be defined
+#          in the user profile. If the value is not quoted, it will be quoted with
+#          simple quotes, if it is already quoted, it will be used as is. There is
+#          no guarantee the order in the hash will be maintained. (default: {})
+# @param cluster Name of the cluster used in the SSH key names.
 class environment (
-  $service_user_session         = $environment::params::service_user_session,
-  $service_user_session_options = $environment::params::service_user_session_options,
-  $motd_content                 = $environment::params::motd_content,
-  $authorized_users_groups      = $environment::params::authorized_users_groups,
-  $autogen_key_type             = $environment::params::autogen_key_type,
-  $autogen_key_length           = $environment::params::autogen_key_length,
-  $log_commands_enable          = $environment::params::log_commands_enable,
-  $log_commands_facility        = $environment::params::log_commands_facility,
+  $service_user_session         = $::environment::params::service_user_session,
+  $service_user_session_options = $::environment::params::service_user_session_options,
+  $motd_content                 = $::environment::params::motd_content,
+  $authorized_users_groups      = $::environment::params::authorized_users_groups,
+  $autogen_key_type             = $::environment::params::autogen_key_type,
+  $autogen_key_length           = $::environment::params::autogen_key_length,
+  $log_commands_enable          = $::environment::params::log_commands_enable,
+  $log_commands_facility        = $::environment::params::log_commands_facility,
   $login_defs_options           = {},
-  $login_defs_file              = $environment::params::login_defs_file,
+  $login_defs_file              = $::environment::params::login_defs_file,
+  $aliases                      = $::environment::params::aliases,
+  $env_variables                = $::environment::params::env_variables,
   $cluster,
 ) inherits environment::params {
 
@@ -77,6 +87,8 @@ class environment (
   validate_string($autogen_key_length)
   validate_bool($log_commands_enable)
   validate_string($log_commands_facility)
+  validate_hash($aliases)
+  validate_hash($env_variables)
 
   validate_absolute_path($login_defs_file)
   validate_hash($login_defs_options)

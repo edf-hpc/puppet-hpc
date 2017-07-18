@@ -32,6 +32,8 @@ This module sets up:
  - MOTD
  - login.defs
  - (optional) Logging of user commands
+ - (optional) Shell aliases
+ - (optional) Environment variables
 
 ### Setup Requirements
 
@@ -66,6 +68,13 @@ The `log_commands_enable` parameter sets up a `COMMAND_PROMPT` variable that
 logs the history of users. This features is meant to forward these logs to a
 SOC. By default logs are sent to the `local6` facility, this can be changed
 with `log_commands_facility`.
+
+The ``aliases`` parameter sets up shell aliases, the key is the name of the
+alias, and the value the command.
+
+The ``env_variables`` parameter sets up shell environment variables, the key
+is the variable name and the value the content. If the value is not quoted
+simple quotes will be added.
 
 ## Limitations
 
