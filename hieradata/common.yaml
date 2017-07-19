@@ -156,13 +156,14 @@ profiles::dhcp::global_options:
 ##### SSMTP Client (Debian)
 profiles::ssmtp::config_options:
   mailhub:       "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
-  rewritedomain: "%{::hostname}.%{hiera('domain')}"
+  rewritedomain: "%{hiera('domain')}"
 
 ##### POSTFIX Client (RedHat 6)
 postfix::config_options:
   relayhost:           "%{hiera('cluster_prefix')}%{::my_postfix_relay}"
   myhostname:          "%{hostname}"
   mydomain:            "%{hiera('domain')}"
+  myorigin:            "%{hiera('domain')}"
 
 ##### POSTFIX Relay
 profiles::postfix::relay::config_options:
