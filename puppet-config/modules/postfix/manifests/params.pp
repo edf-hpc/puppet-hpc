@@ -23,6 +23,7 @@ class postfix::params {
   $config_file     = '/etc/postfix/main.cf'
 
   #### Default values
+  $aliases         = {}
   case $::osfamily {
     'Debian': {
       $config_options_defaults = {

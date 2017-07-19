@@ -57,6 +57,26 @@ with value `no`:
 class { '::postfix':
   config_options => {
     disable_vrfy_command => 'no',
+```
+
+Aliases can be configured with the ``postfix::alias`` resource. This resource
+takes only a parameter ``target``.
+
+```
+::postfix::alias{'root':
+  target => 'joe@example.com',
+}
+```
+
+It is possible to pass a hash to the ``aliases`` parameter of the ``::postfix``
+class to define aliases.
+
+```
+class{'::postfix':
+  aliases => {
+    'root' => {
+      target => 'joe@example.com',
+    },
   },
 }
 ```

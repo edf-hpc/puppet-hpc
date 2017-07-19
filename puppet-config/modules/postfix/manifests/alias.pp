@@ -13,19 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class postfix::config inherits postfix {
-
-  hpclib::print_config { $::postfix::config_file :
-    style  => 'keyval',
-    data   => $::postfix::_config_options,
-    notify => Class['::postfix::service'],
+# Setup a mail alias
+# @param target Target of the alias
+define postfix::alias ($target) {
+  augeas {"postfix_alias_${name}":
+    context => '/files/etc/aliases',
+    changes => [ "set *[ name = '${name}']/value '${target}'" ],
+    notify  => Exec['postfix_newaliases'],
   }
-
-  create_resources(::postfix::alias, $::postfix::aliases)
-
-  exec {'postfix_newaliases':
-    command     => '/usr/bin/newaliases',
-    refreshonly => true,
-  }
-
 }

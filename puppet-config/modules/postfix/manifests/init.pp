@@ -21,6 +21,8 @@
 # @param service_ensure Target state for the service (default: 'running')
 # @param service_enable Service should start on boot (default: true)
 # @param config_file Path of the main postfix config file
+# @param aliases Hash of aliases to extend and override /etc/aliases
+#         (default: {})
 # @param config_options Hash with the key/values for config_file content
 #          (merged with some default values)
 class postfix (
@@ -30,6 +32,7 @@ class postfix (
   $service_ensure  = $::postfix::params::service_ensure,
   $service_enable  = $::postfix::params::service_enable,
   $config_file     = $::postfix::params::config_file,
+  $aliases         = $::postfix::params::aliases,
   $config_options  = {},
 ) inherits postfix::params {
 
@@ -40,6 +43,7 @@ class postfix (
   validate_bool($service_enable)
   validate_absolute_path($config_file)
   validate_hash($config_options)
+  validate_hash($aliases)
 
   $_config_options = merge ($::postfix::params::config_options_defaults, $config_options)
 
