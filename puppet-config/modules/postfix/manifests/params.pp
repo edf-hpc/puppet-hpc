@@ -57,7 +57,6 @@ class postfix::params {
         smtpd_recipient_restrictions => 'permit_mynetworks permit_sasl_authenticated check_relay_domains defer_unauth_destination',
         smtpd_use_tls                => 'no',
         unknown_local_recipient_reject_code => '550',
-        mailbox_command              => 'procmail -a "$EXTENSION"',
         default_transport            => 'error',
       }
     }
@@ -92,5 +91,5 @@ class postfix::params {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   }
-  
+
 }
