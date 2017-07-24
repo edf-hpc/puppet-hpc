@@ -73,22 +73,10 @@ example.
   }
 }
 
-::systemd::unit_override { 'ldconfig_deps':
-  unit_name => 'ldconfig-refresh.service',
-  content   => {
-    'Unit' => {
-      'After' => 'opt.mount',
-    },
-    'Install' => {
-      'WantedBy' => 'opt.mount',
-    },
-  }
-}
 ```
 
-NB: As with other settings from the ``Install`` section, in normal systemd
-unit files. The unit must be re-activated after the override is defined for
-the ``Install`` section options to take effect.
+NB: ``Install`` section options can't be overriden, this is a limitation
+of the drop-in files.
 
 ### Resource: ``unit_state``
 
