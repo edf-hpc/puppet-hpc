@@ -46,31 +46,30 @@ class conman::config inherits conman {
     content => template('conman/conman.conf.header.erb'),
   }
 
-  # Logfile
-  file { $::conman::_server_options['logdir']:
-    ensure => directory,
-  }
+  # Configure logs rotation if manage_logs and logrotate are true
+  if $::conman::manage_logs {
 
-  # Configure logrotate if not disabled
-  if $::conman::logrotate {
-    include ::logrotate
+    if $::conman::logrotate {
 
-    $_server_options = $::conman::_server_options
+      include ::logrotate
 
-    logrotate::rule { 'conman':
-      path          => "${_server_options['logdir']}/*/console.log",
-      compress      => true,
-      missingok     => true,
-      copytruncate  => false,
-      create        => false,
-      delaycompress => false,
-      mail          => false,
-      rotate        => '4',
-      sharedscripts => true,
-      size          => '5M',
-      rotate_every  => week,
-      postrotate    => "/bin/systemctl kill -s SIGHUP ${::conman::service}",
-      firstaction   => "/bin/systemctl is-active -q ${::conman::service}",
+      $_server_options = $::conman::_server_options
+
+      logrotate::rule { 'conman':
+        path          => "${_server_options['logdir']}/*/console.log",
+        compress      => true,
+        missingok     => true,
+        copytruncate  => false,
+        create        => false,
+        delaycompress => false,
+        mail          => false,
+        rotate        => '4',
+        sharedscripts => true,
+        size          => '5M',
+        rotate_every  => week,
+        postrotate    => "/bin/systemctl kill -s SIGHUP ${::conman::service}",
+        firstaction   => "/bin/systemctl is-active -q ${::conman::service}",
+      }
     }
   }
 

@@ -19,6 +19,7 @@ class conman::params {
   $service         = 'conman'
   $service_ensure  = running
   $service_enable  = true
+  $manage_logs     = true
   $logrotate       = true
 
   # By default override some systemd service parameters for conman daemon:

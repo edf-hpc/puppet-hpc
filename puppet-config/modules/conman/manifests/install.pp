@@ -17,5 +17,12 @@ class conman::install inherits conman {
   if $::conman::packages_ensure {
     package { $::conman::packages: }
   }
-}
 
+  if $::conman::manage_logs {
+    # ensure logfir is created
+    file { $::conman::_server_options['logdir']:
+      ensure => directory,
+    }
+  }
+
+}

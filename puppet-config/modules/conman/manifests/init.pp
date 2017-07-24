@@ -39,6 +39,7 @@
 # @param service_ensure Should the service run or be stopped (default: running),
 #          also supports 'ignore' to explicitely not change the state.
 # @param service_enable Should the service be enabled (default: true)
+# @param manage_logs Should the logs be managed (default: true)
 # @param logrotate Should the logs be rotated (default: true)
 # @param server_options Supplementary server parameters for conman service
 #             (default: {})
@@ -52,6 +53,7 @@ class conman (
   $service         = $::conman::params::service,
   $service_ensure  = $::conman::params::service_ensure,
   $service_enable  = $::conman::params::service_enable,
+  $manage_logs     = $::conman::params::manage_logs,
   $logrotate       = $::conman::params::logrotate,
   $server_options  = {},
   $global_options  = {},
@@ -62,6 +64,7 @@ class conman (
   validate_string($service)
   validate_string($service_ensure)
   validate_bool($service_enable)
+  validate_bool($manage_logs)
   validate_bool($logrotate)
   validate_hash($service_override)
 
