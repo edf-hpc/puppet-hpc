@@ -38,27 +38,15 @@ This module uses stdlib, systemd and hpclib.
 ```
 class{ '::ldconfig':
   ldconfig_directories => [ '/opt/foo/lib' ],
-  service_overrides => {
-    'ldconfig_deps_on_opt' => {
-      'content' => {
-        'Unit' => {
-          'After' => 'opt.mount',
-        },
-        'Install' => {
-          'WantedBy' => 'opt.mount',
-        },
-      },
-    },
-  }
+  service_triggers => [ 'opt.mount' ],
 }
 ```
 
 The ``ldconfig_directories`` add the directories in the array to the system
 ldconfig.
 
-``service_overrides`` takes a hash of ``systemd::unit_override``
-definitions. The ``unit_name`` can be ommited since it is given by
-the class.
+``service_triggerss`` takes a arrays of systemd units names, when these units
+are activated, the service will be activated immediately after.
 
 ## Limitations
 

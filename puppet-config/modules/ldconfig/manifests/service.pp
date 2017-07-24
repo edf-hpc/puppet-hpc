@@ -16,24 +16,29 @@
 class ldconfig::service inherits ldconfig {
 
   if ! ( $::osfamily == 'RedHat' and $::operatingsystemmajrelease < 7 ){
+
+    $trigger_list = join($::ldconfig::service_triggers, ',')
+
+    $trigger_options = {
+      'Install' => {
+        'WantedBy' => $trigger_list,
+      },
+      'Unit' => {
+        'After' => $trigger_list,
+      },
+    }
+
+    $_service_definition = deep_merge($::ldconfig::service_definition, $trigger_options)
+
     hpclib::systemd_service { "${::ldconfig::service_name}.service":
       target => "/etc/systemd/system/${::ldconfig::service_name}.service",
-      config => $::ldconfig::service_definition,
+      config => $_service_definition,
       before => Service[$::ldconfig::service_name]
-    }
-
-    $defaults = {
-      'unit_name' => "${::ldconfig::service_name}.service",
-      'before'    => Service[$::ldconfig::service_name],
-    }
-
-    create_resources(::systemd::unit_override, $::ldconfig::service_overrides, $defaults)
-
+    } ->
     service {$::ldconfig::service_name :
       ensure => $::ldconfig::service_ensure,
       enable => $::ldconfig::service_enable,
     }
-
   } else {
     notify('ldconfig service is not supported on non systemd OS')
   }

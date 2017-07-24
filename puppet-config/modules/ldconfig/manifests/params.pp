@@ -27,6 +27,6 @@ class ldconfig::params {
       'ExecStart' => '/sbin/ldconfig',
     },
   }
-  $service_overrides = {}
+  $service_triggers = []
   $ldconfig_directories = []
 }

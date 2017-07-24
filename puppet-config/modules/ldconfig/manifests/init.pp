@@ -21,8 +21,8 @@
 # @param service_ensure  Target state for the service (default: 'running')
 # @param service_enable  The service starts at boot time (default: true)
 # @param service_definition Content of the unit file (default: minimal service)
-# @param service_overrides Extra systemd settings that will be defined as
-#          overrides (default: {})
+# @param service_triggers Array with a list of units that trigger the service
+#          when they are activated (default []).
 # @param ldconfig_directories Array of directories that should be added to the
 #          system ldconfig (default: [])
 class ldconfig (
@@ -31,7 +31,7 @@ class ldconfig (
   $service_ensure       = $::ldconfig::params::service_ensure,
   $service_enable       = $::ldconfig::params::service_enable,
   $service_definition   = $::ldconfig::params::service_definition,
-  $service_overrides    = $::ldconfig::params::service_overrides,
+  $service_triggers     = $::ldconfig::params::service_triggers,
   $ldconfig_directories = $::ldconfig::params::ldconfig_directories,
 ) inherits ldconfig::params {
 
@@ -40,7 +40,7 @@ class ldconfig (
     validate_string($service_ensure)
     validate_bool($service_enable)
     validate_hash($service_definition)
-    validate_hash($service_overrides)
+    validate_array($service_triggers)
   }
   validate_array($ldconfig_directories)
 
