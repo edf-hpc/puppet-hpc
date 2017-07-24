@@ -50,7 +50,7 @@ define systemd::manager::param (
   # works nicely in this file since there is only one section ([Manager]) and
   # the parameters can appear only once.
 
-  file_line { 'systemd-system-manager-${name}':
+  file_line { "systemd-system-manager-${name}":
     ensure => present,
     path   => '/etc/systemd/system.conf',
     line   => "${name}=${value}",

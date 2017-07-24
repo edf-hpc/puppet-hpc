@@ -16,7 +16,7 @@
 class systemd::config inherits systemd {
 
   if $::systemd::config_manage {
-    create_resources(systemd::manager::param,
-                     $::systemd::_system_manager_options)
+    create_resources( systemd::manager::param,
+                      $::systemd::_system_manager_options)
   }
 }

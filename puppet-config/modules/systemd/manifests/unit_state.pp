@@ -38,7 +38,7 @@ define systemd::unit_state (
       }
     }
     default: {
-      debug("no need to unmask since target state is masked")
+      debug('no need to unmask since target state is masked')
     }
   }
 
