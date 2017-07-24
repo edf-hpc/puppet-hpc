@@ -19,6 +19,7 @@
 # provides a working conman command.
 class hpc_conman::client {
   class { 'conman':
+    manage_logs    => false,
     service_ensure => stopped,
     service_enable => false,
   }
