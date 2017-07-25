@@ -23,8 +23,9 @@ class ldconfig::params {
       'Description' => 'Refresh ldconfig configuration',
     },
     'Service' => {
-      'Type'      => 'oneshot',
-      'ExecStart' => '/sbin/ldconfig',
+      'Type'         => 'oneshot',
+      'ExecStartPre' => '/bin/sleep 10',
+      'ExecStart'    => '/sbin/ldconfig',
     },
   }
   $service_triggers = []
