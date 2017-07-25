@@ -38,8 +38,15 @@ class ldconfig::service inherits ldconfig {
     service {$::ldconfig::service_name :
       ensure => $::ldconfig::service_ensure,
       enable => $::ldconfig::service_enable,
+      before => Exec['ldconfig_refresh'],
     }
   } else {
     notify('ldconfig service is not supported on non systemd OS')
   }
+
+  exec { 'ldconfig_refresh':
+    command     => '/sbin/ldconfig',
+    refreshonly => true,
+  }
+
 }

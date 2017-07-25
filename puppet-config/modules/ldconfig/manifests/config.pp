@@ -20,10 +20,5 @@ class ldconfig::config inherits ldconfig {
     notify => Exec['ldconfig_refresh'],
   }
 
-  exec { 'ldconfig_refresh':
-    command     => '/sbin/ldconfig',
-    refreshonly => true,
-  }
-
 }
 
