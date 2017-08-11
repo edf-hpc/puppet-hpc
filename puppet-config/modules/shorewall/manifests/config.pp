@@ -38,50 +38,55 @@ class shorewall::config inherits shorewall {
 
   concat { $::shorewall::zones_file:
     ensure => present,
+    order  => 'numeric',
   }
   concat::fragment { 'shorewall_zones_header':
     target  => $::shorewall::zones_file,
-    order   => '01',
+    order   => 1,
     content => template('shorewall/zones.header.erb')
   }
   Concat::Fragment <| target == $::shorewall::zones_file |>
 
   concat { $::shorewall::interfaces_file:
     ensure => present,
+    order  => 'numeric',
   }
   concat::fragment { 'shorewall_interfaces_header':
     target  => $::shorewall::interfaces_file,
-    order   => '01',
+    order   => 1,
     content => template('shorewall/interfaces.header.erb')
   }
   Concat::Fragment <| target == $::shorewall::interfaces_file |>
 
   concat { $::shorewall::policy_file:
     ensure => present,
+    order  => 'numeric',
   }
   concat::fragment { 'shorewall_policies_header':
     target  => $::shorewall::policy_file,
-    order   => '01',
+    order   => 1,
     content => template('shorewall/policy.header.erb')
   }
   Concat::Fragment <| target == $::shorewall::policy_file |>
 
   concat { $::shorewall::masq_file:
     ensure => present,
+    order  => 'numeric',
   }
   concat::fragment { 'shorewall_masq_header':
     target  => $::shorewall::masq_file,
-    order   => '01',
+    order   => 1,
     content => template('shorewall/masq.header.erb')
   }
   Concat::Fragment <| target == $::shorewall::masq_file |>
 
   concat { $::shorewall::rules_file:
     ensure => present,
+    order  => 'numeric',
   }
   concat::fragment { 'shorewall_rules_header':
     target  => $::shorewall::rules_file,
-    order   => '01',
+    order   => 1,
     content => template('shorewall/rules.header.erb')
   }
   Concat::Fragment <| target == $::shorewall::rules_file |>
