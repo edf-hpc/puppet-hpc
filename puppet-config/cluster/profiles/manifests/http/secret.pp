@@ -77,8 +77,6 @@ class profiles::http::secret {
   $servername = "${cluster_prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
-  $host_ip_addr = $::hostfile[$::hostname]
-  $ip_list = ['127.0.0.1', $host_ip_addr]
   $admin_net = $::net_topology['administration']
   if $admin_net {
     $admin_net_address = "${admin_net['ipnetwork']}${admin_net['prefix_length']}"
@@ -88,7 +86,7 @@ class profiles::http::secret {
   include apache
   apache::vhost { "${servername}_secret":
     servername    => $servername,
-    ip            => $ip_list,
+    ip            => '127.0.0.1',
     port          => $port,
     docroot       => $docroot,
     serveradmin   => $serveradmin,
@@ -110,35 +108,63 @@ class profiles::http::secret {
     ]
   }
 
-  # Firewall setup
-  shorewall::rule { 'secret_inbound_clstr_below_1024':
-    comment => 'Authorize connection to secret server from ports < 1024',
-    source  => 'clstr',
-    dest    => 'fw',
-    proto   => 'tcp',
-    dport   => $port,
-    sport   => ':1023',
-    action  => 'ACCEPT',
-    order   => 10,
+  ## Sysctl setup
+  # We need a sysctl to enable the route_localnet that will enable the
+  # DNAT on localhost to work
+  kernel::sysctl { 'profiles_http_secret':
+    params => {
+      'net.ipv4.conf.all.route_localnet'     => '1',
+      'net.ipv4.conf.default.route_localnet' => '1',
+    },
   }
+
+  ## Firewall setup
+  $host_ip_addr = $::hostfile[$::hostname]
+  # Redirect legitimate traffic incoming to the administration IP
+  # address to localhost
+  shorewall::rule { 'secret_inbound_clstr_below_1024_redirect':
+    comment  => 'Redirect cluster connections to secret server IP address from ports < 1024',
+    source   => 'clstr',
+    dest     => "fw:127.0.0.1:${port}",
+    proto    => 'tcp',
+    dport    => $port,
+    sport    => ':1023',
+    action   => 'DNAT',
+    origdest => $host_ip_addr,
+    order    => 10,
+  }
+  shorewall::rule { 'secret_inbound_local_below_1024_redirect':
+    comment  => 'Redirect local connections to secret server IP address from ports < 1024',
+    source   => 'fw',
+    dest     => $port,
+    proto    => 'tcp',
+    dport    => $port,
+    sport    => ':1023',
+    action   => 'REDIRECT',
+    origdest => $host_ip_addr,
+    order    => 10,
+  }
+  # Authorize legitimate traffic
   shorewall::rule { 'secret_inbound_fw':
-    comment => 'Authorize connection to secret server from ports < 1024',
-    source  => 'fw',
-    dest    => 'fw',
-    proto   => 'tcp',
-    dport   => $port,
-    action  => 'ACCEPT',
-    order   => 10,
+    comment  => 'Authorize connection to secret server from localhost',
+    source   => 'fw',
+    dest     => 'fw',
+    proto    => 'tcp',
+    dport    => $port,
+    action   => 'ACCEPT',
+    order    => 11,
   }
+  # Reject all the unauthorized traffic from the cluster and just drop
+  # outside incoming traffic
   shorewall::rule { 'secret_inbound_clstr_above_1024':
-    comment => 'Only authorize connection to secret server from ports < 1024',
-    source  => 'clstr',
-    dest    => 'fw',
-    proto   => 'tcp',
-    dport   => $port,
-    sport   => '1024:',
-    action  => 'REJECT',
-    order   => 10,
+    comment  => 'Only authorize connection to secret server from ports < 1024',
+    source   => 'clstr',
+    dest     => 'fw',
+    proto    => 'tcp',
+    dport    => $port,
+    sport    => '1024:',
+    action   => 'REJECT',
+    order    => 11,
   }
   shorewall::rule { 'secret_inbound_notclstr':
     comment => 'Reject all connections to secret server not coming from clstr or fw',
@@ -146,7 +172,7 @@ class profiles::http::secret {
     dest    => 'fw',
     proto   => 'tcp',
     dport   => $port,
-    action  => 'REJECT',
-    order   => 11,
+    action  => 'DROP',
+    order   => 12,
   }
 }
