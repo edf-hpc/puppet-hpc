@@ -31,13 +31,26 @@ ntp::disable_monitor: false
 ntp::driftfile: '/var/lib/ntp/ntp.drift'
 # IPv6 is disabled in /etc/default, so we don't include
 # localhost IPv6 addresses in restrict
-ntp::restrict: 
+profiles::ntp::srv_opts:
+  NTPD_OPTS: "'-4 -g'"
+profiles::ntp::server::restrict:
   - 'default kod notrap nomodify nopeer'
   - "%{hiera('net::administration::ipnetwork')} mask %{hiera('net::administration::netmask')} notrap nomodify"
   - "%{hiera('net::management::ipnetwork')} mask %{hiera('net::management::netmask')} notrap nomodify"
   - '127.0.0.1'
-profiles::ntp::srv_opts:
-  NTPD_OPTS: "'-4 -g'"
+# Must listen on source interface for upstream requests
+profiles::ntp::server::interfaces:
+  - "%{hiera('net::wan::ipnetwork')}%{hiera('net::wan::prefix_length')}"
+  - "%{hiera('net::administration::ipnetwork')}%{hiera('net::administration::prefix_length')}"
+  - "%{hiera('net::management::ipnetwork')}%{hiera('net::management::prefix_length')}"
+  - '127.0.0.1'
+profiles::ntp::client::restrict:
+  - 'default kod notrap nomodify nopeer'
+  - '127.0.0.1'
+# Must listen on source interface for upstream requests
+profiles::ntp::client::interfaces:
+  - "%{hiera('net::administration::ipnetwork')}%{hiera('net::administration::prefix_length')}"
+  - '127.0.0.1'
 profiles::ntp::client::site_preferred_servers:
   - "%{hiera('cluster_prefix')}%{::my_ntp_server}1"
 profiles::ntp::client::site_servers:
