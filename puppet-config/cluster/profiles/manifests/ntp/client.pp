@@ -18,12 +18,19 @@
 # ## Hiera
 # * `profiles::ntp::client::site_preferred_servers` (`hiera_array`)
 # * `profiles::ntp::client::site_servers` (`hiera_array`)
+# * `profiles::ntp::client::restrict` (`hiera_array`) Array of restrict lines
+#     to configure the ntp clients authorized to connect
+# * `profiles::ntp::client::interfaces` (`hiera_array`) Array of interfaces
+#     on which the ntp server will listen, must include the source interface
+#     for upstream requests
 # * `profiles::ntp::srv_def_cfg`
 # * `profiles::ntp::srv_opts`
 class profiles::ntp::client {
   ## Hiera lookups
   $preferred_servers = hiera_array('profiles::ntp::client::site_preferred_servers')
   $servers           = hiera_array('profiles::ntp::client::site_servers')
+  $restrict          = hiera_array('profiles::ntp::client::restrict')
+  $interfaces        = hiera_array('profiles::ntp::client::interfaces')
 
   debug("Preferred servers: ${preferred_servers}, other servers: ${servers}")
 
@@ -31,6 +38,8 @@ class profiles::ntp::client {
   class { '::ntp':
     preferred_servers => $preferred_servers,
     servers           => $servers,
+    restrict          => $restrict,
+    interfaces        => $interfaces,
   }
 
   # Modify default options of ntp service
