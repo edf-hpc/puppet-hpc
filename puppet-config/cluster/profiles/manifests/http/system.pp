@@ -43,20 +43,20 @@ class profiles::http::system {
 
   # Pass config options as a class parameter
   apache::vhost { "${servername}_system":
-    servername      => $servername,
-    port            => $port,
-    docroot         => $docroot,
-    serveradmin     => $serveradmin,
-    log_level       => $log_level,
-    serveraliases   => $serveraliases,
-    directories     => [
+    servername    => $servername,
+    port          => $port,
+    docroot       => $docroot,
+    serveradmin   => $serveradmin,
+    log_level     => $log_level,
+    serveraliases => $serveraliases,
+    directories   => [
       { path            => $docroot,
         php_admin_flags => [ 'engine' ],
         options         => ['Indexes', 'FollowSymLinks', 'MultiViews']
       },
     ],
-    docroot_mode    => '0750',
-    docroot_group   => 'www-data',
+    docroot_mode  => '0750',
+    docroot_group => 'www-data',
   }
 
   $hpc_files = hiera_hash('profiles::http::system::hpc_files')
