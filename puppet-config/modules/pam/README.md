@@ -7,7 +7,7 @@
 3. [Setup](#setup)
     * [What pam affects](#what-clara-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with pam](#beginning-with-clara)
+    * [Beginning with pam](#beginning-with-pam)
 4. [Usage](#usage)
 5. [Limitations](#limitations)
 6. [Development](#development)
@@ -27,6 +27,7 @@ some specific PAM modules. Supported modules are:
 * `pwquality`, check password quality when user changes passwords
 * `slurm`, only authorizes users with a SLURM job on the node
 * `sss`, authentication uses the sssd daemon
+* `umask`, Activate umask settings during session init
 
 ## Setup
 
@@ -142,6 +143,17 @@ Activate authentication through SSSD, by installing the relevant PAM module.
 include ::pam::sss
 ```
 
+### Umask
+
+Activate umask setting for the session, by installing the relevant PAM module.
+
+```
+include ::pam::umask
+```
+
+The actual umask value must be defined in `/etc/login.defs`, this can be set with
+the `login_defs_options` parameter of the `::environment`` class of Puppet HPC.
+
 ## Limitations
 
 Some modules do not supports Redhat:
@@ -151,6 +163,7 @@ Some modules do not supports Redhat:
 * `sss`
 * `slurm`
 * `pwquality`
+* `umask`
 
 ## Development
 
