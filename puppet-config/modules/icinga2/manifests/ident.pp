@@ -15,6 +15,8 @@
 
 define icinga2::ident ($src) {
 
+ if ! defined(Class['icinga2::admin']) {
+
   $_ident_dir_opts = {
     ensure => 'directory',
     mode   => '0755',
@@ -33,5 +35,7 @@ define icinga2::ident ($src) {
     mode    => '0400',
     content => decrypt($src, $::icinga2::decrypt_passwd),
   }
+ 
+ }
 
 }
