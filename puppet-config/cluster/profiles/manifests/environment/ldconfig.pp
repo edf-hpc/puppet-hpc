@@ -17,4 +17,10 @@
 #
 class profiles::environment::ldconfig {
   include ::ldconfig
+
+  # If there is a gpfs mount as a trigger service, configure the ldconfig
+  # service before starting GPFS. With GPFS the actual Mount resource
+  # cannot be used because the gpfs service manipulates /etc/fstab
+  # directly
+  Class['::ldconfig'] -> Service <| title == 'gpfs' |>
 }
