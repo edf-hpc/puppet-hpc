@@ -31,7 +31,7 @@
 # * `cpufreq::packages` Package to install
 # * `cpufreq::packages_ensure` Boolean to control if module manage packages
 # * `cpufreq::default_file` Absolute path of the default configuration file
-# * `cpufreq::default_options` Hash with the content of the default 
+# * `cpufreq::default_options` Hash with the content of the default
 #                              configuration file
 
 class profiles::hardware::cpu_scaling {
