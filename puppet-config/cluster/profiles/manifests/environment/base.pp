@@ -33,4 +33,9 @@ class profiles::environment::base {
     cluster                 => $cluster,
     authorized_users_groups => join($users_groups,' ')
   }
+
+  # pam::umask is not supported on RedHat 6
+  if $::osfamily == 'Debian' {
+    include ::pam::umask
+  }
 }
