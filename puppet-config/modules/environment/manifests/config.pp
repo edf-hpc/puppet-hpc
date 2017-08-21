@@ -15,6 +15,12 @@
 
 class environment::config inherits environment {
 
+  hpclib::print_config{ $::environment::login_defs_file :
+    style     => 'keyval',
+    separator => ' ',
+    data      => $::environment::_login_defs_options,
+  }
+
   file { $::environment::motd_path :
     ensure  => file,
     content => template('environment/motd.erb'),

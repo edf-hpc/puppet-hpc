@@ -30,6 +30,7 @@ This module sets up:
  - systemd-user-session
  - ssh keys generation script for users
  - MOTD
+ - login.defs
  - (optional) Logging of user commands
 
 ### Setup Requirements
@@ -44,7 +45,7 @@ Include the class:
 
 ```
 class{ '::environment':
-  motd_content => {
+  motd_content            => {
     'info' => [
       'Welcome to this System',
       $::hostname,
@@ -53,8 +54,11 @@ class{ '::environment':
       'No Trespassing',
     ],
   },
-  cluster => 'Leviathan',
+  cluster                 => 'Leviathan',
   authorized_users_groups => 'rd,engineering',
+  login_defs_options      => {
+    'UMASK' => '077',
+  },
 }
 ```  
 

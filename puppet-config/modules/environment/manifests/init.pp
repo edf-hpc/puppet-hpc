@@ -52,6 +52,8 @@
 #           be logged (default: false)
 # @param log_commands_facility String with the name of the syslog facility to use
 #           for command logging (default: 'local6')
+# @param login_defs_options Hash with keyval options for the /etc/login.defs
+# @param login_defs_file Path of the login.defs file (default: /etc/login.defs)
 # @param cluster Name of the cluster used in the SSH key names.
 class environment (
   $service_user_session         = $environment::params::service_user_session,
@@ -62,6 +64,8 @@ class environment (
   $autogen_key_length           = $environment::params::autogen_key_length,
   $log_commands_enable          = $environment::params::log_commands_enable,
   $log_commands_facility        = $environment::params::log_commands_facility,
+  $login_defs_options           = {},
+  $login_defs_file              = $environment::params::login_defs_file,
   $cluster,
 ) inherits environment::params {
 
@@ -73,6 +77,11 @@ class environment (
   validate_string($autogen_key_length)
   validate_bool($log_commands_enable)
   validate_string($log_commands_facility)
+
+  validate_absolute_path($login_defs_file)
+  validate_hash($login_defs_options)
+
+  $_login_defs_options = deep_merge($environment::params::login_defs_options_defaults, $login_defs_options)
 
   anchor { 'environment::begin': } ->
   class { '::environment::config': } ->
