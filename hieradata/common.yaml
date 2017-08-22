@@ -244,6 +244,8 @@ kerberos::decrypt_passwd:                               "%{hiera('cluster_decryp
 profiles::auth::replica::ldif_directory:   "%{hiera('libcalibre')}/slapdcfg"
 profiles::auth::replica::ldif_file:        'config_replica.ldif'
 profiles::auth::replica::directory_source: "%{hiera('private_files_dir')}/auth"
+profiles::auth::replica::listen_networks:
+  - 'administration'
 certificates::directory_source:            "%{hiera('private_files_dir')}/auth"
 certificates::certificates_directory:      '/etc/ldap/certificates'
 certificates::certificate_file:            "%{hiera('cluster_name')}_ldap.crt"
