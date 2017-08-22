@@ -57,7 +57,7 @@ class nfs::params {
 
   $default_file = '/etc/default/nfs-common'
   $default_options_defaults = {
-    'NEED_STATD'  => '',
+    'NEED_STATD'  => 'no',
     'STATDOPTS'   => '',
     'NEED_IDMAPD' => 'yes',
     'NEED_GSSD'   => '',
