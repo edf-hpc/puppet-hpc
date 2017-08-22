@@ -66,9 +66,10 @@ class nfs (
   }
   $tmp_default_options = deep_merge($::nfs::params::default_options_defaults, $gssd_options)
   $_default_options = deep_merge($tmp_default_options, $default_options)
+
   anchor { 'nfs::begin': } ->
   class { '::nfs::install': } ->
-  class { '::nfs::config': } ~>
+  class { '::nfs::config': } ->
   class { '::nfs::service': } ->
   anchor { 'nfs::end': }
 

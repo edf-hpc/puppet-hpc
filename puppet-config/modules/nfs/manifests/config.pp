@@ -19,12 +19,14 @@ class nfs::config inherits nfs {
     style    => 'ini',
     comments => ';',
     data     => $::nfs::_idmapd_options,
+    notify   => Service[$::nfs::service],
   }
 
   hpclib::print_config { $::nfs::default_file :
     style    => 'keyval',
     comments => '#',
     data     => $::nfs::_default_options,
+    notify   => Service[$::nfs::service],
   }
 
 }
