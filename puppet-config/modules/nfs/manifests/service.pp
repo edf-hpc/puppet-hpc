@@ -19,4 +19,11 @@ class nfs::service inherits nfs {
     ensure    => $::nfs::service_ensure,
   }
 
+  if $::nfs::disable_rpcbind {
+    service { $::nfs::service_rpcbind:
+      ensure => stopped,
+      enable => false,
+    }
+  }
+
 }

@@ -29,6 +29,9 @@
 #                          `stopped` (default: running)
 # @param service           Name of the service
 # @param enable_gssd       Enable gss daemon with the nfs service
+# @param disable_rpcbind   Boolean to stop and disable rpcbind service (default:
+#                          true)
+# @param service_rpcbind   Name of the rpcbind service (default: 'rpcbind')
 class nfs (
   $idmapd_options  = {},
   $idmapd_file     = $::nfs::params::idmapd_file,
@@ -36,9 +39,11 @@ class nfs (
   $default_file    = $::nfs::params::default_file,
   $service_ensure  = $::nfs::params::service_ensure,
   $service         = $::nfs::params::service,
+  $enable_gssd     = $::nfs::params::enable_gssd,
+  $disable_rpcbind = $::nfs::params::disable_rpcbind,
+  $service_rpcbind = $::nfs::params::service_rpcbind,
   $packages_ensure = $::nfs::params::packages_ensure,
   $packages        = $::nfs::params::packages,
-  $enable_gssd     = $::nfs::params::enable_gssd,
 ) inherits ::nfs::params {
   validate_absolute_path($idmapd_file)
   validate_hash($idmapd_options)
@@ -49,6 +54,8 @@ class nfs (
   validate_string($service)
   validate_string($service_ensure)
   validate_bool($enable_gssd)
+  validate_bool($disable_rpcbind)
+  validate_string($service_rpcbind)
 
   $_idmapd_options = deep_merge($::nfs::params::idmapd_options_defaults, $idmapd_options)
 

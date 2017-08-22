@@ -63,6 +63,7 @@ class nfs::params {
     'NEED_GSSD'   => '',
   }
 
-  $enable_gssd = false
-
+  $enable_gssd     = false
+  $disable_rpcbind = true
+  $service_rpcbind = 'rpcbind'
 }
