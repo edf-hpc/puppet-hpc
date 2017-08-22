@@ -14,7 +14,7 @@
 ##########################################################################
 
 # OpenLDAP server
-# 
+#
 # @param packages Array of package names to install
 # @param packages_ensure Target state of the paackages (default: 'present')
 # @param default_file Path of the default parameters file (default or sysconfig)
@@ -25,7 +25,7 @@ class openldap (
   $packages                   = $openldap::params::packages,
   $packages_ensure            = $openldap::params::packages_ensure,
   $default_file               = $openldap::params::default_file,
-  $default_options            = $openldap::params::default_options,
+  $default_options            = {},
   $service_override           = {},
 ) inherits openldap::params {
 
@@ -34,6 +34,8 @@ class openldap (
   validate_absolute_path($default_file)
   validate_hash($default_options)
   validate_hash($service_override)
+
+  $_default_options = deep_merge($openldap::params::default_options_defaults, $default_options)
 
   $_service_override = deep_merge($::openldap::params::service_override_defaults, $service_override)
 

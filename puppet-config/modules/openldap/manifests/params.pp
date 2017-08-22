@@ -26,9 +26,9 @@ class openldap::params {
   $make_replica_script        = '/usr/local/sbin/make_ldap_replica.sh'
   $make_replica_script_source = 'puppet:///modules/openldap/make_ldap_replica.sh'
 
-#### Defaults values
+  #### Defaults values
 
-  $default_options = {
+  $default_options_defaults = {
     'SLAPD_USER'          => '"openldap"',
     'SLAPD_GROUP'         => '"openldap"',
     'SLAPD_SERVICES'      => '"ldapi:/// ldaps://"',

@@ -14,7 +14,7 @@
 ##########################################################################
 
 # OpenLDAP replica setup script
-# 
+#
 # @param make_replica_script Path of the script to generate the replica
 # @param make_replica_script_source file source for the replica script
 # @param directory_source hpclib ``decrypt()`` base directory for the
