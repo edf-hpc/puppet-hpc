@@ -294,6 +294,16 @@ returns:
 {"a"=>{"K"=>"0"}}
 ```
 
+#### Function: `hpc_net_ip_addrs($net_names)`
+
+Returns an Array of IP addresses for this node. If `net_names` is
+provided, only returns the IP addresses of the network. If the
+current node has no IP address in a network provided as a parameter,
+the network is ignored.
+
+This function ignores the virtual IP addresses, only addresses
+present in the `mymasternet` fact are considered.
+
 #### Function: `hpc_nodeset_expand($nodeset)`
 
 Transforms a ClusterShell nodeset into an array of hostnames.
