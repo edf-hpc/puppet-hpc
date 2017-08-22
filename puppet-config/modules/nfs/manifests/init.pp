@@ -28,7 +28,7 @@
 # @param service_ensure    Ensure state of the service: `running` or
 #                          `stopped` (default: running)
 # @param service           Name of the service
-# @param enabled_gssd      Enable gss daemon with the nfs service
+# @param enable_gssd       Enable gss daemon with the nfs service
 class nfs (
   $idmapd_options  = {},
   $idmapd_file     = $::nfs::params::idmapd_file,
