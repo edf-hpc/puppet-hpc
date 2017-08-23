@@ -126,3 +126,10 @@ def get_hosts_by_profile(profile)
   # remove duplicates in the resulting array
   return hosts.uniq
 end
+
+def has_profile(profile)
+  # Returns true if the current node has the given profile, false otherwise.
+  role = get_role_by_hostname(Facter.value('hostname'))
+  profiles = get_profiles_by_role(role)
+  return profiles.include?('profiles::' + profile)
+end
