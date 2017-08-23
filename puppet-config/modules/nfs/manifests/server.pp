@@ -37,7 +37,6 @@ class nfs::server (
   $default_file    = $::nfs::server::params::default_file,
   $default_options = {},
 ) inherits nfs::server::params {
-  require ::nfs
 
   validate_absolute_path($exports_file)
   validate_array($packages)
