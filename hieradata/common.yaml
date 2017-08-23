@@ -167,6 +167,7 @@ profiles::postfix::relay::config_options:
 # This shared parameter is not used in this layer of the hieradata but it is
 # proven to be useful in upper layers.
 tftp_dir: '/srv/tftp'
+profiles::bootsystem::server::tftp_listen_network: 'administration'
 
 ##### SSH
 profiles::openssh::server::config_augeas:
