@@ -21,6 +21,13 @@
 # @param package_manage Puppet module installs the packages (default: true)
 # @param package_ensure Target state for the packages (default: 'present')
 # @param package_name Array of names of packages to install
+# @param disable_histfile Boolean to control whether ~/.mysql_history files are
+#            disabled or not (default: true)
+# @param prof_histfile_file Absolute path to shell profile for MariaDB used to
+#            disable histfile (default:
+#            '/etc/profile.d/100-disable_mariadb_histfile.sh').
+# @param prof_histfile_options Array of lines of content of shell profile file
+#            used to disable histfile (default: [ 'MYSQL_HISTFILE=/dev/null' ])
 # @param service_manage Puppet module manages the service state (default: true)
 # @param service_ensure Target state for the service (default: 'running')
 # @param service_enable Starts service on boot (default: true)
@@ -33,6 +40,9 @@ class mariadb (
   $package_manage        = $::mariadb::params::package_manage,
   $package_ensure        = $::mariadb::params::package_ensure,
   $package_name          = $::mariadb::params::package_name,
+  $disable_histfile      = $::mariadb::params::disable_histfile,
+  $prof_histfile_file    = $::mariadb::params::prof_histfile_file,
+  $prof_histfile_options = $::mariadb::params::prof_histfile_options,
   $service_manage        = $::mariadb::params::service_manage,
   $service_ensure        = $::mariadb::params::service_ensure,
   $service_enable        = $::mariadb::params::service_enable,
@@ -44,10 +54,15 @@ class mariadb (
   validate_bool($package_manage)
   validate_bool($config_manage)
   validate_bool($service_manage)
+  validate_bool($disable_histfile)
+  validate_absolute_path($prof_histfile_file)
 
   if $package_manage {
     validate_array($package_name)
     validate_string($package_ensure)
+  }
+  if $disable_histfile {
+    validate_array($prof_histfile_options)
   }
 
   if $config_manage {

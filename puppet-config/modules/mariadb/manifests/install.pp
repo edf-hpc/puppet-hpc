@@ -35,4 +35,18 @@ class mariadb::install {
       }
     }
   }
+
+  if $::mariadb::disable_histfile {
+    hpclib::print_config { $::mariadb::prof_histfile_file:
+      style => 'linebyline',
+      data  => $::mariadb::prof_histfile_options,
+      mode  => 0644,
+      owner => root,
+    }
+  } else {
+    file { $::mariadb::prof_histfile_file:
+      ensure => 'absent',
+    }
+  }
+
 }

@@ -56,5 +56,9 @@ class mariadb::params {
       $service_manage       = false
     }
   }
-}
 
+  $disable_histfile      = true
+  $prof_histfile_file    = '/etc/profile.d/100_disable_mariadb_histfile.sh'
+  $prof_histfile_options = [ 'MYSQL_HISTFILE=/dev/null' ]
+
+}
