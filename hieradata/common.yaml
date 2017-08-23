@@ -512,6 +512,10 @@ apt::update_timeout:       10
 apt::proxy_host:           "apt.service.%{hiera('virtual_domain')}"
 apt::proxy_port:           3142
 
+##### APT Cacher NG #####
+profiles::apt::proxy::listen_networks:
+  - 'administration'
+
 ##### Slurmweb
 slurmweb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 profiles::http::slurmweb::config_options:
