@@ -15,10 +15,10 @@
 
 class mariadb::config {
 
-  if $mariadb::config_manage {
+  if $::mariadb::config_manage {
 
-    hpclib::print_config { $mariadb::galera_conf_file :
-      data  => $mariadb::_galera_conf_options,
+    hpclib::print_config { $::mariadb::galera_conf_file :
+      data  => $::mariadb::_galera_conf_options,
       style => 'ini',
     }
 

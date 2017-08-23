@@ -27,17 +27,17 @@
 # @param service_name Name of the service for mariadb
 # @param nodes Array of host names forming the galera cluster
 class mariadb (
-  $config_manage        = $mariadb::params::config_manage,
-  $galera_conf_file     = $mariadb::params::galera_conf_file,
-  $galera_conf_options  = {},
-  $package_manage       = $mariadb::params::package_manage,
-  $package_ensure       = $mariadb::params::package_ensure,
-  $package_name         = $mariadb::params::package_name,
-  $service_manage       = $mariadb::params::service_manage,
-  $service_ensure       = $mariadb::params::service_ensure,
-  $service_enable       = $mariadb::params::service_enable,
-  $service_name         = $mariadb::params::service_name,
-  $nodes                = $mariadb::params::nodes,
+  $config_manage         = $::mariadb::params::config_manage,
+  $galera_conf_file      = $::mariadb::params::galera_conf_file,
+  $galera_conf_options   = {},
+  $package_manage        = $::mariadb::params::package_manage,
+  $package_ensure        = $::mariadb::params::package_ensure,
+  $package_name          = $::mariadb::params::package_name,
+  $service_manage        = $::mariadb::params::service_manage,
+  $service_ensure        = $::mariadb::params::service_ensure,
+  $service_enable        = $::mariadb::params::service_enable,
+  $service_name          = $::mariadb::params::service_name,
+  $nodes                 = $::mariadb::params::nodes,
 ) inherits mariadb::params {
 
   ### Validate params ###

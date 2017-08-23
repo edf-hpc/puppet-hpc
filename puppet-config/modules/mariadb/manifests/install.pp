@@ -15,18 +15,18 @@
 
 class mariadb::install {
 
-  if $mariadb::package_manage {
+  if $::mariadb::package_manage {
 
     case $::osfamily {
       'RedHat': {
-        package { $mariadb::package_name :
-          ensure => $mariadb::package_ensure,
+        package { $::mariadb::package_name :
+          ensure => $::mariadb::package_ensure,
         }
       }
 
       'Debian': {
-        package { $mariadb::package_name :
-          ensure => $mariadb::package_ensure,
+        package { $::mariadb::package_name :
+          ensure => $::mariadb::package_ensure,
         }
       }
 
