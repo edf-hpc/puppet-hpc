@@ -22,5 +22,29 @@ class mariadb::config {
       style => 'ini',
     }
 
+    if $::mariadb::log_to_rsyslog {
+
+      rsyslog::imfile { 'mariadb-error':
+        file_name     => $::mariadb::log_error_file,
+        file_tag      => 'mariadb-error:',
+        file_facility => 'error',
+      }
+      rsyslog::imfile { 'mariadb-info':
+        file_name     => $::mariadb::log_info_file,
+        file_tag      => 'mariadb-info:',
+        file_facility => 'info',
+      }
+      rsyslog::imfile { 'mariadb-slow':
+        file_name     => $::mariadb::log_slow_file,
+        file_tag      => 'mariadb-slow:',
+        file_facility => 'info',
+      }
+      rsyslog::imfile { 'mariadb-slow-legacy':
+        file_name     => $::mariadb::log_slow_legacy_file,
+        file_tag      => 'mariadb-slow:',
+        file_facility => 'info',
+      }
+
+    }
   }
 }

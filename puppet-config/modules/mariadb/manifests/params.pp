@@ -63,4 +63,10 @@ class mariadb::params {
   $root_histfile_file    = '/root/.mysql_history'
   $root_histfile_target  = '/dev/null'
 
+  $log_to_rsyslog        = false
+  $log_error_file        = '/var/log/mysql/error.log'
+  $log_info_file         = '/var/log/mysql/mysql.log'
+  $log_slow_file         = '/var/log/mysql/mariadb-slow.log'
+  $log_slow_legacy_file  = '/var/log/mysql/mysql-slow.log'
+
 }

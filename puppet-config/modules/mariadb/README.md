@@ -27,20 +27,31 @@ Controls all mysql/mariadb configuration files.
 
 ### Setup Requirements
 
-This module uses stdlib.
+This module depends on the following modules:
+
+* stdlib (for `validate_*` and `*merge` functions)
+* hpclib (for `print_config()` function)
+* saz-rsyslog community module if `log_to_rsyslog` parameter is true
 
 ### Beginning with mariadb
 
 ## Usage
 
 ```
-class{'::mariadb':
+class { '::mariadb':
   nodes => [
     'clbatch1',
     'clbatch2',
   ],
 }
 ```
+
+The module can also setup rsyslog to watch MariaDB log files by setting the
+`log_to_syslog` parameter to true This feature requires the saz-rsyslog
+community module to be installed. This way, the MariaDB log entries can
+eventually be forwarded to a central syslog servers but obviously this has some
+infrastructure requirements and proper rsyslog configuration out of the scope of
+this module.
 
 ## Limitations
 

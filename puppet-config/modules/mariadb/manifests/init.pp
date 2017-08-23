@@ -18,6 +18,16 @@
 # @param config_manage Puppet modules generate configuration (default: true)
 # @param galera_conf_file Path of galera configuration file
 # @param galera_conf_options Hash with the content of `galera_conf_file` (merged with defaults)
+# @param log_to_rsyslog Boolean to control if MariaDB logs are forwarded to
+#            rsyslog (default: false)
+# @param log_error_file Absolute path to MariaDB error log file (default:
+#            '/var/log/mysql/error.log')
+# @param log_info_file Absolute path to MariaDB main log file (default:
+#            '/var/log/mysql/mysql.log')
+# @param log_slow_file Absolute path to MariaDB slow queries log file (default:
+#            '/var/log/mysql/mariadb-slow.log')
+# @param log_slow_legacy_file Absolute path to MariaDB legacy slow queries log
+#             file (default: '/var/log/mysql/mysql-slow.log')
 # @param package_manage Puppet module installs the packages (default: true)
 # @param package_ensure Target state for the packages (default: 'present')
 # @param package_name Array of names of packages to install
@@ -41,6 +51,11 @@ class mariadb (
   $config_manage         = $::mariadb::params::config_manage,
   $galera_conf_file      = $::mariadb::params::galera_conf_file,
   $galera_conf_options   = {},
+  $log_to_rsyslog        = $::mariadb::params::log_to_rsyslog,
+  $log_error_file        = $::mariadb::params::log_error_file,
+  $log_info_file         = $::mariadb::params::log_info_file,
+  $log_slow_file         = $::mariadb::params::log_slow_file,
+  $log_slow_legacy_file  = $::mariadb::params::log_slow_legacy_file,
   $package_manage        = $::mariadb::params::package_manage,
   $package_ensure        = $::mariadb::params::package_ensure,
   $package_name          = $::mariadb::params::package_name,
@@ -98,6 +113,13 @@ class mariadb (
       $_galera_conf_options_wo_addr,
       $_galera_conf_options_addr
     )
+
+    validate_bool($log_to_rsyslog)
+    validate_absolute_path($log_error_file)
+    validate_absolute_path($log_info_file)
+    validate_absolute_path($log_slow_file)
+    validate_absolute_path($log_slow_legacy_file)
+
   }
 
   if $service_manage {
