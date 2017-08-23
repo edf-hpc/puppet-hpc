@@ -37,16 +37,34 @@ class mariadb::install {
   }
 
   if $::mariadb::disable_histfile {
+
     hpclib::print_config { $::mariadb::prof_histfile_file:
       style => 'linebyline',
       data  => $::mariadb::prof_histfile_options,
       mode  => 0644,
       owner => root,
     }
+
+    file { $::mariadb::root_histfile_file:
+      ensure => 'link',
+      target => $::mariadb::root_histfile_target,
+    }
+
   } else {
+
+    # remove shell profile drop-in file
     file { $::mariadb::prof_histfile_file:
       ensure => 'absent',
     }
+
+    # restore to flat empty file if symlink was previously deployed
+    file { $::mariadb::root_histfile_file:
+      ensure  => 'file',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+    }
+
   }
 
 }

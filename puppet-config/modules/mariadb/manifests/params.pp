@@ -60,5 +60,7 @@ class mariadb::params {
   $disable_histfile      = true
   $prof_histfile_file    = '/etc/profile.d/100_disable_mariadb_histfile.sh'
   $prof_histfile_options = [ 'MYSQL_HISTFILE=/dev/null' ]
+  $root_histfile_file    = '/root/.mysql_history'
+  $root_histfile_target  = '/dev/null'
 
 }

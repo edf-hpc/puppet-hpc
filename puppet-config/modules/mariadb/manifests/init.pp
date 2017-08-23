@@ -28,6 +28,10 @@
 #            '/etc/profile.d/100-disable_mariadb_histfile.sh').
 # @param prof_histfile_options Array of lines of content of shell profile file
 #            used to disable histfile (default: [ 'MYSQL_HISTFILE=/dev/null' ])
+# @param root_histfile_file Absolute path to root histfile (default:
+#            '/root/.mysql_history')
+# @param root_histfile_target Target of root histfile symlink when
+#            disable_histfile is true (default: '/dev/null')
 # @param service_manage Puppet module manages the service state (default: true)
 # @param service_ensure Target state for the service (default: 'running')
 # @param service_enable Starts service on boot (default: true)
@@ -43,6 +47,8 @@ class mariadb (
   $disable_histfile      = $::mariadb::params::disable_histfile,
   $prof_histfile_file    = $::mariadb::params::prof_histfile_file,
   $prof_histfile_options = $::mariadb::params::prof_histfile_options,
+  $root_histfile_file    = $::mariadb::params::root_histfile_file,
+  $root_histfile_target  = $::mariadb::params::root_histfile_target,
   $service_manage        = $::mariadb::params::service_manage,
   $service_ensure        = $::mariadb::params::service_ensure,
   $service_enable        = $::mariadb::params::service_enable,
@@ -56,6 +62,7 @@ class mariadb (
   validate_bool($service_manage)
   validate_bool($disable_histfile)
   validate_absolute_path($prof_histfile_file)
+  validate_absolute_path($root_histfile_file)
 
   if $package_manage {
     validate_array($package_name)
@@ -63,6 +70,7 @@ class mariadb (
   }
   if $disable_histfile {
     validate_array($prof_histfile_options)
+    validate_absolute_path($root_histfile_target)
   }
 
   if $config_manage {
