@@ -16,6 +16,24 @@
 # Setup a proxy for APT repositories
 #
 # Will install apt-cacher-ng
+# # Hiera
+# * `listen_networks` (`hiera_array`) List of network the apt-cacher-ng
+#     daemon should bind, all if ommited or empty
 class profiles::apt::proxy {
-  include '::aptcacherng'
+  $listen_networks  = hiera_array('profiles::apt::proxy::listen_networks', [])
+
+  # If listening interfaces are provided add it to the list of listening
+  # addresses in the config
+  if size($listen_networks) > 0 {
+    $ip_addrs = hpc_net_ip_addrs($listen_networks)
+    $joined_addrs = join($ip_addrs, ' ')
+    $config_options = {
+      'BindAddress' => "127.0.0.1 ${joined_addrs}",
+    }
+  } else {
+    $config_options = undef
+  }
+  class { '::aptcacherng' :
+    config_options => $config_options
+  }
 }
