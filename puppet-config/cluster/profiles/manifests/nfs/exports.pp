@@ -22,6 +22,13 @@ class profiles::nfs::exports {
   # Hiera lookups
   $to_export = hiera_hash('profiles::nfs::to_export')
 
+  # Install NFS common utilities. The rpcbind service must not be disabled on HA
+  # NFS servers because it is required by the showmount command used in HA check
+  # script.
+  $disable_rpcbind = !hpc_has_profile('nfs::ha_server')
+  class { '::nfs':
+    disable_rpcbind => $disable_rpcbind,
+  }
   # Initialize nfs_server
   include ::nfs::server
 
