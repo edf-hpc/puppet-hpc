@@ -19,8 +19,8 @@
 # * `cluster_prefix`
 # * `domain`
 # * `boot_params`
-# * `profiles::bootsystem::tftp_config_options` Configuration hash of TFTP
-#                                               server (default: {})
+# * `profiles::bootsystem::server::tftp_listen_network` Name of the network the TFTP
+#     server should listen on, if empty or missing: all networks
 #
 # ## Relevant Autolookups
 # * `boothttp::port`
@@ -37,19 +37,28 @@ class profiles::bootsystem::server {
   $prefix              = hiera('cluster_prefix')
   $domain              = hiera('domain')
   $virtual_address     = $::hostfile["${prefix}${::puppet_role}"]
-  $tftp_config_options = hiera_hash('profiles::bootsystem::tftp_config_options', {})
+  $tftp_listen_network = hiera('profiles::bootsystem::server::tftp_listen_network', '')
   $menu_config_options = hiera_hash('boot_params', {})
   $servername          = "${prefix}${::puppet_role}"
   $serveraliases       = ["${servername}.${domain}"]
 
+
+  # If listening network is provided add it
+  if tftp_listen_network != '' {
+    $ip_addrs = hpc_net_ip_addrs([$tftp_listen_network])
+    $ip_addr = $ip_addrs[0]
+    $tftp_config_options = {
+      'TFTP_ADDRESS' => "${ip_addr}:69",
+    }
+  } else {
+    $tftp_config_options = undef
+  }
+
   class { '::tftp':
-    config_options     => $tftp_config_options,
+    config_options => $tftp_config_options,
   }
 
-  class { '::boottftp':
-  }
-
-
+  include ::boottftp
   include ::apache
 
   class { '::boothttp':
