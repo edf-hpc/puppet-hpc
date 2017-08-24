@@ -168,6 +168,8 @@ profiles::postfix::relay::config_options:
 # proven to be useful in upper layers.
 tftp_dir: '/srv/tftp'
 profiles::bootsystem::server::tftp_listen_network: 'administration'
+profiles::bootsystem::server::listen_networks:
+  - 'administration'
 
 ##### SSH
 profiles::openssh::server::config_augeas:
