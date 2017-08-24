@@ -294,6 +294,8 @@ boothttp::menu_source:     "%{hiera('private_files_dir')}/boot/cgi/bootmenu.py"
 ###### System (equivalent to s3-system when not available)
 profiles::http::system::docroot: "%{hiera('website_dir')}/system"
 profiles::http::system::port:    '3139'
+profiles::http::system::listen_networks:
+  - 'administration'
 
 ##### HA
 
