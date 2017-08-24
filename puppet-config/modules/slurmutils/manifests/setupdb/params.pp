@@ -38,7 +38,7 @@ class slurmutils::setupdb::params {
       'admins'      => '',
     },
   }
-
+  $importers = undef
   $exec_file = '/usr/sbin/slurm-mysql-setup'
 
 }

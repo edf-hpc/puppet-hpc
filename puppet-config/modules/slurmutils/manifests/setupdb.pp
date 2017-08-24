@@ -25,6 +25,8 @@
 #                        '/etc/slurm-llnl/slurm-mysql.conf')
 # @param conf_options    Configuration hash overriding the default parameters
 #                        of the module (default: {})
+# @importers             Array of importer hosts for DB read-only user
+#                        (default: undef)
 # @param exec_file       Path to the setup utility executable (default:
 #                        '/usr/sbin/slurm-mysql-setup')
 class slurmutils::setupdb (
@@ -35,6 +37,7 @@ class slurmutils::setupdb (
   $config_manage     = $::slurmutils::setupdb::params::config_manage,
   $conf_file         = $::slurmutils::setupdb::params::conf_file,
   $conf_options      = {},
+  $importers         = $::slurmutils::setupdb::params::importers,
   $exec_file         = $::slurmutils::setupdb::params::exec_file,
 ) inherits slurmutils::setupdb::params {
 
@@ -50,9 +53,20 @@ class slurmutils::setupdb (
   if $config_manage {
     validate_absolute_path($conf_file)
     validate_hash($conf_options)
+    if $importers {
+      validate_array($importers)
+      $_importers_hash = {
+        'hosts' => {
+          'importers' => join($importers, ','),
+        },
+      }
+    } else {
+      $_importers_hash = undef
+    }
     $_conf_options = deep_merge(
       $::slurmutils::setupdb::params::conf_options_defaults,
-      $conf_options)
+      $conf_options,
+      $_importers_hash)
   }
 
   validate_absolute_path($exec_file)
