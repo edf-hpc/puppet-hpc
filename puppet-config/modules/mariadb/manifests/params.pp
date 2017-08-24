@@ -44,6 +44,13 @@ class mariadb::params {
           'query_cache_size'         => '0',
           'query_cache_type'         => '0',
           'bind-address'             => '0.0.0.0',
+          # Disable potentially dangerous command LOAD DATA INFILE by setting
+          # secure_file_priv to an empty value.
+          'secure_file_priv'         => '""',
+          # The default MariaDB max_connections is 151 while the
+          # default max_user_connections is unlimited (0). This settings
+          # prevents one user from grabbing all the available connections alone.
+          'max_user_connections'     => '100',
           'wsrep_on'                 => 'ON',
           'wsrep_provider'           => '/usr/lib/galera/libgalera_smm.so',
           'wsrep_cluster_name'       => '"galera_cluster"',

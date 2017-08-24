@@ -53,6 +53,31 @@ eventually be forwarded to a central syslog servers but obviously this has some
 infrastructure requirements and proper rsyslog configuration out of the scope of
 this module.
 
+By default, the module also setup some parameters for security hardening
+purpose. Notably, it fixes the following settings:
+
+* `max_user_connections` to 100 (default is 0 ie. unlimited), in order to
+  prevent one user from grabbing all 151 available `max_connections` (default
+  MariaDB value).
+* `secure_file_priv` is set to an empty value in order to disable potentially
+  dangerous command `LOAD DATA INFILE`.
+* the client histfile `~/.mysql_history` is disabled by default.
+
+It is obviously possible to change these settings, for example with the
+following parameters:
+
+```
+class { '::mariadb':
+  disable_histfile => false,
+  galera_conf_options => {
+    mysqld => {
+      'secure_file_priv'     => '/',
+      'max_user_connections' => '0',
+    }
+  }
+}
+```
+
 ## Limitations
 
 This module is mainly tested on Debian, but is meant to also work with RHEL and
