@@ -16,6 +16,7 @@
 class boothttp::config inherits boothttp {
 
   apache::vhost { "${::boothttp::servername}_bootsystem":
+    ip            => $::boothttp::ip,
     servername    => $::boothttp::servername,
     port          => $::boothttp::port,
     docroot       => $::boothttp::config_dir_http,

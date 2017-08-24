@@ -19,6 +19,7 @@
 #          the HTTP server
 # @param servername Hostname for the apache virtual host
 # @param serveraliases Array of FDQN hostname for the apache virtual host
+# @param ip Array of IP addresses to listen to (default: undef)
 # @param port TCP port of the apache virtual host
 # @param packages List of packages to install
 # @param packages_ensure Should packages be installed, latest or absent
@@ -35,6 +36,7 @@ class boothttp (
   $virtual_address,
   $servername,
   $serveraliases,
+  $ip              = $::boothttp::params::ip,
   $port            = $::boothttp::params::port,
   $packages        = $::boothttp::params::packages,
   $packages_ensure = $::boothttp::params::packages_ensure,
@@ -61,7 +63,9 @@ class boothttp (
   validate_hash($install_options)
   validate_string($menu_config)
   validate_hash($menu_config_options)
-
+  if $ip {
+    validate_array($ip)
+  }
 
   anchor { 'boothttp::begin': } ->
   class { '::boothttp::install': } ->

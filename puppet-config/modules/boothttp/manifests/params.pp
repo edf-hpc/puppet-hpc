@@ -16,6 +16,7 @@
 #
 class boothttp::params {
 
+  $ip              = undef
   $port            = '3138'
   $packages_ensure = 'installed'
   $packages        = [
