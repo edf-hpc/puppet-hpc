@@ -21,6 +21,8 @@
 # * `boot_params`
 # * `profiles::bootsystem::server::tftp_listen_network` Name of the network the TFTP
 #     server should listen on, if empty or missing: all networks
+# * `profiles::bootsystem::server::listen_networks` (`hiera_array`) List of network
+#     the boothttp vhost daemon should bind, all if ommited or empty
 #
 # ## Relevant Autolookups
 # * `boothttp::port`
@@ -38,6 +40,7 @@ class profiles::bootsystem::server {
   $domain              = hiera('domain')
   $virtual_address     = $::hostfile["${prefix}${::puppet_role}"]
   $tftp_listen_network = hiera('profiles::bootsystem::server::tftp_listen_network', '')
+  $listen_networks     = hiera_array('profiles::bootsystem::server::listen_networks', [])
   $menu_config_options = hiera_hash('boot_params', {})
   $servername          = "${prefix}${::puppet_role}"
   $serveraliases       = ["${servername}.${domain}"]
@@ -45,8 +48,8 @@ class profiles::bootsystem::server {
 
   # If listening network is provided add it
   if tftp_listen_network != '' {
-    $ip_addrs = hpc_net_ip_addrs([$tftp_listen_network])
-    $ip_addr = $ip_addrs[0]
+    $tftp_ip_addrs = hpc_net_ip_addrs([$tftp_listen_network])
+    $ip_addr = $tftp_ip_addrs[0]
     $tftp_config_options = {
       'TFTP_ADDRESS' => "${ip_addr}:69",
     }
@@ -61,7 +64,17 @@ class profiles::bootsystem::server {
   include ::boottftp
   include ::apache
 
+  # If listening interfaces are provided add it to the list of listening
+  # addresses in the config
+  if size($listen_networks) > 0 {
+    $ip_addrs = hpc_net_ip_addrs($listen_networks)
+    $ip = ['127.0.0.1', $ip_addrs]
+  } else {
+    $ip = undef
+  }
+
   class { '::boothttp':
+    ip                  => $ip,
     virtual_address     => $virtual_address,
     servername          => $servername,
     serveraliases       => $serveraliases,
