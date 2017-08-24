@@ -26,24 +26,37 @@
 # * `profiles::http::system::port`
 # * `profiles::http::system::docroot`
 # * `profiles::http::serveradmin`
+# * `profiles::bootsystem::server::listen_networks` (`hiera_array`) List of network
+#     the system vhost daemon should bind, all if ommited or empty
 class profiles::http::system {
 
   ## Hiera lookups
-  $serveradmin    = hiera('profiles::http::serveradmin')
-  $log_level      = hiera('profiles::http::log_level')
-  $port           = hiera('profiles::http::system::port')
-  $docroot        = hiera('profiles::http::system::docroot')
-  $cluster_prefix = hiera('cluster_prefix')
-  $domain         = hiera('domain')
+  $serveradmin     = hiera('profiles::http::serveradmin')
+  $log_level       = hiera('profiles::http::log_level')
+  $port            = hiera('profiles::http::system::port')
+  $docroot         = hiera('profiles::http::system::docroot')
+  $listen_networks = hiera_array('profiles::http::system::listen_networks', [])
+  $cluster_prefix  = hiera('cluster_prefix')
+  $domain          = hiera('domain')
 
   include apache
 
   $servername = "${cluster_prefix}${::puppet_role}"
   $serveraliases = ["${servername}.${domain}"]
 
+  # If listening interfaces are provided add it to the list of listening
+  # addresses in the config
+  if size($listen_networks) > 0 {
+    $ip_addrs = hpc_net_ip_addrs($listen_networks)
+    $ip = ['127.0.0.1', $ip_addrs]
+  } else {
+    $ip = undef
+  }
+
   # Pass config options as a class parameter
   apache::vhost { "${servername}_system":
     servername    => $servername,
+    ip            => $ip,
     port          => $port,
     docroot       => $docroot,
     serveradmin   => $serveradmin,
