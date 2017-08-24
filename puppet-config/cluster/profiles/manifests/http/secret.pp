@@ -154,8 +154,8 @@ class profiles::http::secret {
     action  => 'ACCEPT',
     order   => 11,
   }
-  # Reject all the unauthorized traffic from the cluster and just drop
-  # outside incoming traffic
+  # Reject all the unauthorized traffic from the cluster and just reject
+  # all outside incoming traffic
   shorewall::rule { 'secret_inbound_clstr_above_1024':
     comment => 'Only authorize connection to secret server from ports < 1024',
     source  => 'clstr',
@@ -172,7 +172,7 @@ class profiles::http::secret {
     dest    => 'fw',
     proto   => 'tcp',
     dport   => $port,
-    action  => 'DROP',
+    action  => 'REJECT',
     order   => 12,
   }
 }
