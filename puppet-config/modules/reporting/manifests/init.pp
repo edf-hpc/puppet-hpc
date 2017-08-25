@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class reporting ($script_report_users_source, $script_report_orphan_source, $cron_reporting_source, $node_cfg) {
+class reporting ($script_report_users_source, $script_report_orphan_source, $cron_reporting_source, $script_reportrmo_source, $node_cfg) {
 
    if $hostname == $node_cfg {
 
@@ -29,6 +29,11 @@ class reporting ($script_report_users_source, $script_report_orphan_source, $cro
 
           file { [ "/etc/cron.d/cron_reporting" ] :
                 content => hpc_source_file($cron_reporting_source),
+          }
+
+          file { [ "/usr/local/sbin/reportrmo" ] :
+		content => hpc_source_file($script_reportrmo_source),
+		mode    => '0750',
           }
     }
 
