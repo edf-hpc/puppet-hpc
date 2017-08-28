@@ -15,56 +15,58 @@
 
 class mariadb::install {
 
-  if $::mariadb::package_manage {
+  if $::mariadb::install_manage {
 
-    case $::osfamily {
-      'RedHat': {
-        package { $::mariadb::package_name :
-          ensure => $::mariadb::package_ensure,
+    if $::mariadb::package_manage {
+
+      case $::osfamily {
+        'RedHat': {
+          package { $::mariadb::package_name :
+             ensure => $::mariadb::package_ensure,
+          }
+        }
+
+        'Debian': {
+          package { $::mariadb::package_name :
+            ensure => $::mariadb::package_ensure,
+          }
+        }
+
+        default: {
+          fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
         }
       }
+    }
 
-      'Debian': {
-        package { $::mariadb::package_name :
-          ensure => $::mariadb::package_ensure,
-        }
+    if $::mariadb::disable_histfile {
+
+      hpclib::print_config { $::mariadb::prof_histfile_file:
+        style => 'linebyline',
+        data  => $::mariadb::prof_histfile_options,
+        mode  => 0644,
+        owner => root,
       }
 
-      default: {
-        fail("Unsupported OS Family '${::osfamily}', should be: 'Debian', 'Redhat'.")
+      file { $::mariadb::root_histfile_file:
+        ensure => 'link',
+        target => $::mariadb::root_histfile_target,
       }
+
+    } else {
+
+      # remove shell profile drop-in file
+      file { $::mariadb::prof_histfile_file:
+        ensure => 'absent',
+      }
+
+      # restore to flat empty file if symlink was previously deployed
+      file { $::mariadb::root_histfile_file:
+        ensure  => 'file',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0600',
+      }
+
     }
   }
-
-  if $::mariadb::disable_histfile {
-
-    hpclib::print_config { $::mariadb::prof_histfile_file:
-      style => 'linebyline',
-      data  => $::mariadb::prof_histfile_options,
-      mode  => 0644,
-      owner => root,
-    }
-
-    file { $::mariadb::root_histfile_file:
-      ensure => 'link',
-      target => $::mariadb::root_histfile_target,
-    }
-
-  } else {
-
-    # remove shell profile drop-in file
-    file { $::mariadb::prof_histfile_file:
-      ensure => 'absent',
-    }
-
-    # restore to flat empty file if symlink was previously deployed
-    file { $::mariadb::root_histfile_file:
-      ensure  => 'file',
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0600',
-    }
-
-  }
-
 }

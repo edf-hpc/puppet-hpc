@@ -28,6 +28,7 @@
 #            '/var/log/mysql/mariadb-slow.log')
 # @param log_slow_legacy_file Absolute path to MariaDB legacy slow queries log
 #             file (default: '/var/log/mysql/mysql-slow.log')
+# @param install_manage Puppet module manages the installation (default: true)
 # @param package_manage Puppet module installs the packages (default: true)
 # @param package_ensure Target state for the packages (default: 'present')
 # @param package_name Array of names of packages to install
@@ -56,6 +57,7 @@ class mariadb (
   $log_info_file         = $::mariadb::params::log_info_file,
   $log_slow_file         = $::mariadb::params::log_slow_file,
   $log_slow_legacy_file  = $::mariadb::params::log_slow_legacy_file,
+  $install_manage        = $::mariadb::params::install_manage,
   $package_manage        = $::mariadb::params::package_manage,
   $package_ensure        = $::mariadb::params::package_ensure,
   $package_name          = $::mariadb::params::package_name,
@@ -72,20 +74,23 @@ class mariadb (
 ) inherits mariadb::params {
 
   ### Validate params ###
-  validate_bool($package_manage)
+  validate_bool($install_manage)
   validate_bool($config_manage)
   validate_bool($service_manage)
-  validate_bool($disable_histfile)
-  validate_absolute_path($prof_histfile_file)
-  validate_absolute_path($root_histfile_file)
 
-  if $package_manage {
-    validate_array($package_name)
-    validate_string($package_ensure)
-  }
-  if $disable_histfile {
-    validate_array($prof_histfile_options)
-    validate_absolute_path($root_histfile_target)
+  if $install_manage {
+    validate_bool($package_manage)
+    validate_bool($disable_histfile)
+    validate_absolute_path($prof_histfile_file)
+    validate_absolute_path($root_histfile_file)
+    if $package_manage {
+      validate_array($package_name)
+      validate_string($package_ensure)
+    }
+    if $disable_histfile {
+      validate_array($prof_histfile_options)
+      validate_absolute_path($root_histfile_target)
+    }
   }
 
   if $config_manage {

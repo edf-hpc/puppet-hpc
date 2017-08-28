@@ -15,6 +15,7 @@
 
 class mariadb::params {
 
+  $install_manage    = true
   $config_manage     = true
   $service_enable    = true
   $service_ensure    = 'running'
