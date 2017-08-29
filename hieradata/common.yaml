@@ -359,6 +359,9 @@ db_secondary_server:    "%{hiera('cluster_prefix')}%{::my_db_server}2"
 mariadb::nodes:
  - "%{hiera('db_primary_server')}"
  - "%{hiera('db_secondary_server')}"
+mariadb::ssl_cert_src:   "%{hiera('private_files_dir')}/ssl/ssl-cert-batch.pem"
+mariadb::ssl_key_src:    "%{hiera('private_files_dir')}/ssl/ssl-cert-batch.key.enc"
+mariadb::decrypt_passwd: "%{hiera('cluster_decrypt_password')}"
 profiles::jobsched::server::slurmdbd_config_options:
   DbdHost:           "%{hiera('slurm_primary_server')}"
   DbdBackupHost:     "%{hiera('slurm_secondary_server')}"
