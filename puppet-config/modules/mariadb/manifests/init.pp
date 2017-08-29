@@ -18,6 +18,17 @@
 # @param config_manage Puppet modules generate configuration (default: true)
 # @param galera_conf_file Path of galera configuration file
 # @param galera_conf_options Hash with the content of `galera_conf_file` (merged with defaults)
+# @param enable_ssl Boolean to control if SSL is enable on both client and
+#            server (default: false)
+# @param ssl_ca_file Absolute path to the PEM file containing list of trusted
+#            TLS certificate authoritiesL certificate (default:
+#            '/etc/ssl/certs/ca-certificates.crt')
+# @param ssl_cert_file Absolute path to the SSL certificate (default:
+#            '/etc/mysql/ssl/server.pem')
+# @param ssl_key_src URL to the SSL private key (default: undef)
+# @param ssl_cert_src  URL to the SSL certificate (default: undef)
+# @param ssl_key_file Absolute path to SSL private key (default:
+#            '/etc/mysql/ssl/server.key')
 # @param log_to_rsyslog Boolean to control if MariaDB logs are forwarded to
 #            rsyslog (default: false)
 # @param log_error_file Absolute path to MariaDB error log file (default:
@@ -48,10 +59,18 @@
 # @param service_enable Starts service on boot (default: true)
 # @param service_name Name of the service for mariadb
 # @param nodes Array of host names forming the galera cluster
+# @param decrypt_passwd Encryption key used to decrypt SSL private key (default:
+#            undef)
 class mariadb (
   $config_manage         = $::mariadb::params::config_manage,
   $galera_conf_file      = $::mariadb::params::galera_conf_file,
   $galera_conf_options   = {},
+  $enable_ssl            = $::mariadb::params::enable_ssl,
+  $ssl_ca_file           = $::mariadb::params::ssl_ca_file,
+  $ssl_cert_file         = $::mariadb::params::ssl_cert_file,
+  $ssl_cert_src          = $::mariadb::params::ssl_cert_src,
+  $ssl_key_file          = $::mariadb::params::ssl_key_file,
+  $ssl_key_src           = $::mariadb::params::ssl_key_src,
   $log_to_rsyslog        = $::mariadb::params::log_to_rsyslog,
   $log_error_file        = $::mariadb::params::log_error_file,
   $log_info_file         = $::mariadb::params::log_info_file,
@@ -71,6 +90,7 @@ class mariadb (
   $service_enable        = $::mariadb::params::service_enable,
   $service_name          = $::mariadb::params::service_name,
   $nodes                 = $::mariadb::params::nodes,
+  $decrypt_passwd        = $::mariadb::params::decrypt_passwd,
 ) inherits mariadb::params {
 
   ### Validate params ###
@@ -97,14 +117,10 @@ class mariadb (
     validate_absolute_path($galera_conf_file)
     validate_hash($galera_conf_options)
     validate_array($nodes)
+    validate_bool($enable_ssl)
 
     # Merge the hash from params.pp, the hash in class parameter and the hash
     # with the wresp address into $_galera_conf_options
-
-    $_galera_conf_options_wo_addr = deep_merge(
-      $::mariadb::params::galera_conf_options,
-      $galera_conf_options
-    )
 
     # build a small temporary hash to add the wresp cluster address in
     # $_galera_conf_options hash.
@@ -114,9 +130,33 @@ class mariadb (
         }
     }
 
+    if $enable_ssl {
+      validate_absolute_path($ssl_cert_file)
+      validate_string($ssl_cert_src)
+      validate_absolute_path($ssl_key_file)
+      validate_string($ssl_key_src)
+      validate_string($decrypt_password)
+
+      $_mariadb_ssl_conf = {
+          mysqld => {
+            ssl-ca   => $ssl_ca_file,
+            ssl-cert => $ssl_cert_file,
+            ssl-key  => $ssl_key_file,
+          },
+          client => {
+            ssl                    => 'on',
+            ssl-verify-server-cert => 'on',
+          },
+       }
+    } else {
+      $_mariadb_ssl_conf = {}
+    }
+
     $_galera_conf_options = deep_merge(
-      $_galera_conf_options_wo_addr,
-      $_galera_conf_options_addr
+      $::mariadb::params::galera_conf_options,
+      $_galera_conf_options_addr,
+      $_mariadb_ssl_conf,
+      $galera_conf_options
     )
 
     validate_bool($log_to_rsyslog)

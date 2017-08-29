@@ -78,6 +78,17 @@ class { '::mariadb':
 }
 ```
 
+The module also support setting SSL on with key and cert on server-side and
+automatic server certificate verification on client-side. This is disabled by
+default. The `enable_ssl` argument must be set to true in order to enable this
+optional feature:
+
+```
+class { '::mariadb':
+  enable_ssl => true,
+}
+```
+
 ## Limitations
 
 This module is mainly tested on Debian, but is meant to also work with RHEL and

@@ -1,4 +1,4 @@
-##########################################################################
+#########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
 #  Copyright (C) 2014-2017 EDF S.A.                                      #
@@ -76,5 +76,13 @@ class mariadb::params {
   $log_info_file         = '/var/log/mysql/mysql.log'
   $log_slow_file         = '/var/log/mysql/mariadb-slow.log'
   $log_slow_legacy_file  = '/var/log/mysql/mysql-slow.log'
+
+  $enable_ssl            = false
+  $ssl_ca_file           = '/etc/ssl/certs/ca-certificates.crt'
+  $ssl_cert_file         = '/etc/mysql/ssl/server.pem'
+  $ssl_cert_src          = undef
+  $ssl_key_file          = '/etc/mysql/ssl/server.key'
+  $ssl_key_src           = undef
+  $decrypt_passwd        = undef
 
 }

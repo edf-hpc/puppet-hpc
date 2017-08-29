@@ -68,5 +68,16 @@ class mariadb::install {
       }
 
     }
+
+    if $::mariadb::enable_ssl {
+      # ensure the SSL cert and key files have an existing directory
+      ensure_resource(file,
+                      [ dirname($::mariadb::ssl_cert_file),
+                        dirname($::mariadb::ssl_key_file), ],
+                      { ensure => 'directory',
+                        mode   => '0700',
+                        owner  => 'mysql',
+                        group  => 'mysql', })
+    }
   }
 }

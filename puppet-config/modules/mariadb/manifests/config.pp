@@ -46,5 +46,26 @@ class mariadb::config {
       }
 
     }
+
+    if $::mariadb::enable_ssl {
+
+      hpclib::hpc_file { $::mariadb::ssl_cert_file :
+        source => $::mariadb::ssl_cert_src,
+        mode   => '0644',
+        owner  => 'mysql',
+        group  => 'mysql',
+      }
+
+      file { $::mariadb::ssl_key_file :
+        content => decrypt($::mariadb::ssl_key_src,
+                           $::mariadb::decrypt_passwd),
+        mode    => '0400',
+        owner   => 'mysql',
+        group   => 'mysql',
+      }
+
+
+    }
+
   }
 }
