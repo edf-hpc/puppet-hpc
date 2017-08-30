@@ -39,11 +39,24 @@ On a cluster, some host also acts as relay for all mails coming from the
 cluster, but postfix should be configured to listen on the local networks.
 
 ```
-class{'::postfix':
+class { '::postfix':
   config_options => {
     'inet_interfaces'     => 'all',
     'relay_domains'       => '$mydestination example.com',
     'relayhost'           => 'smtp.example.com',
+  },
+}
+```
+
+By default, the module disables the SMTP `VRFY` command for security reason, in
+order to prevent remote host from getting information about local users. This
+can be altered by setting the `disable_vrfy_command` configuration parameter
+with value `no`:
+
+```
+class { '::postfix':
+  config_options => {
+    disable_vrfy_command => 'no',
   },
 }
 ```

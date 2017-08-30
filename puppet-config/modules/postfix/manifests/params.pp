@@ -31,6 +31,7 @@ class postfix::params {
     command_directory                   => '/usr/sbin',
     data_directory                      => '/var/lib/postfix',
     debug_peer_level                    => '2',
+    disable_vrfy_command                => 'yes',
     html_directory                      => 'no',
     inet_interfaces                     => 'loopback-only',
     inet_protocols                      => 'ipv4',
