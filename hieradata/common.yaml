@@ -297,6 +297,10 @@ profiles::http::system::port:    '3139'
 profiles::http::system::listen_networks:
   - 'administration'
 
+##### Ceph
+
+profiles::ceph::listen_network: 'administration'
+
 ##### HA
 
 # The keepalived public module wrongly set these service params to false in its
