@@ -688,14 +688,14 @@ profiles::consul::server::subservices:
     check:
       id: 'http_check'
       name: 'Local HTTP service check'
-      http: 'http://localhost/'
+      http: 'http://%{::hostname}/'
       interval: '10s'
       timeout: '1s'
   - name: 'apt'
     check:
       id: 'apt_check'
       name: 'Local HTTP service check'
-      http: "http://localhost:%{hiera('apt::proxy_port')}/acng-report.html"
+      http: "http://%{::hostname}:%{hiera('apt::proxy_port')}/acng-report.html"
       interval: '10s'
       timeout: '1s'
   - name: 'tftp'
@@ -716,7 +716,7 @@ profiles::consul::server::subservices:
     check:
       id: 'http_boot_check'
       name: 'Local HTTP bootsystem check'
-      http: "http://localhost:%{hiera('boot_http_port')}/"
+      http: "http://%{::hostname}:%{hiera('boot_http_port')}/"
       interval: '10s'
       timeout: '1s'
 
@@ -725,14 +725,14 @@ profiles::consul::server::ceph_subservices:
     check:
       id: 'rgw_s3_system_check'
       name: 'Local Rados GW System S3 bucket check'
-      http: 'http://localhost:7480/'
+      http: 'http://%{::hostname}:7480/'
       interval: '10s'
       timeout: '1s'
   - name: 'rgw'
     check:
       id: 'rgw_check'
       name: 'Local Rados GW service check'
-      http: 'http://localhost:7480/'
+      http: 'http://%{::hostname}:7480/'
       interval: '10s'
       timeout: '1s'
 
