@@ -16,9 +16,24 @@
 # Setup a minimal configuration for a Ceph cluster
 #
 # Will install ceph
+# * `profiles::ceph::listen_network` (`hiera`) Name of the network the Ceph
+#   daemons should listen for incoming connections
 class profiles::ceph::server {
+
   $ceph_config_options = hiera_hash('profiles::ceph::config_options')
+  $listen_network = hiera('profiles::ceph::listen_network')
+
+  $_public_network = hpc_net_cidr($listen_network)
+  $_cluster_network = hpc_net_cidr($listen_network)
+  # Since RadosGW is not able to bind to multiple IP addresses, arbitrary pop
+  # the first IP address returned by hpc_net_ip_addrs()
+  $_ips = hpc_net_ip_addrs([$listen_network])
+  $_rgw_host = $_ips[0]
+
   class { '::ceph':
-    config_options => $ceph_config_options
+    config_options  => $ceph_config_options,
+    public_network  => $_public_network,
+    cluster_network => $_cluster_network,
+    rgw_host        => $_rgw_host,
   }
 }
