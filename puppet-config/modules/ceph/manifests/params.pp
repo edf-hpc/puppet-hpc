@@ -63,4 +63,10 @@ class ceph::params {
       'auth_client_required' => 'cephx',
     }
   }
+
+  $restrict_networks = true
+  $public_network    = '127.0.0.1/32'
+  $cluster_network   = '127.0.0.1/32'
+  $rgw_host          = '127.0.0.1'
+
 }
