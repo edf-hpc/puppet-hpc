@@ -2,15 +2,14 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description](#module-description)
-3. [Setup](#setup)
+1. [Module Description](#module-description)
+2. [Setup](#setup)
     * [What mariadb affects](#what-mariadb-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with mariadb](#beginning-with-mariadb)
-4. [Usage](#usage)
-5. [Limitations](#limitations)
-6. [Development](#development)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
 
 ## Module Description
 
