@@ -13,6 +13,53 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+# Deploys icinga2 satellite and agent
+#
+# @param install_manage  Public class manages the installation (default: true)
+# @param packages_manage Public class installs the packages (default: true)
+# @param packages        Array of packages to install (default:
+#                        ['icinga2', 'monitoring-plugins-basic',
+#                         'monitoring-plugins-hpc-agent'])
+# @param packages_ensure Target state for the packages (default: 'latest')
+# @param services_manage Public class manages the service state (default: true)
+# @param services        Array of services to manage (default: ['icinga2'])
+# @param services_ensure Target state for the services (default: 'running')
+# @param services_enable The services start at boot time (default: true)
+# @param config_manage   Public class manages the configuration (default: true)
+# @param user            Name of icinga2 system user (default: 'nagios')
+# @param crt_host        Absolute path to host SSL certificate used by the API
+#                        listener (default: '/etc/icinga2/pki/${::fqdn}.crt')
+# @param key_host        Absolute path to host SSL key used by the API listener
+#                        (default: '/etc/icinga2/pki/${::fqdn}.key')
+# @param crt_ca          Absolute path to PKI CA SSL certificate used by all API
+#                        listeners (default: '/etc/icinga2/pki/ca.crt')
+# @param local_defs      Array of absolute paths of configuration files provided
+#                        by the package (default: ['/etc/icinga2/conf.d/hosts',
+#                        '/etc/icinga2/conf.d/hosts.conf',
+#                        '/etc/icinga2/conf.d/services.conf']
+# @param local_defs_ensure Target state of the configuration files provided by
+#                        the packages (default: 'absent')
+# @param zones_file      Absolute path to zones configuration file (default:
+#                        '/etc/icinga2/zones.conf')
+# @param features        Array of icinga2 features to enable (default: ['api'])
+# @param feature_enable_cmd Command to run to enable a feature (default:
+#                        '/usr/sbin/icinga2 feature enable')
+# @param features_avail_dir Absolute path to directory containing available
+#                        features (default: '/etc/icinga2/features-available/')
+# @param features_enable_dir Absolute path to directory containing enabled
+#                        features (default: '/etc/icinga2/features-enabled/')
+# @param features_conf   Hash of additional icinga2 features configuration
+#                        parameters (default: {})
+# @param ident_dir       Absolute path of directory containing identities files
+#                        (passwords, keys) used for monitoring purpose (default:
+#                        '/var/lib/icinga2/idents')
+# @param idents          Hash of idents definitions (default: {})
+# @param crt_host_src    URL to source host SSL certificate (no default)
+# @param key_host_src    URL to source host SSL encrypted key (no default)
+# @param crt_ca_src      URL to source CA SSL certificate (no default)
+# @param decrypt_passd   Encryption key to decrypt SSL key and identies files
+#                        (no default)
+
 class icinga2 (
   $install_manage      = $::icinga2::params::install_manage,
   $packages_manage     = $::icinga2::params::packages_manage,
