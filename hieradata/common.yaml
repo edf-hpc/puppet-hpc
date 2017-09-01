@@ -655,6 +655,10 @@ profiles::monitoring::agent::int::zones:
     endpoints:
       - "%{::fqdn}"
 
+profiles::monitoring::agent::int::bind_network: 'administration'
+profiles::monitoring::agent::ext::bind_network: 'wan'
+profiles::monitoring::server::bind_network:     'wan'
+
 nscang_password: "CHANGEME"
 nscang_identity: "%{hiera('cluster_name')}-agent-checker"
 
