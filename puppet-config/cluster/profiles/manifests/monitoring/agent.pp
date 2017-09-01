@@ -22,18 +22,25 @@ class profiles::monitoring::agent {
   if member(hpc_get_hosts_by_profile('virt::host'), $::hostname) {
     #zones         = hiera_hash('profiles::monitoring::agent::ext::zones', {})
     #endpoints     = hiera_hash('profiles::monitoring::agent::ext::endpoints', {})
+    #$bind_network  = hiera('profiles::monitoring::agent::ext::bind_network')
     $zones         = hiera_hash('profiles::monitoring::agent::int::zones', {})
     $endpoints     = hiera_hash('profiles::monitoring::agent::int::endpoints', {})
+    $bind_network  = hiera('profiles::monitoring::agent::int::bind_network')
   } else {
     $zones         = hiera_hash('profiles::monitoring::agent::int::zones', {})
     $endpoints     = hiera_hash('profiles::monitoring::agent::int::endpoints', {})
+    $bind_network  = hiera('profiles::monitoring::agent::int::bind_network')
   }
+
+  # get the network hostname of current node on the $bind_network
+  $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
 
   class { '::icinga2':
     features      => $features,
     features_conf => $features_conf,
     zones         => $zones,
     endpoints     => $endpoints,
+    bind_host     => $bind_host,
   }
 
   include '::nscang::client'

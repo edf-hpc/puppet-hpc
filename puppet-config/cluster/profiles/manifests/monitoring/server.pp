@@ -24,6 +24,10 @@ class profiles::monitoring::server {
   $decrypt_password      = hiera('icinga2::decrypt_passwd')
   $notif_script_conf     = hiera('profiles::monitoring::server::notif_script_conf')
   $notif_script_conf_src = hiera('profiles::monitoring::server::notif_script_conf_src')
+  $bind_network          = hiera('profiles::monitoring::server::bind_network')
+
+  # get the network hostname of current node on the $bind_network
+  $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
 
   class { '::icinga2':
     packages      => $packages,
@@ -32,6 +36,7 @@ class profiles::monitoring::server {
     zones         => $zones,
     endpoints     => $endpoints,
     idents        => $idents,
+    bind_host     => $bind_host,
   }
 
   class { '::icinga2::notif':
