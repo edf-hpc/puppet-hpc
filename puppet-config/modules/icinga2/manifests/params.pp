@@ -52,11 +52,14 @@ class icinga2::params {
     'api' => {
       'allow_commands' => false,
       'allow_config'   => false,
+      'bind_host'      => $::hostname,
     }
   }
 
   $ident_dir = '/var/lib/icinga2/idents'
   $idents    = {}
+
+  $bind_host = undef # undef means bind socket to 0.0.0.0/::
 
   # There is not any sane and secure possible default values for the following
   # params so it is better to not define them in this class.

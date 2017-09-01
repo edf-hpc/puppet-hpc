@@ -54,6 +54,8 @@
 #                        (passwords, keys) used for monitoring purpose (default:
 #                        '/var/lib/icinga2/idents')
 # @param idents          Hash of idents definitions (default: {})
+# @param bind_host       Host to bind API listener socket, ignored if undef
+#                        (default: undef).
 # @param crt_host_src    URL to source host SSL certificate (no default)
 # @param key_host_src    URL to source host SSL encrypted key (no default)
 # @param crt_ca_src      URL to source CA SSL certificate (no default)
@@ -86,6 +88,7 @@ class icinga2 (
   $features_conf       = {},
   $ident_dir           = $::icinga2::params::ident_dir,
   $idents              = $::icinga2::params::idents,
+  $bind_host           = $::icinga2::params::bind_host,
   $crt_host_src,
   $key_host_src,
   $crt_ca_src,
@@ -125,7 +128,20 @@ class icinga2 (
     validate_absolute_path($features_avail_dir)
     validate_absolute_path($features_enable_dir)
     validate_hash($features_conf)
+    validate_string($bind_host)
+
+    if $bind_host {
+      $_bind_host_conf = {
+        'api' => {
+          'bind_host' => $bind_host,
+        },
+      }
+    } else {
+      $_bind_host_conf = {}
+    }
+
     $_features_conf = deep_merge($::icinga2::params::features_conf,
+                                 $_bind_host_conf,
                                  $features_conf)
   }
 
