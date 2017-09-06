@@ -22,13 +22,25 @@
 class profiles::apt::proxy {
   $listen_networks  = hiera_array('profiles::apt::proxy::listen_networks', [])
 
-  # If listening interfaces are provided add it to the list of listening
-  # addresses in the config
   if size($listen_networks) > 0 {
-    $ip_addrs = hpc_net_ip_addrs($listen_networks)
+    # If listening interfaces are provided add it to the list of listening
+    # addresses in the config (including VIPs)
+    #
+    # VIPs are necessary because during early boot diskless nodes have it
+    # configured in their /etc/hosts as apt.service.virtual.
+    $ip_addrs = hpc_net_ip_addrs($listen_networks, true)
     $joined_addrs = join($ip_addrs, ' ')
     $config_options = {
       'BindAddress' => "127.0.0.1 ${joined_addrs}",
+    }
+
+    ## Sysctl setup
+    # We need a sysctl to enable the ip_nonlocal_bind that will permit
+    # apache to bind the VIP on de failover node
+    kernel::sysctl { 'profiles_apt_proxy':
+      params => {
+        'net.ipv4.ip_nonlocal_bind' => '1',
+      },
     }
   } else {
     $config_options = undef
