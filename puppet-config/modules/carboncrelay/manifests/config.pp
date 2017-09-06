@@ -33,6 +33,12 @@ class carboncrelay::config inherits carboncrelay {
     notify      => Class['::carboncrelay::service'],
   }
 
+  hpclib::print_config { $::carboncrelay::default_file :
+    style  => 'keyval',
+    data   => $::carboncrelay::_default_options,
+    notify => Class['::carboncrelay::service'],
+  }
+
   concat { $::carboncrelay::config_file:
     ensure => present,
     notify => Class['::carboncrelay::service'],

@@ -20,9 +20,12 @@ class carboncrelay::params {
 
   $service_override_defaults = {
     'Service' => {
-      'LimitNOFILE' => '8192'
+      'LimitNOFILE' => '8192',
     }
   }
+
+  $default_file = '/etc/default/carbon-c-relay'
+  $listen_address = undef
 
 
   $packages = [

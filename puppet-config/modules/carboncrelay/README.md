@@ -46,6 +46,9 @@ include ::carboncrelay
 }
 ```
 
+By default the daemon will bind all interfaces, if you wish to bind a specific
+IP address, you can specify it with the ``listen_address`` argument.
+
 ## Usage
 
 ### Resource: cluster
