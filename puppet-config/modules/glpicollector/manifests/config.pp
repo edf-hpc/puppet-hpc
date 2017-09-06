@@ -20,6 +20,7 @@ class glpicollector::config inherits glpicollector {
     port          => $::glpicollector::port,
     docroot       => $::glpicollector::config_dir_http,
     serveraliases => $::glpicollector::serveraliases,
+    ip            => $::glpicollector::ip,
     docroot_mode  => '0750',
     docroot_group => 'www-data',
   }
@@ -27,10 +28,10 @@ class glpicollector::config inherits glpicollector {
   create_resources(hpclib::hpc_file, $::glpicollector::hpc_files)
 
   cron { 'glpi_push' :
-    command    => '/usr/local/sbin/glpi_push 1> /var/log/fusioninventory.log 2>&1',
-    user       => 'root',
-    hour       => 12,
-    minute     => 0,
-    monthday   => 1
+    command  => '/usr/local/sbin/glpi_push 1> /var/log/fusioninventory.log 2>&1',
+    user     => 'root',
+    hour     => 12,
+    minute   => 0,
+    monthday => 1
   }
 }
