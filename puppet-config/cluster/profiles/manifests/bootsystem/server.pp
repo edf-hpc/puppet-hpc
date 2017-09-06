@@ -64,13 +64,25 @@ class profiles::bootsystem::server {
   include ::boottftp
   include ::apache
 
-  # If listening interfaces are provided add it to the list of listening
-  # addresses in the config
   if size($listen_networks) > 0 {
-    $ip_addrs = hpc_net_ip_addrs($listen_networks)
+    # If listening interfaces are provided add it to the list of listening
+    # addresses in the config (including VIPs)
+    $ip_addrs = hpc_net_ip_addrs($listen_networks, true)
     $ip = ['127.0.0.1', $ip_addrs]
+
+
+    ## Sysctl setup
+    # We need a sysctl to enable the ip_nonlocal_bind that will permit
+    # apache to bind the VIP on de failover node
+    kernel::sysctl { 'profiles_bootsystem_server':
+      params => {
+        'net.ipv4.ip_nonlocal_bind' => '1',
+      },
+    }
+
   } else {
     $ip = undef
+
   }
 
   class { '::boothttp':
