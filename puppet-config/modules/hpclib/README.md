@@ -294,15 +294,16 @@ returns:
 {"a"=>{"K"=>"0"}}
 ```
 
-#### Function: `hpc_net_ip_addrs($net_names)`
+#### Function: `hpc_net_ip_addrs($net_names, include_vip)`
 
 Returns an Array of IP addresses for this node. If `net_names` is
 provided, only returns the IP addresses of the network. If the
 current node has no IP address in a network provided as a parameter,
 the network is ignored.
 
-This function ignores the virtual IP addresses, only addresses
-present in the `mymasternet` fact are considered.
+This function ignores the virtual IP addresses by default, only
+addresses present in the `mymasternet` fact are considered. If the
+`include_vip` is set to true, the virtual IP addresses are included.
 
 #### Function: `hpc_nodeset_expand($nodeset)`
 

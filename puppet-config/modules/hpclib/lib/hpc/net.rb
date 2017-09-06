@@ -15,6 +15,7 @@
 ##########################################################################
 
 require 'hpc/dns' # get_network_topology()
+require 'hpc/ha'  # get_host_vips()
 
 # @return CIDR of the network
 # @param net_name Name the network
@@ -32,10 +33,12 @@ end
 
 # @return Array of IP addresses
 # @param net_names filter the IP addresses on these network, if nil return
-#          IP of the network.
-def hpc_net_ip_addrs(net_names = nil)
+#          IP of all the networks (default: nil)
+# @param include_vip Also include vip in the result (defaul: false)
+def hpc_net_ip_addrs(net_names = nil, include_vip = false)
   # Retrieve facts
   mymasternet = lookupvar('::mymasternet')
+  hostname = lookupvar('::hostname')
 
   result = Array.new()
 
@@ -43,6 +46,15 @@ def hpc_net_ip_addrs(net_names = nil)
     if net_names == nil or net_names.include?(net_name)
       if options.has_key?('IP')
         result.push(options['IP'])
+      end
+    end
+  end
+
+  if include_vip
+    vips = get_host_vips(hostname)
+    vips.each do |vip_name, options|
+      if net_names == nil or net_names.include?(options['net_id'])
+        result.push(options['ip_address'])
       end
     end
   end

@@ -26,7 +26,13 @@ Puppet::Parser::Functions::newfunction(
 ) do |args|
 
   net_names = args[0]
-  result = hpc_net_ip_addrs(net_names)
+
+  if args.length > 1
+    include_vip = args[1]
+    result = hpc_net_ip_addrs(net_names, include_vip)
+  else
+    result = hpc_net_ip_addrs(net_names)
+  end
 
   begin
     result
