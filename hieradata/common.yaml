@@ -695,13 +695,6 @@ consul::domain: "%{hiera('virtual_domain')}"
 consul::datacenter: "%{hiera('cluster_name')}"
 
 profiles::consul::server::subservices:
-  - name: 'http'
-    check:
-      id: 'http_check'
-      name: 'Local HTTP service check'
-      http: 'http://%{::hostname}/'
-      interval: '10s'
-      timeout: '1s'
   - name: 'apt'
     check:
       id: 'apt_check'
