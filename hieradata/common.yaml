@@ -282,6 +282,8 @@ profiles::http::secret::keys_password: "%{hiera('cluster_decrypt_password')}"
 ###### Diskless (serves torrent file)
 profiles::http::diskless::port:    '3137'
 profiles::http::diskless::docroot: "%{hiera('website_dir')}/diskless"
+profiles::http::diskless::listen_networks:
+  - 'administration'
 
 ##### BOOTSYSTEM
 boot_http_port:            '3138'
