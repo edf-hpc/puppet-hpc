@@ -690,6 +690,10 @@ rsyslog::client::remote_type:          'relp'
 log_server_dir:                     "%{hiera('admin_dir')}/restricted/logs"
 rsyslog::server::server_dir:        "%{hiera('log_server_dir')}/"
 rsyslog::server::custom_config:     'rsyslog/server-hostname.conf.erb'
+
+##### Metrics #####
+profiles::metrics::relay::listen_address: "%{hiera('cluster_prefix')}%{::my_metrics_relay}"
+
 ##### Consul
 consul::domain: "%{hiera('virtual_domain')}"
 consul::datacenter: "%{hiera('cluster_name')}"
