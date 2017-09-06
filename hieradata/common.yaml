@@ -299,6 +299,11 @@ profiles::http::system::port:    '3139'
 profiles::http::system::listen_networks:
   - 'administration'
 
+
+##### Inventory Collect Web #####
+profiles::inventory::collect::listen_networks:
+  - 'administration'
+
 ##### Ceph
 
 profiles::ceph::listen_network: 'administration'
