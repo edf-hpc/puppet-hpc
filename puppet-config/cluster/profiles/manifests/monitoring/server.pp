@@ -13,6 +13,13 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# Setup a monitoring server (icinga satellite and nscang server)
+#
+# #Hiera
+# * `profiles::monitoring::server::listen_from_clients_networks` (`hiera_array`)
+#     List of networks the agent receiving notifications from client should listen
+#     on, if the list is empty, all interfaces (default: []).
 class profiles::monitoring::server {
 
   $packages              = hiera_array('profiles::monitoring::server::packages', [])
@@ -25,6 +32,7 @@ class profiles::monitoring::server {
   $notif_script_conf     = hiera('profiles::monitoring::server::notif_script_conf')
   $notif_script_conf_src = hiera('profiles::monitoring::server::notif_script_conf_src')
   $bind_network          = hiera('profiles::monitoring::server::bind_network')
+  $nsca_server_listen_networks = hiera_array('profiles::monitoring::server::listen_from_clients_networks', [])
 
   # get the network hostname of current node on the $bind_network
   $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
@@ -45,7 +53,19 @@ class profiles::monitoring::server {
     decrypt_password      => $decrypt_password,
   }
 
-  include '::nscang::server'
+  if size($nsca_server_listen_networks) > 0 {
+    # If listening interfaces are provided add it to the list of listening
+    # addresses in the config (including VIPs)
+    $ip_addrs = hpc_net_ip_addrs($nsca_server_listen_networks, true)
+    $ip = ['127.0.0.1', $ip_addrs]
+
+  } else {
+    $ip = undef
+  }
+
+  class { '::nscang::server' :
+    listen_addresses => $ip,
+  }
   include '::nscang::client'
 
 }
