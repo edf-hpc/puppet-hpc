@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2016 EDF S.A.                                           #
+#  Copyright (C) 2016-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,6 +13,10 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
+
+# @param listen_port TCP port used by the agent (default: 5668)
+# @param listen_addresses Array of IP Addresses the agent should listen on,
+#          if empty, all the interfaces (default: [])
 class nscang::server (
   $install_manage      = $::nscang::server::params::install_manage,
   $packages_manage     = $::nscang::server::params::packages_manage,
@@ -27,6 +31,8 @@ class nscang::server (
   $user                = $::nscang::server::params::user,
   $cmd_file            = $::nscang::server::params::cmd_file,
   $identity            = $::nscang::server::params::identity,
+  $listen_addresses    = $::nscang::server::params::listen_addresses,
+  $listen_port         = $::nscang::server::params::listen_port,
   $password,
 ) inherits nscang::server::params {
 
@@ -34,6 +40,9 @@ class nscang::server (
   validate_bool($packages_manage)
   validate_bool($services_manage)
   validate_bool($config_manage)
+
+  validate_array($listen_addresses)
+  validate_numeric($listen_port)
 
   if $install_manage and $packages_manage {
     validate_array($packages)
@@ -56,6 +65,8 @@ class nscang::server (
     validate_string($identity)
     validate_string($password)
   }
+
+  $_listen_addresses = flatten($listen_addresses)
 
   anchor { 'nscang::server::begin': } ->
   class { '::nscang::server::install': } ->
