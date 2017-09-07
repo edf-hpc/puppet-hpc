@@ -75,6 +75,12 @@ example.
 
 ```
 
+Also supports the same ``style`` parameter as hpclib::print_config.
+
+The parameter ``restart_now`` will restart the unit after defining the
+override, it can be usefull when the unit is not a service that can be
+easily manipulated with puppet.
+
 NB: ``Install`` section options can't be overriden, this is a limitation
 of the drop-in files.
 

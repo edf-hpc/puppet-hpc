@@ -20,21 +20,43 @@
 #
 # @param name Name of the override (ex: 'limits')
 # @param unit_name Full unit name, including type (ex: 'apache2.service')
-# @param content Hash with the content of the file (see `data` parameter
+# @param content Hash or array with the content of the file (see `data` parameter
 #          from hpclib::print_config)
+# @param style Format of the content parameter (see `style` parameter from
+#          hpclib::print_config) (default: ini)
+# @param restart_now Restart the unit after setting the override (default: false)
 define systemd::unit_override (
   $unit_name,
   $content,
+  $style       = 'ini',
+  $restart_now = false,
 ) {
   validate_string($unit_name)
-  validate_hash($content)
+
+  case $style {
+    ini : {
+      validate_hash($content)
+    }
+    keyval : {
+      validate_hash($content)
+    }
+    linebyline : {
+      validate_array($content)
+    }
+    yaml : {
+      validate_hash($content)
+    }
+    default : {
+      fail("The ${style} style is not supported.")
+    }
+  }
 
   ensure_resource(file, "/etc/systemd/system/${unit_name}.d", {ensure => directory,})
 
   $unit_override_file = "/etc/systemd/system/${unit_name}.d/${name}.conf"
 
   hpclib::print_config { $unit_override_file:
-    style  => 'ini',
+    style  => $style,
     data   => $content,
     notify => Exec["unit_override_systemctl_daemon_reload_${unit_name}_${name}"],
   }
@@ -42,6 +64,14 @@ define systemd::unit_override (
   exec { "unit_override_systemctl_daemon_reload_${unit_name}_${name}":
     refreshonly => true,
     command     => '/bin/systemctl daemon-reload',
+  }
+
+  if $restart_now {
+    exec { "unit_override_systemctl_restart_${unit_name}_${name}":
+      refreshonly => true,
+      command     => "/bin/systemctl restart ${unit_name}",
+      subscribe   => Exec["unit_override_systemctl_daemon_reload_${unit_name}_${name}"],
+    }
   }
 
 }
