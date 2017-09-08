@@ -29,8 +29,8 @@ class icinga2::params {
   $config_dir      = '/etc/icinga2'
   $user            = 'nagios'
 
-  $crt_host        = "${config_dir}/pki/${fqdn}.crt"
-  $key_host        = "${config_dir}/pki/${fqdn}.key"
+  $crt_host        = "${config_dir}/pki/${::fqdn}.crt"
+  $key_host        = "${config_dir}/pki/${::fqdn}.key"
   $crt_ca          = "${config_dir}/pki/ca.crt"
 
   $local_defs = [ "${config_dir}/conf.d/hosts",

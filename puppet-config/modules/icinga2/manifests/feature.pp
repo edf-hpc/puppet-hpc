@@ -30,9 +30,9 @@ define icinga2::feature () {
 
     file { $_feature_conf:
       content => template($_template),
-      owner => $::icinga2::user,
-      group => $::icinga2::user,
-      mode  => 0644,
+      owner   => $::icinga2::user,
+      group   => $::icinga2::user,
+      mode    => '0644',
     }
 
   }

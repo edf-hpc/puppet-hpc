@@ -25,7 +25,7 @@ class icinga2::config inherits icinga2 {
       content => template('icinga2/zones.erb'),
       owner   => $::icinga2::user,
       group   => $::icinga2::user,
-      mode    => 0644,
+      mode    => '0644',
     }
 
     create_resources(icinga2::feature, hpc_atoh($::icinga2::features))
