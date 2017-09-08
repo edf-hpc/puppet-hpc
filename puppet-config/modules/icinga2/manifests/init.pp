@@ -160,7 +160,7 @@ class icinga2 (
 
   anchor { 'icinga2::begin': } ->
   class { '::icinga2::install': } ->
-  class { '::icinga2::config': } ->
+  class { '::icinga2::config': } ~>
   class { '::icinga2::service': } ->
   anchor { 'icinga2::end': }
 
