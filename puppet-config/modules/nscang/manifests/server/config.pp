@@ -23,25 +23,23 @@ class nscang::server::config inherits nscang::server {
       $_services = []
     }
 
-    if size($::nscang::server::listen_addresses) > 0 or $::nscang::server::listen_port != $::nscang::server::params::listen_port {
+    if $::nscang::server::listen_address != '0.0.0.0' or $::nscang::server::listen_port != $::nscang::server::params::listen_port {
       # NSCA-ng uses socket activation, the socket is defined in a systemd unit
       # this create an override file if necessary
-      if size($::nscang::server::listen_addresses) > 0 {
-        $suffixed_addrs = suffix($::nscang::server::_listen_addresses, ":${$::nscang::server::listen_port}")
-        $streams = prefix($suffixed_addrs, 'ListenStream=')
+      if $::nscang::server::listen_address != '0.0.0.0' {
+        $stream = "ListenStream=${::nscang::server::listen_address}:${$::nscang::server::listen_port}"
 
       } else {
-        $streams = ["ListenStream=${::nscang::server::listen_port}"]
+        $stream = "ListenStream=${::nscang::server::listen_port}"
 
       }
 
-      $content_header = [
+      $content = [
         '[Socket]',
         'FreeBind=true',
         'ListenStream=',
+        $stream
       ]
-
-      $content = concat($content_header, $streams)
 
       systemd::unit_override{ 'nscang_socket_listen':
         unit_name   => 'nsca-ng-server.socket',

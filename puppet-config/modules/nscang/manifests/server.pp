@@ -15,8 +15,8 @@
 
 
 # @param listen_port TCP port used by the agent (default: 5668)
-# @param listen_addresses Array of IP Addresses the agent should listen on,
-#          if empty, all the interfaces (default: [])
+# @param listen_address IP Address the agent should listen on,
+#          if 0.0.0.0, all the interfaces (default: 0.0.0.0)
 class nscang::server (
   $install_manage      = $::nscang::server::params::install_manage,
   $packages_manage     = $::nscang::server::params::packages_manage,
@@ -31,7 +31,7 @@ class nscang::server (
   $user                = $::nscang::server::params::user,
   $cmd_file            = $::nscang::server::params::cmd_file,
   $identity            = $::nscang::server::params::identity,
-  $listen_addresses    = $::nscang::server::params::listen_addresses,
+  $listen_address      = $::nscang::server::params::listen_address,
   $listen_port         = $::nscang::server::params::listen_port,
   $password,
 ) inherits nscang::server::params {
@@ -41,7 +41,7 @@ class nscang::server (
   validate_bool($services_manage)
   validate_bool($config_manage)
 
-  validate_array($listen_addresses)
+  validate_ip_address($listen_address)
   validate_numeric($listen_port)
 
   if $install_manage and $packages_manage {
@@ -65,8 +65,6 @@ class nscang::server (
     validate_string($identity)
     validate_string($password)
   }
-
-  $_listen_addresses = flatten($listen_addresses)
 
   anchor { 'nscang::server::begin': } ->
   class { '::nscang::server::install': } ->

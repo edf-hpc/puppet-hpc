@@ -29,7 +29,7 @@ class nscang::server::params {
   $identity        = 'agent-checker'
   $cmd_file        = '/var/run/icinga2/cmd/icinga2.cmd'
 
-  $listen_addresses = []
+  $listen_address   = '0.0.0.0'
   $listen_port      = '5668'
 
   # There is not any sane and secure possible default values for the following
