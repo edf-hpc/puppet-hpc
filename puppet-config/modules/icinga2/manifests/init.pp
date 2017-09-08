@@ -140,9 +140,11 @@ class icinga2 (
       $_bind_host_conf = {}
     }
 
-    $_features_conf = deep_merge($::icinga2::params::features_conf,
-                                 $_bind_host_conf,
-                                 $features_conf)
+    $_bind_host_merged_conf = deep_merge( $::icinga2::params::features_conf,
+                                          $_bind_host_conf)
+
+    $_features_conf = deep_merge( $_bind_host_merged_conf,
+                                  $features_conf)
   }
 
   # certificates are usefull only if api feature is enable

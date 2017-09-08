@@ -20,7 +20,7 @@
 #####################################################################
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 #####################################################################
-<% conf = @features_conf['api'] %>
+<% conf = @_features_conf['api'] %>
 
 object ApiListener "api" {
   cert_path = SysconfDir + "/icinga2/pki/" + NodeName + ".crt"
@@ -29,4 +29,5 @@ object ApiListener "api" {
 
   accept_commands = <%= conf['accept_commands'] %>
   accept_config   = <%= conf['accept_config'] %>
+  bind_host       = "<%= conf['bind_host'] %>"
 }
