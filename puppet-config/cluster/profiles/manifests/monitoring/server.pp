@@ -17,22 +17,22 @@
 # Setup a monitoring server (icinga satellite and nscang server)
 #
 # #Hiera
-# * `profiles::monitoring::server::listen_from_clients_networks` (`hiera_array`)
-#     List of networks the agent receiving notifications from client should listen
-#     on, if the list is empty, all interfaces (default: []).
+# * `profiles::monitoring::server::listen_from_clients_host` (`hiera_array`)
+#     Address the agent receiving notifications from client should listen
+#     on, if 0.0.0.0 all interfaces (default: 0.0.0.0).
 class profiles::monitoring::server {
 
-  $packages              = hiera_array('profiles::monitoring::server::packages', [])
-  $features              = hiera_array('profiles::monitoring::server::features', [])
-  $features_conf         = hiera_hash('profiles::monitoring::features_conf', {})
-  $zones                 = hiera_hash('profiles::monitoring::server::zones', {})
-  $endpoints             = hiera_hash('profiles::monitoring::server::endpoints', {})
-  $idents                = hiera_hash('profiles::monitoring::server::idents', {})
-  $decrypt_password      = hiera('icinga2::decrypt_passwd')
-  $notif_script_conf     = hiera('profiles::monitoring::server::notif_script_conf')
-  $notif_script_conf_src = hiera('profiles::monitoring::server::notif_script_conf_src')
-  $bind_network          = hiera('profiles::monitoring::server::bind_network')
-  $nsca_server_listen_networks = hiera_array('profiles::monitoring::server::listen_from_clients_networks', [])
+  $packages                = hiera_array('profiles::monitoring::server::packages', [])
+  $features                = hiera_array('profiles::monitoring::server::features', [])
+  $features_conf           = hiera_hash('profiles::monitoring::features_conf', {})
+  $zones                   = hiera_hash('profiles::monitoring::server::zones', {})
+  $endpoints               = hiera_hash('profiles::monitoring::server::endpoints', {})
+  $idents                  = hiera_hash('profiles::monitoring::server::idents', {})
+  $decrypt_password        = hiera('icinga2::decrypt_passwd')
+  $notif_script_conf       = hiera('profiles::monitoring::server::notif_script_conf')
+  $notif_script_conf_src   = hiera('profiles::monitoring::server::notif_script_conf_src')
+  $bind_network            = hiera('profiles::monitoring::server::bind_network')
+  $nsca_server_listen_host = hiera('profiles::monitoring::server::listen_from_clients_host', '0.0.0.0')
 
   # get the network hostname of current node on the $bind_network
   $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
@@ -53,18 +53,19 @@ class profiles::monitoring::server {
     decrypt_password      => $decrypt_password,
   }
 
-  if size($nsca_server_listen_networks) > 0 {
-    # If listening interfaces are provided add it to the list of listening
-    # addresses in the config (including VIPs)
-    $ip_addrs = hpc_net_ip_addrs($nsca_server_listen_networks, true)
-    $ip = ['127.0.0.1', $ip_addrs]
+  if $nsca_server_listen_host != '0.0.0.0' {
+    if is_ip_address($nsca_server_listen_host) {
+      $ip_addr = $nsca_server_listen_host
+    } else {
+      $ip_addr = $::hostfile[$nsca_server_listen_host]
+    }
 
   } else {
-    $ip = undef
+    $ip_addr = undef
   }
 
   class { '::nscang::server' :
-    listen_addresses => $ip,
+    listen_address => $ip_addr,
   }
   include '::nscang::client'
 
