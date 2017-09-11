@@ -676,7 +676,7 @@ profiles::monitoring::server::listen_from_clients_host: "%{hiera('nscang_server'
 # do no support binding multiple networks.
 profiles::monitoring::server::bind_network:             ''
 
-scang::server::identity: "%{hiera('nscang_identity')}"
+nscang::server::identity: "%{hiera('nscang_identity')}"
 nscang::server::password: "%{hiera('nscang_password')}"
 
 nscang::client::server:   "%{hiera('nscang_server')}"
