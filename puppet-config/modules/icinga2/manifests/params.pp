@@ -50,9 +50,9 @@ class icinga2::params {
   # features specific params
   $features_conf = {
     'api' => {
-      'allow_commands' => false,
-      'allow_config'   => false,
-      'bind_host'      => $::hostname,
+      'accept_commands' => false,
+      'accept_config'   => false,
+      'bind_host'       => '0.0.0.0',
     }
   }
 
