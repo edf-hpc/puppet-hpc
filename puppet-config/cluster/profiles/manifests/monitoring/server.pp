@@ -17,6 +17,9 @@
 # Setup a monitoring server (icinga satellite and nscang server)
 #
 # #Hiera
+# * `profiles::monitoring::server::bind_network` Network the monitoring
+#     service should be bound to, leave empty ('') to use all networks
+#     (default: '')
 # * `profiles::monitoring::server::listen_from_clients_host` (`hiera_array`)
 #     Address the agent receiving notifications from client should listen
 #     on, if 0.0.0.0 all interfaces (default: 0.0.0.0).
@@ -31,11 +34,15 @@ class profiles::monitoring::server {
   $decrypt_password        = hiera('icinga2::decrypt_passwd')
   $notif_script_conf       = hiera('profiles::monitoring::server::notif_script_conf')
   $notif_script_conf_src   = hiera('profiles::monitoring::server::notif_script_conf_src')
-  $bind_network            = hiera('profiles::monitoring::server::bind_network')
+  $bind_network            = hiera('profiles::monitoring::server::bind_network', '')
   $nsca_server_listen_host = hiera('profiles::monitoring::server::listen_from_clients_host', '0.0.0.0')
 
-  # get the network hostname of current node on the $bind_network
-  $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
+  if $bind_network != '' {
+    # get the network hostname of current node on the $bind_network
+    $bind_host = $::mymasternet['networks'][$bind_network]['hostname']
+  } else {
+    $bind_host = '0.0.0.0'
+  }
 
   class { '::icinga2':
     packages      => $packages,
