@@ -27,15 +27,21 @@
 # @param admin_node Name of the node that can get stats from the tracker
 # @param tracker_nodes Array with the name of all the tracker nodes (this one
 #          included)
+# @param listen_ip_addresses Array of IP addresses Opentracker should bind,
+#          (default: ['0.0.0.0'])
+# @param port Port to listen to (default: 6969)
+#
 class opentracker (
-  $packages                     = $opentracker::params::packages,
-  $packages_ensure              = $opentracker::params::packages_ensure,
-  $default_file                 = $opentracker::params::default_file,
-  $config_dir                   = $opentracker::params::config_dir,
-  $config_file                  = $opentracker::params::config_file,
-  $opentracker_default_options  = $opentracker::params::opentracker_default_options,
-  $systemd_service_file         = $opentracker::params::systemd_service_file,
-  $systemd_service_file_options = $opentracker::params::systemd_service_file_options,
+  $packages                     = $::opentracker::params::packages,
+  $packages_ensure              = $::opentracker::params::packages_ensure,
+  $default_file                 = $::opentracker::params::default_file,
+  $config_dir                   = $::opentracker::params::config_dir,
+  $config_file                  = $::opentracker::params::config_file,
+  $opentracker_default_options  = $::opentracker::params::opentracker_default_options,
+  $systemd_service_file         = $::opentracker::params::systemd_service_file,
+  $systemd_service_file_options = $::opentracker::params::systemd_service_file_options,
+  $listen_ip_addresses          = $::opentracker::params::listen_ip_addresses,
+  $port                         = $::opentracker::params::port,
   $admin_node,
   $tracker_nodes,
 ) inherits opentracker::params {
@@ -50,10 +56,12 @@ class opentracker (
   validate_array($tracker_nodes)
   validate_absolute_path($systemd_service_file)
   validate_hash($systemd_service_file_options)
+  validate_array($listen_ip_addresses)
+  validate_string($port)
 
   anchor { 'opentracker::begin': } ->
   class { '::opentracker::install': } ->
-  class { '::opentracker::config': } ->
+  class { '::opentracker::config': } ~>
   class { '::opentracker::service': } ->
   anchor { 'opentracker::end': }
 

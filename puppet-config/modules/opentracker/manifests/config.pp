@@ -25,6 +25,8 @@ class opentracker::config inherits opentracker {
     ensure => directory,
   }
 
+  $_listen_ip_addresses = flatten($::opentracker::listen_ip_addresses)
+  $port = $::opentracker::port
   file { $::opentracker::config_file :
     ensure  => present,
     content => template('opentracker/opentracker_conf.erb'),

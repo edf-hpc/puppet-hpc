@@ -1,7 +1,7 @@
 <% ########################################################################## -%>
 <% #  Puppet configuration file                                             # -%>
 <% #                                                                        # -%>
-<% #  Copyright (C) 2014-2015 EDF S.A.                                      # -%>
+<% #  Copyright (C) 2014-2017 EDF S.A.                                      # -%>
 <% #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           # -%>
 <% #                                                                        # -%>
 <% #  This program is free software; you can redistribute in and/or         # -%>
@@ -20,8 +20,15 @@
 #####################################################################
 # TEMPLATE: {<%= @name %>}/<%= File.basename(__FILE__) %>}
 #####################################################################
+<%
+  trackers = @tracker_nodes
+  listen_ip_addresses = @_listen_ip_addresses
+  port = @port
+
+  listen_ip_addresses.each do |ip_address| -%>
+listen.tcp <%= ip_address %>:<%= port %>
+<% end -%>
 access.stats <%= @hostfile[@admin_node].to_s %>
-<% trackers = @tracker_nodes -%>
 livesync.cluster.listen <%= @hostfile[@hostname].to_s %>:9696
 <% trackers.each do | tracker | -%>
 livesync.cluster.node_ip <%= @hostfile[tracker].to_s %>

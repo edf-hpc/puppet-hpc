@@ -26,8 +26,10 @@ class opentracker::params {
   #### Defaults values
   $opentracker_default_options = {
     'CONF_FILE' => "${config_dir}/${config_file}",
-    'PORT' => 6881,
   }
+
+  $listen_ip_addresses = [ '0.0.0.0' ]
+  $listen_port         = '6969'
 
   $systemd_service_file         = '/etc/systemd/system/opentracker.service'
   $systemd_service_file_options = {
@@ -38,7 +40,7 @@ class opentracker::params {
     },
     'Service' => {
       'EnvironmentFile'     => '-/etc/default/opentracker',
-      'ExecStart'           => '/usr/bin/opentracker -f $CONF_FILE -p $PORT',
+      'ExecStart'           => '/usr/bin/opentracker -f $CONF_FILE',
       'KillMode'            => 'process',
       'Restart'             => 'on-failure',
     },
