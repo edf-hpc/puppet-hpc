@@ -368,6 +368,7 @@ profiles::jobsched::slurm_config_options:
   JobAcctGatherFrequency:      "60"
   ReturnToService:             "2"
   GresTypes:                   "gpu"
+  TopologyParam:               "NoCtldInAddrAny,NoInAddrAny"
 profiles::jobsched::server::ceph::enabled: true
 
 ##### Slurm DBD database
