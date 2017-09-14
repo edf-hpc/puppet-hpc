@@ -323,6 +323,8 @@ profiles::p2p::tracker_path: "%{hiera('profiles::http::diskless::docroot')}"
 # for historical reasons
 opentracker::port: '6881'
 
+profiles::p2p::seeder::listen_network: "administration"
+
 ##### Munge
 munge::auth_key_source: "%{hiera('private_files_dir')}/munge/munge.key.enc"
 munge::decrypt_passwd:  "%{hiera('cluster_decrypt_password')}"
