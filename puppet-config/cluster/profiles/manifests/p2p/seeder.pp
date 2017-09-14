@@ -25,15 +25,37 @@
 #
 # ## Hiera
 # * `cluster`
-# * `profiles::p2p::seeder::ctorrent_options`
+# * `profiles::p2p::seeder::ctorrent_options` (`hiera_hash`)
+# * `profiles::p2p::seeder::listen_network` Name of the network the seeder will
+#      listen on. Only one network is permitted. If '' will listen on all
+#      interfaces (default: '')
 class profiles::p2p::seeder {
 
   ## Hiera lookups
   $cluster          = hiera('cluster_name')
-  $ctorrent_options = hiera('profiles::p2p::seeder::ctorrent_options')
+  $ctorrent_options = hiera_hash('profiles::p2p::seeder::ctorrent_options')
+  $listen_network   = hiera('profiles::p2p::seeder::listen_network', '')
+
+  if $listen_network != '' {
+    $ip_addresses = hpc_net_ip_addrs($listen_network)
+    $listen_ip_address = $ip_addresses[0]
+
+    if has_key($ctorrent_options, 'misc_options') {
+      $base_misc_options = $ctorrent_options['misc_options']
+    } else {
+      $base_misc_options = ''
+    }
+    $ctorrent_options_listen = {
+      'misc_options' => "${base_misc_options} -i ${listen_ip_address}"
+    }
+  } else {
+    $ctorrent_options_listen = {}
+  }
+
+  $ctorrent_options_final = merge($ctorrent_options, $ctorrent_options_listen)
 
   class { '::ctorrent':
     cluster          => $cluster,
-    ctorrent_options => $ctorrent_options,
+    ctorrent_options => $ctorrent_options_final,
   }
 }
