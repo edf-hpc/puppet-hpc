@@ -36,8 +36,8 @@
 
 class profiles::p2p::tracker {
   $listen_networks = hiera_array('profiles::p2p::tracker::listen_networks')
-  $admin_node    = $hosts_by_role['admin'][0]
-  $tracker_nodes = $hosts_by_role["$my_p2p_tracker"]
+  $admin_node    = $::hosts_by_role['admin'][0]
+  $tracker_nodes = $::hosts_by_role["$my_p2p_tracker"]
 
   if size($listen_networks) > 0 {
     # If listening interfaces are provided add it to the list of listening
