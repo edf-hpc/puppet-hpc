@@ -18,16 +18,47 @@
 # ## Hiera
 # * `profiles::postfix::relay::config_options`
 # * `net_topology`
+# * `profiles::postfix::relay::listen_networks` (`hiera_array`) List of
+#     networks the postfix master should listen on, leave the default
+#     if ommited or empty.
 class profiles::postfix::relay {
 
   ## Hiera lookups
-  $options      = hiera_hash('profiles::postfix::relay::config_options')
-  $net_topology = hiera_hash('net_topology')
-  $network      = "${net_topology['administration']['ipnetwork']}${net_topology['administration']['prefix_length']}"
+  $options         = hiera_hash('profiles::postfix::relay::config_options')
+
+  # Derfine inet_interfaces
+  $listen_networks = hiera_array('profiles::postfix::relay::listen_networks', [])
+  if size($listen_networks) > 0 {
+    # If listening interfaces are provided add it to the list of listening
+    # addresses in the config (including VIPs)
+    $ip_addrs = hpc_net_ip_addrs($listen_networks, true)
+    $ip = concat(['127.0.0.1'], $ip_addrs)
+
+    ## Sysctl setup
+    # We need a sysctl to enable the ip_nonlocal_bind that will permit
+    # apache to bind the VIP on de failover node
+    kernel::sysctl { 'profiles_postfix_relay':
+      params => {
+        'net.ipv4.ip_nonlocal_bind' => '1',
+      },
+    }
+
+    $listen_options_snippet = {
+      'inet_interfaces' => join($ip, ',')
+    }
+
+  } else {
+    $listen_options_snippet = {}
+  }
+  $listen_options = deep_merge($options, $listen_options_snippet)
+
+  # Define mynetworks
+  $net_topology    = hiera_hash('net_topology')
+  $network         = "${net_topology['administration']['ipnetwork']}${net_topology['administration']['prefix_length']}"
   $net_options     = {
     mynetworks => "${network} 127.0.0.0/8",
   }
-  $full_options = merge($options,$net_options)
+  $full_options = deep_merge($listen_options, $net_options)
 
   # Pass config options as a class parameter
   class { '::postfix':
