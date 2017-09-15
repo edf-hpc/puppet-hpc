@@ -163,6 +163,9 @@ profiles::postfix::relay::config_options:
   myhostname:          "%{hostname}"
   mydomain:            "%{hiera('domain')}"
 
+profiles::postfix::relay::listen_networks:
+  - "administration"
+
 ##### TFTP
 # This shared parameter is not used in this layer of the hieradata but it is
 # proven to be useful in upper layers.
