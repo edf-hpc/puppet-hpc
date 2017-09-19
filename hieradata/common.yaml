@@ -691,19 +691,24 @@ nscang::client::identity: "%{hiera('nscang_identity')}"
 nscang::client::password: "%{hiera('nscang_password')}"
 
 ##### Logs
+log_server_host: "%{hiera('cluster_prefix')}%{::my_log_server}"
+
 profiles::log::client::protocol:       'relp'
-profiles::log::client::host:           "%{hiera('cluster_prefix')}%{::my_log_server}"
+profiles::log::client::host:           "%{hiera('log_server_host')}"
 profiles::log::client::port:           '20514'
 profiles::log::client::remote_servers: []
 rsyslog::client::spool_size:           '200m'
 rsyslog::client::log_local:            true
 # not used directly but needed to load the relp module
 rsyslog::client::remote_type:          'relp'
+
+profiles::log::server::listen_address:  "%{hiera('log_server_host')}"
 # This log_server_dir shared parameter is used only once in this hiera layer but
 # has proven to be useful in uper layers, typically to define logrotate rules.
-log_server_dir:                     "%{hiera('admin_dir')}/restricted/logs"
-rsyslog::server::server_dir:        "%{hiera('log_server_dir')}/"
-rsyslog::server::custom_config:     'rsyslog/server-hostname.conf.erb'
+log_server_dir:                         "%{hiera('admin_dir')}/restricted/logs"
+rsyslog::server::server_dir:            "%{hiera('log_server_dir')}/"
+rsyslog::server::custom_config:         'rsyslog/server-hostname.conf.erb'
+
 
 ##### Metrics #####
 profiles::metrics::relay::listen_address: "%{hiera('cluster_prefix')}%{::my_metrics_relay}"
