@@ -20,14 +20,33 @@
 #   (default: {})
 # * `profiles::log::server::service_override` Hash of systemd service override
 #   definition (default: {})
+# * `profiles::log::server::listen_address` Address the syslog server
+#     server will listen on, only works for UDP (default: '0.0.0.0')
 class profiles::log::server {
 
   ## Hiera lookups
 
   $logrotate_rules = hiera_hash('profiles::log::server::logrotate_rules', {})
   $service_override = hiera_hash('profiles::log::server::service_override', {})
+  $listen_address = hiera('profiles::log::server::listen_address', '0.0.0.0')
+  if $listen_address == '0.0.0.0' {
+    $listen_address_actual = undef
+  } else {
+    $listen_address_actual = $listen_address
 
-  include ::rsyslog::server
+    ## Sysctl setup
+    # We need a sysctl to enable the ip_nonlocal_bind that will permit
+    # carbon-c-relay to bind the VIP on the failover node
+    kernel::sysctl { 'profiles_log_server':
+      params => {
+        'net.ipv4.ip_nonlocal_bind' => '1',
+      },
+    }
+  }
+
+  class { '::rsyslog::server':
+    address => $listen_address_actual,
+  }
 
   class { '::hpc_rsyslog::server':
     logrotate_rules  => $logrotate_rules,
