@@ -44,6 +44,15 @@ class profiles::p2p::tracker {
     # addresses in the config (including VIPs)
     $ip = hpc_net_ip_addrs($listen_networks, true)
 
+    ## Sysctl setup
+    # We need a sysctl to enable the ip_nonlocal_bind that will permit
+    # apache to bind the VIP on de failover node
+    kernel::sysctl { 'profiles_p2p_opentracker':
+      params => {
+        'net.ipv4.ip_nonlocal_bind' => '1',
+      },
+    }
+
   } else {
     $ip = undef
 
