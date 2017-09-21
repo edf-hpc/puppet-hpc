@@ -20,7 +20,8 @@
 # * `net_topology`
 # * `profiles::postfix::relay::listen_networks` (`hiera_array`) List of
 #     networks the postfix master should listen on, leave the default
-#     if ommited or empty.
+#     if ommited or empty. Do NOT include the VIPs, so don't use it if
+#     one of the client is supposed to use a VIP to contact this server.
 class profiles::postfix::relay {
 
   ## Hiera lookups
@@ -30,18 +31,10 @@ class profiles::postfix::relay {
   $listen_networks = hiera_array('profiles::postfix::relay::listen_networks', [])
   if size($listen_networks) > 0 {
     # If listening interfaces are provided add it to the list of listening
-    # addresses in the config (including VIPs)
+    # addresses in the config. VIP are not included because postfix
+    # can't start if one of the IP addresses does not exists.
     $ip_addrs = hpc_net_ip_addrs($listen_networks, true)
     $ip = concat(['127.0.0.1'], $ip_addrs)
-
-    ## Sysctl setup
-    # We need a sysctl to enable the ip_nonlocal_bind that will permit
-    # apache to bind the VIP on de failover node
-    kernel::sysctl { 'profiles_postfix_relay':
-      params => {
-        'net.ipv4.ip_nonlocal_bind' => '1',
-      },
-    }
 
     $listen_options_snippet = {
       'inet_interfaces' => join($ip, ',')
