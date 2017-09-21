@@ -23,7 +23,7 @@ class xorg::params {
     },
     'Service' => {
       'Type'        => 'simple',
-      'ExecStart'   => '/usr/bin/Xorg -config /etc/X11/xorg%i.conf -sharevts :%i',
+      'ExecStart'   => '/usr/bin/Xorg -config /etc/X11/xorg%i.conf -sharevts :%i -nolisten tcp -nolisten tcp6',
     },
     'Install' => {
       'WantedBy'    => 'multi-user.target',
