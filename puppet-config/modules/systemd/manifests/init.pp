@@ -39,8 +39,8 @@ class systemd (
     #  { $param1 => { value => $value1 },
     #    $param2 => { value => $value2 }, }
 
-    $_system_manager_options = hpc_hmap($system_manager_options,
-                                        'value')
+    $_system_manager_options = hpc_hmap($system_manager_options, 'value')
+
   }
 
   anchor { 'systemd::begin': } ->

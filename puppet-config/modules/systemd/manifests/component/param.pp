@@ -13,8 +13,9 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-define systemd::manager::param (
+define systemd::component::param (
   $value,
+  $component = 'system',
 ) {
 
   # Many augeas commands combinations have been tried before using file_line,
@@ -50,9 +51,9 @@ define systemd::manager::param (
   # works nicely in this file since there is only one section ([Manager]) and
   # the parameters can appear only once.
 
-  file_line { "systemd-system-manager-${name}":
+  file_line { "systemd-${component}-${name}":
     ensure => present,
-    path   => '/etc/systemd/system.conf',
+    path   => "/etc/systemd/${component}.conf",
     line   => "${name}=${value}",
     match  => "^.*${name}.*",
   }

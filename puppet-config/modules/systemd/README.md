@@ -18,6 +18,7 @@ This module provides some classes and types that extends the basic
 interface provided by the systemd backend of the `service` resource.
 It can also configures some other features of systemd:
  - systemd itself
+ - journald
  - module loading during boot
 
 ## Setup
@@ -42,6 +43,18 @@ Can be used to set systemd options in ``/etc/systemd/systemd.conf``.
 class { '::systemd':
   system_manager_options => {
     'ShutdownWatchdogSec' => '0',
+  }
+}
+```
+
+### Class: ``systemd::journald``
+
+Can be used to set systemd options in ``/etc/systemd/journald.conf``.
+
+```
+class { '::systemd::journald':
+  config_options => {
+    'ForwardToWall' => 'no',
   }
 }
 ```

@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2016 EDF S.A.                                           #
+#  Copyright (C) 2016-2017 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -13,12 +13,12 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class systemd::config inherits systemd {
+class systemd::journald::config inherits ::systemd::journald {
 
-  if $::systemd::config_manage {
-    $defaults_system = { 'component' => 'system' }
+  if $::systemd::journald::config_manage {
+    $defaults_journald = { 'component' => 'journald' }
     create_resources( systemd::component::param,
-                      $::systemd::_system_manager_options,
-          $defaults_system)
+                      $::systemd::journald::_config_options,
+          $defaults_journald)
   }
 }
