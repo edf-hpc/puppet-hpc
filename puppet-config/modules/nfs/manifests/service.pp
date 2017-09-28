@@ -26,4 +26,21 @@ class nfs::service inherits nfs {
     }
   }
 
+  # This is a workaround for what is (arguably) a bug in nfs-common sysv
+  # initscript on Debian.
+  # The default value for NEED_STATD in nfs-commob is yes. When setting it to
+  # 'no' and restarting nfs-common service (ie. the sequence run by default with
+  # this module on a fresh system), the initscript does not check if the statd
+  # daemon was previously launched and does not even try to stop it. This is
+  # particularly annoying on diskless nodes where only one Puppet run must
+  # result on the targeted configuration. To workaround this, if NEED_STATD is
+  # no and the rpc.statd is running, the daemon is explicitely stopped.
+  if $::osfamily == 'Debian' and
+     dig($::nfs::_default_options, ['NEED_STATD']) == 'no' {
+    exec { 'stop-rpcbind':
+      command => '/sbin/start-stop-daemon --stop --name rpc.statd',
+      onlyif => '/usr/bin/pgrep rpc.statd'
+    }
+  }
+
 }
