@@ -20,9 +20,20 @@ class nfs::service inherits nfs {
   }
 
   if $::nfs::disable_rpcbind {
+    # Stopping/disabling the service is not enough as it is required as a
+    # dependency for many other services through the $portmap feature (ex:
+    # quotarpc, nfs-common). If Puppet ensures the service is stopped at boot
+    # time but it is started by another service later in the boot sequence, the
+    # service is finally started. The solution to this is to _mask_ the service
+    # and then stop it. This way, later start tries by other services will fail
+    # gracefully.
     service { $::nfs::service_rpcbind:
-      ensure => stopped,
-      enable => false,
+      ensure  => stopped,
+      enable  => false,
+      require => Systemd::Unit_state[$::nfs::service_rpcbind],
+    }
+    systemd::unit_state { $::nfs::service_rpcbind:
+      state => 'masked',
     }
   }
 
