@@ -20,6 +20,8 @@
 # @param dport Destination port
 # @param sport Source port
 # @param origdest Original destination address (for NAT)
+# @param rate The rate limit, eg: 10/sec
+# @param user The users/groups of the original program, eg: joe,:students
 # @param rule The full Shorewall rule as a string, if defined all parameters
 #          except order and comment are ignored
 # @param order Order of the rule in the configuration file
@@ -32,6 +34,8 @@ define shorewall::rule (
   $dport    = '-',
   $sport    = '-',
   $origdest = '-',
+  $rate     = '-',
+  $user     = '-',
   $rule     = undef,
   $order    = '0',
   $comment  = '',
@@ -42,7 +46,7 @@ define shorewall::rule (
   if $rule {
     $_rule = $rule
   } else {
-    $_rule = "${action} ${source} ${dest} ${proto} ${dport} ${sport} ${origdest}"
+    $_rule = "${action} ${source} ${dest} ${proto} ${dport} ${sport} ${origdest} ${rate} ${user}"
   }
 
   concat::fragment { "shorewall_rules_rule_${name}":
