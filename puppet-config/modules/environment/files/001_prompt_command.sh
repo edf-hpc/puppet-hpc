@@ -19,12 +19,13 @@
 
 tty=`tty`
 case "$tty" in
-	/dev/pts/*)	
+  /dev/pts/*)	
     TTY=`echo $tty | sed 's:/dev/::;s:/::'`
-	  PROMPT_COMMAND='echo -ne "\033]0;[${USER}-${HOSTNAME%%.*}-$TTY] ${PWD/#$HOME/~}\007"'
-		;;
+    PROMPT_COMMAND='echo -ne "\033]0;[${USER}-${HOSTNAME%%.*}-$TTY] ${PWD/#$HOME/~}\007"'
+    ;;
 
-	*)		;;
+  *)
+    ;;
 esac
 
 #
@@ -44,7 +45,7 @@ then
     logger -p '${log_facility}.info' -t "$USER[$$] $SSH_CONNECTION" "No history file '${HISTFILE}', can't log user commands for this shell."
   else
     log_facility="${LOG_COMMANDS_FACILITY:-local6}"
-    log_command="history -a >(tee -a ${HISTFILE} | logger -p '${log_facility}.info' -t \"\$USER[\$$] \$SSH_CONNECTION\")"
+    log_command="history -a >(tee -a ${HISTFILE} | logger -p '${log_facility}.info' -t \"\$USER[\$$] \$SSH_CONNECTION\$(if [ -n \$SUDO_USER ] ; then echo \" sudo_user=\$SUDO_USER[\$PPID]\" ; fi)\")"
     if [ -n "${PROMPT_COMMAND}" ]
     then
       PROMPT_COMMAND="${PROMPT_COMMAND};${log_command}"
