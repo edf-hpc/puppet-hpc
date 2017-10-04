@@ -18,7 +18,7 @@ class fca::params {
   $install_manage  = true
   $packages_manage = true
   $packages_ensure = 'present'
-  $packages        = [ 'fca' ]
+  $packages        = [ 'fca', 'fca-health-checker' ]
 
   $service_manage  = true
   $service_name    = 'fca'
