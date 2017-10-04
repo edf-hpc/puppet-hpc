@@ -189,6 +189,7 @@ profiles::openssh::server::config_augeas:
   - 'set AcceptEnv/2 LC_*'
   - 'set AcceptEnv/3 SLURM_*'
   - 'set AcceptEnv/4 SCRATCHDIR'
+  - 'set AcceptEnv/5 SUDO_*'
 
 openssh::server::hostkeys_source_dir: "%{hiera('private_files_dir')}/hostkeys"
 openssh::server::decrypt_passwd:      "%{hiera('cluster_decrypt_password')}"
@@ -204,6 +205,7 @@ profiles::openssh::client::config_augeas:
   - 'set SendEnv/2 LC_*'
   - 'set SendEnv/3 SLURM_*'
   - 'set SendEnv/4 SCRATCHDIR'
+  - 'set SendEnv/5 SUDO_*'
 
 profiles::openssh::client::identities:
   '/root/.ssh/id_rsa_root':
