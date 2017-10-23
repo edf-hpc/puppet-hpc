@@ -710,7 +710,10 @@ profiles::log::server::listen_address:  "%{hiera('log_server_host')}"
 log_server_dir:                         "%{hiera('admin_dir')}/restricted/logs"
 rsyslog::server::server_dir:            "%{hiera('log_server_dir')}/"
 rsyslog::server::custom_config:         'rsyslog/server-hostname.conf.erb'
-
+rsyslog::server::log_templates:
+  - name: 'FileFormatWithPri'
+    template: '%TIMESTAMP:::date-rfc3339% %HOSTNAME% %pri-text% %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n'
+rsyslog::server::actionfiletemplate:    'FileFormatWithPri'
 
 ##### Metrics #####
 profiles::metrics::relay::listen_address: "%{hiera('cluster_prefix')}%{::my_metrics_relay}"
