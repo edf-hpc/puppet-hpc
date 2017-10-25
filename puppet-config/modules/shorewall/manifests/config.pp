@@ -33,6 +33,7 @@ class shorewall::config inherits shorewall {
     incl    => $::shorewall::config_file,
     changes => [
       "set IP_FORWARDING ${ip_forwarding_str}",
+      "set LOG_MARTIANS No",
     ],
   }
 
