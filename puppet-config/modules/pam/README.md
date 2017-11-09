@@ -98,10 +98,11 @@ directories (home and scratch) when a user logs in for the first time.
 With its default arguments, this module sets directories to be owned by
 ``root:root`` with an POSIX ACL to authorize the user to write in the directory.
 This forbids the user to modify permission for his own home directory. The
-module accepts the ``noacl`` argument to behave like more classical mkhomedir
+module accepts the ``acl=False`` argument to behave like more classical mkhomedir
 module: the owner of the directories (home and scratch) is the user and the
 group is the primary group of the user, without POSIX ACL involved. This
-argument can be set using ``::pam::mkhomedir::mkhomedir_args`` array.
+argument can be set in the configuration file using 
+``::pam::mkhomedir::config_options`` hash.
 
 ```
 include ::pam::mkhomedir

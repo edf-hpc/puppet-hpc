@@ -25,8 +25,7 @@ class pam::mkhomedir::config inherits pam::mkhomedir {
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
-    arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
-                        $::pam::mkhomedir::mkhomedir_args),
+    arguments => $::pam::mkhomedir::mkhomedir_file,
     position  => 'before #comment[ . = "end of pam-auth-update config" ]'
   }
 
@@ -37,12 +36,15 @@ class pam::mkhomedir::config inherits pam::mkhomedir {
     type      => 'session',
     control   => 'required',
     module    => 'pam_python.so',
-    arguments => concat([ $::pam::mkhomedir::mkhomedir_file ],
-                        $::pam::mkhomedir::mkhomedir_args),
+    arguments => $::pam::mkhomedir::mkhomedir_file,
     position  => 'before #comment[ . = "end of pam-auth-update config" ]'
   }
 
   Package<| |> -> Pam['pam_mkhomedir_common_session']
   Package<| |> -> Pam['pam_mkhomedir_common_session_noninteractive']
 
+  hpclib::print_config{ $::pam::mkhomedir::config_file:
+    style => 'ini',
+    data  => $::pam::mkhomedir::config_options,
+  }
 }

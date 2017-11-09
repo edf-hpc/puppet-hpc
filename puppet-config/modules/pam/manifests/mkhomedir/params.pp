@@ -16,8 +16,9 @@
 class pam::mkhomedir::params {
 
   $packages_ensure    = 'present'
-  $packages           = ['libpam-mkhomedir-hpc']
+  $packages           = ['libpam-mkhomedir-scibian']
   $mkhomedir_file     = '/usr/share/pam/pam_mkhomedir.py'
-  $mkhomedir_args     = []
+  $config_file        = '/etc/pam_mkhomedir.ini'
+  $config_options     = hiera_hash('profiles::pam::mkhomedir::config_options')
 
 }

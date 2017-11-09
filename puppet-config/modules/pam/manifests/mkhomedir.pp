@@ -21,18 +21,22 @@
 # @param packages_ensure  Ensures the packages are in this state (default:
 #                         'present)
 # @param packages         List of packages to install
-# @param mkhomedir_args   Arguments given to the Python PAM module script
-#                         (default: '')
+# @param config_file      Configuration filename for the Python PAM module
+#                         script (default: /etc/pam_mkhomedir.ini)
+# @param config_options   Content of config_file
+#
 class pam::mkhomedir (
   $packages_ensure  = $::pam::mkhomedir::params::packages_ensure,
   $packages         = $::pam::mkhomedir::params::packages,
-  $mkhomedir_args   = $::pam::mkhomedir::params::mkhomedir_args,
+  $config_file      = $::pam::mkhomedir::params::config_file,
+  $config_options   = $::pam::mkhomedir::params::config_options
 ) inherits pam::mkhomedir::params {
   require ::pam
 
   validate_string($packages_ensure)
   validate_array($packages)
-  validate_array($mkhomedir_args)
+  validate_absolute_path($config_file)
+  validate_hash($config_options)
 
   anchor { 'pam::mkhomedir::begin': } ->
   class { '::pam::mkhomedir::install': } ->
