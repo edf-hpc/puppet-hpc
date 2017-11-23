@@ -22,5 +22,14 @@ class singularity::config inherits singularity {
     }
   }
 
+  if $::singularity::envinit_manage {
+    hpclib::hpc_file{ $::singularity::envinit_file:
+      source => $::singularity::envinit_source,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',
+    }
+  }
+
 }
 

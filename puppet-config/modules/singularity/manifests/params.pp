@@ -18,4 +18,9 @@ class singularity::params {
   $packages = ['singularity-container']
   $config_file = '/etc/singularity/singularity.conf'
   $config_options = []
+
+  $envinit_manage = true
+  $envinit_file   = '/etc/singularity/init'
+  $envinit_source = 'singularity/init'
+
 }

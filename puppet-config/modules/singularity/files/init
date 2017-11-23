@@ -1,0 +1,45 @@
+##########################################################################
+#  Singuarity Env init override                                          #
+#                                                                        #
+#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
+#                                                                        #
+#  This program is free software; you can redistribute in and/or         #
+#  modify it under the terms of the GNU General Public License,          #
+#  version 2, as published by the Free Software Foundation.              #
+#  This program is distributed in the hope that it will be useful,       #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#  GNU General Public License for more details.                          #
+##########################################################################
+# Default init override from the puppet-hpc singularity module.
+
+# This will be sourced before launching a Singularity container.
+# Any variables prefixed with "SINGULARITYENV_" will be transposed
+# properly into the container. For example:
+# SINGULARITYENV_LD_LIBRARY_PATH -> LD_LIBRARY_PATH
+
+# Environment modules if set, cause errors in containers
+unset module
+unset ml
+
+# Bash env has been known to cause issues in containers
+unset BASH_ENV
+
+# Provide a sane path within the container
+if [ -z ${SINGULARITYENV_PATH+x} ]; then
+    SINGULARITYENV_PATH="/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
+else
+    SINGULARITYENV_PATH="$SINGULARITYENV_PATH:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
+fi
+
+# Export the SINGULARITY_IMAGE to the container environment
+# as it was done in singularity 2.2
+if [ -n "${SINGULARITY_IMAGE}" ]; then
+    export SINGULARITYENV_SINGULARITY_IMAGE="${SINGULARITY_IMAGE}"
+fi
+
+# Don't save the shell's HISTFILE
+SINGULARITYENV_HISTFILE=""
+
+export SINGULARITYENV_PATH SINGULARITYENV_HISTFILE
