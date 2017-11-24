@@ -170,6 +170,11 @@ class profiles::auth::client {
       krb5_realm                     => hiera('profiles::auth::client::krb5_realm'),
       krb5_store_password_if_offline => hiera('profiles::auth::client::krb5_store_password_if_offline'),
       auth_provider                  => 'krb5',
+      krb5_lifetime                  => hiera('profiles::auth::client::krb5_lifetime'),
+      krb5_renewable_lifetime        => hiera('profiles::auth::client::krb5_renewable_lifetime'),
+      krb5_renew_interval            => hiera('profiles::auth::client::krb5_renew_interval'),
+      krb5_auth_timeout              => hiera('profiles::auth::client::krb5_auth_timeout'),
+      krb5_validate                  => hiera('profiles::auth::client::krb5_validate'),
     }
     class { '::kerberos':
       config_options => $krb5_options,
