@@ -1999,7 +1999,9 @@
     <!--    or equal to number of processing cores of the management node, -->
     <!--    must not exceed 32 -->
     <ShortTermHistory>
-        <Enable>1</Enable>
+        <!-- PhL - 30/11/2017 - Pour pallier les expel GPFS -->
+        <!-- Enable passé de 1 à 0 -->
+        <Enable>0</Enable>
         <!-- <StorageLocation>/var/lib/opafm/pahistory</StorageLocation> --> <!-- must be absolute path -->
         <TotalHistory>24</TotalHistory> <!-- in hours -->
         <ImagesPerComposite>3</ImagesPerComposite>
