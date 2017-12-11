@@ -22,6 +22,9 @@
 # @param default_file Service configuration file path
 #  (`/etc/default/nhc` on Debian)
 # @param default_options Content of `/etc/default/nhc` in a hash
+# @param devicequery_src Executable file 'deviceQuery'
+# @param where to put devicequery_src
+# 
 class warewulf_nhc (
   $packages        = $warewulf_nhc::params::packages,
   $packages_ensure = $warewulf_nhc::params::packages_ensure,
@@ -29,6 +32,8 @@ class warewulf_nhc (
   $default_file    = $warewulf_nhc::params::default_file,
   $default_options = $warewulf_nhc::params::default_options,
   $config_options  = {},
+  $devicequery_src,
+  $devicequery,
 ) inherits warewulf_nhc::params {
 
   validate_array($packages)
@@ -37,6 +42,8 @@ class warewulf_nhc (
   validate_hash($config_options)
   validate_absolute_path($default_file)
   validate_hash($default_options)
+  validate_string($devicequery_src)
+  validate_absolute_path($devicequery)
 
   anchor { 'warewulf_nhc::begin': } ->
   class { '::warewulf_nhc::install': } ->
