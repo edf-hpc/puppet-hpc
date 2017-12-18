@@ -1,4 +1,5 @@
 GENERATOR=/usr/lib/asciidoctor/scibian/exec/gen-base-guide
+COMMON=/usr/share/asciidoctor/scibian/common
 TEMPLATE=/usr/share/asciidoctor/scibian/guide
 DOCTYPE=book
 SRC=main.asc
@@ -26,7 +27,7 @@ $(REF):
 	scripts/gen-ref.rb
 
 $(NAME).pdf: base.asc $(SRC) $(IMG_PDF) $(REF)
-	asciidoctor --doctype $(DOCTYPE) --template-dir $(TEMPLATE) --backend latex --out-file $(@:.pdf=.tex) base.asc
+	asciidoctor --doctype $(DOCTYPE) --template-dir $(COMMON) --template-dir $(TEMPLATE) --backend latex --out-file $(@:.pdf=.tex) base.asc
 	rubber --pdf $(@:.pdf=.tex)
 
 %.pdf: %.svg
