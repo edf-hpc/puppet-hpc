@@ -24,6 +24,7 @@
 # @param service_enable   Whether the service should be enabled to start
 #                         at boot : `true`, `false`, `manual` or `mask`
 #                         (default: true)
+# @param service_name     Name of the service to manage (default: lmgrd)
 
 class flexlm (
   $license_path     = $::flexlm::params::license_path,
@@ -32,6 +33,7 @@ class flexlm (
   $packages         = $::flexlm::params::packages,
   $service_ensure   = $::flexlm::params::service_ensure,
   $service_enable   = $::flexlm::params::service_enable,
+  $service_name     = $::flexlm::params::service_name,
 ) inherits flexlm::params {
 
   validate_absolute_path($license_path)
@@ -39,6 +41,7 @@ class flexlm (
   validate_array($packages)
   validate_string($service_ensure)
   validate_bool($service_enable)
+  validate_string($service_name)
 
   $license_dir = dirname($license_path)
 
@@ -57,7 +60,7 @@ class flexlm (
     ensure => installed
   }
 
-  service { $::flexlm::params::service_name :
+  service { $service_name :
     ensure  => $service_ensure,
     enable  => $service_enable,
     require => [File[$license_path],Package[$packages]],
