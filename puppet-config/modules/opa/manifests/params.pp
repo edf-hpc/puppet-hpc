@@ -18,7 +18,7 @@ class opa::params {
   case $::osfamily {
     'Debian': {
       $packages = [
-        'compat-rdma-modules-3.16.0-4-amd64',
+        'kmod-ifs-kernel-updates',
         'hfi1-diagtools-sw',
         'hfi1-firmware',
         'hfi1-utils',
@@ -29,8 +29,7 @@ class opa::params {
         'opa-address-resolution',
         'opa-scripts',
         'irqbalance',
-        'rdmacm-utils',
-        'rdma'
+        'rdmacm-utils'
       ]
       $kernel_modules = [
         'ib_ipoib',
