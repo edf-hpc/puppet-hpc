@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -41,6 +41,11 @@ class opa::params {
     }
   }
 
+  $service_manage = true
+  $service_name = 'opa'
+  $service_enable = true
+  $service_ensure = 'running'
+
   $irqbalance_service = 'irqbalance'
   $irqbalance_ensure  = running
   $irqbalance_enable  = true
@@ -49,5 +54,13 @@ class opa::params {
     'oneshot' => '0',
     'options' => '--hintpolicy=exact'
   }
+
+  $modprobe_hfi1_manage = true
+  $modprobe_hfi1_file = '/etc/modprobe.d/hfi1.conf'
+  $modprobe_hfi1_options = [ 'options hfi1 krcvqs=4 sge_copy_mode=2 wss_threshold=70' ]
+
+  $modprobe_ib_ipoib_manage = true
+  $modprobe_ib_ipoib_file = '/etc/modprobe.d/ib_ipoib.conf'
+  $modprobe_ib_ipoib_options = [ 'options ib_ipoib send_queue_size=8192 recv_queue_size=8192' ]
 
 }

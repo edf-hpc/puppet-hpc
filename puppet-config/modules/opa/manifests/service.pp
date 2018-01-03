@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -20,4 +20,10 @@ class opa::service inherits opa {
     enable => $::opa::irqbalance_enable,
   }
 
+  if $::opa::service_manage {
+    service { $::opa::service_name :
+      ensure => $::opa::service_ensure,
+      enable => $::opa::service_enable,
+    }
+  }
 }
