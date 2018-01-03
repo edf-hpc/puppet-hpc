@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -15,10 +15,23 @@
 
 class kernel::params {
 
+  case $::osfamily {
+    'Debian': {
+      $sysctl_command = 'systemctl restart systemd-sysctl.service'
+    }
+    'Redhat': {
+      # For RHEL >= 6.2
+      $sysctl_command = 'bash -c "source /etc/init.d/functions ; apply_sysctl"'
+    }
+    default: {
+      fail("Unsupported OS Family: ${::osfamily}")
+    }
+  }
+
+
   $config_manage = true
   $sysctl        = {}
   $sysctl_dir    = '/etc/sysctl.d'
-  $sysctl_exec   = 'sysctl'
   $udev_rules    = {}
   $udev_dir      = '/etc/udev/rules.d'
 

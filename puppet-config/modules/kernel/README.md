@@ -74,8 +74,9 @@ https://www.freedesktop.org/software/systemd/man/sysctl.d.html
 
 ## Limitations
 
-This module is mainly tested on Debian, but is meant to also work with RHEL and
-derivatives.
+This module is supported on Debian and RedHat 6 and derivatives.
+
+Sysctl udev rules are not supported on RedHat 6 and derivatives.
 
 ## Development
 

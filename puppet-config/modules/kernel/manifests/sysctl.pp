@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -34,11 +34,15 @@ define kernel::sysctl (
   # if module is defined, create udev rule
   if $module != undef {
 
-    validate_string($module)
-    validate_absolute_path($prefix)
+    if $::osfamily == 'RedHat' {
+      notice('Module dependencies not supported with RedHat OS Family')
+    } else {
+      validate_string($module)
+      validate_absolute_path($prefix)
 
-    kernel::udev { "udev_sysctl_${name}":
-      rules => [ "ACTION==\"add\", SUBSYSTEM==\"module\", KERNEL==\"${module}\", RUN+=\"/lib/systemd/systemd-sysctl --prefix=${prefix}\"" ],
+      kernel::udev { "udev_sysctl_${name}":
+        rules => [ "ACTION==\"add\", SUBSYSTEM==\"module\", KERNEL==\"${module}\", RUN+=\"/lib/systemd/systemd-sysctl --prefix=${prefix}\"" ],
+      }
     }
   }
 
@@ -48,7 +52,7 @@ define kernel::sysctl (
   }
 
   exec { "sysctl_${name}":
-    command     => "${$::kernel::params::sysctl_exec} -p ${_file}",
+    command     => $::kernel::params::sysctl_command,
     refreshonly => true,
     subscribe   => File[$_file],
     path        => ['/bin','/sbin'],
