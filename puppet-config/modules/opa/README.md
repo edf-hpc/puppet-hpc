@@ -78,14 +78,23 @@ The `opa` module has four public classes:
 
 ### opa
 
-This class installs the packages of the OPA node stack, ensure kernel modules
-are loaded and setup irqbalance service according to Intel specifications.
+This class installs the packages of the OPA node stack, ensure supplementary
+kernel modules (`ib_ipoib`) are loaded and setup irqbalance service according
+to Intel specifications.
 
 Here is an example of public class instanciation:
 
 ```
 include ::opa
 ```
+
+The class sets up two files in `modprobe.d` by default:
+
+* `hfi1.conf`
+* `ib_ipoib.conf`
+
+The content of those files can be modified with the parameters
+`modprobe_hfi1_options` and `modprobe_ib_ipoib_options`.
 
 ### opa::ff
 
@@ -187,6 +196,8 @@ include ::opa::fm_gui
 ## Limitations
 
 This module is mainly tested on Debian.
+
+This class is only compatible with OPA >= 10.5
 
 ## Development
 
