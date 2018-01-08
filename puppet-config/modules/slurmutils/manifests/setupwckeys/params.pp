@@ -13,20 +13,22 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmutils::jobsubmit::config inherits slurmutils::jobsubmit {
+class slurmutils::setupwckeys::params {
 
-  if $::slurmutils::jobsubmit::config_manage {
+  $install_manage  = true
+  $packages_manage = true
+  $packages        = ['slurm-llnl-setup-wckeys']
+  $packages_ensure = 'latest'
 
-      hpclib::print_config { $::slurmutils::jobsubmit::conf_file:
-        style    => 'keyval',
-        comments => '--',
-        data     => $::slurmutils::jobsubmit::_conf_options,
-      }
+  $config_manage   = true
+  $conf_dir        = '/etc/slurm-llnl'
 
-      exec { 'gen-qos-conf':
-        command => $::slurmutils::jobsubmit::gen_qos_exec,
-        creates => $::slurmutils::jobsubmit::gen_qos_conf,
-      }
+  $wckeysctl_file = '/etc/default/wckeysctl'
+  $default_wckeysctl_options = {
+    'SACCTMGR' => "/usr/bin/sacctmgr",
+    'DB_NAME' => "slurm_acct_db",
+    'SLURMDB_FILE' => "/etc/slurm-llnl/slurmdbd.conf",
   }
+  $wckeys_data_files = {}
 
 }

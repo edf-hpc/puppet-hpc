@@ -13,20 +13,19 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class slurmutils::jobsubmit::config inherits slurmutils::jobsubmit {
+class slurmutils::setupwckeys::config inherits slurmutils::setupwckeys {
 
-  if $::slurmutils::jobsubmit::config_manage {
+  if $::slurmutils::setupwckeys::config_manage {
 
-      hpclib::print_config { $::slurmutils::jobsubmit::conf_file:
-        style    => 'keyval',
-        comments => '--',
-        data     => $::slurmutils::jobsubmit::_conf_options,
+      hpclib::print_config { $::slurmutils::setupwckeys::wckeysctl_file:
+        style     => 'keyval',
+        separator => '=',
+        data      => $::slurmutils::setupwckeys::_wckeysctl_options,
       }
 
-      exec { 'gen-qos-conf':
-        command => $::slurmutils::jobsubmit::gen_qos_exec,
-        creates => $::slurmutils::jobsubmit::gen_qos_conf,
-      }
+      create_resources(hpclib::hpc_file,
+                       $::slurmutils::setupwckeys::wckeys_data_files)
+
   }
 
 }
