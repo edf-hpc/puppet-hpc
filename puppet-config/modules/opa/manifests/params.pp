@@ -21,7 +21,6 @@ class opa::params {
         'kmod-ifs-kernel-updates',
         'hfi1-diagtools-sw',
         'hfi1-firmware',
-        'hfi1-utils',
         'ibacm',
         'ibverbs-utils',
         'infiniband-diags',
