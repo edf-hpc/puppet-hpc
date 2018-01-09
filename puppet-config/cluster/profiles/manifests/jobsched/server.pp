@@ -129,6 +129,7 @@ class profiles::jobsched::server {
   include ::slurmutils::jobsubmit
   include ::slurmutils::backupdb
   include ::slurmutils::setupdb
+  include ::slurmutils::setupwckeys
 
   # optional slurmctld spool on CephFS
   if hiera('profiles::jobsched::server::ceph::enabled') {
