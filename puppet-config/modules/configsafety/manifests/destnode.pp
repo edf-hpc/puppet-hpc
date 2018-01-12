@@ -14,11 +14,11 @@
 ##########################################################################
 
 class configsafety::destnode (
-  $configsafety_backup_destination	= $configsafety::params::configsafety_backup_destination,
-  $configsafety_ssh_source		= '',
-  $configsafety_ssh_user		= '',
-  $configsafety_ssh_key			= '',
-  $configsafety_ssh_type		= '',
+  $configsafety_backup_destination  = $configsafety::params::configsafety_backup_destination,
+  $configsafety_ssh_source    = '',
+  $configsafety_ssh_user    = '',
+  $configsafety_ssh_key      = '',
+  $configsafety_ssh_type    = '',
 ) inherits configsafety::params {
 
   validate_string($configsafety_ssh_source)
@@ -27,10 +27,10 @@ class configsafety::destnode (
   validate_string($configsafety_ssh_type)
 
   ssh_authorized_key { "$configsafety_ssh_source":
-	ensure => present,
-	user   => "$configsafety_ssh_user",
-	key    => "$configsafety_ssh_key",
-	type   => "$configsafety_ssh_type",
+  ensure => present,
+  user   => "$configsafety_ssh_user",
+  key    => "$configsafety_ssh_key",
+  type   => "$configsafety_ssh_type",
   }
 
 }

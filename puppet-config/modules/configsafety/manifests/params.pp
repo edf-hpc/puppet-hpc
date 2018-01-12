@@ -15,12 +15,12 @@
 
 class configsafety::params {
 
-  $packages_ensure 			= 'latest'
-  $packages        			= ['config-safety']
+  $packages_ensure       = 'latest'
+  $packages              = ['config-safety']
   $configsafety_config_files            = '/etc/config-safety/config-safety.conf'
   $configsafety_exclude_files_rsync     = '/etc/config-safety/exclude-files-rsync'
   $configsafety_path_incl_dar           = '/etc/config-safety/path-incl-dar'
-  $configsafety_backup_destination	= false
+  $configsafety_backup_destination  = false
 
 
   $config_options_defaults = {
