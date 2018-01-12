@@ -19,7 +19,7 @@ class slurmweb::params {
   $packages_ensure = 'present'
   $packages        = ['slurm-web-restapi', 'redis-server']
   $config_file     = '/etc/slurm-web/restapi.conf'
-  
+
   #### Defaults values
   $decrypt_password  = 'password'
   $slurm_user        = 'slurm'

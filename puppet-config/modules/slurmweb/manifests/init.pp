@@ -15,7 +15,7 @@
 
 # Setup Slurmweb restapi server
 #
-# The module provides a default racks.xml config file, not to be used in 
+# The module provides a default racks.xml config file, not to be used in
 # production. You must overide it with a file matching your configuration.
 # The module provides a default password for encoded files, not to be used in
 # production. You must overide it with a string matching your configuration.
@@ -26,15 +26,15 @@
 # @param config_file        Config file path for the Slurmweb rest api
 #                           (default: `/etc/slurm-web/restapi.conf`)
 # @param config_options     Content of the `config_file` in a hash
-# @param racks_file         Racks.xml configuration file path 
+# @param racks_file         Racks.xml configuration file path
 #                           (default: `/etc/slurm-web/racks.xml`)
 # @param racks_file_source  Racks.xml file
-# @param secret_file        Secret.key path 
+# @param secret_file        Secret.key path
 #                           (default: `/etc/slurm-web/secret.key`)
 # @param secret_file_source secret.key file
 # @param ssl_cert_file      Ssl cert file path
 # @param ssl_cert_source    Ssl cert
-# @param ssl_key_file       Ssl key file path 
+# @param ssl_key_file       Ssl key file path
 # @param ssl_key_source     Encoded ssl key
 # @param decrypt_password   String used to decode ended files
 #                           (default: 'password', please change it)
