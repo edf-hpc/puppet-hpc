@@ -23,7 +23,7 @@
 # @param services_manage Should the service be managed (default: true)
 # @param config_manage Should the configuration files be managed (default: true)
 # @param system_user System user used tio run the service (default: 'consul')
-# @param conf_dir Directory where to put the configuration files 
+# @param conf_dir Directory where to put the configuration files
 #                 (default: '/etc/consul.d')
 # @param data_dir Directory where to put the data files
 #                 (default: '/var/lib/consul')
@@ -36,7 +36,7 @@
 #                   (default: 'local')
 # @param binding IP adress to bind to
 #                (default: '127.0.0.1')
-# @param subservices Array containing services to check (default: undef) 
+# @param subservices Array containing services to check (default: undef)
 # @param nodes Consul cluster members (default: [])
 # @param bootstrap Quorum number (default: 1)
 # @param key Key used to crypt data stream between Consul agents (default: )
