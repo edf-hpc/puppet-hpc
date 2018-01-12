@@ -2,6 +2,13 @@
 <%- 
   all_options = scope['::boothttp::install_options']
   options = all_options['rhel6']
+  if options.nil?
+-%>
+# The ::boothttp::install_options hash has a nil hash for the rhel6
+# options. Can't generate a valid kickstart.
+<%-
+    return
+  end
 -%>
 
 ### The default installation mode. You must specify the type of installation ###
