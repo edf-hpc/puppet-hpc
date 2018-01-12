@@ -35,7 +35,7 @@ define icinga2::ident ($src) {
     mode    => '0400',
     content => decrypt($src, $::icinga2::decrypt_passwd),
   }
- 
+
  }
 
 }
