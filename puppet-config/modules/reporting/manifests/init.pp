@@ -32,8 +32,8 @@ class reporting ($script_report_users_source, $script_report_orphan_source, $cro
           }
 
           file { [ "/usr/local/sbin/reportrmo" ] :
-		content => hpc_source_file($script_reportrmo_source),
-		mode    => '0750',
+    content => hpc_source_file($script_reportrmo_source),
+    mode    => '0750',
           }
     }
 
