@@ -18,31 +18,31 @@
 # An xorg instance is defined with an ID (usually starting at 0), each
 # instance will have an instanciated unit instance and a configuration
 # file.
-# 
+#
 # ## Drivers
 #
-# There is 3 drivers modes: 
+# There is 3 drivers modes:
 # - `auto`, lets Xorg do what it wants
 # - `custom`, provide an xorg.conf file
 # - `nvidia`, setting up an nvidia configuration
 #
 # ## PCI Bus ID
-# 
+#
 # With nvidia card it is necessary to provide the PCI bus ID of the card
 # on the node.
-# 
+#
 # You can find it with `lspci |grep -i nv`. Be carefull, lspci returns
-# the PCI Bus ID as an hexadecimal ID. The xorg configuration wants a 
+# the PCI Bus ID as an hexadecimal ID. The xorg configuration wants a
 # decimal value (`10` -> `16`)
 #
-# Leaving the default (`auto`) remove the explicit setting from the 
+# Leaving the default (`auto`) remove the explicit setting from the
 # configuration
-# 
+#
 # @params display_id     Integer ID for the instance, use the title of the
 #                        resource by default
 # @params bus_id         PCI Bus ID of the target GPU (default: `auto`)
 # @params driver         `auto`, `custom` or `nvidia`
-# @params config_content Direct content of the config file 
+# @params config_content Direct content of the config file
 # @params config_source  A puppet source of the config file
 define xorg::instance (
   $display_id     = $title,

@@ -18,7 +18,7 @@
 #
 # This class installs the xorg package and define a Instanced service unit
 # file. Instances are define as resources with xorg::instance.
-# 
+#
 class xorg (
   $service         = $::xorg::params::service,
   $service_file    = $::xorg::params::service_file,
