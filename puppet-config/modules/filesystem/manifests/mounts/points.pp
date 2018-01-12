@@ -18,9 +18,9 @@ class filesystem::mounts::points inherits filesystem::mounts {
 
   ensure_resource(file,
                   keys($::filesystem::mounts::mounts),
-                  { 
+                  {
                     ensure => 'directory',
-                  }) 
+                  })
 
 
 }
