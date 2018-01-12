@@ -13,32 +13,24 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-class configsafety::params {
+class configsafety::destnode (
+  $configsafety_backup_destination	= $configsafety::params::configsafety_backup_destination,
+  $configsafety_ssh_source		= '',
+  $configsafety_ssh_user		= '',
+  $configsafety_ssh_key			= '',
+  $configsafety_ssh_type		= '',
+) inherits configsafety::params {
 
-  $packages_ensure 			= 'latest'
-  $packages        			= ['config-safety']
-  $configsafety_config_files            = '/etc/config-safety/config-safety.conf'
-  $configsafety_exclude_files_rsync     = '/etc/config-safety/exclude-files-rsync'
-  $configsafety_path_incl_dar           = '/etc/config-safety/path-incl-dar'
-  $configsafety_backup_destination	= false
+  validate_string($configsafety_ssh_source)
+  validate_string($configsafety_ssh_user)
+  validate_string($configsafety_ssh_key)
+  validate_string($configsafety_ssh_type)
 
-
-  $config_options_defaults = {
-    'BCKNAME' => '"configsafety"',
-    'LOG' => '"/var/log/config-safety/backup-configsafety-status.log"',
-    # Dar
-    'PATHADMIN' => '"noset"',
-    'PATH_INCL' => '"/etc/config-safety/path-incl-dar"',
-    'DESTBCK' => '"noset"',
-    'PATHBCK' => '"noset"',
-    'CATALOGUE' => '"/etc/config-safety/catalogue"',
-    'NBRET' => '"5"',
-    # Rsync
-    'RPATHADMIN' => '"noset"',
-    'RSYNCOPT' => '"rsync -rltgoDv --del --ignore-errors --force"',
-    'RSSH' => '"noset"',
-    'RPATHBCK' => '"noset"',
-    'EXCLUDE' => '"/etc/config-safety/exclude-files-rsync"',
+  ssh_authorized_key { "$configsafety_ssh_source":
+	ensure => present,
+	user   => "$configsafety_ssh_user",
+	key    => "$configsafety_ssh_key",
+	type   => "$configsafety_ssh_type",
   }
 
 }
