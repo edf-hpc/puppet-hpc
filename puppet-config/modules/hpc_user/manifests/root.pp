@@ -15,7 +15,7 @@
 
 
 # Set root password
-# 
+#
 # In a separate class to set the stage.
 #
 # @param password Hashed root password
