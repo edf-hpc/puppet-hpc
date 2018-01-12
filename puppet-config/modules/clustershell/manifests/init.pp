@@ -15,12 +15,12 @@
 
 # Install and setup clustershell on nodes
 #
-# @param packages 	  Packages list (default: 'clustershell, PyYAML | python-yaml')
-# @param packages_ensure  Packages install mode 
-# @param groups_file 	  Configuration file (default: '/etc/clustershell/groups.conf')
-# @param groups_yaml_file Yaml configuration file (default: '/etc/clustershell/groups.d/puppet.yaml') 
-# @param groups 	  Nodes groups (ordered by types, example : cn, gn ...)
-# @param groups_options	  Options (other than in params.pp)
+# @param packages     Packages list (default: 'clustershell, PyYAML | python-yaml')
+# @param packages_ensure  Packages install mode
+# @param groups_file     Configuration file (default: '/etc/clustershell/groups.conf')
+# @param groups_yaml_file Yaml configuration file (default: '/etc/clustershell/groups.d/puppet.yaml')
+# @param groups     Nodes groups (ordered by types, example : cn, gn ...)
+# @param groups_options    Options (other than in params.pp)
 
 class clustershell (
   $packages         = $::clustershell::params::packages,
