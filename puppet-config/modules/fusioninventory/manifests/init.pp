@@ -15,13 +15,13 @@
 
 # Install and configure the FusionInventory agent on nodes
 #
-# @param packages 	  Packages list (default: ['fusioninventory-agent'])
+# @param packages     Packages list (default: ['fusioninventory-agent'])
 # @param packages_ensure  Target state for the packages (default: 'present')
 # @param config_file      Absolute path to the agent configuration file
 #                         (default: '/etc/fusioninventory/agent.cfg')
 # @param config_options   Hash of options to include in the configuration file
-# @param default_file     Absolute path to the default configuration file of 
-#                         the FusionInventory agent                       
+# @param default_file     Absolute path to the default configuration file of
+#                         the FusionInventory agent
 # @param default_options  Hash of options for the default configuration file
 class fusioninventory (
   $packages        = $fusioninventory::params::packages,
