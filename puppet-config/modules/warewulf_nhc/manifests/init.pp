@@ -24,7 +24,7 @@
 # @param default_options Content of `/etc/default/nhc` in a hash
 # @param devicequery_src Executable file 'deviceQuery'
 # @param where to put devicequery_src
-# 
+#
 class warewulf_nhc (
   $packages        = $warewulf_nhc::params::packages,
   $packages_ensure = $warewulf_nhc::params::packages_ensure,
