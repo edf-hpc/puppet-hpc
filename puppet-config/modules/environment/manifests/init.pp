@@ -52,7 +52,6 @@
 #           be logged (default: false)
 # @param log_commands_facility String with the name of the syslog facility to use
 #           for command logging (default: 'local6')
-<<<<<<< HEAD
 # @param login_defs_options Hash with keyval options for the /etc/login.defs
 # @param login_defs_file Path of the login.defs file (default: /etc/login.defs)
 # @param cluster Name of the cluster used in the SSH key names.
