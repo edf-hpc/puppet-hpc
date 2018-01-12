@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.                          #
 ##########################################################################
 
-# Deploys the GPFS components. 
+# Deploys the GPFS components.
 #
 # @param install_manage  Public class manages the installation (default: true)
 # @param packages        Packages to install (default: OS dependant)
@@ -23,7 +23,7 @@
 # @param lum_hpc_files   Optional hash of LUM files to install with
 #                        hpclib::hpc_file (default: {})
 # @param config_manage   Public class manages the configuration (default: true)
-# @param file_mode	 Permissions for files (Default: '640')
+# @param file_mode   Permissions for files (Default: '640')
 # @param config_file     Absolute path of the configuration file for
 #                        GPFS (Default: '/var/mmfs/gen/mmsdrfs')
 # @param config_src      Path of the encrypted source of the configuration
