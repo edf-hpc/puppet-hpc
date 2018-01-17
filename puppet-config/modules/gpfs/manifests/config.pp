@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -16,11 +16,12 @@
 #
 class gpfs::config inherits gpfs {
 
-  if $config_manage {
+  if $::gpfs::config_manage {
 
     file { $::gpfs::config_file:
-      content  => decrypt($::gpfs::config_src, $::gpfs::decrypt_passwd),
-      mode     => $::gpfs::file_mode,
+      content => decrypt($::gpfs::config_src, $::gpfs::decrypt_passwd),
+      mode    => $::gpfs::file_mode,
+      notify  => Class['::gpfs::service']
     }
 
     create_resources(gpfs::ssl_key, $::gpfs::ssl_keys)

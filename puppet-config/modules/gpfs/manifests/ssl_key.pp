@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -14,8 +14,8 @@
 ##########################################################################
 
 define gpfs::ssl_key (
-  $file = undef,
   $src,
+  $file = undef,
 ) {
 
   if $file == undef {
@@ -25,9 +25,10 @@ define gpfs::ssl_key (
   }
 
   file { $_file:
-    content  => decrypt($src, $::gpfs::decrypt_passwd),
+    content => decrypt($src, $::gpfs::decrypt_passwd),
     owner   => 'root',
     group   => 'root',
     mode    => '0400',
+    notify  => Class['::gpfs::service']
   }
 }
