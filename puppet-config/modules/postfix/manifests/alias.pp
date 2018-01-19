@@ -16,9 +16,9 @@
 # Setup a mail alias
 # @param target Target of the alias
 define postfix::alias ($target) {
-  augeas {"postfix_alias_${name}":
-    context => '/files/etc/aliases',
-    changes => [ "set *[ name = '${name}']/value '${target}'" ],
-    notify  => Exec['postfix_newaliases'],
+
+  mailalias { $name:
+    recipient => $target,
+    notify    => Exec['postfix_newaliases'],
   }
 }
