@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -21,7 +21,7 @@ class opa::fm::params {
   $service_ensure  = running
   $service_enable  = true
 
-  $config_file     = '/etc/opa/opafm.xml'
+  $config_file     = '/etc/opa-fm/opafm.xml'
   $config_source   = undef
 
   $fe_enable       = true
@@ -30,4 +30,8 @@ class opa::fm::params {
   $pmportgroups    = {}
   $priority        = {}
 
+  # Same as in the default opafm.xml
+  $shorttermhistory_enable = true
+  $ipoib_mcgroup_mtu = 2048
+  $ipoib_mcgroup_rate = '25g'
 }

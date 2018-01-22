@@ -1,7 +1,7 @@
 ##########################################################################
 #  Puppet configuration file                                             #
 #                                                                        #
-#  Copyright (C) 2014-2017 EDF S.A.                                      #
+#  Copyright (C) 2014-2018 EDF S.A.                                      #
 #  Contact: CCN-HPC <dsp-cspit-ccn-hpc@edf.fr>                           #
 #                                                                        #
 #  This program is free software; you can redistribute in and/or         #
@@ -31,19 +31,29 @@
 # @param pmportgroups    Hash of Performance Manager (PM) port groups
 #                        definitions (default: {})
 # @param priority        Hash of priority (default: {})
+# @param shorttermhistory_enable boolean to Enable the ShortTermHistory
+#          feature (default: true)
+# @param ipoib_mcgroup_mtu MTU in bytes of the MulticastGroup used by IPoIB
+#          (default: 2048)
+# @param ipoib_mcgroup_rate String representing the rate of the MulticastGroup
+#          used by IPoIB (default: '25g')
+
 class opa::fm (
-  $packages        = $::opa::fm::params::packages,
-  $packages_ensure = $::opa::fm::params::packages_ensure,
-  $service         = $::opa::fm::params::service,
-  $service_ensure  = $::opa::fm::params::service_ensure,
-  $service_enable  = $::opa::fm::params::service_enable,
-  $config_file     = $::opa::fm::params::config_file,
-  $config_source   = $::opa::fm::params::config_source,
-  $fe_enable       = $::opa::fm::params::fe_enable,
-  $fe_sslsecurity  = $::opa::fm::params::fe_sslsecurity,
-  $devicegroups    = $::opa::fm::params::devicegroups,
-  $pmportgroups    = $::opa::fm::params::pmportgroups,
-  $priority        = $::opa::fm::params::priority,
+  $packages                = $::opa::fm::params::packages,
+  $packages_ensure         = $::opa::fm::params::packages_ensure,
+  $service                 = $::opa::fm::params::service,
+  $service_ensure          = $::opa::fm::params::service_ensure,
+  $service_enable          = $::opa::fm::params::service_enable,
+  $config_file             = $::opa::fm::params::config_file,
+  $config_source           = $::opa::fm::params::config_source,
+  $fe_enable               = $::opa::fm::params::fe_enable,
+  $fe_sslsecurity          = $::opa::fm::params::fe_sslsecurity,
+  $devicegroups            = $::opa::fm::params::devicegroups,
+  $pmportgroups            = $::opa::fm::params::pmportgroups,
+  $priority                = $::opa::fm::params::priority,
+  $shorttermhistory_enable = $::opa::fm::params::shorttermhistory_enable,
+  $ipoib_mcgroup_mtu       = $::opa::fm::params::ipoib_mcgroup_mtu,
+  $ipoib_mcgroup_rate      = $::opa::fm::params::ipoib_mcgroup_rate,
 ) inherits opa::fm::params {
 
   validate_array($packages)
@@ -58,6 +68,10 @@ class opa::fm (
   validate_hash($devicegroups)
   validate_hash($pmportgroups)
   validate_hash($priority)
+  validate_bool($shorttermhistory_enable)
+  validate_integer($ipoib_mcgroup_mtu)
+  validate_string($ipoib_mcgroup_rate)
+
 
   anchor { 'opa::fm::begin': } ->
   class { '::opa::fm::install': } ->
