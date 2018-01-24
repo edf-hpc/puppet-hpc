@@ -44,6 +44,9 @@ class profiles::gpfs::node {
     ssh_hosts           => $settings['hosts'],
     ssl_keys            => $settings['ssl_keys'],
     config_src          => $settings['config_src'],
+    ccr_enable          => $settings['ccr_enable'],
+    ccr_nodes_source    => $settings['ccr_nodes_source'],
+    ccr_noauth_source   => $settings['ccr_noauth_source'],
   }
 
   # Make sure all potential NFS mount have been realized before realizing the
