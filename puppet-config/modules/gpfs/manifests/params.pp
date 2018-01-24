@@ -20,6 +20,7 @@ class gpfs::params {
   $packages_manage = true
   $service_manage  = true
   $config_manage   = true
+  $ccr_enable      = false
 
   case $::osfamily {
     'Debian': {
@@ -72,6 +73,10 @@ class gpfs::params {
 
   $config_file         = '/var/mmfs/gen/mmsdrfs'
   $config_src          = 'gpfs/mmsdrfs.enc'
+  $ccr_nodes_file      = '/var/mmfs/ccr/ccr.nodes'
+  $ccr_nodes_source    = ''
+  $ccr_noauth_file     = '/var/mmfs/ccr/ccr.noauth'
+  $ccr_noauth_source   = ''
   $ssh_private_key_src = undef
   $ssh_hosts           = '*'
   $ssl_keys            = {}

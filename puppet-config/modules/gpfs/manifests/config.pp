@@ -21,7 +21,7 @@ class gpfs::config inherits gpfs {
     file { $::gpfs::config_file:
       content => decrypt($::gpfs::config_src, $::gpfs::decrypt_passwd),
       mode    => $::gpfs::file_mode,
-      notify  => Class['::gpfs::service']
+      notify  => Class['::gpfs::service'],
     }
 
     create_resources(gpfs::ssl_key, $::gpfs::ssl_keys)
@@ -36,6 +36,26 @@ class gpfs::config inherits gpfs {
       }
     }
 
+    # Setup ccr mode in GPFS if defined
+    if $::gpfs::ccr_enable {
+      file { '/var/mmfs/ccr' :
+        ensure => 'directory',
+      }
+      file { '/var/mmfs/ccr/committed' :
+        ensure => 'directory',
+      }
+      hpclib::hpc_file { $::gpfs::ccr_nodes_file :
+        mode   => '0644',
+        source => $::gpfs::ccr_nodes_source,
+        notify => Class['::gpfs::service'],
+      }
+      hpclib::hpc_file { $::gpfs::ccr_noauth_file :
+        mode   => '0644',
+        source => $::gpfs::ccr_noauth_source,
+        notify => Class['::gpfs::service'],
+      }
+    }
+    
     # setup GPFS cluster internal SSH private key if defined
     if $::gpfs::ssh_private_key_src != undef {
       openssh::client::identity { "gpfs_${::gpfs::cluster}":

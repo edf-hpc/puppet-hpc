@@ -40,6 +40,15 @@
 # @param service_name    Name of the service (Default: 'gpfs')
 # @param service_ensure  Target state for the service (default: 'running')
 # @param service_enable  The service starts at boot time (default: true)
+# @param ccr_enable      Ccr mode is enabled on Gpfs cluster(s)
+# @param ccr_nodes_file  Absolute path for the ccr.nodes file in ccr mode
+#                        (default: '/var/mmfs/ccr/ccr.nodes')
+# @param ccr_noauth_source
+#                        (default: '/var/mmfs/ccr/ccr.noauth')
+# @param ccr_nodes_source
+#                        (default: '/var/mmfs/ccr/ccr.nodes')
+# @param ccr_noauth_file Absolute path for the ccr.noauth file in ccr mode
+#                        (default: '/var/mmfs/ccr/ccr.noauth')
 # @param ssh_public_key  Public authorized key for SSH communications to
 #                        add for the root user
 # @param decrypt_passwd  Password to decrypt encrypted files
@@ -62,6 +71,11 @@ class gpfs (
   $service_name        = $::gpfs::params::service_name,
   $service_ensure      = $::gpfs::params::service_ensure,
   $service_enable      = $::gpfs::params::service_enable,
+  $ccr_enable          = $::gpfs::params::ccr_enable,
+  $ccr_nodes_file      = $::gpfs::params::ccr_nodes_file,
+  $ccr_noauth_file     = $::gpfs::params::ccr_noauth_file,
+  $ccr_nodes_source    = $::gpfs::params::ccr_nodes_source,
+  $ccr_noauth_source   = $::gpfs::params::ccr_noauth_source,
   $ssh_public_key,
   $decrypt_passwd,
 ) inherits gpfs::params {
@@ -70,6 +84,7 @@ class gpfs (
   validate_bool($packages_manage)
   validate_bool($service_manage)
   validate_bool($config_manage)
+  validate_bool($ccr_enable)
 
   if $install_manage and $packages_manage {
     validate_array($packages)
@@ -93,6 +108,10 @@ class gpfs (
     validate_hash($ssl_keys)
     validate_string($cluster)
     validate_string($ssh_public_key)
+    if $ccr_enable {
+        validate_absolute_path($ccr_nodes_file)
+        validate_absolute_path($ccr_noauth_file)
+    }
   }
 
   if $service_manage {
