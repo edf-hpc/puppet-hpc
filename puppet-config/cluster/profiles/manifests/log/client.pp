@@ -39,8 +39,10 @@ class profiles::log::client {
   $port           = hiera('profiles::log::client::port')
   $remote_servers = hiera_array('profiles::log::client::remote_servers')
 
-  # Permits to change the config through hiera
-  include ::systemd::journald
+  unless $operatingsystem == 'RedHat' and $::operatingsystemmajrelease < 7 {
+    # Permits to change the config through hiera
+    include ::systemd::journald
+  }
 
   # Pass config options as a class parameter
   class { '::rsyslog::client':
