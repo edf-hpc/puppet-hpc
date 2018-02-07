@@ -23,7 +23,7 @@
 # @param lum_hpc_files   Optional hash of LUM files to install with
 #                        hpclib::hpc_file (default: {})
 # @param config_manage   Public class manages the configuration (default: true)
-# @param file_mode   Permissions for files (Default: '640')
+# @param file_mode       Permissions for files (Default: '0644')
 # @param config_file     Absolute path of the configuration file for
 #                        GPFS (Default: '/var/mmfs/gen/mmsdrfs')
 # @param config_src      Path of the encrypted source of the configuration

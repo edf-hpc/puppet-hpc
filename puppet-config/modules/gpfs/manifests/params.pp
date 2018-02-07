@@ -81,7 +81,7 @@ class gpfs::params {
   $ssh_hosts           = '*'
   $ssl_keys            = {}
   $ssl_key_dir         = '/var/mmfs/ssl/stage'
-  $file_mode           = '640'
+  $file_mode           = '0644'
   $cluster             = 'cluster'
 
   $service_name   = 'gpfs'
