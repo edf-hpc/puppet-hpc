@@ -19,9 +19,11 @@ class warewulf_nhc::install inherits warewulf_nhc {
     ensure => $::warewulf_nhc::packages_ensure,
   }
 
-  file { $::warewulf_nhc::devicequery:
-    content => hpc_source_file($::warewulf_nhc::devicequery_src),
-    mode    => '0755',
+  if $::warewulf_nhc::install_devicequery {
+    file { $::warewulf_nhc::devicequery_file:
+      content => hpc_source_file($::warewulf_nhc::devicequery_src),
+      mode    => '0755',
+    }
   }
 
 }

@@ -26,5 +26,7 @@ class warewulf_nhc::params {
   $default_options = {
     'HELPERDIR' => "'/usr/lib/warewulf-nhc/nhc'",
   }
-
+  $install_devicequery = false
+  $devicequery_src     = undef
+  $devicequery_file    = '/usr/local/bin/deviceQuery'
 }
