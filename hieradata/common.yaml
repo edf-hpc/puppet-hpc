@@ -396,7 +396,6 @@ profiles::jobsched::server::sync_options:
 
 ##### NHC
 warewulf_nhc::devicequery_src: "%{hiera('private_files_dir')}/warewulf_nhc/deviceQuery"
-warewulf_nhc::devicequery:     '/usr/local/bin/deviceQuery'
 
 profiles::warewulf_nhc::config_options:
   10_verbose:
