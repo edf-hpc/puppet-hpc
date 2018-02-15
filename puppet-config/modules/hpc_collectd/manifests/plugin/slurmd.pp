@@ -22,7 +22,7 @@
 #
 # [*cgroupmountpoint*]
 #   path where the cgroup hierarchy is mounted
-#   example: "/cgroup"
+#   example: "/sys/fs/cgroup"
 #
 # [*ignoreabsentcpuset*]
 #   When set to false, the plugin returns an error
@@ -30,7 +30,7 @@
 #   This puppet module reverse the default to: true
 class hpc_collectd::plugin::slurmd (
   $ensure             = present,
-  $cgroupmountpoint   = '/cgroup',
+  $cgroupmountpoint   = '/sys/fs/cgroup',
   $ignoreabsentcpuset = true,
 ) {
   validate_absolute_path($cgroupmountpoint)
