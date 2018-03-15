@@ -28,13 +28,29 @@
 #   When set to false, the plugin returns an error
 #   if the cpuset Cgroup hierarchy maintained by Slurm is not found.
 #   This puppet module reverse the default to: true
+#
+# [*collectpss*]
+#   When set to false, the plugin will not collect the PSS metrics
+#   for jobs. Leaving this active might incurs a performance penalty.
+#   Default: true
+#
+# [*collectrss*]
+#   When set to false, the plugin will not collect the RSS metrics
+#   for jobs.
+#   Default: true
+
+
 class hpc_collectd::plugin::slurmd (
   $ensure             = present,
   $cgroupmountpoint   = '/sys/fs/cgroup',
   $ignoreabsentcpuset = true,
+  $collectpss = true,
+  $collectrss = true,
 ) {
   validate_absolute_path($cgroupmountpoint)
   validate_bool($ignoreabsentcpuset)
+  validate_bool($collectpss)
+  validate_bool($collectrss)
 
   collectd::plugin {'slurmd':
     ensure  => $ensure,
