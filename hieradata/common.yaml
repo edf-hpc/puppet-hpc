@@ -467,6 +467,11 @@ profiles::warewulf_nhc::config_options:
     nodes:   '*'
     command: 'check_file_test -c -r -w /dev/null /dev/zero'
 
+##### Metrics
+# Collecting PSS has a performance penalty, RSS is enough in most cases
+hpc_collectd::plugin::slurmd::collectpss: false
+
+
 ##### CLARA
 
 # repository mirroring settings
