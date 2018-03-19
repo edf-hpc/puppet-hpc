@@ -22,9 +22,9 @@ class cce::params {
   $config_options_defaults = {
     'clustername'       => 'cluster',
     'batchname'         => 'slurm',
-    'versionbatch'      => '16.05.6',
+    'versionbatch'      => '17.11.2',
     #Usernames are upper or lower cased
-    'typenni'           => 'tolower',
+    'typenni'           => '',
     'qoshidden'         => 'none',
     'parthidden'        => 'none',
     # Cluster type can be: normal, bluegen. It can't be left empty.
@@ -32,13 +32,15 @@ class cce::params {
     'enable_cce_mpp'    => 'on',
     'enable_cce_mpinfo' => 'on',
     'enable_cce_mqinfo' => 'on',
-    'enable_cce_quota'  => 'off',
+    'enable_cce_quota'  => 'on',
     # Define quota def  nomfs:type:typequota:visiblename
     # nomfs       => Name of file system
     # type        => nfs / lustre / gpfs
     # typequota   => uquota ( quota users ) / prjquota ( quota projects ) / volquota ( only nfs quota volume ) / filesetuquota ( gpfs ) / notsetquota
     # visiblename => Name of Volume print
     #listofvolume=""
+    # Define quota projets 
+    #listgrpprj=""
     # info        => Print information message
     #info=""
     'enable_cce_user'   => 'off',
