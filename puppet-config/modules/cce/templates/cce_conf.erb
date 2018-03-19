@@ -39,7 +39,9 @@ case ${namecmde} in
 		# typequota   => uquota ( quota users ) / prjquota ( quota projects ) / volquota ( only nfs quota volume ) / filesetuquota ( gpfs ) / notsetquota
 		# visiblename => Name of Volume print 
 		listofvolume="<%= @default_options["cce_quota_listvol"] %>"
-
+		# Define quota projets and group projet search
+		listofvolumep="<%= @default_options["cce_quota_listvolp"] %>"
+		listgrpprj="<%= @default_options["cce_quota_listgrpprj"] %>"
 		# info 	      => Print information message 
                 info="<%= @default_options["cce_quota_info"] %>"
         ;;

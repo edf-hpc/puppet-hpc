@@ -38,9 +38,10 @@ class cce::params {
     # type        => nfs / lustre / gpfs
     # typequota   => uquota ( quota users ) / prjquota ( quota projects ) / volquota ( only nfs quota volume ) / filesetuquota ( gpfs ) / notsetquota
     # visiblename => Name of Volume print
-    #listofvolume=""
-    # Define quota projets 
-    #listgrpprj=""
+    # 'listofvolume'	=> 'cluster.gpfs:/dev/fsgpfs:home|gpfs|filesetuquota|home cluster.gpfs:/dev/fsgpfs:scratch|gpfs|filesetuquota|scratch',
+    # Define quota projets
+    # 'listofvolumep' 	=> 'cluster.gpfs:/dev/fsgpfs:projets|gpfs|gquota|projets', 
+    # 'listgrpprj' 	=> 'grp-pj|proj',
     # info        => Print information message
     #info=""
     'enable_cce_user'   => 'off',
