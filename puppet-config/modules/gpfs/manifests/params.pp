@@ -31,7 +31,7 @@ class gpfs::params {
       ]
       case $::operatingsystemmajrelease {
         '8': {
-          $_kernel_pkg = ['gpfs.gpl-3.16.0-4-amd64']
+          $_kernel_pkg = ['gpfs.gpl-3.16.0-5-amd64']
         }
         '7': {
           $_kernel_pkg = ['gpfs.gpl-3.2.0-4-amd64']
