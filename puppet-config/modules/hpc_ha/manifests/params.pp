@@ -22,7 +22,7 @@ class hpc_ha::params {
   $systemd_config_options     = {
     'Unit'    => {
       'Description' => 'LVS and VRRP High Availability Monitor',
-      'After'       => 'syslog.target network.target',
+      'After'       => 'libvirtd.target syslog.target network.target',
     },
     'Service' => {
       'Type'      => 'forking',
